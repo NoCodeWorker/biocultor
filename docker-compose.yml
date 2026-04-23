@@ -1,12 +1,10 @@
 # ─────────────────────────────────────────────────────────────────────
-#  Biocultor — Stack de producción (Next.js + PostgreSQL + Traefik)
+#  Biocultor — Stack de producción (Next.js + PostgreSQL)
 # ─────────────────────────────────────────────────────────────────────
-#  AJUSTAR antes del primer despliegue:
-#  - `networks.traefik.name`  →  nombre REAL de la red Traefik del VPS
-#                                (ver con: docker network ls)
-#  - labels `certresolver`    →  nombre del certresolver configurado
-#                                en tu traefik.yml  (suele ser: letsencrypt)
-#  - labels `entrypoints`     →  nombres de entrypoints (websecure / https)
+#  Traefik existente en el VPS corre en network_mode: host
+#  → descubre nuestros contenedores por Docker socket y los alcanza
+#    a través de las IPs bridge (docker0). No hace falta red externa
+#    compartida; sí labels con el rule + certresolver (letsencrypt).
 # ─────────────────────────────────────────────────────────────────────
 
 services:
@@ -22,27 +20,26 @@ services:
       db:
         condition: service_healthy
     networks:
-      - traefik
       - internal
-    # Ejecuta migraciones al arrancar y luego lanza Next.js
+    expose:
+      - "3000"
     command: >
       sh -c "npx prisma migrate deploy && node server.js"
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik-aiwf-traefik-1"
-      # HTTP → redirige a HTTPS
+      # Apex + www por HTTP → redirige a HTTPS
       - "traefik.http.routers.biocultor-http.rule=Host(`biocultor.com`) || Host(`www.biocultor.com`)"
       - "traefik.http.routers.biocultor-http.entrypoints=web"
       - "traefik.http.routers.biocultor-http.middlewares=biocultor-redirect"
       - "traefik.http.middlewares.biocultor-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.biocultor-redirect.redirectscheme.permanent=true"
-      # HTTPS
+      # HTTPS: sirve biocultor.com y www.biocultor.com
       - "traefik.http.routers.biocultor.rule=Host(`biocultor.com`) || Host(`www.biocultor.com`)"
       - "traefik.http.routers.biocultor.entrypoints=websecure"
       - "traefik.http.routers.biocultor.tls=true"
       - "traefik.http.routers.biocultor.tls.certresolver=letsencrypt"
       - "traefik.http.services.biocultor.loadbalancer.server.port=3000"
-      # www → apex (301)
+      # www → apex (301 permanente)
       - "traefik.http.routers.biocultor.middlewares=biocultor-wwwredirect"
       - "traefik.http.middlewares.biocultor-wwwredirect.redirectregex.regex=^https://www\\.biocultor\\.com/(.*)"
       - "traefik.http.middlewares.biocultor-wwwredirect.redirectregex.replacement=https://biocultor.com/$${1}"
@@ -70,8 +67,5 @@ volumes:
   biocultor-db-data:
 
 networks:
-  traefik:
-    external: true
-    name: traefik-aiwf-traefik-1
   internal:
     driver: bridge
