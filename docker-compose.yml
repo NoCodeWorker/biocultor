@@ -1,0 +1,77 @@
+# ─────────────────────────────────────────────────────────────────────
+#  Biocultor — Stack de producción (Next.js + PostgreSQL + Traefik)
+# ─────────────────────────────────────────────────────────────────────
+#  AJUSTAR antes del primer despliegue:
+#  - `networks.traefik.name`  →  nombre REAL de la red Traefik del VPS
+#                                (ver con: docker network ls)
+#  - labels `certresolver`    →  nombre del certresolver configurado
+#                                en tu traefik.yml  (suele ser: letsencrypt)
+#  - labels `entrypoints`     →  nombres de entrypoints (websecure / https)
+# ─────────────────────────────────────────────────────────────────────
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: biocultor-web:latest
+    container_name: biocultor-web
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - traefik
+      - internal
+    # Ejecuta migraciones al arrancar y luego lanza Next.js
+    command: >
+      sh -c "npx prisma migrate deploy && node server.js"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-aiwf-traefik-1"
+      # HTTP → redirige a HTTPS
+      - "traefik.http.routers.biocultor-http.rule=Host(`biocultor.com`) || Host(`www.biocultor.com`)"
+      - "traefik.http.routers.biocultor-http.entrypoints=web"
+      - "traefik.http.routers.biocultor-http.middlewares=biocultor-redirect"
+      - "traefik.http.middlewares.biocultor-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.biocultor-redirect.redirectscheme.permanent=true"
+      # HTTPS
+      - "traefik.http.routers.biocultor.rule=Host(`biocultor.com`) || Host(`www.biocultor.com`)"
+      - "traefik.http.routers.biocultor.entrypoints=websecure"
+      - "traefik.http.routers.biocultor.tls=true"
+      - "traefik.http.routers.biocultor.tls.certresolver=letsencrypt"
+      - "traefik.http.services.biocultor.loadbalancer.server.port=3000"
+      # www → apex (301)
+      - "traefik.http.routers.biocultor.middlewares=biocultor-wwwredirect"
+      - "traefik.http.middlewares.biocultor-wwwredirect.redirectregex.regex=^https://www\\.biocultor\\.com/(.*)"
+      - "traefik.http.middlewares.biocultor-wwwredirect.redirectregex.replacement=https://biocultor.com/$${1}"
+      - "traefik.http.middlewares.biocultor-wwwredirect.redirectregex.permanent=true"
+
+  db:
+    image: postgres:16-alpine
+    container_name: biocultor-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - biocultor-db-data:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  biocultor-db-data:
+
+networks:
+  traefik:
+    external: true
+    name: traefik-aiwf-traefik-1
+  internal:
+    driver: bridge

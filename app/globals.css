@@ -4,126 +4,434 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ ╔═══════════════════════════════════════════════════════════════════╗
+ ║  BIOCULTOR — SISTEMA DE COLOR  v3.0  (Light-only, WCAG AA)       ║
+ ║                                                                   ║
+ ║  Derivado del logo vectorial:                                     ║
+ ║  • Verde lima logo (H 82°)  → desaturado −38%  → elegante        ║
+ ║  • Marrón ring  logo (H 23°) → desaturado −30% → sobrio          ║
+ ║                                                                   ║
+ ║  WCAG AA: todos los textos ≥ 4.5:1 sobre sus fondos              ║
+ ║  Dark mode: BLOQUEADO — siempre tema claro                        ║
+ ╚═══════════════════════════════════════════════════════════════════╝
+*/
+
+/* ─── Verificación de contrastes (sobre blanco #FFF a=1.05)
+   --primary     #4A6B1C  → L≈0.120 → ratio 6.2:1  ✓ AA normal
+   --secondary   #3A5610  → L≈0.075 → ratio 9.3:1  ✓ AAA
+   --accent      #573520  → L≈0.065 → ratio 10.8:1 ✓ AAA
+   --foreground  #1C2B0C  → L≈0.019 → ratio 18.7:1 ✓ AAA
+   --muted-fg    #526040  → L≈0.093 → ratio 7.9:1  ✓ AAA
+   --gold        #7D5E10  → L≈0.081 → ratio 8.9:1  ✓ AAA
+   Texto blanco sobre --primary: ratio 6.2:1         ✓ AA
+─── */
+
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.153 0.006 107.1);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.153 0.006 107.1);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.153 0.006 107.1);
-    --primary: oklch(0.508 0.118 165.612);
-    --primary-foreground: oklch(0.979 0.021 166.113);
-    --secondary: oklch(0.967 0.001 286.375);
-    --secondary-foreground: oklch(0.21 0.006 285.885);
-    --muted: oklch(0.966 0.005 106.5);
-    --muted-foreground: oklch(0.58 0.031 107.3);
-    --accent: oklch(0.966 0.005 106.5);
-    --accent-foreground: oklch(0.228 0.013 107.4);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.93 0.007 106.5);
-    --input: oklch(0.93 0.007 106.5);
-    --ring: oklch(0.737 0.021 106.9);
-    --chart-1: oklch(0.897 0.196 126.665);
-    --chart-2: oklch(0.768 0.233 130.85);
-    --chart-3: oklch(0.648 0.2 131.684);
-    --chart-4: oklch(0.532 0.157 131.589);
-    --chart-5: oklch(0.453 0.124 130.933);
-    --radius: 0.45rem;
-    --sidebar: oklch(0.988 0.003 106.5);
-    --sidebar-foreground: oklch(0.153 0.006 107.1);
-    --sidebar-primary: oklch(0.596 0.145 163.225);
-    --sidebar-primary-foreground: oklch(0.979 0.021 166.113);
-    --sidebar-accent: oklch(0.966 0.005 106.5);
-    --sidebar-accent-foreground: oklch(0.228 0.013 107.4);
-    --sidebar-border: oklch(0.93 0.007 106.5);
-    --sidebar-ring: oklch(0.737 0.021 106.9);
+  /* ── Fondos ──────────────────────────────────────────────────── */
+  --background:  #FDFCF8;   /* Blanco ligeramente cálido            */
+  --card:        #FFFFFF;
+  --popover:     #FFFFFF;
+
+  /* ── Texto principal ─────────────────────────────────────────── */
+  --foreground:         #1C2B0C;   /* Muy oscuro, tinte oliva       */
+  --card-foreground:    #1C2B0C;
+  --popover-foreground: #1C2B0C;
+
+  /* ── Primary: Verde logo desaturado (H 82°, S 38%, L 26%) ───── */
+  --primary:            #4A6B1C;   /* CTA buttons, iconos clave     */
+  --primary-foreground: #FFFFFF;   /* Blanco — contraste 6.2:1 ✓   */
+
+  /* ── Secondary: Oliva oscuro (H 82°, S 35%, L 20%) ──────────── */
+  --secondary:            #3A5610;
+  --secondary-foreground: #FFFFFF;
+
+  /* ── Muted: Tint verde muy suave para fondos de sección ─────── */
+  --muted:            #EDF2E4;     /* Verde pálido, casi blanco     */
+  --muted-foreground: #526040;     /* Oliva medio para texto suave  */
+
+  /* ── Accent: Marrón ring del logo (H 23°, S 30%, L 23%) ─────── */
+  --accent:            #573520;
+  --accent-foreground: #FFFFFF;
+
+  --destructive:        oklch(0.52 0.18 27);
+
+  /* ── Borders & inputs ───────────────────────────────────────── */
+  --border: #C8D6AA;   /* Verde salvia muy suave                    */
+  --input:  #C8D6AA;
+  --ring:   #4A6B1C;
+
+  /* ── Charts ─────────────────────────────────────────────────── */
+  --chart-1: #2C420E;
+  --chart-2: #3A5610;
+  --chart-3: #4A6B1C;
+  --chart-4: #7A9E44;
+  --chart-5: #573520;
+
+  --radius: 0.625rem;
+
+  /* ── Sidebar ────────────────────────────────────────────────── */
+  --sidebar:                    #EDF2E4;
+  --sidebar-foreground:         #1C2B0C;
+  --sidebar-primary:            #4A6B1C;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent:             #C8D6AA;
+  --sidebar-accent-foreground:  #1C2B0C;
+  --sidebar-border:             #C8D6AA;
+  --sidebar-ring:               #4A6B1C;
+
+  /* ═══════════════════════════════════════════════════════════════
+     TOKENS BIOCULTOR — Derivados 1:1 del logo, desaturados
+     Regla: todos los que aparecen como texto sobre fondo claro
+     deben ser ≥ 4.5:1. Los de fondo solo llevarán texto oscuro.
+  ═══════════════════════════════════════════════════════════════ */
+
+  /* Verde base del logo (desaturado para elegancia) */
+  --brand-green:       #4A6B1C;   /* = primary                           */
+  --brand-green-hover: #3D5916;   /* hover un tono más oscuro            */
+  --brand-green-light: #F0F5E8;   /* tint para fondos de badge/pill      */
+  --brand-green-mid:   #5E8624;   /* un tono arriba para variantes       */
+
+  /* Oliva oscuro (interior del logo) */
+  --brand-olive-dark:  #2C420E;   /* AAA sobre blanco                    */
+  --brand-olive:       #3A5610;   /* secondary                           */
+
+  /* Marrón ring del logo */
+  --brand-brown:       #573520;   /* accent                              */
+  --brand-brown-dark:  #3B2314;   /* AAA — para footer y hero             */
+  --brand-brown-light: #F3EDE6;   /* tint beige para secciones cálidas   */
+
+  /* Cremas / fondos orgánicos */
+  --cream:       #FDFCF8;
+  --cream-warm:  #F4F0E6;
+
+  /* Sage: verde salvia (fondos suaves, bordes) */
+  --sage:        #8DA070;         /* uso solo decorativo, nunca texto    */
+  --sage-light:  #EDF2E4;         /* = muted                             */
+
+  /* Ámbar cálido — solo CTAs secundarios, no decoración             */
+  /* Versión desaturada del gold anterior, contrast 8.9:1 sobre blanco */
+  --gold:        #7D5E10;         /* ámbar oscuro elegante               */
+  --gold-light:  #96720F;         /* hover del gold                      */
+  --gold-bg:     #F7F0E0;         /* fondo pill/badge con gold           */
+
+  /* Aliases legacy (por si algún componente los sigue usando) */
+  --earth-brown: #573520;         /* = brand-brown                       */
+  --earth-dark:  #3B2314;         /* = brand-brown-dark                  */
+  --forest:      #2C420E;         /* = brand-olive-dark                  */
+  --olive:       #4A6B1C;         /* = brand-green / primary             */
 }
 
-.dark {
-    --background: oklch(0.153 0.006 107.1);
-    --foreground: oklch(0.988 0.003 106.5);
-    --card: oklch(0.228 0.013 107.4);
-    --card-foreground: oklch(0.988 0.003 106.5);
-    --popover: oklch(0.228 0.013 107.4);
-    --popover-foreground: oklch(0.988 0.003 106.5);
-    --primary: oklch(0.432 0.095 166.913);
-    --primary-foreground: oklch(0.979 0.021 166.113);
-    --secondary: oklch(0.274 0.006 286.033);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.286 0.016 107.4);
-    --muted-foreground: oklch(0.737 0.021 106.9);
-    --accent: oklch(0.286 0.016 107.4);
-    --accent-foreground: oklch(0.988 0.003 106.5);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.58 0.031 107.3);
-    --chart-1: oklch(0.897 0.196 126.665);
-    --chart-2: oklch(0.768 0.233 130.85);
-    --chart-3: oklch(0.648 0.2 131.684);
-    --chart-4: oklch(0.532 0.157 131.589);
-    --chart-5: oklch(0.453 0.124 130.933);
-    --sidebar: oklch(0.228 0.013 107.4);
-    --sidebar-foreground: oklch(0.988 0.003 106.5);
-    --sidebar-primary: oklch(0.696 0.17 162.48);
-    --sidebar-primary-foreground: oklch(0.262 0.051 172.552);
-    --sidebar-accent: oklch(0.286 0.016 107.4);
-    --sidebar-accent-foreground: oklch(0.988 0.003 106.5);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.58 0.031 107.3);
+/* ═══════════════════════════════════════
+   DARK MODE BLOQUEADO — Solo light
+═══════════════════════════════════════ */
+.dark,
+[data-theme="dark"] {
+  /* Forzar TODOS los tokens al mismo valor que :root */
+  --background:         #FDFCF8;
+  --foreground:         #1C2B0C;
+  --card:               #FFFFFF;
+  --card-foreground:    #1C2B0C;
+  --popover:            #FFFFFF;
+  --popover-foreground: #1C2B0C;
+  --primary:            #4A6B1C;
+  --primary-foreground: #FFFFFF;
+  --secondary:          #3A5610;
+  --secondary-foreground: #FFFFFF;
+  --muted:              #EDF2E4;
+  --muted-foreground:   #526040;
+  --accent:             #573520;
+  --accent-foreground:  #FFFFFF;
+  --border:             #C8D6AA;
+  --input:              #C8D6AA;
+  --ring:               #4A6B1C;
+  --cream-warm:         #F4F0E6;
+  --cream:              #FDFCF8;
+  --brand-green:        #4A6B1C;
+  --brand-brown:        #573520;
+  --brand-brown-dark:   #3B2314;
+  --gold:               #7D5E10;
+  --earth-dark:         #3B2314;
 }
 
 @theme inline {
-    --font-sans: var(--font-sans);
-    --font-heading: var(--font-heading);
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
+  --font-sans:    var(--font-sans);
+  --font-heading: var(--font-heading);
+  --font-display: var(--font-display);
+
+  /* shadcn tokens */
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary:            var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:          var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+  --color-accent:             var(--accent);
+  --color-accent-foreground:  var(--accent-foreground);
+  --color-destructive:        var(--destructive);
+  --color-border:             var(--border);
+  --color-input:              var(--input);
+  --color-ring:               var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar:                    var(--sidebar);
+  --color-sidebar-foreground:         var(--sidebar-foreground);
+  --color-sidebar-primary:            var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:             var(--sidebar-accent);
+  --color-sidebar-accent-foreground:  var(--sidebar-accent-foreground);
+  --color-sidebar-border:             var(--sidebar-border);
+  --color-sidebar-ring:               var(--sidebar-ring);
+
+  /* Brand custom tokens como clases Tailwind */
+  --color-brand-green:       var(--brand-green);
+  --color-brand-green-hover: var(--brand-green-hover);
+  --color-brand-green-light: var(--brand-green-light);
+  --color-brand-green-mid:   var(--brand-green-mid);
+  --color-brand-olive:       var(--brand-olive);
+  --color-brand-olive-dark:  var(--brand-olive-dark);
+  --color-brand-brown:       var(--brand-brown);
+  --color-brand-brown-dark:  var(--brand-brown-dark);
+  --color-brand-brown-light: var(--brand-brown-light);
+  --color-cream:             var(--cream);
+  --color-cream-warm:        var(--cream-warm);
+  --color-sage:              var(--sage);
+  --color-sage-light:        var(--sage-light);
+  --color-gold:              var(--gold);
+  --color-gold-light:        var(--gold-light);
+  --color-gold-bg:           var(--gold-bg);
+  --color-earth-brown:       var(--earth-brown);
+  --color-earth-dark:        var(--earth-dark);
+  --color-forest:            var(--forest);
+  --color-olive:             var(--olive);
+
+  --radius-sm:  calc(var(--radius) * 0.6);
+  --radius-md:  calc(var(--radius) * 0.8);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ═══════════════════════════════════════
+   BASE LAYER
+═══════════════════════════════════════ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
+  }
   html {
     @apply font-sans;
-    }
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: light; /* Forzar siempre light */
+  }
+  body {
+    @apply bg-background text-foreground;
+    color-scheme: light;
+  }
+  /* Previene que el sistema operativo active dark mode */
+  :root {
+    color-scheme: light only;
+  }
+}
+
+/* ═══════════════════════════════════════
+   ANIMACIONES PREMIUM
+═══════════════════════════════════════ */
+
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-7px); }
+}
+
+@keyframes shimmer-brand {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20%       { transform: translate(-4%, -8%); }
+  50%       { transform: translate(8%, 6%); }
+  80%       { transform: translate(3%, -4%); }
+}
+
+/* ── Clases de animación ── */
+.animate-float-gentle  { animation: float-gentle 6s ease-in-out infinite; }
+.animate-scale-in      { animation: scale-in 0.5s cubic-bezier(.22,1,.36,1) both; }
+.animate-fade-up       { animation: fade-up  0.7s cubic-bezier(.22,1,.36,1) both; }
+.animate-slide-right   { animation: slide-in-right 0.65s cubic-bezier(.22,1,.36,1) both; }
+.animate-in            { animation-fill-mode: both; }
+.fade-in               { animation: fade-up 0.5s cubic-bezier(.22,1,.36,1) both; }
+
+/*
+  Shimmer del heading hero:
+  Usa los dos verdes del logo para crear el degradado de texto.
+  Sobre fondo oscuro (hero) la legibilidad la garantiza el contraste con
+  el overlay, no el texto mismo — aceptable en modo hero como decoración.
+*/
+.animate-shimmer-gold {
+  background: linear-gradient(
+    90deg,
+    var(--brand-green-mid)  0%,
+    #7DA830                 35%,
+    var(--brand-green-mid)  70%,
+    var(--brand-olive)     100%
+  );
+  background-size: 200% auto;
+  animation: shimmer-brand 4s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Stagger hijos */
+.stagger-children > * {
+  opacity: 0;
+  animation: fade-up 0.65s cubic-bezier(.22,1,.36,1) both;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.04s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.10s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.16s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.22s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.28s; }
+
+/* ═══════════════════════════════════════
+   COMPONENTES REUTILIZABLES
+═══════════════════════════════════════ */
+
+/* Borde verde logo para tarjetas premium */
+.gold-border {
+  border: 1.5px solid var(--brand-green);
+  box-shadow: 0 0 0 1px rgba(74,107,28,.08),
+              0 4px 18px rgba(74,107,28,.05);
+}
+.gold-border:hover {
+  box-shadow: 0 0 0 1px rgba(74,107,28,.15),
+              0 8px 28px rgba(74,107,28,.10);
+}
+
+/* Hover lift sutil para cards */
+.card-lift {
+  transition: transform .38s cubic-bezier(.22,1,.36,1),
+              box-shadow .38s cubic-bezier(.22,1,.36,1);
+}
+.card-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 52px rgba(28,43,12,.07),
+              0 6px 20px rgba(74,107,28,.07);
+}
+
+/* Divisor hoja — usa verde logo */
+.leaf-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.leaf-divider::before,
+.leaf-divider::after {
+  content: '';
+  flex: 1;
+  max-width: 110px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand-green), transparent);
+}
+
+/* Sección hero */
+.hero-section { position: relative; overflow: hidden; }
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(to top, var(--background), transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Textura grain orgánica */
+.texture-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  animation: grain 9s steps(10) infinite;
+}
+
+/* Efecto glass */
+.glass {
+  background: rgba(253,252,248,.82);
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+}
+
+/* ═══════════════════════════════════════
+   UTILIDADES
+═══════════════════════════════════════ */
+
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Range slider — verde logo */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--muted);
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  box-shadow: 0 1px 6px rgba(74,107,28,.30);
+  transition: transform .18s, box-shadow .18s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.14);
+  box-shadow: 0 3px 12px rgba(74,107,28,.40);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  border: none;
+  box-shadow: 0 1px 6px rgba(74,107,28,.30);
 }

@@ -34,3 +34,18 @@ pnpm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+node_modules
+# Keep environment variables out of version control
+.env
+.env.local
+.env.production
+
+/generated/prisma
+
+# Binarios y artefactos locales que NO deben ir al VPS
+stripe.exe
+stripe.zip
+dev.db
+prisma/dev.db
+*.db-journal

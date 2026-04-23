@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------------------
+// CORE E-COMMERCE (MICRO-CATÁLOGO: 1 PRODUCTO, 4 VARIANTES)
+// -----------------------------------------------------------------------------
+
+model Product {
+  id          String    @id @default(cuid())
+  name        String    // ej: "Té de Humus de Lombriz Biocultor"
+  slug        String    @unique
+  description String    
+  benefits    String    // Arrays no soportados en SQLite. String con JSON o comas.
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  variants    Variant[]
+}
+
+model Variant {
+  id          String   @id @default(cuid())
+  productId   String
+  sku         String   @unique 
+  size        String   // "1 Litro", "5 Litros", "10 Litros", "25 Litros"
+  target      String   // "Jardinero Urbano", etc.
+  price       Float    
+  comparePrice Float?  // Precio original tachado
+  stock       Int      @default(0)
+  imagePath   String?  // Ej: /1 litro.jpg
+  popular     Boolean  @default(false)
+  features    String   // Features separadas por coma
+  
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItems  OrderItem[]
+}
+
+// -----------------------------------------------------------------------------
+// ANALYTICS & SALES (DASHBOARD)
+// -----------------------------------------------------------------------------
+
+model Customer {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  phone     String?
+  orders    Order[]
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id            String      @id @default(cuid())
+  orderNumber   String      @unique // ej: BIO-0001
+  customerId    String
+  status        String      @default("PENDING") // PENDING, PAID, SHIPPED
+  totalAmount   Float     
+  stripeSession String?     @unique
+  shippingAddress String
+  
+  customer      Customer    @relation(fields: [customerId], references: [id])
+  items         OrderItem[]
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  variantId String
+  quantity  Int
+  priceAt   Float   // Precio en el momento de compra
+  
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant   Variant @relation(fields: [variantId], references: [id])
+}
+
+// -----------------------------------------------------------------------------
+// SEO SEMÁNTICO & TOPICAL AUTHORITY (PROGRAMMATIC SEO)
+// -----------------------------------------------------------------------------
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String   
+  content     String   // Markdown o HTML
+  category    String   @default("KNOWLEDGE")
+  isPublished Boolean  @default(false)
+  author      String   @default("Equipo Biocultor")
+  
+  // AIO y SEO Metadata
+  metaTitle   String?
+  metaDesc    String?
+  keywords    String   
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SeoPage {
+  id              String   @id @default(cuid())
+  kind            String
+  slug            String   @unique
+  title           String
+  targetKeyword   String?
+  workflowStatus  String   @default("READY")
+  priorityScore   Int      @default(50)
+  notes           String?
+  metaTitle       String?
+  metaDescription String?
+  intro           String?
+  excerpt         String?
+  image           String?
+  label           String?
+  readTime        String?
+  payloadJson     String   @default("{}")
+  faqJson         String   @default("[]")
+  summaryJson     String   @default("[]")
+  isPublished     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([kind, isPublished])
+}
