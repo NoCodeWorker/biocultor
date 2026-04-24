@@ -1,4 +1,4 @@
-export const revalidate = 1800
+export const dynamic = 'force-dynamic'
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
