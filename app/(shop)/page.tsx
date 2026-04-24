@@ -1,18 +1,18 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 1800
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Leaf, Droplets, FlaskConical, Star, Sparkles, TreePine, Sprout } from "lucide-react"
 import FormatSelector from "@/components/FormatSelector"
-import dynamic from "next/dynamic"
+import nextDynamic from "next/dynamic"
 
-const ScienceProof = dynamic(() => import("@/components/ScienceProof"))
-const FaqAioSeo = dynamic(() => import("@/components/FaqAioSeo"))
-const BuyerPersonaSelector = dynamic(() => import("@/components/BuyerPersonaSelector"))
-const ResultsTimeline = dynamic(() => import("@/components/ResultsTimeline"))
-const CostCalculator = dynamic(() => import("@/components/CostCalculator"))
-const RiskReversal = dynamic(() => import("@/components/RiskReversal"))
+const ScienceProof = nextDynamic(() => import("@/components/ScienceProof"))
+const FaqAioSeo = nextDynamic(() => import("@/components/FaqAioSeo"))
+const BuyerPersonaSelector = nextDynamic(() => import("@/components/BuyerPersonaSelector"))
+const ResultsTimeline = nextDynamic(() => import("@/components/ResultsTimeline"))
+const CostCalculator = nextDynamic(() => import("@/components/CostCalculator"))
+const RiskReversal = nextDynamic(() => import("@/components/RiskReversal"))
 
 import prisma from "@/lib/db"
 import { buildMetadata, breadcrumbSchema, collectionPageSchema } from '@/lib/seo'
