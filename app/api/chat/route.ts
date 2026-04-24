@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   const result = await streamText({
     model: openai('gpt-4o-mini'),
     system: AI_SYSTEM_PROMPT,
-    messages: convertToModelMessages(messages),
+    messages: await convertToModelMessages(messages),
     tools: {
       updateUserIntent: tool({
         description: 'Actualiza el estado interno de intención del usuario. Úsala de forma silenciosa para clasificar al usuario y guardar su contexto de cultivo. Esto es invisible para el usuario.',
