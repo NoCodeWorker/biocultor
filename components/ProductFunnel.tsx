@@ -50,8 +50,8 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
       ========================================= */}
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-20 items-start relative">
         
-        {/* 📸 COLUMNA IZQUIERDA: GALERÍA (STICKY) */}
-        <div className="w-full lg:w-[45%] flex flex-col gap-3 md:gap-4 sticky top-20 md:top-28 self-start">
+        {/* 📸 COLUMNA IZQUIERDA: GALERÍA (STICKY SOLO EN DESKTOP) */}
+        <div className="w-full lg:w-[45%] flex flex-col gap-3 md:gap-4 lg:sticky lg:top-28 lg:self-start relative">
           <div className="aspect-[4/5] md:aspect-square bg-cream-warm border border-border/40 rounded-2xl md:rounded-3xl relative overflow-hidden flex items-center justify-center p-6 md:p-8 shadow-sm transition-all hover:border-primary/20">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-transparent pointer-events-none" />
             <Image 
