@@ -12,22 +12,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      # BuildKit solo acepta `host|none|default` como network para los RUN.
+      # Con el builder de buildx en modo docker-container adjunto a
+      # `biocultor_internal` (ver DEPLOY.md § 9 — Setup de una vez), `host`
+      # aquí significa "la red del contenedor builder", es decir, la propia
+      # `biocultor_internal`. Así los RUN pueden resolver `db:5432`.
+      network: host
       args:
         # Compose lee DATABASE_URL del .env raíz del proyecto (mismo que usa
         # env_file en runtime). Con esto Next puede pre-renderizar en build
         # las páginas con ISR que consultan Prisma.
-        #
-        # Requisito de red: el build debe poder resolver el hostname `db`.
-        # La solución NO es `build.network` aquí (BuildKit no soporta redes
-        # bridge custom en builds), sino un builder de buildx en modo
-        # docker-container adjunto a `biocultor_internal`:
-        #
-        #   docker buildx create --name biocultor-builder \
-        #     --driver docker-container \
-        #     --driver-opt network=biocultor_internal --use
-        #
-        # El builder vive en esa red → cualquier build que ejecute resuelve
-        # `db` automáticamente. Ver DEPLOY.md § 9.
         DATABASE_URL: ${DATABASE_URL}
     image: biocultor-web:latest
     container_name: biocultor-web
