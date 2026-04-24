@@ -34,7 +34,6 @@ const steps = [
     color: 'text-primary',
     bg: 'bg-primary/5',
     border: 'border-primary/15',
-    headline: 'El suelo despierta',
     headline: 'Uso con continuidad',
     description:
       'Los cambios útiles, cuando los hay, se leen mejor en continuidad de uso que en impactos instantáneos. La referencia debe ser la evolución del manejo, no una promesa cerrada.',
@@ -48,7 +47,6 @@ const steps = [
     color: 'text-primary',
     bg: 'bg-primary/5',
     border: 'border-primary/15',
-    headline: 'Evaluación de continuidad',
     headline: 'Evaluación del ciclo',
     description:
       'La decisión correcta llega al final de un ciclo: repetir, ajustar dosis o cambiar formato. Sin seguimiento real, cualquier cifra fija sería publicidad, no criterio.',
