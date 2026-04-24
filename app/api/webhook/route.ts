@@ -155,10 +155,28 @@ export async function POST(req: Request) {
         // -------------------------------------------------------------
         // Enviar correos transaccionales con Resend (incluyendo tracking)
         // -------------------------------------------------------------
+        const variantIds: string[] = metaCartItems.map((i: any) => i.id);
+        const variantRows = variantIds.length
+          ? await prisma.variant.findMany({
+              where: { id: { in: variantIds } },
+              include: { product: true },
+            })
+          : [];
+        const emailItems = metaCartItems.map((item: any) => {
+          const v = variantRows.find((x) => x.id === item.id);
+          return {
+            name: v?.product.name ?? 'Producto Biocultor',
+            size: v?.size ?? '',
+            quantity: item.q,
+            unitPrice: item.p,
+            imagePath: v?.imagePath ?? null,
+          };
+        });
+
         const { sendOrderConfirmationEmail, sendAdminOrderNotification } = await import('@/lib/resend');
         await Promise.all([
-          sendOrderConfirmationEmail(customerEmail, customerName, newOrderNumber, (session.amount_total || 0) / 100, trackUrl),
-          sendAdminOrderNotification(newOrderNumber, (session.amount_total || 0) / 100, customerName)
+          sendOrderConfirmationEmail(customerEmail, customerName, newOrderNumber, (session.amount_total || 0) / 100, trackUrl, emailItems),
+          sendAdminOrderNotification(newOrderNumber, (session.amount_total || 0) / 100, customerName, emailItems)
         ]);
 
       } catch (dbError) {

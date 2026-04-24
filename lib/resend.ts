@@ -34,8 +34,10 @@ function emailShell(title: string, preheader: string, inner: string) {
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%;">
           <tr>
             <td align="center" style="padding:0 0 36px 0;">
-              <div style="font-family:Georgia,'Times New Roman',serif; font-size:30px; font-weight:700; color:${C.text}; letter-spacing:-0.5px;">Biocultor</div>
-              <div style="width:42px; height:2px; background-color:${C.green}; margin:14px auto 0 auto;"></div>
+              <a href="${siteConfig.defaultUrl}" style="text-decoration:none;">
+                <img src="${siteConfig.defaultUrl}/Logo.svg" alt="Biocultor" width="180" style="display:block; margin:0 auto; max-width:180px; height:auto; border:0; outline:none;" />
+              </a>
+              <div style="width:42px; height:2px; background-color:${C.green}; margin:16px auto 0 auto;"></div>
             </td>
           </tr>
           <tr>
@@ -71,7 +73,43 @@ function emailShell(title: string, preheader: string, inner: string) {
 </html>`;
 }
 
-export async function sendOrderConfirmationEmail(customerEmail: string, customerName: string, orderNumber: string, totalAmount: number, trackUrl?: string) {
+export type OrderEmailItem = {
+  name: string;
+  size: string;
+  quantity: number;
+  unitPrice: number;
+  imagePath?: string | null;
+};
+
+function renderItemsTable(items: OrderEmailItem[]) {
+  if (!items.length) return '';
+  const rows = items.map((it) => {
+    const lineTotal = (it.unitPrice * it.quantity).toFixed(2);
+    const thumb = it.imagePath
+      ? `<img src="${siteConfig.defaultUrl}${it.imagePath.startsWith('/') ? '' : '/'}${encodeURI(it.imagePath)}" alt="" width="56" height="56" style="display:block; border-radius:8px; border:1px solid ${C.border}; object-fit:cover;" />`
+      : `<div style="width:56px; height:56px; border-radius:8px; background-color:${C.accent}; border:1px solid ${C.border};"></div>`;
+    return `
+      <tr>
+        <td style="padding:14px 0; border-bottom:1px solid ${C.border}; vertical-align:top; width:72px;">${thumb}</td>
+        <td style="padding:14px 12px; border-bottom:1px solid ${C.border}; vertical-align:top;">
+          <div style="font-size:14px; font-weight:600; color:${C.text}; line-height:1.3; margin-bottom:3px;">${it.name}</div>
+          <div style="font-size:12px; color:${C.muted};">${it.size} · ${it.quantity} ud${it.quantity > 1 ? 's' : ''}</div>
+        </td>
+        <td align="right" style="padding:14px 0; border-bottom:1px solid ${C.border}; vertical-align:top; white-space:nowrap;">
+          <div style="font-family:Georgia,serif; font-size:15px; font-weight:700; color:${C.text};">${lineTotal}€</div>
+        </td>
+      </tr>`;
+  }).join('');
+
+  return `
+    <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:${C.muted}; margin:0 0 12px 0;">Artículos</div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:24px; border-top:1px solid ${C.border};">
+      ${rows}
+    </table>
+  `;
+}
+
+export async function sendOrderConfirmationEmail(customerEmail: string, customerName: string, orderNumber: string, totalAmount: number, trackUrl?: string, items: OrderEmailItem[] = []) {
   if (!process.env.RESEND_API_KEY) {
     console.warn("No RESEND_API_KEY found, skipping order confirmation email");
     return;
@@ -112,6 +150,8 @@ export async function sendOrderConfirmationEmail(customerEmail: string, customer
       </tr>
     </table>
 
+    ${renderItemsTable(items)}
+
     ${trackingBlock}
 
     <p style="margin:32px 0 0 0; font-size:14px; color:${C.soft}; line-height:1.6;">
@@ -136,7 +176,7 @@ export async function sendOrderConfirmationEmail(customerEmail: string, customer
   }
 }
 
-export async function sendAdminOrderNotification(orderNumber: string, totalAmount: number, customerName: string) {
+export async function sendAdminOrderNotification(orderNumber: string, totalAmount: number, customerName: string, items: OrderEmailItem[] = []) {
   if (!process.env.RESEND_API_KEY) return;
 
   const inner = `
@@ -160,20 +200,16 @@ export async function sendAdminOrderNotification(orderNumber: string, totalAmoun
           <div style="font-family:Georgia,serif; font-size:22px; font-weight:700; color:${C.green};">${totalAmount.toFixed(2)}€</div>
         </td>
       </tr>
-      <tr>
-        <td style="padding:18px 0;">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:${C.muted}; margin-bottom:4px;">Pedido</div>
-          <div style="font-family:'Courier New',monospace; font-size:15px; color:${C.text};">${orderNumber}</div>
-        </td>
-      </tr>
     </table>
 
-    <div style="margin-top:28px;">
-      <a href="https://dashboard.stripe.com/payments" style="display:inline-block; background-color:${C.text}; color:#FFFFFF; padding:12px 24px; text-decoration:none; border-radius:8px; font-weight:600; font-size:13px; letter-spacing:0.3px; margin-right:8px;">Ver en Stripe →</a>
+    <div style="margin-top:28px;">${renderItemsTable(items)}</div>
+
+    <div style="margin-top:8px;">
+      <a href="https://dashboard.stripe.com/payments" style="display:inline-block; background-color:${C.text}; color:#FFFFFF; padding:12px 24px; text-decoration:none; border-radius:8px; font-weight:600; font-size:13px; letter-spacing:0.3px;">Ver en Stripe →</a>
     </div>
 
     <p style="margin:28px 0 0 0; font-size:13px; color:${C.soft}; line-height:1.6;">
-      Los detalles de dirección, teléfono e items están en la base de datos (tabla <code style="background:${C.accent}; padding:2px 6px; border-radius:4px; font-size:12px;">Order</code>) y en Stripe Checkout.
+      La dirección de envío y el teléfono están en la tabla <code style="background:${C.accent}; padding:2px 6px; border-radius:4px; font-size:12px;">Order</code> y en Stripe Checkout.
     </p>
   `;
 
