@@ -109,19 +109,19 @@ function renderItemsTable(items: OrderEmailItem[]) {
   `;
 }
 
-export async function sendOrderConfirmationEmail(customerEmail: string, customerName: string, orderNumber: string, totalAmount: number, trackUrl?: string, items: OrderEmailItem[] = []) {
+export async function sendOrderConfirmationEmail(customerEmail: string, customerName: string, orderNumber: string, totalAmount: number, trackingPageUrl?: string, items: OrderEmailItem[] = []) {
   if (!process.env.RESEND_API_KEY) {
     console.warn("No RESEND_API_KEY found, skipping order confirmation email");
     return;
   }
 
-  const trackingBlock = trackUrl
-    ? `<div style="background-color:${C.accent}; border-radius:10px; padding:22px; margin:8px 0 0 0; border:1px solid ${C.border};">
-         <p style="margin:0 0 14px 0; font-size:14px; color:${C.text}; line-height:1.5;">
-           <strong>Tu paquete ya tiene etiqueta de envío.</strong><br/>
-           <span style="color:${C.soft};">Consulta el seguimiento cuando quieras:</span>
+  const trackingBlock = trackingPageUrl
+    ? `<div style="background-color:${C.accent}; border-radius:10px; padding:24px; margin:8px 0 0 0; border:1px solid ${C.border};">
+         <p style="margin:0 0 6px 0; font-size:14px; font-weight:600; color:${C.text};">Sigue tu pedido en tiempo real</p>
+         <p style="margin:0 0 16px 0; font-size:13px; color:${C.soft}; line-height:1.5;">
+           Consulta el estado, el carrier y la ubicación estimada del paquete en el mapa.
          </p>
-         <a href="${trackUrl}" style="display:inline-block; background-color:${C.green}; color:#FFFFFF; padding:13px 30px; text-decoration:none; border-radius:8px; font-weight:600; font-size:14px; letter-spacing:0.3px;">Rastrear envío →</a>
+         <a href="${trackingPageUrl}" style="display:inline-block; background-color:${C.green}; color:#FFFFFF; padding:13px 30px; text-decoration:none; border-radius:8px; font-weight:600; font-size:14px; letter-spacing:0.3px;">Ver seguimiento →</a>
        </div>`
     : `<div style="background-color:${C.accent}; border-radius:10px; padding:20px; margin:8px 0 0 0; border:1px solid ${C.border};">
          <p style="margin:0; font-size:14px; color:${C.soft}; line-height:1.6;">

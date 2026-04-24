@@ -2,7 +2,8 @@ import Navbar from "@/components/Navbar";
 import Cart from "@/components/Cart";
 import Footer from "@/components/Footer";
 
-import AgronomicAdvisorChat from "@/components/AgronomicAdvisorChat";
+import dynamic from "next/dynamic";
+const AgronomicAdvisorChat = dynamic(() => import("@/components/AgronomicAdvisorChat"), { ssr: false });
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
   return (

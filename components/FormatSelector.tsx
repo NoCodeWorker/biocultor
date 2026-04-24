@@ -147,6 +147,7 @@ export default function FormatSelector({ dbVariants = [] }: { dbVariants?: any[]
                      src={format.image} 
                      alt={`Formato ${format.size} — Té de Humus Biocultor`} 
                      fill 
+                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
                      className="object-contain drop-shadow-xl transition-transform duration-500 ease-out group-hover:scale-108" 
                    />
                 </div>

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomBytes } from 'crypto';
 import Stripe from 'stripe';
 import prisma from '@/lib/db';
 
@@ -54,9 +55,10 @@ export async function POST(req: Request) {
         });
 
         const newOrderNumber = `BIO-${Math.floor(100000 + Math.random() * 900000)}`;
+        const trackingToken = randomBytes(24).toString('hex');
 
         // Crear Orden Transaccional
-        await prisma.order.create({
+        const createdOrder = await prisma.order.create({
           data: {
             orderNumber: newOrderNumber,
             customerId: customer.id,
@@ -64,6 +66,8 @@ export async function POST(req: Request) {
             stripeSession: session.id,
             shippingAddress: addressString,
             status: "PAID",
+            trackingToken,
+            shippingPostalCode: addr?.postal_code ?? null,
             items: {
               create: metaCartItems.map((item: any) => ({
                 variantId: item.id,
@@ -141,6 +145,17 @@ export async function POST(req: Request) {
                 if (shipmentRes.ok) {
                   const shipmentData = await shipmentRes.json();
                   trackUrl = shipmentData.track_url;
+                  await prisma.order.update({
+                    where: { id: createdOrder.id },
+                    data: {
+                      packlinkReference: shipmentData.reference ?? null,
+                      trackUrl: shipmentData.track_url ?? null,
+                      carrier: bestService.carrier_name ?? bestService.carrier ?? null,
+                      serviceName: bestService.name ?? null,
+                      lastStatus: 'CREATED',
+                      lastStatusAt: new Date(),
+                    },
+                  });
                   console.log(`Envío creado en Packlink: ${shipmentData.reference}`);
                 } else {
                   console.error("Packlink Error creando envío:", await shipmentRes.text());
@@ -174,8 +189,10 @@ export async function POST(req: Request) {
         });
 
         const { sendOrderConfirmationEmail, sendAdminOrderNotification } = await import('@/lib/resend');
+        const { getBaseUrl } = await import('@/lib/site-config');
+        const trackingPageUrl = `${getBaseUrl()}/seguimiento/${newOrderNumber}?token=${trackingToken}`;
         await Promise.all([
-          sendOrderConfirmationEmail(customerEmail, customerName, newOrderNumber, (session.amount_total || 0) / 100, trackUrl, emailItems),
+          sendOrderConfirmationEmail(customerEmail, customerName, newOrderNumber, (session.amount_total || 0) / 100, trackingPageUrl, emailItems),
           sendAdminOrderNotification(newOrderNumber, (session.amount_total || 0) / 100, customerName, emailItems)
         ]);
 

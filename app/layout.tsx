@@ -1,18 +1,11 @@
 import type { Metadata } from 'next'
-import { DM_Sans, Playfair_Display, Quicksand } from "next/font/google"
+import { DM_Sans, Quicksand } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import { buildMetadata, organizationSchema, websiteSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
 
-// Playfair Display para titulares hero premium (serif elegante como la imagen de marca)
-const playfair = Playfair_Display({
-  weight: ['400', '500', '600', '700', '800', '900'],
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-});
 
 // Quicksand para Headings (geometría redondeada similar a Aristotelica, pero con soporte completo de números)
 const quicksand = Quicksand({
@@ -49,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning className={cn("antialiased scroll-smooth", dmSans.variable, quicksand.variable, playfair.variable)}>
+    <html lang="es" suppressHydrationWarning className={cn("antialiased scroll-smooth", dmSans.variable, quicksand.variable)}>
       <body className="bg-background text-foreground min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary font-sans">
         <StructuredData id="organization-schema" data={organizationSchema()} />
         <StructuredData id="website-schema" data={websiteSchema()} />

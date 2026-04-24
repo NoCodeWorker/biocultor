@@ -59,13 +59,23 @@ model Order {
   orderNumber   String      @unique // ej: BIO-0001
   customerId    String
   status        String      @default("PENDING") // PENDING, PAID, SHIPPED
-  totalAmount   Float     
+  totalAmount   Float
   stripeSession String?     @unique
   shippingAddress String
-  
+
+  // Packlink PRO tracking
+  packlinkReference String?   @unique        // reference devuelta por Packlink
+  trackUrl          String?                  // URL pública de tracking del carrier
+  carrier           String?                  // nombre del carrier (SEUR, Correos Express, etc.)
+  serviceName       String?                  // nombre del servicio contratado
+  lastStatus        String?                  // último estado conocido (cache)
+  lastStatusAt      DateTime?                // cuándo se actualizó el estado
+  trackingToken     String?   @unique        // token público de acceso 1-click al /seguimiento
+  shippingPostalCode String?                 // para el mapa
+
   customer      Customer    @relation(fields: [customerId], references: [id])
   items         OrderItem[]
-  
+
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 }
