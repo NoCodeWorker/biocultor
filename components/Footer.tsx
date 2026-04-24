@@ -63,11 +63,13 @@ export default function Footer() {
               <h4 className="font-heading font-bold text-cream/90 mb-6 text-xs uppercase tracking-[0.15em]">Explorar</h4>
               <ul className="flex flex-col gap-3.5 text-sm">
                 {[
-                  { href: '/producto/te-humus-liquido-premium', label: 'La Gran Fórmula' },
+                  { href: '/producto/te-humus-liquido-premium', label: 'Té de humus de lombriz' },
+                  { href: '/producto/purin-ortiga-concentrado', label: 'Purín concentrado de ortiga' },
                   { href: '/comprar-te-de-humus-de-lombriz', label: 'Comprar té de humus' },
-                  { href: '/#formatos', label: 'Formatos y Precios' },
-                  { href: '/te-de-humus-de-lombriz', label: 'Aplicaciones por cultivo' },
-                  { href: '/aprende', label: 'Guías de Cultivo' },
+                  { href: '/comprar-purin-de-ortiga', label: 'Comprar purín de ortiga' },
+                  { href: '/te-de-humus-de-lombriz', label: 'Té por cultivo' },
+                  { href: '/purin-de-ortiga', label: 'Ortiga por cultivo' },
+                  { href: '/aprende', label: 'Guías de cultivo' },
                   { href: '/espana', label: 'Biocultor en España' },
                 ].map(link => (
                   <li key={link.href}>

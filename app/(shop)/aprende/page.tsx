@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { buildMetadata, breadcrumbSchema, collectionPageSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
-import { getSeoArticles } from '@/lib/seo-store';
+import { getSeoArticles, getSeoArticlesOrtiga } from '@/lib/seo-store';
 
 export const metadata = buildMetadata({
   title: 'Guías de té de humus de lombriz | Biocultor',
@@ -22,7 +22,11 @@ export const metadata = buildMetadata({
 });
 
 export default async function AprendePage() {
-  const seoArticles = await getSeoArticles();
+  const [baseArticles, ortigaArticles] = await Promise.all([
+    getSeoArticles(),
+    getSeoArticlesOrtiga(),
+  ]);
+  const seoArticles = [...baseArticles, ...ortigaArticles];
   const evidenceArticles = seoArticles.filter((article) => article.category === 'Evidencia');
   const editorialArticles = seoArticles.filter((article) => article.category !== 'Evidencia');
   const featuredEvidence = evidenceArticles.slice(0, 4);

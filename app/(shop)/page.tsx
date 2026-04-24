@@ -224,12 +224,65 @@ export default async function Page() {
       <BuyerPersonaSelector />
 
       {/* ════════════════════════════════════════════
-          4. FORMAT SELECTOR — SELECTOR DE FORMATOS 
+          4. FORMAT SELECTOR — SELECTOR DE FORMATOS
       ════════════════════════════════════════════ */}
       <FormatSelector dbVariants={dbVariants} />
 
       {/* ════════════════════════════════════════════
-          5. TIMELINE DE RESULTADOS — ¿Cuándo actúa?  
+          4bis. CATÁLOGO SECUNDARIO — Purín de ortiga
+      ════════════════════════════════════════════ */}
+      <section className="w-full py-20 md:py-24 bg-background border-t border-border/40">
+        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
+          <div className="rounded-[2rem] border border-border/50 bg-cream-warm/60 overflow-hidden grid md:grid-cols-5 gap-0">
+            <div className="md:col-span-3 p-8 md:p-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 text-primary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/15">
+                <Leaf className="w-3.5 h-3.5" />
+                También en catálogo
+              </div>
+              <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
+                Purín concentrado de ortiga.
+              </h2>
+              <p className="mt-5 text-lg text-muted-foreground leading-relaxed max-w-xl">
+                Extracto vegetal concentrado pensado para huerto urbano, rosales, frutales y pequeñas
+                explotaciones con manejo orgánico. Mismos formatos que el té de humus (1 L, 5 L, 10 L, 25 L)
+                para que la elección por escala siga siendo sencilla.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/producto/purin-ortiga-concentrado"
+                  className="inline-flex items-center rounded-full px-7 h-12 font-bold bg-primary text-white shadow-lg shadow-primary/15 text-sm hover:bg-brand-green-hover transition-colors"
+                >
+                  Ver producto
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+                <Link
+                  href="/purin-de-ortiga"
+                  className="inline-flex items-center rounded-full px-7 h-12 font-bold bg-background border border-border/60 text-foreground text-sm hover:border-primary/40 transition-colors"
+                >
+                  Aplicaciones por cultivo
+                </Link>
+              </div>
+              <p className="mt-6 text-xs text-muted-foreground leading-relaxed max-w-md">
+                Editorial alineada con ADR-002: las guías de ortiga citan fuentes institucionales y
+                revisiones científicas sin convertir la investigación en promesa comercial.
+              </p>
+            </div>
+            <div className="md:col-span-2 relative min-h-[260px] md:min-h-full">
+              <Image
+                src="/5 litros.jpg"
+                alt="Formato de 5 litros del catálogo Biocultor"
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 40vw, 100vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-cream-warm/40 pointer-events-none" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════
+          5. TIMELINE DE RESULTADOS — ¿Cuándo actúa?
       ════════════════════════════════════════════ */}
       <ResultsTimeline />
 

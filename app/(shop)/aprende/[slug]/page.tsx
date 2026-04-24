@@ -6,10 +6,15 @@ import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
 import { breadcrumbSchema, buildMetadata, faqSchema } from '@/lib/seo';
-import { getSeoArticles } from '@/lib/seo-store';
+import { getSeoArticles, getSeoArticlesOrtiga } from '@/lib/seo-store';
+
+async function getAllArticles() {
+  const [base, ortiga] = await Promise.all([getSeoArticles(), getSeoArticlesOrtiga()]);
+  return [...base, ...ortiga];
+}
 
 export async function generateStaticParams() {
-  const seoArticles = await getSeoArticles();
+  const seoArticles = await getAllArticles();
   return seoArticles.map((article) => ({ slug: article.slug }));
 }
 
@@ -19,7 +24,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const seoArticles = await getSeoArticles();
+  const seoArticles = await getAllArticles();
   const article = seoArticles.find((entry) => entry.slug === slug);
 
   if (!article) {
@@ -45,7 +50,7 @@ export default async function AprendeArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const seoArticles = await getSeoArticles();
+  const seoArticles = await getAllArticles();
   const article = seoArticles.find((entry) => entry.slug === slug);
 
   if (!article) {
