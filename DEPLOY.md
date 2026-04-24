@@ -166,6 +166,29 @@ En [dashboard.stripe.com/test/webhooks](https://dashboard.stripe.com/test/webhoo
 
 ## 9. Deploys posteriores
 
+### Setup de una vez (primer deploy del VPS o tras `compose down -v`)
+
+BuildKit por defecto no puede unir builds a redes bridge custom; hay que crear un builder `docker-container` pegado a la red del proyecto:
+
+```bash
+# Asegura que la red del proyecto existe (la crea `db` al arrancar)
+docker compose up -d db
+
+# Crea un builder dedicado para biocultor con acceso a la red interna
+docker buildx create \
+  --name biocultor-builder \
+  --driver docker-container \
+  --driver-opt network=biocultor_internal \
+  --use
+
+# Verificar — debe aparecer con asterisco (activo)
+docker buildx ls
+```
+
+Este builder se queda creado hasta que lo borres. Todos los `docker compose build` posteriores lo usan automáticamente.
+
+### Deploy recurrente
+
 ```bash
 cd /opt/biocultor
 git pull
@@ -173,7 +196,7 @@ git pull
 # 1. Asegurar que la DB está arriba (build la necesita para ISR).
 docker compose up -d db
 
-# 2. Rebuild con DATABASE_URL disponible en build-time.
+# 2. Rebuild — el builder custom se encarga de resolver `db` en la red interna.
 docker compose build web
 
 # 3. Recrear el contenedor web con la nueva imagen.
@@ -183,12 +206,12 @@ docker compose up -d --force-recreate web
 docker compose logs -f web
 ```
 
-**Por qué `up -d db` antes del build**: la home usa ISR (`export const revalidate = 1800`), por lo que Next intenta pre-renderizarla en build-time consultando Prisma. El Dockerfile espera `DATABASE_URL` como `ARG` (ver `docker-compose.yml → build.args`) y el builder necesita resolver el hostname `db` — eso exige que la red `biocultor_internal` esté creada (sucede la primera vez que levantas `db`).
+**Por qué este workflow**: la home usa ISR (`export const revalidate = 1800`), por lo que Next intenta pre-renderizarla en build-time consultando Prisma. El Dockerfile espera `DATABASE_URL` como `ARG` (ver `docker-compose.yml → build.args`) y el builder necesita poder conectar al Postgres.
 
-Si el build falla con `Environment variable not found: DATABASE_URL`:
-- Verifica que `.env` contiene `DATABASE_URL=postgresql://…`.
-- Verifica que `db` está arriba: `docker compose ps db`.
-- La primera vez que haces deploy desde cero: sigue el orden del bloque anterior (primero `up -d db`, luego `build web`, luego `up web`).
+Si el build falla:
+- `Environment variable not found: DATABASE_URL` → verifica `.env` y que `db` está arriba.
+- `network mode "biocultor_internal" not supported by buildkit` → no habías creado el builder custom. Ejecuta el bloque de "Setup de una vez".
+- `Can't reach database server at "db:5432"` → el builder custom no está en la red correcta. Recreálo: `docker buildx rm biocultor-builder` y repite el setup.
 
 ---
 
