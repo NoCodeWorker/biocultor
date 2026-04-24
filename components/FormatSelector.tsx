@@ -192,22 +192,13 @@ export default function FormatSelector({ dbVariants = [] }: { dbVariants?: any[]
                   />
                 </div>
 
-                {/* CTA Button */}
                 <Button 
                   size="lg" 
-                  onClick={(e) => { e.stopPropagation(); handleAction(format); }}
-                  className={cn(
-                    "w-full rounded-xl font-bold transition-all text-sm",
-                    isSelected 
-                      ? "bg-primary hover:bg-brand-green-hover text-white shadow-md shadow-primary/15" 
-                      : "bg-muted/80 text-foreground hover:bg-muted"
-                  )}
+                  disabled
+                  className="w-full rounded-xl font-bold transition-all text-sm bg-muted/80 text-muted-foreground border border-border cursor-not-allowed shadow-none hover:bg-muted/80"
                 >
-                  {isSelected ? (
-                    <><ShoppingBag className="w-4 h-4 mr-2" /> Añadir al Carrito</>
-                  ) : (
-                    "Seleccionar"
-                  )}
+                  <ShoppingBag className="w-4 h-4 mr-2 opacity-50" />
+                  Agotado Temporalmente
                 </Button>
               </div>
             );

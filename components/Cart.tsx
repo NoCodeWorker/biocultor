@@ -150,12 +150,10 @@ export default function Cart() {
               <span className="text-3xl font-heading font-extrabold text-foreground tracking-tighter">€{total.toFixed(2)}</span>
             </div>
             <button 
-              onClick={handleCheckout} 
-              disabled={isCheckoutLoading}
-              className="w-full bg-primary hover:bg-brand-green-hover text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20 text-base"
+              disabled={true}
+              className="w-full bg-muted border border-border text-muted-foreground font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all cursor-not-allowed text-base"
             >
-              {isCheckoutLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-              {isCheckoutLoading ? 'Conectando con Stripe...' : 'Pagar de Forma Segura'}
+              Compras Suspendidas (Mantenimiento)
             </button>
             <p className="text-center text-xs text-muted-foreground mt-3 opacity-70">
               Pagos encriptados con seguridad bancaria mediante Stripe®

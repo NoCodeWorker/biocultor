@@ -129,7 +129,7 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
           </div>
 
           {/* Módulo de Urgencia Psicológica */}
-          <UrgencyModule stock={selected.stock ?? 12} />
+          <UrgencyModule stock={0} />
 
           {/* Selector de Formatos */}
           <div className="mt-1 md:mt-2">
@@ -220,11 +220,11 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
 
             <Button 
               size="lg" 
-              onClick={handleAddToCart}
-              className="w-full h-14 rounded-xl md:rounded-2xl text-base md:text-lg font-bold bg-primary hover:bg-brand-green-hover text-white shadow-lg shadow-primary/15 hover:shadow-xl transition-all active:scale-[0.98]"
+              disabled
+              className="w-full h-14 rounded-xl md:rounded-2xl text-base md:text-lg font-bold bg-muted/80 border border-border text-muted-foreground shadow-none cursor-not-allowed"
             >
-              <ShoppingBag className="w-5 h-5 mr-2" />
-              {quantity > 1 ? `Añadir ${quantity} al carrito` : 'Añadir al carrito'}
+              <ShoppingBag className="w-5 h-5 mr-2 opacity-50" />
+              Agotado Temporalmente (Mantenimiento)
             </Button>
 
             <div className="grid grid-cols-2 gap-2 md:gap-4 mt-5 md:mt-6 pt-4 md:pt-5 border-t border-border/40">
