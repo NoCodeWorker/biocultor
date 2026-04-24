@@ -3,8 +3,8 @@ import { siteConfig } from '@/lib/site-config';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// El email desde el que se enviarán los correos. En producción debería ser un dominio verificado (ej: hola@biocultor.com)
-const FROM_EMAIL = 'Biocultor <onboarding@resend.dev>';
+const FROM_EMAIL = 'Biocultor <pedidos@biocultor.com>';
+const ADMIN_INBOX = process.env.ADMIN_EMAIL || siteConfig.supportEmail;
 
 export async function sendOrderConfirmationEmail(customerEmail: string, customerName: string, orderNumber: string, totalAmount: number, trackUrl?: string) {
   if (!process.env.RESEND_API_KEY) {
@@ -23,6 +23,7 @@ export async function sendOrderConfirmationEmail(customerEmail: string, customer
     await resend.emails.send({
       from: FROM_EMAIL,
       to: customerEmail,
+      replyTo: ADMIN_INBOX,
       subject: `¡Confirmación de tu pedido ${orderNumber} en Biocultor!`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
@@ -50,8 +51,8 @@ export async function sendAdminOrderNotification(orderNumber: string, totalAmoun
   try {
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: siteConfig.supportEmail, // Enviar al email de soporte/admin
-      subject: `🎉 Nuevo pedido recibido: ${orderNumber}`,
+      to: ADMIN_INBOX,
+      subject: `Nuevo pedido recibido: ${orderNumber}`,
       html: `
         <div style="font-family: sans-serif;">
           <h2>Nuevo pedido registrado</h2>
@@ -73,7 +74,8 @@ export async function sendContactFormEmail(name: string, email: string, reason: 
   try {
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: siteConfig.supportEmail,
+      to: ADMIN_INBOX,
+      replyTo: email,
       subject: `Nueva consulta de contacto: ${reason}`,
       html: `
         <div style="font-family: sans-serif;">
