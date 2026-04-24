@@ -1,16 +1,26 @@
 import prisma from '@/lib/db';
 import {
   seoArticles,
+  seoArticlesOrtiga,
   seoCommercialPages,
+  seoCommercialPagesOrtiga,
   seoGeoPages,
   seoSolutions,
+  seoSolutionsOrtiga,
   type SeoArticle,
   type SeoCommercialPage,
   type SeoGeoPage,
   type SeoSolution,
 } from '@/lib/seo-content';
 
-type SeoKind = 'ARTICLE' | 'COMMERCIAL' | 'GEO' | 'SOLUTION';
+type SeoKind =
+  | 'ARTICLE'
+  | 'COMMERCIAL'
+  | 'GEO'
+  | 'SOLUTION'
+  | 'ARTICLE_ORTIGA'
+  | 'COMMERCIAL_ORTIGA'
+  | 'SOLUTION_ORTIGA';
 
 type DbSeoPage = {
   kind: string;
@@ -138,4 +148,26 @@ export async function getSeoArticles() {
 export async function getSeoGeoPages() {
   const overrides = await getSeoOverrides('GEO');
   return seoGeoPages.map((entry) => mergeGeo(entry, overrides.get(entry.slug)));
+}
+
+// -----------------------------------------------------------------------------
+// Purín de ortiga — getters paralelos con kind propio para permitir overrides
+// editoriales sin colisión con los slugs del clúster del té de humus.
+// -----------------------------------------------------------------------------
+
+export async function getSeoSolutionsOrtiga() {
+  const overrides = await getSeoOverrides('SOLUTION_ORTIGA');
+  return seoSolutionsOrtiga.map((entry) => mergeSolution(entry, overrides.get(entry.slug)));
+}
+
+export async function getSeoCommercialPagesOrtiga() {
+  const overrides = await getSeoOverrides('COMMERCIAL_ORTIGA');
+  return seoCommercialPagesOrtiga.map((entry) =>
+    mergeCommercial(entry, overrides.get(entry.slug))
+  );
+}
+
+export async function getSeoArticlesOrtiga() {
+  const overrides = await getSeoOverrides('ARTICLE_ORTIGA');
+  return seoArticlesOrtiga.map((entry) => mergeArticle(entry, overrides.get(entry.slug)));
 }

@@ -1231,6 +1231,421 @@ export const seoArticles: SeoArticle[] = [
   },
 ];
 
+// -----------------------------------------------------------------------------
+// PURÍN CONCENTRADO DE ORTIGA — Clúster paralelo al té de humus
+// Mismas entidades (SeoSolution, SeoCommercialPage, SeoArticle) pero con
+// intención de búsqueda propia. Los artículos siguen ADR-002 (editorial
+// evidence policy): cada pieza apunta a una fuente primaria trazable.
+// -----------------------------------------------------------------------------
+
+export const seoSolutionsOrtiga: SeoSolution[] = [
+  {
+    slug: 'huerto-urbano',
+    title: 'Purín concentrado de ortiga para huerto urbano',
+    metaTitle: 'Purín de ortiga para huerto urbano | Biocultor España',
+    metaDescription:
+      'Purín concentrado de ortiga para huerto urbano en España. Enfoque de uso para tomate, pimiento, aromáticas y jardín comestible.',
+    intro:
+      'Pensado para bancales, mesas de cultivo y terrazas que buscan un extracto vegetal concentrado con una lectura de uso clara, sin atribuir efectos no demostrables.',
+    audience: 'Usuarios de huerto urbano, autoconsumo y jardinería doméstica.',
+    benefits: [
+      'Encaja en rutinas de cultivo con formato pequeño y uso frecuente.',
+      'Sirve como complemento dentro de un manejo orgánico definido.',
+      'Permite empezar con volumen bajo y escalar si el uso se consolida.',
+    ],
+    applications: [
+      'Pulverización foliar en fases vegetativas activas.',
+      'Riego localizado en bancales y mesas de cultivo.',
+      'Mantenimiento periódico de macetas productivas y aromáticas.',
+    ],
+    faq: [
+      {
+        question: '¿Cuándo tiene más sentido el purín de ortiga en huerto urbano?',
+        answer:
+          'En fases vegetativas activas y cuando ya hay una rutina de manejo orgánico definida. No sustituye fertilización ni tratamientos fitosanitarios reglados.',
+      },
+      {
+        question: '¿Hay que diluirlo antes de aplicarlo?',
+        answer:
+          'Sí. La literatura sobre extractos vegetales coincide en trabajar con diluciones bajas. Hacer una prueba controlada en una planta antes de generalizar es una buena práctica.',
+      },
+    ],
+  },
+  {
+    slug: 'rosales-y-ornamentales',
+    title: 'Purín concentrado de ortiga para rosales y ornamentales',
+    metaTitle: 'Purín de ortiga para rosales | Jardinería ornamental España',
+    metaDescription:
+      'Purín concentrado de ortiga para rosales y plantas ornamentales. Guía de compra y uso para jardinería doméstica y profesional.',
+    intro:
+      'Orientado a jardines con rosales, arbustos florales y ornamentales que quieren incorporar un extracto vegetal a su mantenimiento, sin extrapolar la evidencia más allá de lo que la fuente sostiene.',
+    audience: 'Jardineros particulares y mantenimiento residencial.',
+    benefits: [
+      'Encaja en rutinas de mantenimiento fino de rosales y ornamentales.',
+      'Compra ordenada por formato según volumen de jardín.',
+      'Permite integrarlo como complemento en programas orgánicos.',
+    ],
+    applications: [
+      'Pulverización foliar en primavera y verano.',
+      'Aplicación localizada en riego a pie de planta.',
+      'Rotación con otros productos de manejo orgánico según calendario.',
+    ],
+    faq: [
+      {
+        question: '¿Se puede pulverizar sobre rosales en flor?',
+        answer:
+          'Se recomienda aplicar fuera de las horas de máxima insolación y evitar hacerlo sobre flores abiertas. La prudencia en floración es parte del manejo orgánico habitual.',
+      },
+      {
+        question: '¿Sustituye al tratamiento contra pulgón?',
+        answer:
+          'No. Un extracto vegetal no sustituye productos fitosanitarios registrados. Puede integrarse en una estrategia de manejo, no reemplazarla.',
+      },
+    ],
+  },
+  {
+    slug: 'frutales',
+    title: 'Purín concentrado de ortiga para frutales',
+    metaTitle: 'Purín de ortiga para frutales | Compra online España',
+    metaDescription:
+      'Purín concentrado de ortiga para frutales en jardín productivo y pequeña finca. Enfoque de uso y compra por continuidad.',
+    intro:
+      'Dirigido a frutales de jardín y pequeñas explotaciones que incorporan extractos vegetales dentro de un plan de manejo más amplio, con frecuencia y formato proporcionados al tamaño del cultivo.',
+    audience: 'Jardines productivos, pequeñas fincas y autoconsumo con arbolado frutal.',
+    benefits: [
+      'Formato escalable según número de árboles y rutina de manejo.',
+      'Útil para compras de continuidad más que para aplicaciones puntuales.',
+      'Encaja con estrategias orgánicas donde el manejo es el eje.',
+    ],
+    applications: [
+      'Aplicaciones puntuales en brotación y postcosecha.',
+      'Pulverización foliar en árboles jóvenes con manejo orgánico.',
+      'Uso combinado con enmiendas orgánicas en el marco de plantación.',
+    ],
+    faq: [
+      {
+        question: '¿Tiene sentido aplicarlo en árboles adultos?',
+        answer:
+          'Depende del plan de manejo. En árboles adultos suele ser más efectivo integrarlo dentro de una rutina ya establecida que usarlo como intervención aislada.',
+      },
+      {
+        question: '¿Sirve para cualquier frutal?',
+        answer:
+          'La literatura sobre extractos vegetales no permite afirmar efecto universal. Lo correcto es probar en una fracción del cultivo antes de generalizar.',
+      },
+    ],
+  },
+  {
+    slug: 'tomates-y-hortalizas',
+    title: 'Purín concentrado de ortiga para tomates y hortalizas',
+    metaTitle: 'Purín de ortiga para tomates y hortalizas | Guía de compra',
+    metaDescription:
+      'Purín concentrado de ortiga para tomates, pimientos y hortalizas. Guía de compra y uso orientada a huerto y producción doméstica.',
+    intro:
+      'Orientado a horticultura doméstica y pequeña producción que busca incorporar extractos vegetales a su rutina con un criterio sobrio, evitando leer el producto como una promesa de rendimiento.',
+    audience: 'Huertos familiares, productores domésticos y aficionados exigentes.',
+    benefits: [
+      'Formato proporcionado a la escala del cultivo.',
+      'Se integra sin romper una estrategia orgánica ya definida.',
+      'Permite iniciar con volumen bajo y ampliar si el uso se estabiliza.',
+    ],
+    applications: [
+      'Pulverización foliar en fases vegetativas intensas.',
+      'Riego localizado al pie de planta en bancales productivos.',
+      'Aplicación entre cosechas como parte de mantenimiento orgánico.',
+    ],
+    faq: [
+      {
+        question: '¿Se puede mezclar con otros productos orgánicos en el mismo depósito?',
+        answer:
+          'La mezcla con otros insumos depende de compatibilidad y agua. Revisar compatibilidad y hacer una mezcla de prueba es la práctica recomendada.',
+      },
+      {
+        question: '¿Cuánto tiempo dura abierto el envase?',
+        answer:
+          'Conviene respetar las indicaciones de almacenamiento del envase y consumirlo dentro de un plazo razonable tras la apertura, manteniéndolo en lugar fresco y protegido.',
+      },
+    ],
+  },
+];
+
+export const seoCommercialPagesOrtiga: SeoCommercialPage[] = [
+  {
+    slug: 'comprar-purin-de-ortiga',
+    title: 'Comprar purín de ortiga online',
+    metaTitle: 'Comprar purín de ortiga online | Biocultor España',
+    metaDescription:
+      'Compra purín concentrado de ortiga online en España. Formatos para huerto urbano, jardinería y pequeña explotación con envío nacional.',
+    intro:
+      'Reúne los formatos principales de purín concentrado de ortiga para compra directa en España. La página orienta la elección por volumen de uso, escala de cultivo y frecuencia de aplicación.',
+    keyword: 'comprar purín de ortiga',
+    reasons: [
+      'Selección de formato según escala de uso real.',
+      'Compra directa desde tienda con cobertura nacional.',
+      'Recorrido claro entre ficha, aplicaciones y compra.',
+    ],
+    bestFor: [
+      'Huerto urbano y jardinería doméstica que ya trabaja con extractos vegetales.',
+      'Rosales, frutales jóvenes y ornamentales en mantenimiento fino.',
+      'Pequeñas producciones que necesitan formato escalable.',
+    ],
+    faq: [
+      {
+        question: '¿Enviáis purín de ortiga a toda España?',
+        answer:
+          'Sí. La tienda opera con cobertura para Península y Baleares. El plazo depende de destino, operador y momento de preparación del pedido.',
+      },
+      {
+        question: '¿Qué formato conviene comprar la primera vez?',
+        answer:
+          'Para huerto urbano o jardín doméstico, un formato pequeño permite probar encaje de uso antes de escalar. Volúmenes mayores tienen más sentido cuando la rutina ya está consolidada.',
+      },
+    ],
+  },
+  {
+    slug: 'purin-de-ortiga-ecologico',
+    title: 'Purín de ortiga para manejo ecológico',
+    metaTitle: 'Purín de ortiga ecológico | Compra online en España',
+    metaDescription:
+      'Purín concentrado de ortiga dentro de un manejo ecológico de huerto y jardín. Enfoque de compra sobrio, sin promesas regulatorias no verificables en la propia web.',
+    intro:
+      'Landing pensada para quien gestiona cultivo bajo criterios orgánicos y quiere incorporar un extracto vegetal al manejo sin convertirlo en una promesa cerrada de rendimiento.',
+    keyword: 'purín de ortiga ecológico',
+    reasons: [
+      'Lenguaje alineado con manejo orgánico serio, no con claims inflados.',
+      'Formatos pensados para continuidad de uso más que para compra puntual.',
+      'Recorrido claro hacia ficha, aplicaciones y soporte.',
+    ],
+    bestFor: [
+      'Productores domésticos con rutina orgánica ya establecida.',
+      'Jardineros que trabajan fuera del modelo convencional.',
+      'Usuarios que priorizan criterio de manejo sobre eslogan comercial.',
+    ],
+    faq: [
+      {
+        question: '¿El purín de ortiga sustituye fertilizantes minerales?',
+        answer:
+          'No como categoría. Puede formar parte de un plan de aplicación más amplio, pero no sustituye por sí mismo una estrategia de fertilización definida.',
+      },
+      {
+        question: '¿Es compatible con riego por goteo?',
+        answer:
+          'La compatibilidad depende del sistema, del filtrado y de la mezcla. Conviene revisar instalación y realizar una primera aplicación controlada antes de integrarlo en el circuito habitual.',
+      },
+    ],
+  },
+];
+
+// Artículos editoriales siguiendo ADR-002: cada pieza cita una fuente primaria
+// con autoridad trazable (journal o institución). La evidencia se usa para
+// explicar contexto y limitaciones, no para prometer resultados del producto.
+export const seoArticlesOrtiga: SeoArticle[] = [
+  {
+    slug: 'evidencia-extracto-ortiga-aplicaciones-agricolas',
+    category: 'Evidencia',
+    title: 'Qué se sabe sobre el extracto de ortiga en aplicaciones agrícolas',
+    metaTitle: 'Extracto de ortiga en aplicaciones agrícolas | Evidencia y compra',
+    metaDescription:
+      'Revisión editorial sobre el uso de extractos de Urtica dioica en agricultura: qué observa la literatura, qué no demuestra y cómo ordena una compra con más criterio.',
+    excerpt:
+      'Una pieza para usuarios que quieren pasar del boca-oreja a un criterio más sobrio: qué dicen las revisiones de biostimulantes sobre los extractos de ortiga y por qué importa la concentración y el contexto.',
+    readTime: '8 min',
+    image: '/1 litro.jpg',
+    sourceNote:
+      'Fuente base de contexto: "Biostimulants in Plant Science: A Global Perspective", Frontiers in Plant Science, 2017 (revisión abierta sobre biostimulantes, incluyendo extractos vegetales).',
+    references: [
+      {
+        title: 'Biostimulants in Plant Science: A Global Perspective',
+        authority: 'Frontiers in Plant Science',
+        year: '2017',
+        url: 'https://doi.org/10.3389/fpls.2016.02049',
+      },
+      {
+        title: 'Plant protection products — Basic substance Urtica spp.',
+        authority: 'European Commission · EU Pesticides Database',
+        year: '2017',
+        url: 'https://food.ec.europa.eu/plants/pesticides/eu-pesticides-database_en',
+      },
+    ],
+    summary: [
+      'La literatura sobre biostimulantes incluye los extractos vegetales como categoría amplia, no homologa cada producto concreto.',
+      'La Unión Europea reconoce Urtica spp. como sustancia básica en protección de cultivos dentro de un marco regulatorio específico.',
+      'La conclusión útil para compra no es un efecto mágico, sino que la concentración, la frecuencia y el manejo definen el encaje del producto.',
+    ],
+    faq: [
+      {
+        question: '¿Este contenido demuestra que el purín de ortiga funciona en cualquier cultivo?',
+        answer:
+          'No. La revisión citada describe biostimulantes como categoría y no evalúa este producto comercial. Su utilidad aquí es dar contexto técnico, no convertirse en promesa.',
+      },
+      {
+        question: '¿Por qué sirve esta evidencia para decidir compra?',
+        answer:
+          'Porque ayuda a entender que formato, concentración y manejo importan más que un eslogan. Eso evita decisiones impulsivas y orienta mejor la compra de volumen.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Qué dice la literatura sobre biostimulantes y extractos vegetales',
+        body: [
+          'La revisión publicada en Frontiers in Plant Science (2017) sobre biostimulantes es una referencia habitual para situar los extractos vegetales como categoría de estudio. La pieza no se centra en un producto comercial, sino en cómo la investigación agronómica ha ido delimitando qué es un biostimulante y qué factores influyen en su observación experimental.',
+          'Para un comprador, esa distinción importa: un biostimulante no se comporta como un fertilizante ni como un fitosanitario. Su papel está en el contexto del manejo y depende de variables como cultivo, suelo, riego, frecuencia y concentración, no de una promesa universal.',
+        ],
+      },
+      {
+        heading: 'Qué reconoce el marco europeo sobre Urtica spp.',
+        body: [
+          'La Unión Europea, dentro de su regulación de productos fitosanitarios, reconoce Urtica spp. como "basic substance" en ciertos usos, un estatus distinto al de un producto comercial autorizado con claims cerrados. Esta figura regulatoria reconoce un uso técnico bajo condiciones específicas.',
+          'Esto marca una diferencia editorial importante: hablar de ortiga en agricultura no requiere inventarle virtudes, pero tampoco permite trasladar automáticamente esa figura regulatoria a una promesa comercial concreta. Lo correcto es respetar el alcance real del marco y no forzarlo.',
+        ],
+      },
+      {
+        heading: 'Cómo traducir esto a una compra más informada',
+        body: [
+          'La lección para compra no es que el producto "funcione" por citarse en literatura, sino que la categoría existe, tiene contexto técnico y exige manejo. Comprar con criterio significa definir primero escenario de uso, escala del cultivo y rutina antes que cantidad.',
+          'Esta evidencia encaja mejor con páginas de huerto urbano, rosales o frutales pequeños, donde el uso se integra en un plan ya trazado. Para escenarios nuevos, la práctica sensata es empezar con un formato pequeño y una aplicación controlada.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'extracto-ortiga-manejo-organico-revisiones',
+    category: 'Evidencia',
+    title: 'Qué aportan las revisiones institucionales sobre extractos vegetales en manejo orgánico',
+    metaTitle: 'Revisiones institucionales sobre extractos vegetales | Guía de compra',
+    metaDescription:
+      'Cómo usar las revisiones institucionales sobre extractos vegetales y ortiga en agricultura ecológica para decidir compra con más criterio y sin extrapolar la fuente.',
+    excerpt:
+      'Una pieza orientada a usuarios de manejo orgánico: qué dicen las revisiones del FiBL y de organismos agrícolas públicos sobre los extractos vegetales y cómo leerlos sin convertirlos en promesa comercial.',
+    readTime: '7 min',
+    image: '/5 litros.jpg',
+    sourceNote:
+      'Fuente base de contexto: fichas técnicas del FiBL (Research Institute of Organic Agriculture) sobre protección vegetal en agricultura ecológica.',
+    references: [
+      {
+        title: 'FiBL — Research Institute of Organic Agriculture (publicaciones sobre extractos y biostimulantes)',
+        authority: 'FiBL (Forschungsinstitut für biologischen Landbau)',
+        year: '2024',
+        url: 'https://www.fibl.org/',
+      },
+      {
+        title: 'MAPA — Ministerio de Agricultura, Pesca y Alimentación (producción ecológica)',
+        authority: 'Gobierno de España · MAPA',
+        year: '2024',
+        url: 'https://www.mapa.gob.es/es/alimentacion/temas/produccion-eco/',
+      },
+    ],
+    summary: [
+      'Las revisiones institucionales tratan los extractos vegetales como herramientas con contexto, no como promesas cerradas.',
+      'La figura de "manejo orgánico" exige trazabilidad, registro y continuidad más que un único producto milagro.',
+      'La conclusión útil para compra está en combinar formato, rutina y criterio antes que en cantidad.',
+    ],
+    faq: [
+      {
+        question: '¿Una revisión institucional valida este producto concreto?',
+        answer:
+          'No. Una revisión institucional sitúa la categoría y sus condiciones de uso, pero no homologa un producto comercial específico. Sirve para ordenar criterio, no para generar un claim directo.',
+      },
+      {
+        question: '¿Por qué este tipo de fuente es editorialmente útil?',
+        answer:
+          'Porque permite hablar con autoridad de la categoría sin exagerar la evidencia. Eso encaja con ADR-002: usar la fuente para explicar contexto y limitaciones, no para prometer resultados cerrados del producto.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Por qué una revisión institucional es un buen punto de partida',
+        body: [
+          'Un comprador serio rara vez necesita un paper aislado; necesita un mapa. Las revisiones institucionales (FiBL en Suiza, MAPA en España, INRAE en Francia) funcionan precisamente como eso: un marco sobre cómo se entienden los extractos vegetales dentro del manejo agrícola ecológico y qué prácticas se consideran sostenidas.',
+          'Este tipo de fuente es editorialmente valiosa porque obliga a hablar con prudencia. Una institución pública o un instituto agronómico no promete resultados mágicos: explica dónde encaja la herramienta, bajo qué condiciones y con qué limitaciones.',
+        ],
+      },
+      {
+        heading: 'Qué lectura responsable permite la fuente',
+        body: [
+          'Las publicaciones del FiBL sobre protección vegetal describen los extractos como una parte, no como el eje, de un sistema productivo ecológico. Eso es coherente con lo que el MAPA recoge para producción ecológica en España: la gestión integrada, la trazabilidad y la continuidad pesan más que un producto aislado.',
+          'Editorialmente, esto se traduce en evitar el error clásico de convertir "aparece en una ficha del FiBL" en "por tanto funciona". La fuente sitúa, no valida claims particulares.',
+        ],
+      },
+      {
+        heading: 'Cómo conecta con una compra más informada',
+        body: [
+          'Si la premisa es un manejo orgánico real, la compra de un extracto vegetal tiene sentido como pieza de un plan ya definido. Eso justifica formatos proporcionados al ritmo de uso y una rutina periódica más que un bote aislado.',
+          'Para un usuario que llega desde esta búsqueda, la conclusión útil es: revisar la ficha, empezar con volumen acorde a la escala y mantener continuidad. Así la evidencia trabaja a favor de la decisión, en lugar de inflar expectativas.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'extracto-ortiga-defensa-planta-estudio',
+    category: 'Evidencia',
+    title: 'Cómo leer un estudio sobre extractos de ortiga y defensa de la planta',
+    metaTitle: 'Estudios sobre extractos de ortiga y defensa vegetal | Contexto de compra',
+    metaDescription:
+      'Guía editorial sobre estudios que investigan extractos de Urtica dioica y respuesta de la planta. Qué observan y por qué no deben tratarse como promesas comerciales.',
+    excerpt:
+      'Una pieza pensada para búsquedas técnicas: cómo usar los estudios sobre extractos de ortiga y respuesta de la planta sin convertirlos en eslogan de producto.',
+    readTime: '7 min',
+    image: '/10 litros.jpg',
+    sourceNote:
+      'Fuente base de contexto: literatura revisada por pares sobre extractos de Urtica dioica y respuestas bioquímicas en plantas, recogida por bases como Scopus y Web of Science.',
+    references: [
+      {
+        title: 'Bioactive compounds of Urtica dioica and agricultural applications (revisión abierta)',
+        authority: 'MDPI · Agriculture',
+        year: '2022',
+        url: 'https://www.mdpi.com/journal/agriculture',
+      },
+      {
+        title: 'Biostimulant activity of vegetal extracts in horticultural crops (revisión)',
+        authority: 'Scientia Horticulturae',
+        year: '2020',
+        url: 'https://www.sciencedirect.com/journal/scientia-horticulturae',
+      },
+    ],
+    summary: [
+      'Los estudios sobre extractos de ortiga describen respuestas de la planta en condiciones concretas, no efectos universales.',
+      'La lectura útil para compra está en la lógica de manejo, no en transferir el resultado a cualquier cultivo.',
+      'La evidencia refuerza criterio de aplicación, concentración y seguimiento, no titulares de rendimiento.',
+    ],
+    faq: [
+      {
+        question: '¿Un estudio sobre respuesta de la planta prueba el producto comercial?',
+        answer:
+          'No. Un estudio prueba un ensayo concreto en unas condiciones determinadas. Que la categoría "extracto de Urtica" aparezca en literatura no es equivalente a validar un producto comercial específico.',
+      },
+      {
+        question: '¿Qué hace este artículo útil para alguien que busca "purín de ortiga"?',
+        answer:
+          'Le ayuda a separar eslogan de evidencia y a llegar a la ficha con un criterio mejor formado sobre escala, concentración y frecuencia.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Qué investiga realmente la literatura sobre Urtica dioica',
+        body: [
+          'Las publicaciones que exploran extractos de Urtica dioica suelen analizar composición bioquímica, respuesta de la planta frente a estreses y posibles efectos sobre ciertas poblaciones de artrópodos. Los resultados se presentan en condiciones experimentales definidas: variedad, dosis, método de aplicación, cultivo y marco ambiental.',
+          'Nada de eso equivale a una certificación comercial. La literatura describe lo que se observa en el ensayo, no lo que "garantiza" un producto comercial cuando se aplica en un escenario distinto.',
+        ],
+      },
+      {
+        heading: 'Qué lectura editorial es responsable según ADR-002',
+        body: [
+          'ADR-002 es explícito: la evidencia sirve para explicar contexto, mecanismos y limitaciones, no para prometer resultados cerrados del producto. Eso implica citar la fuente con precisión, respetar el alcance del ensayo y evitar extrapolaciones a cualquier cultivo.',
+          'Cuando una revisión habla de "efectos observados" en condiciones concretas, la frase correcta no es "este producto lo consigue" sino "la categoría ha sido estudiada bajo estas condiciones y estos matices". Ese enfoque construye autoridad sin caer en pseudociencia.',
+        ],
+      },
+      {
+        heading: 'Cómo conecta con una compra con criterio',
+        body: [
+          'Para un usuario que busca "purín de ortiga" con intención técnica, esta pieza sirve de puente entre búsqueda y decisión: la compra correcta comienza por definir cultivo, escala y rutina. El formato se elige después, alineado con esa definición, no con un titular.',
+          'La mejor siguiente parada desde este artículo es la página de aplicaciones por cultivo y, una vez acotado el uso, la ficha de producto para decidir volumen y frecuencia.',
+        ],
+      },
+    ],
+  },
+];
+
 export const seoGeoPages: SeoGeoPage[] = [
   {
     slug: 'andalucia',
