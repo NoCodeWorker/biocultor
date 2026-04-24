@@ -24,13 +24,11 @@ export default function AgronomicAdvisorChat() {
     .flatMap((m) => m.parts)
     .reverse()
     .find(
-      (p): p is Extract<typeof p, { type: 'tool-updateUserIntent' }> =>
-        p.type === 'tool-updateUserIntent' && p.state === 'output-available'
-    );
-  const intentScore =
-    lastIntent && typeof lastIntent.output === 'object' && lastIntent.output !== null && 'intentScore' in lastIntent.output
-      ? Number((lastIntent.output as { intentScore?: number }).intentScore ?? 0)
-      : 0;
+      (p) =>
+        p.type === 'tool-updateUserIntent' &&
+        (p as { state?: string }).state === 'output-available'
+    ) as { output?: { intentScore?: number } } | undefined;
+  const intentScore = Number(lastIntent?.output?.intentScore ?? 0);
   const isHot = intentScore > 70;
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
