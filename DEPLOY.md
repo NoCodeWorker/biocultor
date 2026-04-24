@@ -169,17 +169,38 @@ En [dashboard.stripe.com/test/webhooks](https://dashboard.stripe.com/test/webhoo
 ```bash
 cd /opt/biocultor
 git pull
+
+# 1. Asegurar que la DB está arriba (build la necesita para ISR).
+docker compose up -d db
+
+# 2. Rebuild con DATABASE_URL disponible en build-time.
 docker compose build web
-docker compose up -d web
+
+# 3. Recrear el contenedor web con la nueva imagen.
+docker compose up -d --force-recreate web
+
+# 4. Seguir arranque.
 docker compose logs -f web
 ```
+
+**Por qué `up -d db` antes del build**: la home usa ISR (`export const revalidate = 1800`), por lo que Next intenta pre-renderizarla en build-time consultando Prisma. El Dockerfile espera `DATABASE_URL` como `ARG` (ver `docker-compose.yml → build.args`) y el builder necesita resolver el hostname `db` — eso exige que la red `biocultor_internal` esté creada (sucede la primera vez que levantas `db`).
+
+Si el build falla con `Environment variable not found: DATABASE_URL`:
+- Verifica que `.env` contiene `DATABASE_URL=postgresql://…`.
+- Verifica que `db` está arriba: `docker compose ps db`.
+- La primera vez que haces deploy desde cero: sigue el orden del bloque anterior (primero `up -d db`, luego `build web`, luego `up web`).
 
 ---
 
 ## Troubleshooting
 
 **Next build falla en `npm run build`** por Prisma queries en páginas server:
-- Añadir `export const dynamic = 'force-dynamic'` a las páginas que usen `prisma.*` (p.ej. `app/(shop)/page.tsx`) — evita que Next intente pre-renderizarlas en build.
+- Opción A (rápida, sin caching): añadir `export const dynamic = 'force-dynamic'` a la página — evita pre-render en build a cambio de SSR por request.
+- Opción B (recomendada, con ISR): la página queda con `export const revalidate = N`. Requiere:
+  1. `DATABASE_URL` en `.env` raíz del proyecto.
+  2. `docker compose up -d db` antes de `docker compose build web` (para que la red `biocultor_internal` exista y el builder pueda conectar al `db`).
+  3. `build.args.DATABASE_URL` y `build.network: biocultor_internal` configurados en `docker-compose.yml` (ya hecho).
+  4. `ARG DATABASE_URL` + `ENV DATABASE_URL=$DATABASE_URL` en el stage `builder` del `Dockerfile` antes de `RUN npm run build` (ya hecho).
 
 **Traefik no emite cert SSL:**
 - DNS: `dig biocultor.com` debe resolver a la IP del VPS

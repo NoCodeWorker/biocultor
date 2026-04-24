@@ -17,6 +17,16 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npx prisma generate
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# DATABASE_URL disponible en build-time para que Next pueda pre-renderizar
+# páginas que consultan Prisma (p.ej. la home vía ISR). Requiere que el
+# servicio `db` esté arriba antes del build y que el build se adjunte a
+# la red interna del compose (ver docker-compose.yml → build.network).
+# El ARG vive solo en esta stage; no se copia al runner, así no se filtra
+# al runtime final.
+ARG DATABASE_URL
+RUN test -n "$DATABASE_URL" || (echo "ERROR: DATABASE_URL requerido en build-time. Revisa docker-compose.yml → build.args y que la DB esté arriba." && exit 1)
+ENV DATABASE_URL=$DATABASE_URL
 RUN npm run build
 
 # ─── 3. Runtime ─────────────────────────────────────────────────────────

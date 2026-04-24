@@ -12,6 +12,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      # Adjuntamos el build a la red interna del proyecto para que el stage
+      # `builder` pueda resolver el hostname `db` y conectarse al Postgres.
+      # Requisito: `docker compose up -d db` antes del build para que la
+      # red `biocultor_internal` exista.
+      network: biocultor_internal
+      args:
+        # Compose lee DATABASE_URL del .env raíz del proyecto (mismo que usa
+        # env_file en runtime). Con esto Next puede pre-renderizar en build
+        # las páginas con ISR que consultan Prisma.
+        DATABASE_URL: ${DATABASE_URL}
     image: biocultor-web:latest
     container_name: biocultor-web
     restart: unless-stopped
