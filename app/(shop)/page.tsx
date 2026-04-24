@@ -5,12 +5,15 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Leaf, Droplets, FlaskConical, Star, Sparkles, TreePine, Sprout } from "lucide-react"
 import FormatSelector from "@/components/FormatSelector"
-import ScienceProof from "@/components/ScienceProof"
-import FaqAioSeo from "@/components/FaqAioSeo"
-import BuyerPersonaSelector from "@/components/BuyerPersonaSelector"
-import ResultsTimeline from "@/components/ResultsTimeline"
-import CostCalculator from "@/components/CostCalculator"
-import RiskReversal from "@/components/RiskReversal"
+import dynamic from "next/dynamic"
+
+const ScienceProof = dynamic(() => import("@/components/ScienceProof"))
+const FaqAioSeo = dynamic(() => import("@/components/FaqAioSeo"))
+const BuyerPersonaSelector = dynamic(() => import("@/components/BuyerPersonaSelector"))
+const ResultsTimeline = dynamic(() => import("@/components/ResultsTimeline"))
+const CostCalculator = dynamic(() => import("@/components/CostCalculator"))
+const RiskReversal = dynamic(() => import("@/components/RiskReversal"))
+
 import prisma from "@/lib/db"
 import { buildMetadata, breadcrumbSchema, collectionPageSchema } from '@/lib/seo'
 import StructuredData from '@/components/StructuredData'
@@ -84,7 +87,7 @@ export default async function Page() {
             fill
             className="object-cover object-center"
             priority
-            quality={90}
+            sizes="100vw"
           />
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-brand-brown-dark/75 via-brand-brown-dark/55 to-brand-brown-dark/92" />
