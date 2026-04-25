@@ -1,5 +1,9 @@
-import 'server-only';
 import type { Prisma } from '@/generated/prisma';
+
+// Helpers compartidos entre la página server (que aplica el `where` a Prisma)
+// y los componentes cliente de filtros/paginación (que solo usan
+// `ALLOWED_PER_PAGE` y los tipos). NO marcar este fichero como `server-only`:
+// rompería la importación desde Client Components.
 
 export type OrdersSearchParams = {
   q?: string;          // texto libre: orderNumber, email, nombre
