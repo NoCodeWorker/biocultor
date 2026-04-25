@@ -46,12 +46,14 @@ model Variant {
 // -----------------------------------------------------------------------------
 
 model Customer {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  phone     String?
-  orders    Order[]
-  createdAt DateTime @default(now())
+  id                 String   @id @default(cuid())
+  email              String   @unique
+  name               String
+  phone              String?
+  orders             Order[]
+  loginCode          String?
+  loginCodeExpiresAt DateTime?
+  createdAt          DateTime @default(now())
 }
 
 model Order {

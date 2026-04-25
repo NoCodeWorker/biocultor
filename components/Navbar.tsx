@@ -204,12 +204,15 @@ export default function Navbar() {
           {/* Actions */}
           <div className="flex items-center gap-1 md:gap-3">
             <Button
+              asChild
               variant="ghost"
               size="icon"
               className="hidden sm:inline-flex text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-full w-10 h-10"
               title="Mi cuenta"
             >
-              <User className="w-[20px] h-[20px]" />
+              <Link href="/cuenta">
+                <User className="w-[20px] h-[20px]" />
+              </Link>
             </Button>
 
             <Button

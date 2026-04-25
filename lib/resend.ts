@@ -275,3 +275,46 @@ export async function sendContactFormEmail(name: string, email: string, reason: 
     throw new Error('Error al enviar el correo');
   }
 }
+
+export async function sendLoginCodeEmail(email: string, code: string) {
+  if (!process.env.RESEND_API_KEY) return;
+
+  const inner = `
+    <div style="display:inline-block; padding:6px 12px; background-color:${C.accent}; border:1px solid ${C.border}; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:${C.green}; margin-bottom:20px;">
+      Acceso a tu cuenta
+    </div>
+    <h1 style="margin:0 0 28px 0; font-family:Georgia,serif; font-size:26px; font-weight:600; color:${C.text}; line-height:1.3;">
+      Tu código de acceso
+    </h1>
+
+    <p style="margin:0 0 24px 0; font-size:15px; color:${C.soft}; line-height:1.6;">
+      Utiliza el siguiente código para iniciar sesión en Biocultor. El código caduca en 15 minutos.
+    </p>
+
+    <div style="background-color:${C.card}; border:2px dashed ${C.border}; border-radius:12px; padding:24px; text-align:center; margin-bottom:28px;">
+      <div style="font-family:'Courier New',monospace; font-size:36px; font-weight:700; color:${C.green}; letter-spacing:4px;">
+        ${code}
+      </div>
+    </div>
+
+    <p style="margin:0; font-size:13px; color:${C.muted}; line-height:1.5;">
+      Si no has solicitado este código, puedes ignorar este correo de forma segura.
+    </p>
+  `;
+
+  try {
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: email,
+      subject: \`Tu código de acceso a Biocultor: \${code}\`,
+      html: emailShell(
+        \`Código de acceso\`,
+        \`Tu código para entrar a Biocultor es \${code}\`,
+        inner
+      ),
+    });
+  } catch (error) {
+    console.error("Error enviando email de OTP:", error);
+    throw new Error('Error al enviar el código');
+  }
+}
