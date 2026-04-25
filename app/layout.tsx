@@ -5,22 +5,27 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import { buildMetadata, organizationSchema, websiteSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
-import CookieConsent from '@/components/CookieConsent';
+import CookieConsentLazy from '@/components/CookieConsentLazy';
 
 
 // Quicksand para Headings (geometría redondeada similar a Aristotelica, pero con soporte completo de números)
 const quicksand = Quicksand({
-  weight: ['400', '500', '600', '700'],
+  weight: ['500', '700'],
   subsets: ['latin'],
   variable: '--font-heading',
   display: 'swap',
+  preload: true,
+  adjustFontFallback: true,
 });
 
 // DM Sans como body text
 const dmSans = DM_Sans({
+  weight: ['400', '500', '700'],
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = buildMetadata({
@@ -50,7 +55,7 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
         </ThemeProvider>
-        <CookieConsent />
+        <CookieConsentLazy />
       </body>
     </html>
   )

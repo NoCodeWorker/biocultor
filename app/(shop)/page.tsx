@@ -82,7 +82,7 @@ export default async function Page() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/te-de-humus-de-lombriz-biocultor.webp"
+            src="/te-de-humus-de-lombriz-biocultor.avif"
             alt="Campo de cultivo al amanecer con riego orgánico"
             fill
             className="object-cover object-center"
