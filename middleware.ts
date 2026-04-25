@@ -81,6 +81,7 @@ export const config = {
   matcher: [
     '/admin',
     '/admin/:path*',
+    '/api/admin/:path*',
     '/api/seed',
     '/api/seed/:path*',
     '/api/seed-seo',

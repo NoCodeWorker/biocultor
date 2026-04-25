@@ -28,6 +28,27 @@ function revalidateOrder(orderNumber?: string) {
 // 1. Cambiar estado manualmente
 // -----------------------------------------------------------------------------
 
+export async function bulkUpdateOrderStatus(
+  orderNumbers: string[],
+  newStatus: string
+): Promise<ActionResult<{ updated: number }>> {
+  const status = newStatus.toUpperCase().trim();
+  if (!ALLOWED_STATUS.has(status)) {
+    return { success: false, error: `Estado no permitido: ${status}` };
+  }
+  if (orderNumbers.length === 0) {
+    return { success: false, error: 'Sin pedidos seleccionados.' };
+  }
+
+  const result = await prisma.order.updateMany({
+    where: { orderNumber: { in: orderNumbers } },
+    data: { status, lastStatusAt: new Date() },
+  });
+
+  revalidateOrder();
+  return { success: true, data: { updated: result.count } };
+}
+
 export async function updateOrderStatus(
   orderNumber: string,
   newStatus: string
