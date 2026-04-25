@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 import { BookOpen, ArrowRight, Clock, Leaf } from 'lucide-react';
 import Link from 'next/link';

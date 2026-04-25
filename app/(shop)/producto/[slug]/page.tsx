@@ -1,8 +1,13 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 import prisma from "@/lib/db"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
+
+export async function generateStaticParams() {
+  const products = await prisma.product.findMany({ select: { slug: true } });
+  return products.map((p) => ({ slug: p.slug }));
+}
 import ProductFunnel from "@/components/ProductFunnel"
 import ScienceProof from "@/components/ScienceProof"
 import FaqAioSeo from "@/components/FaqAioSeo"
