@@ -34,6 +34,11 @@ services:
       - internal
     expose:
       - "3000"
+    volumes:
+      # Persistencia de imágenes subidas desde /admin. Sin esto, los archivos
+      # de /public/uploads se borran en cada `docker compose build`. El bind
+      # mount apunta a /opt/biocultor/uploads en el host.
+      - ./uploads:/app/public/uploads
     command: >
       sh -c "node node_modules/prisma/build/index.js db push --accept-data-loss --skip-generate && node server.js"
     labels:

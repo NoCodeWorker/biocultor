@@ -13,6 +13,7 @@ import {
   X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import ImageUploader from '@/components/admin/ImageUploader';
 
 type VariantData = {
   id: string;
@@ -209,15 +210,12 @@ export default function VariantsEditor({
                   className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg text-sm focus:border-primary focus:outline-none"
                 />
               </Cell>
-              <Cell label="Imagen (path)" span={3}>
-                <input
-                  type="text"
-                  value={variant.imagePath ?? ''}
-                  placeholder="/1 litro.jpg"
-                  onChange={(e) =>
-                    updateVariantField(variant.id, 'imagePath', e.target.value || null)
-                  }
-                  className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg font-mono text-xs focus:border-primary focus:outline-none"
+              <Cell label="Imagen" span={3}>
+                <ImageUploader
+                  value={variant.imagePath}
+                  onChange={(next) => updateVariantField(variant.id, 'imagePath', next)}
+                  size="sm"
+                  allowManual
                 />
               </Cell>
             </div>
@@ -457,13 +455,12 @@ function NewVariantInline({
             className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg text-sm focus:border-primary focus:outline-none"
           />
         </Cell>
-        <Cell label="Imagen (path)" span={3}>
-          <input
-            type="text"
-            placeholder="/1 litro.jpg"
-            value={draft.imagePath ?? ''}
-            onChange={(e) => setDraft({ ...draft, imagePath: e.target.value || null })}
-            className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg font-mono text-xs focus:border-primary focus:outline-none"
+        <Cell label="Imagen" span={3}>
+          <ImageUploader
+            value={draft.imagePath}
+            onChange={(next) => setDraft({ ...draft, imagePath: next })}
+            size="sm"
+            allowManual
           />
         </Cell>
       </div>

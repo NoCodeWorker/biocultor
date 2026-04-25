@@ -166,6 +166,21 @@ En [dashboard.stripe.com/test/webhooks](https://dashboard.stripe.com/test/webhoo
 
 ## 9. Deploys posteriores
 
+### Setup de uploads persistentes (una vez por VPS)
+
+Las imágenes subidas desde `/admin` se guardan en `./uploads/` del host (bind-mount al `/app/public/uploads/` del contenedor). Sin esto, las subidas se pierden en cada rebuild.
+
+```bash
+# Crear el directorio en el host
+mkdir -p /opt/biocultor/uploads
+
+# Permisos para el usuario `nextjs` (UID 1001) del contenedor
+chown -R 1001:1001 /opt/biocultor/uploads
+chmod 775 /opt/biocultor/uploads
+```
+
+Después, los `docker compose up -d` siguientes ya montan el volumen automáticamente (declarado en `docker-compose.yml`).
+
 ### Setup de una vez (primer deploy del VPS o tras `compose down -v`)
 
 BuildKit por defecto no puede unir builds a redes bridge custom; hay que crear un builder `docker-container` pegado a la red del proyecto:

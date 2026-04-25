@@ -1,10 +1,10 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Loader2, Save, Search, Upload } from 'lucide-react';
+import { Loader2, Save, Search } from 'lucide-react';
 import { updateSeoPage } from './actions';
-import { uploadImage } from './upload-action';
 import { cn } from '@/lib/utils';
+import ImageUploader from '@/components/admin/ImageUploader';
 
 type SeoPageRecord = {
   id: string;
@@ -338,34 +338,13 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                   <div className="grid gap-4 md:grid-cols-3">
                     <div className="flex flex-col gap-2 md:col-span-2">
                       <span className="text-sm font-semibold">Imagen</span>
-                      <div className="flex gap-2">
-                        <input
-                          value={item.image || ''}
-                          onChange={(event) => updateField(item.id, 'image', event.target.value)}
-                          className="h-11 flex-1 rounded-xl border border-border/50 bg-background px-4 outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10"
-                        />
-                        <label className="flex h-11 cursor-pointer items-center justify-center rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:opacity-90">
-                          <Upload className="mr-2 h-4 w-4" />
-                          Subir
-                          <input
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={async (e) => {
-                              const file = e.target.files?.[0];
-                              if (!file) return;
-                              const formData = new FormData();
-                              formData.append('file', file);
-                              const res = await uploadImage(formData);
-                              if (res.success && res.url) {
-                                updateField(item.id, 'image', res.url);
-                              } else {
-                                alert(res.error || 'Error subiendo la imagen');
-                              }
-                            }}
-                          />
-                        </label>
-                      </div>
+                      <ImageUploader
+                        value={item.image || null}
+                        onChange={(next) => updateField(item.id, 'image', next ?? '')}
+                        size="md"
+                        allowManual
+                        hint="Recomendado: 1200×630 para portada de blog/SEO. Formatos: jpg, png, webp, avif, svg. Máx 8MB."
+                      />
                     </div>
                     <label className="flex flex-col gap-2">
                       <span className="text-sm font-semibold">Read time</span>
