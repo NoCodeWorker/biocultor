@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import { buildMetadata, organizationSchema, websiteSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
+import CookieConsent from '@/components/CookieConsent';
 
 
 // Quicksand para Headings (geometría redondeada similar a Aristotelica, pero con soporte completo de números)
@@ -49,6 +50,7 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
         </ThemeProvider>
+        <CookieConsent />
       </body>
     </html>
   )
