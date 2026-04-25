@@ -13,9 +13,6 @@ import type { NextRequest } from 'next/server';
 //   Persiste mientras el navegador no se cierre o el usuario no haga logout
 //   desde su gestor de credenciales.
 
-const ADMIN_USER = process.env.USER_ADMIN ?? '';
-const ADMIN_PASS = process.env.PASSWORD_ADMIN ?? '';
-
 function constantTimeEqual(a: string, b: string): boolean {
   // Forzamos misma longitud expandiendo el más corto para no exponer
   // diferencias de longitud por timing. El resultado solo es true si
@@ -41,6 +38,11 @@ function unauthorized(message = 'Auth required') {
 }
 
 export function middleware(req: NextRequest) {
+  // Lectura en runtime (no a nivel de módulo) para evitar que Next inline
+  // los valores en build time como `undefined` cuando el build no los tiene.
+  const ADMIN_USER = process.env.USER_ADMIN ?? '';
+  const ADMIN_PASS = process.env.PASSWORD_ADMIN ?? '';
+
   if (!ADMIN_USER || !ADMIN_PASS) {
     return new NextResponse(
       'Admin no configurado: faltan USER_ADMIN o PASSWORD_ADMIN en .env',
