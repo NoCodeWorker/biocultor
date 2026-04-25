@@ -89,11 +89,11 @@ export async function fetchShipmentSnapshot(reference: string): Promise<Shipment
 
 export type GeoPoint = { lat: number; lng: number; label: string };
 
-// Aproximación de origen (Sevilla) — coords fijas del polígono
+// Aproximación de origen (Santa Cruz de la Zarza, Toledo)
 export const ORIGIN_POINT: GeoPoint = {
-  lat: 37.3886,
-  lng: -5.9823,
-  label: 'Biocultor · Sevilla',
+  lat: 39.9768,
+  lng: -3.1872,
+  label: 'Almacén Central · Toledo',
 };
 
 // -----------------------------------------------------------------------------
@@ -143,7 +143,7 @@ export async function createPacklinkShipment(
       method: 'POST',
       headers,
       body: JSON.stringify({
-        from: { country: 'ES', zip: '41001' },
+        from: { country: 'ES', zip: '45370' },
         to: { country: params.shippingAddress.country || 'ES', zip: params.shippingAddress.postalCode },
         packages: [{ width: 20, height: 20, length: 20, weight: totalWeight }],
       }),
@@ -169,8 +169,8 @@ export async function createPacklinkShipment(
           name: 'Biocultor',
           surname: 'Logística',
           street1: 'Polígono Industrial',
-          zip: '41001',
-          city: 'Sevilla',
+          zip: '45370',
+          city: 'Santa Cruz de la Zarza',
           country: 'ES',
           phone: '900123456',
           email: 'logistica@biocultor.com',

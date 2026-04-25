@@ -99,7 +99,7 @@ export async function POST(req: Request) {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': `${process.env.PACKLINK_API_KEY}` },
               body: JSON.stringify({
-                from: { country: "ES", zip: "41001" }, // Origen Biocultor (Sevilla)
+                from: { country: "ES", zip: "45370" }, // Origen Biocultor (Santa Cruz de la Zarza)
                 to: { country: addr.country || "ES", zip: addr.postal_code },
                 packages: [{ width: 20, height: 20, length: 20, weight: totalWeight }]
               })
@@ -122,8 +122,8 @@ export async function POST(req: Request) {
                       name: "Biocultor",
                       surname: "Logística",
                       street1: "Polígono Industrial",
-                      zip: "41001",
-                      city: "Sevilla",
+                      zip: "45370",
+                      city: "Santa Cruz de la Zarza",
                       country: "ES",
                       phone: "900123456",
                       email: "logistica@biocultor.com"
