@@ -16,7 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         
         <nav className="flex-1 p-6 flex flex-col gap-3">
           <Link href="/admin" className="flex items-center gap-3 px-4 py-3 bg-secondary/80 text-secondary-foreground rounded-2xl font-bold transition-all shadow-sm">
-            <Package className="w-5 h-5"/> Catálogo y Precios
+            <Package className="w-5 h-5"/> Catálogo
           </Link>
           <Link href="/admin/orders" className="flex items-center gap-3 px-4 py-3 hover:bg-muted/50 text-muted-foreground hover:text-foreground rounded-2xl font-semibold transition-all">
             <ShoppingCart className="w-5 h-5"/> Pedidos
