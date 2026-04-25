@@ -57,6 +57,10 @@ export function buildMetadata({
       images: [absoluteUrl(image)],
     },
     category: 'ecommerce',
+    icons: {
+      icon: '/Favicon.svg',
+      apple: '/Favicon.svg',
+    },
   };
 }
 
