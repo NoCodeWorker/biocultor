@@ -73,6 +73,11 @@ model Order {
   trackingToken     String?   @unique        // token público de acceso 1-click al /seguimiento
   shippingPostalCode String?                 // para el mapa
 
+  // Devoluciones Stripe
+  refundId          String?                  // id del refund en Stripe (re_...)
+  refundedAmount    Float?                   // importe efectivamente reembolsado
+  refundedAt        DateTime?                // cuándo se procesó
+
   customer      Customer    @relation(fields: [customerId], references: [id])
   items         OrderItem[]
 

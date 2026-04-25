@@ -1,4 +1,5 @@
 import prisma from "@/lib/db"
+import Link from "next/link"
 import { AlertCircle, Package } from "lucide-react"
 
 export const dynamic = 'force-dynamic'
@@ -54,7 +55,12 @@ export default async function OrdersPage() {
                 {orders.map((order) => (
                   <tr key={order.id} className="hover:bg-muted/10 transition-colors">
                     <td className="p-6">
-                      <span className="font-mono font-bold text-foreground bg-secondary px-2 py-1 rounded-md">{order.orderNumber}</span>
+                      <Link
+                        href={`/admin/orders/${order.orderNumber}`}
+                        className="inline-flex items-center font-mono font-bold text-secondary-foreground bg-secondary hover:bg-primary px-2.5 py-1 rounded-md transition-colors"
+                      >
+                        {order.orderNumber}
+                      </Link>
                       <p className="text-xs text-muted-foreground mt-2">
                         {new Date(order.createdAt).toLocaleDateString('es-ES', { 
                           day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' 

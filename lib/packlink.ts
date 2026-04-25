@@ -96,6 +96,144 @@ export const ORIGIN_POINT: GeoPoint = {
   label: 'Biocultor · Sevilla',
 };
 
+// -----------------------------------------------------------------------------
+// CREACIÓN DE ENVÍO + ETIQUETA (uso desde admin)
+// -----------------------------------------------------------------------------
+
+export type CreateShipmentParams = {
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  shippingAddress: {
+    line1: string;
+    line2?: string;
+    city: string;
+    postalCode: string;
+    country: string; // ISO 2 letras, ej. "ES"
+  };
+  packageWeightKg: number;
+};
+
+export type CreatedShipment = {
+  reference: string;
+  trackUrl: string | null;
+  carrier: string | null;
+  serviceName: string | null;
+  rawStatus: string | null;
+};
+
+/**
+ * Crea un envío en Packlink: pide rates, escoge el primer servicio puerta-puerta,
+ * y crea el shipment. Devuelve la información necesaria para guardarla en Order.
+ *
+ * Esta lógica replica la del webhook de Stripe pero exponible como helper para
+ * reintentar manualmente desde el admin si el auto-create falló.
+ */
+export async function createPacklinkShipment(
+  params: CreateShipmentParams
+): Promise<CreatedShipment | { error: string }> {
+  const key = process.env.PACKLINK_API_KEY;
+  if (!key) return { error: 'PACKLINK_API_KEY no configurado.' };
+
+  const headers = { 'Content-Type': 'application/json', Authorization: key } as const;
+  const totalWeight = Math.max(1, Math.round(params.packageWeightKg));
+
+  try {
+    const ratesRes = await fetch(`${PACKLINK_BASE}/services`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        from: { country: 'ES', zip: '41001' },
+        to: { country: params.shippingAddress.country || 'ES', zip: params.shippingAddress.postalCode },
+        packages: [{ width: 20, height: 20, length: 20, weight: totalWeight }],
+      }),
+    });
+    if (!ratesRes.ok) {
+      return { error: `Packlink rates failed (${ratesRes.status}): ${await ratesRes.text()}` };
+    }
+    const services = await ratesRes.json();
+    const bestService = services.find((s: any) => s.delivery_type === 'door_to_door') || services[0];
+    if (!bestService) return { error: 'Sin servicios Packlink disponibles para este destino.' };
+
+    const [first, ...rest] = (params.customerName || 'Cliente').trim().split(/\s+/);
+    const surname = rest.join(' ') || 'Biocultor';
+
+    const shipmentRes = await fetch(`${PACKLINK_BASE}/shipments`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        service_id: bestService.id,
+        content: 'Abono Biocultor',
+        packages: [{ weight: totalWeight, width: 20, length: 20, height: 20 }],
+        from: {
+          name: 'Biocultor',
+          surname: 'Logística',
+          street1: 'Polígono Industrial',
+          zip: '41001',
+          city: 'Sevilla',
+          country: 'ES',
+          phone: '900123456',
+          email: 'logistica@biocultor.com',
+        },
+        to: {
+          name: first || 'Cliente',
+          surname,
+          street1: params.shippingAddress.line1,
+          street2: params.shippingAddress.line2 ?? '',
+          zip: params.shippingAddress.postalCode,
+          city: params.shippingAddress.city,
+          country: params.shippingAddress.country || 'ES',
+          phone: params.customerPhone || '600000000',
+          email: params.customerEmail,
+        },
+      }),
+    });
+    if (!shipmentRes.ok) {
+      return { error: `Packlink create failed (${shipmentRes.status}): ${await shipmentRes.text()}` };
+    }
+    const data = await shipmentRes.json();
+    return {
+      reference: data.reference,
+      trackUrl: data.track_url ?? null,
+      carrier: bestService.carrier_name ?? bestService.carrier ?? null,
+      serviceName: bestService.name ?? null,
+      rawStatus: 'CREATED',
+    };
+  } catch (err: any) {
+    return { error: `Packlink exception: ${err?.message ?? 'desconocido'}` };
+  }
+}
+
+/**
+ * Devuelve la URL del PDF de la etiqueta del envío. Algunos carriers la generan
+ * de forma asíncrona; si aún no está disponible, devuelve null.
+ */
+export async function getPacklinkLabelUrl(reference: string): Promise<string | null> {
+  const key = process.env.PACKLINK_API_KEY;
+  if (!key || !reference) return null;
+  const headers = { Authorization: key, 'Content-Type': 'application/json' } as const;
+
+  try {
+    const res = await fetch(`${PACKLINK_BASE}/shipments/${reference}/labels`, {
+      headers,
+      cache: 'no-store',
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    // Packlink devuelve un array de objetos con `url` o un objeto único.
+    if (Array.isArray(data)) {
+      return data[0]?.url ?? data[0]?.label_url ?? null;
+    }
+    return data?.url ?? data?.label_url ?? null;
+  } catch {
+    return null;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// GEOCODING (lo de antes, sin tocar)
+// -----------------------------------------------------------------------------
+
 // Geocode ES postal code con API pública de Zippopotam (sin key).
 // Es suficiente para aproximar la ciudad en el mapa.
 export async function geocodeSpanishPostalCode(zip: string): Promise<GeoPoint | null> {
