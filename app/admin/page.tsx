@@ -1,164 +1,319 @@
-import prisma from "@/lib/db";
-import Link from "next/link";
-import { Plus, Package, Tag, ArrowRight } from "lucide-react";
+import Link from 'next/link';
+import {
+  Euro,
+  ShoppingBag,
+  Users,
+  Receipt,
+  RefreshCw,
+  Boxes,
+  TrendingUp,
+  Trophy,
+  Map,
+  Clock,
+  ArrowRight,
+  ExternalLink,
+} from 'lucide-react';
+import {
+  getDashboardKpis,
+  getRevenueSeries,
+  getTopVariants,
+  getLatestOrders,
+  getStockAlerts,
+  getGeoDistribution,
+} from '@/lib/admin/metrics';
+import KpiTile from '@/components/admin/KpiTile';
+import Panel from '@/components/admin/Panel';
+import StatusBadge from '@/components/admin/StatusBadge';
+import RevenueChart from '@/components/admin/charts/RevenueChart';
+import TopVariantsChart from '@/components/admin/charts/TopVariantsChart';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminCatalogPage() {
-  const products = await prisma.product.findMany({
-    orderBy: { createdAt: 'asc' },
-    include: {
-      variants: { orderBy: { price: 'asc' } },
-    },
-  }).catch(() => []);
+const PERIOD_DAYS = 30;
 
-  const totalVariants = products.reduce((acc, p) => acc + p.variants.length, 0);
-  const totalStock = products.reduce(
-    (acc, p) => acc + p.variants.reduce((sum, v) => sum + v.stock, 0),
-    0
-  );
+export default async function AdminOverviewPage() {
+  const [kpis, revenueSeries, topVariants, latest, lowStock, geo] = await Promise.all([
+    getDashboardKpis(PERIOD_DAYS),
+    getRevenueSeries(PERIOD_DAYS),
+    getTopVariants(PERIOD_DAYS, 6),
+    getLatestOrders(8),
+    getStockAlerts(10),
+    getGeoDistribution(90, 8),
+  ]);
 
   return (
-    <div className="flex flex-col gap-10 max-w-6xl mx-auto relative z-10 antialiased">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div className="flex flex-col gap-6">
+      {/* Hero */}
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-4">
         <div>
-          <h1 className="text-4xl md:text-5xl font-heading font-black text-foreground tracking-tight">
-            Catálogo
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary/80">
+            Inicio
+          </p>
+          <h1 className="text-2xl md:text-3xl font-heading font-black text-foreground tracking-tight mt-1">
+            Buenos días, Biocultor.
           </h1>
-          <p className="text-lg text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-            Gestión de productos y variantes. Cualquier cambio aquí se aplica al frontend en directo
-            tras revalidar la cache de Next.
+          <p className="text-sm text-muted-foreground mt-1.5">
+            Resumen de los últimos {PERIOD_DAYS} días vs los {PERIOD_DAYS} anteriores.
           </p>
         </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href="/admin/orders"
+            className="inline-flex items-center gap-1.5 text-sm font-bold bg-foreground text-background px-4 py-2 rounded-xl hover:bg-primary hover:text-primary-foreground transition-colors"
+          >
+            <ShoppingBag className="w-4 h-4" /> Pedidos
+          </Link>
+          <Link
+            href="/admin/products/new"
+            className="inline-flex items-center gap-1.5 text-sm font-bold bg-primary text-primary-foreground px-4 py-2 rounded-xl shadow-sm hover:bg-brand-green-hover transition-colors"
+          >
+            Nuevo producto
+          </Link>
+        </div>
+      </div>
 
-        <Link
-          href="/admin/products/new"
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-bold px-5 py-3 rounded-2xl shadow-lg shadow-primary/20 hover:bg-brand-green-hover transition-colors"
+      {/* KPIs */}
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+        <KpiTile
+          label="Ingresos"
+          value={`€${kpis.revenue.value.toFixed(2)}`}
+          pct={kpis.revenue.pct}
+          icon={Euro}
+          hint={`vs €${kpis.revenue.previous.toFixed(0)} anterior`}
+        />
+        <KpiTile
+          label="Pedidos"
+          value={kpis.orders.value.toString()}
+          pct={kpis.orders.pct}
+          icon={ShoppingBag}
+        />
+        <KpiTile
+          label="AOV"
+          value={`€${kpis.aov.value.toFixed(2)}`}
+          pct={kpis.aov.pct}
+          icon={Receipt}
+        />
+        <KpiTile
+          label="Clientes nuevos"
+          value={kpis.newCustomers.value.toString()}
+          pct={kpis.newCustomers.pct}
+          icon={Users}
+        />
+        <KpiTile
+          label="Tasa refund"
+          value={`${kpis.refundRate.value.toFixed(1)}%`}
+          pct={kpis.refundRate.pct}
+          icon={RefreshCw}
+          inverted
+        />
+        <KpiTile
+          label="Stock crítico"
+          value={kpis.lowStockCount.toString()}
+          pct={null}
+          icon={Boxes}
+          hint={kpis.lowStockCount > 0 ? '<10 unidades' : 'Todo OK'}
+        />
+      </div>
+
+      {/* Fila principal: chart grande + top productos */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+        <div className="xl:col-span-2">
+          <Panel
+            title={`Ingresos diarios — últimos ${PERIOD_DAYS} días`}
+            icon={TrendingUp}
+            hint="Línea continua: período actual. Punteada: período anterior."
+          >
+            <RevenueChart data={revenueSeries} />
+          </Panel>
+        </div>
+        <Panel
+          title="Top productos por ingresos"
+          icon={Trophy}
+          hint={`Últimos ${PERIOD_DAYS} días`}
+          action={{ href: '/admin/products', label: 'Catálogo' }}
         >
-          <Plus className="w-5 h-5" /> Nuevo producto
-        </Link>
+          <TopVariantsChart data={topVariants} />
+        </Panel>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <KpiCard label="Productos" value={products.length} icon={Package} />
-        <KpiCard label="Variantes totales" value={totalVariants} icon={Tag} />
-        <KpiCard label="Stock acumulado" value={totalStock} icon={Package} suffix="ud" />
+      {/* Fila secundaria: pedidos + stock + geo */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Latest orders */}
+        <Panel
+          title="Últimos pedidos"
+          icon={Clock}
+          action={{ href: '/admin/orders', label: 'Ver todos' }}
+          className="lg:col-span-2"
+          bodyClassName="px-0 pb-0"
+        >
+          {latest.length === 0 ? (
+            <p className="px-5 py-8 text-center text-sm text-muted-foreground">
+              Aún no hay pedidos.
+            </p>
+          ) : (
+            <ul className="divide-y divide-border/40">
+              {latest.map((o) => (
+                <li key={o.id}>
+                  <Link
+                    href={`/admin/orders/${o.orderNumber}`}
+                    className="flex items-center gap-4 px-5 py-3 hover:bg-muted/40 transition-colors"
+                  >
+                    <span className="font-mono text-xs font-bold text-secondary-foreground bg-secondary px-2 py-1 rounded shrink-0">
+                      {o.orderNumber}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-foreground truncate">
+                        {o.customer.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {o.items.length} ud · {o.customer.email}
+                      </p>
+                    </div>
+                    <StatusBadge status={o.status} />
+                    <span className="font-heading font-bold text-sm text-foreground w-20 text-right">
+                      €{o.totalAmount.toFixed(2)}
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground/50 shrink-0" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
+
+        {/* Stock alerts */}
+        <Panel
+          title="Stock crítico"
+          icon={Boxes}
+          hint="Variantes con menos de 10 unidades"
+          action={{ href: '/admin/products', label: 'Catálogo' }}
+          bodyClassName="px-0 pb-0"
+        >
+          {lowStock.length === 0 ? (
+            <p className="px-5 py-8 text-center text-sm text-muted-foreground">
+              Sin alertas de stock.
+            </p>
+          ) : (
+            <ul className="divide-y divide-border/40">
+              {lowStock.slice(0, 8).map((v) => (
+                <li key={v.id}>
+                  <Link
+                    href={`/admin/products/${v.productId}`}
+                    className="flex items-center gap-3 px-5 py-3 hover:bg-muted/40 transition-colors"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-foreground truncate">
+                        {v.size} · {v.product.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground font-mono">{v.sku}</p>
+                    </div>
+                    <span
+                      className={
+                        v.stock === 0
+                          ? 'text-xs font-bold bg-red-100 text-red-800 px-2 py-1 rounded ring-1 ring-red-300'
+                          : 'text-xs font-bold bg-amber-100 text-amber-800 px-2 py-1 rounded ring-1 ring-amber-300'
+                      }
+                    >
+                      {v.stock} ud
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
       </div>
 
-      {products.length === 0 ? (
-        <div className="bg-card border border-dashed border-border/60 rounded-3xl p-16 text-center flex flex-col items-center gap-4">
-          <Package className="w-16 h-16 text-muted-foreground/40" />
-          <h2 className="text-2xl font-heading font-bold">Sin productos en catálogo</h2>
-          <p className="text-muted-foreground max-w-md">
-            Crea el primer producto desde cero o ejecuta un seed para inyectar los productos base.
+      {/* Geo + accesos */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Panel
+          title="Top provincias"
+          icon={Map}
+          hint="Ingresos últimos 90 días por código postal de envío"
+          className="lg:col-span-2"
+          bodyClassName="px-0 pb-0"
+        >
+          {geo.length === 0 ? (
+            <p className="px-5 py-8 text-center text-sm text-muted-foreground">
+              Sin pedidos con código postal en el período.
+            </p>
+          ) : (
+            <ul className="divide-y divide-border/40">
+              {geo.map((g) => {
+                const max = geo[0]?.revenue || 1;
+                const pct = (g.revenue / max) * 100;
+                return (
+                  <li key={g.province} className="px-5 py-3 flex items-center gap-4">
+                    <span className="text-sm font-semibold text-foreground w-32 truncate">
+                      {g.province}
+                    </span>
+                    <div className="flex-1 h-2 bg-muted/60 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-primary rounded-full transition-all"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-muted-foreground w-16 text-right">
+                      {g.orders} ped.
+                    </span>
+                    <span className="text-sm font-heading font-bold text-foreground w-20 text-right">
+                      €{g.revenue.toFixed(0)}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </Panel>
+
+        {/* Quick links */}
+        <div className="bg-card border border-border/60 rounded-2xl p-5 flex flex-col gap-3">
+          <h2 className="text-sm font-bold text-foreground">Accesos rápidos</h2>
+          <p className="text-xs text-muted-foreground">
+            Funciones más usadas o que estarán disponibles pronto.
           </p>
-          <div className="flex flex-wrap gap-3 mt-2">
-            <Link
-              href="/admin/products/new"
-              className="bg-primary text-primary-foreground font-bold px-5 py-3 rounded-xl"
-            >
-              Nuevo producto
-            </Link>
-            <a
-              href="/api/seed"
-              className="bg-foreground text-background font-bold px-5 py-3 rounded-xl"
-            >
-              Seed té de humus
-            </a>
-            <a
-              href="/api/seed/ortiga"
-              className="bg-foreground text-background font-bold px-5 py-3 rounded-xl"
-            >
-              Seed purín de ortiga
-            </a>
+          <div className="flex flex-col gap-2 mt-2">
+            <QuickLink href="/admin/seo" label="Editor SEO Editorial" external={false} />
+            <QuickLink href="/admin/analytics" label="Inteligencia detallada" external={false} />
+            <QuickLink href="/" label="Ver tienda pública" external />
+            <QuickLink
+              href="https://dashboard.stripe.com"
+              label="Dashboard de Stripe"
+              external
+            />
+            <QuickLink
+              href="https://pro.packlink.es"
+              label="Dashboard de Packlink PRO"
+              external
+            />
           </div>
         </div>
-      ) : (
-        <div className="grid gap-5 md:grid-cols-2">
-          {products.map((p) => {
-            const prices = p.variants.map((v) => v.price);
-            const lowest = prices.length ? Math.min(...prices) : null;
-            const highest = prices.length ? Math.max(...prices) : null;
-            const totalStockProduct = p.variants.reduce((s, v) => s + v.stock, 0);
-
-            return (
-              <Link
-                key={p.id}
-                href={`/admin/products/${p.id}`}
-                className="group bg-card border border-border/60 rounded-3xl p-7 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-xl hover:shadow-foreground/5"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <p className="text-xs font-bold uppercase tracking-widest text-primary/80">
-                      Producto
-                    </p>
-                    <h2 className="mt-2 text-xl md:text-2xl font-heading font-bold text-foreground leading-tight truncate">
-                      {p.name}
-                    </h2>
-                    <p className="mt-1 text-sm font-mono text-muted-foreground bg-muted/60 px-2 py-0.5 rounded w-fit">
-                      {p.slug}
-                    </p>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-muted-foreground/50 group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0 mt-2" />
-                </div>
-
-                <p className="mt-4 text-sm text-muted-foreground leading-relaxed line-clamp-2">
-                  {p.description}
-                </p>
-
-                <div className="mt-5 grid grid-cols-3 gap-3 text-center">
-                  <CardStat label="Variantes" value={p.variants.length.toString()} />
-                  <CardStat
-                    label="Rango precio"
-                    value={
-                      lowest !== null
-                        ? `${lowest.toFixed(0)}-${highest!.toFixed(0)}€`
-                        : '—'
-                    }
-                  />
-                  <CardStat label="Stock" value={`${totalStockProduct} ud`} />
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      )}
+      </div>
     </div>
   );
 }
 
-function KpiCard({
+function QuickLink({
+  href,
   label,
-  value,
-  icon: Icon,
-  suffix,
+  external,
 }: {
+  href: string;
   label: string;
-  value: number;
-  icon: typeof Package;
-  suffix?: string;
+  external: boolean;
 }) {
+  const Component: any = external ? 'a' : Link;
+  const extras = external
+    ? { target: '_blank', rel: 'noopener noreferrer' as const }
+    : {};
   return (
-    <div className="bg-card border border-border/60 rounded-3xl p-6 flex items-center gap-4">
-      <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-        <Icon className="w-6 h-6" />
-      </div>
-      <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{label}</p>
-        <p className="text-3xl font-heading font-black text-foreground">
-          {value}
-          {suffix && <span className="text-sm text-muted-foreground font-normal ml-1">{suffix}</span>}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function CardStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="bg-muted/40 rounded-xl px-3 py-2.5">
-      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</p>
-      <p className="text-sm font-heading font-bold text-foreground mt-1">{value}</p>
-    </div>
+    <Component
+      href={href}
+      {...extras}
+      className="inline-flex items-center justify-between gap-2 text-sm font-semibold text-foreground bg-muted/40 hover:bg-muted px-3 py-2 rounded-lg transition-colors"
+    >
+      <span>{label}</span>
+      {external ? <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" /> : <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />}
+    </Component>
   );
 }
