@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { siteConfig } from '@/lib/site-config';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Instanciación perezosa para evitar crash en build-time
 
 const FROM_EMAIL = 'Biocultor <pedidos@biocultor.com>';
 const ADMIN_INBOX = process.env.ADMIN_EMAIL || siteConfig.supportEmail;
@@ -160,6 +160,7 @@ export async function sendOrderConfirmationEmail(customerEmail: string, customer
   `;
 
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: FROM_EMAIL,
       to: customerEmail,
@@ -214,6 +215,7 @@ export async function sendAdminOrderNotification(orderNumber: string, totalAmoun
   `;
 
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_INBOX,
@@ -259,6 +261,7 @@ export async function sendContactFormEmail(name: string, email: string, reason: 
   `;
 
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_INBOX,
@@ -303,6 +306,7 @@ export async function sendLoginCodeEmail(email: string, code: string) {
   `;
 
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
