@@ -306,10 +306,10 @@ export async function sendLoginCodeEmail(email: string, code: string) {
     await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
-      subject: \`Tu código de acceso a Biocultor: \${code}\`,
+      subject: `Tu código de acceso a Biocultor: ${code}`,
       html: emailShell(
-        \`Código de acceso\`,
-        \`Tu código para entrar a Biocultor es \${code}\`,
+        `Código de acceso`,
+        `Tu código para entrar a Biocultor es ${code}`,
         inner
       ),
     });
