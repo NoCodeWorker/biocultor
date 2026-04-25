@@ -82,7 +82,7 @@ export default async function CuentaPage() {
                 <div key={order.id} className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl border border-border/60 hover:border-primary/30 hover:bg-muted/20 transition-all">
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-3">
-                      <span className="font-mono font-bold text-foreground bg-accent px-2 py-1 rounded">
+                      <span className="font-mono font-bold text-white bg-brand-brown-dark px-2 py-1 rounded">
                         {order.orderNumber}
                       </span>
                       {order.status === 'PAID' ? (
