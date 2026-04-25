@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Save, Loader2, Eye, EyeOff, Trash2, AlertCircle, CheckCircle2, ExternalLink } from 'lucide-react';
-import { updatePost, deletePost, togglePublished } from '../actions';
+import { updatePost, deletePost, togglePublished } from './actions';
 
 const CATEGORIES = [
   { value: 'KNOWLEDGE', label: 'Guía' },
