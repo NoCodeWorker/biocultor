@@ -7,7 +7,7 @@ import { setCustomerSession, clearCustomerSession } from '@/lib/session';
 export type ActionState = {
   success?: boolean;
   error?: string;
-  step?: 'EMAIL' | 'CODE';
+  step?: 'EMAIL' | 'CODE' | 'LOGGED_IN';
   email?: string;
 };
 
