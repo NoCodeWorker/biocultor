@@ -44,16 +44,16 @@ const NAV: NavSection[] = [
     label: 'Catálogo',
     items: [
       { href: '/admin/products', label: 'Productos', icon: Package },
-      { href: '/admin/inventory', label: 'Inventario', icon: Boxes, comingSoon: true },
+      { href: '/admin/inventory', label: 'Inventario', icon: Boxes },
     ],
   },
   {
     label: 'Ventas',
     items: [
       { href: '/admin/orders', label: 'Pedidos', icon: ShoppingBag },
-      { href: '/admin/customers', label: 'Clientes', icon: Users, comingSoon: true },
-      { href: '/admin/refunds', label: 'Devoluciones', icon: RefreshCw, comingSoon: true },
-      { href: '/admin/operations', label: 'Operaciones', icon: Truck, comingSoon: true },
+      { href: '/admin/customers', label: 'Clientes', icon: Users },
+      { href: '/admin/refunds', label: 'Devoluciones', icon: RefreshCw },
+      { href: '/admin/operations', label: 'Operaciones', icon: Truck },
     ],
   },
   {
@@ -64,16 +64,16 @@ const NAV: NavSection[] = [
     label: 'Contenido',
     items: [
       { href: '/admin/seo', label: 'SEO Editorial', icon: Search },
-      { href: '/admin/blog', label: 'Blog', icon: PenSquare, comingSoon: true },
+      { href: '/admin/blog', label: 'Blog', icon: PenSquare },
     ],
   },
   {
     label: 'Marketing',
-    items: [{ href: '/admin/marketing', label: 'Email & cupones', icon: Mail, comingSoon: true }],
+    items: [{ href: '/admin/marketing', label: 'Email & cupones', icon: Mail }],
   },
   {
     label: 'Sistema',
-    items: [{ href: '/admin/settings', label: 'Ajustes', icon: Settings, comingSoon: true }],
+    items: [{ href: '/admin/settings', label: 'Ajustes', icon: Settings }],
   },
 ];
 
