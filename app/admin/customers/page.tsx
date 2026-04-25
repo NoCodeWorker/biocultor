@@ -157,11 +157,22 @@ export default async function AdminCustomersPage({
                       )}
                     </div>
                     {c.lastOrder && (
-                      <p className="text-[10px] text-muted-foreground/70 mt-0.5">
-                        Último pedido:{' '}
-                        <span className="font-mono">{c.lastOrder.orderNumber}</span>{' '}
-                        · {new Date(c.lastOrder.createdAt).toLocaleDateString('es-ES')}
-                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <p className="text-[10px] text-muted-foreground/70">
+                          Último pedido:{' '}
+                          <Link href={`/admin/orders/${c.lastOrder.orderNumber}`} className="font-mono font-bold hover:text-primary transition-colors text-foreground/80">
+                            {c.lastOrder.orderNumber}
+                          </Link>{' '}
+                          · {new Date(c.lastOrder.createdAt).toLocaleDateString('es-ES')}
+                        </p>
+                        <Link 
+                          href={`/seguimiento/${c.lastOrder.orderNumber}`}
+                          target="_blank"
+                          className="text-[9px] font-bold uppercase tracking-wider bg-primary/10 text-primary px-1.5 py-0.5 rounded hover:bg-primary/20 transition-colors flex items-center gap-0.5"
+                        >
+                          Seguimiento
+                        </Link>
+                      </div>
                     )}
                   </div>
 
