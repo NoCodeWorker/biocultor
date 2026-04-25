@@ -2,7 +2,10 @@
 
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-03-25.dahlia' });
+// Inicialización lazy: no se evalúa en build, solo en runtime con la clave real
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-03-25.dahlia' });
+}
 
 export type CouponRow = {
   id: string;
@@ -36,7 +39,7 @@ function mapCoupon(c: Stripe.Coupon): CouponRow {
 
 export async function listCoupons(): Promise<CouponRow[]> {
   try {
-    const list = await stripe.coupons.list({ limit: 100 });
+    const list = await getStripe().coupons.list({ limit: 100 });
     return list.data.map(mapCoupon);
   } catch {
     return [];
@@ -51,7 +54,7 @@ export async function createCoupon(params: {
   durationMonths?: number;
 }): Promise<ActionResult<CouponRow>> {
   try {
-    const coupon = await stripe.coupons.create({
+    const coupon = await getStripe().coupons.create({
       name: params.name,
       ...(params.type === 'percent'
         ? { percent_off: params.value }
@@ -70,7 +73,7 @@ export async function createCoupon(params: {
 
 export async function deleteCoupon(id: string): Promise<ActionResult> {
   try {
-    await stripe.coupons.del(id);
+    await getStripe().coupons.del(id);
     return { success: true };
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Error eliminando el cupón.';
