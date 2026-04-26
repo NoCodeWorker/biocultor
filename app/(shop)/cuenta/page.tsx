@@ -18,6 +18,7 @@ import {
   Wallet
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { logout } from './actions';
 import { redirect } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -257,11 +258,13 @@ export default async function CuentaPage() {
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {order.items.map((item: any) => (
                               <div key={item.id} className="flex items-center gap-4 p-3 rounded-2xl bg-white/60 border border-border/30">
-                                <div className="w-14 h-14 bg-cream-warm rounded-xl flex items-center justify-center overflow-hidden shrink-0 border border-border/40">
-                                  <img 
-                                    src={item.variant.imagePath || item.variant.image || '/1 litro.jpg'} 
-                                    alt={item.variant.size} 
-                                    className="w-10 h-10 object-contain"
+                                <div className="relative w-14 h-14 bg-cream-warm rounded-xl flex items-center justify-center overflow-hidden shrink-0 border border-border/40">
+                                  <Image
+                                    src={item.variant.imagePath || '/1 litro.jpg'}
+                                    alt={item.variant.size}
+                                    width={40}
+                                    height={40}
+                                    className="object-contain"
                                   />
                                 </div>
                                 <div className="min-w-0">

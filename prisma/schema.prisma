@@ -55,9 +55,20 @@ model Customer {
   phone              String?
   orders             Order[]
   sessions           Session[]
-  loginCode          String?
-  loginCodeExpiresAt DateTime?
   createdAt          DateTime @default(now())
+}
+
+// OTPs separados de Customer para no crear filas Customer al pedir un código
+// (M7: customer enumeration). Solo upserteamos Customer cuando el código se
+// verifica con éxito.
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
 }
 
 model Session {
@@ -71,6 +82,20 @@ model Session {
 
   @@index([customerId])
   @@index([expiresAt])
+}
+
+// Audit log de acciones del panel admin. Como /admin/* usa Basic Auth con un
+// solo USER_ADMIN, no podemos saber QUIÉN ejecutó la acción, pero sí queda
+// constancia de QUÉ se hizo, CUÁNDO, y SOBRE QUÉ entidad — para investigación
+// posterior si algo se descontrola.
+model AdminAction {
+  id        String   @id @default(cuid())
+  action    String   // ej: 'updateVariantPrice', 'refundOrder', 'updateOrderStatus'
+  payload   String   @default("{}") // JSON con campos relevantes (ids, valores)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([action, createdAt])
 }
 
 // Carrito persistido en DB durante el flujo de checkout. Antes guardábamos el
@@ -140,6 +165,10 @@ model Order {
 
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  @@index([customerId])
+  @@index([status, createdAt])
+  @@index([createdAt])
 }
 
 model OrderItem {

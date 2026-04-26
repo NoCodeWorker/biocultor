@@ -49,7 +49,11 @@ export async function POST(req: Request) {
       }
 
       try {
-        const customerEmail = session.customer_details?.email || 'anonimo@biocultor.com';
+        // M9: si Stripe no devuelve email, generamos uno único por sesión para
+        // que cada pedido sin email sea un Customer distinto. Antes todos
+        // caían en `anonimo@biocultor.com` y se fusionaban en un único Customer
+        // gigante, perdiendo trazabilidad.
+        const customerEmail = session.customer_details?.email || `anon-${session.id}@biocultor.local`;
         const customerName = session.customer_details?.name || 'Cliente';
         const phone = session.customer_details?.phone || '';
         

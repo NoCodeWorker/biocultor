@@ -166,6 +166,29 @@ En [dashboard.stripe.com/test/webhooks](https://dashboard.stripe.com/test/webhoo
 
 ## 9. Deploys posteriores
 
+### Setup del cron de limpieza (una vez por VPS)
+
+`/api/admin/cleanup` purga sesiones expiradas, carritos abandonados, OTPs caducados
+y buckets de rate-limit antiguos. Sin esto las tablas crecen para siempre. Programa
+un cron diario en el VPS:
+
+```bash
+crontab -e
+```
+
+Añade (sustituye USER/PASS por los valores reales de `.env`):
+
+```
+0 4 * * * curl -fsS -u USER_ADMIN:PASSWORD_ADMIN https://biocultor.com/api/admin/cleanup > /var/log/biocultor-cleanup.log 2>&1
+```
+
+Comprobación manual:
+
+```bash
+curl -u USER_ADMIN:PASSWORD_ADMIN https://biocultor.com/api/admin/cleanup
+# Devuelve: {"ok":true,"sessions":N,"pendingCarts":N,"loginAttempts":N,"rateLimitBuckets":N,"ranAt":"..."}
+```
+
 ### Setup de uploads persistentes (una vez por VPS)
 
 Las imágenes subidas desde `/admin` se guardan en `./uploads/` del host (bind-mount al `/app/public/uploads/` del contenedor). Sin esto, las subidas se pierden en cada rebuild.

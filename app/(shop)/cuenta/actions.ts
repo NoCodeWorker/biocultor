@@ -53,33 +53,16 @@ export async function requestLoginCode(prevState: ActionState, formData: FormDat
     };
   }
 
-  // Verificar si el cliente existe. Si no, le podemos dar error o crearlo?
-  // Normalmente solo clientes que ya han comprado deberían entrar, pero podemos crearlo por si acaso
-  // O podemos decir: "Si tienes pedidos, te llegará un código".
-
-  let customer = await prisma.customer.findUnique({ where: { email } });
-
-  // Si no existe, podemos detenerlo o simplemente hacer un "upsert" sin nombre
-  // Pero para evitar spam, solo enviamos si existe o lo creamos vacío
-  if (!customer) {
-    // Lo creamos vacío para poder guardar el OTP
-    customer = await prisma.customer.create({
-      data: {
-        email,
-        name: 'Cliente',
-      }
-    });
-  }
-
+  // OTP en tabla aparte (LoginAttempt). NO creamos Customer aquí — eso pasa
+  // solo si el código se verifica correctamente. Antes inflábamos Customer
+  // con cada intento de login a un email aleatorio (enumeración + ruido).
   const code = generateOTP();
   const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutos
 
-  await prisma.customer.update({
-    where: { id: customer.id },
-    data: {
-      loginCode: code,
-      loginCodeExpiresAt: expiresAt,
-    }
+  await prisma.loginAttempt.upsert({
+    where: { email },
+    update: { code, expiresAt },
+    create: { email, code, expiresAt },
   });
 
   await sendLoginCodeEmail(email, code);
@@ -110,21 +93,22 @@ export async function verifyLoginCode(prevState: ActionState, formData: FormData
     };
   }
 
-  const customer = await prisma.customer.findUnique({ where: { email: normalizedEmail } });
+  const attempt = await prisma.loginAttempt.findUnique({ where: { email: normalizedEmail } });
 
-  if (!customer || !customer.loginCode || customer.loginCode !== code.trim()) {
+  if (!attempt || attempt.code !== code.trim()) {
     return { error: 'Código incorrecto. Por favor, inténtalo de nuevo.', step: 'CODE', email };
   }
-
-  if (customer.loginCodeExpiresAt && new Date() > customer.loginCodeExpiresAt) {
+  if (new Date() > attempt.expiresAt) {
     return { error: 'El código ha caducado. Vuelve a solicitar uno nuevo.', step: 'EMAIL' };
   }
 
-  // OTP válido
-  // Limpiar el código
-  await prisma.customer.update({
-    where: { id: customer.id },
-    data: { loginCode: null, loginCodeExpiresAt: null },
+  // OTP válido — borramos el intento y creamos/recuperamos el Customer.
+  await prisma.loginAttempt.deleteMany({ where: { email: normalizedEmail } }).catch(() => {});
+
+  const customer = await prisma.customer.upsert({
+    where: { email: normalizedEmail },
+    update: {},
+    create: { email: normalizedEmail, name: 'Cliente' },
   });
 
   // Reset de buckets: el usuario ya entró, no queremos que mañana le bloqueen

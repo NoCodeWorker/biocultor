@@ -4,6 +4,7 @@ import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { getPaymentIntentFromSession, refundPaymentIntent } from '@/lib/stripe-admin';
 import { createPacklinkShipment, getPacklinkLabelUrl } from '@/lib/packlink';
+import { logAdminAction } from '@/lib/admin/audit';
 
 export type ActionResult<T = unknown> =
   | { success: true; data?: T; error?: undefined }
@@ -45,6 +46,8 @@ export async function bulkUpdateOrderStatus(
     data: { status, lastStatusAt: new Date() },
   });
 
+  await logAdminAction('bulkUpdateOrderStatus', { orderNumbers, status, updated: result.count });
+
   revalidateOrder();
   return { success: true, data: { updated: result.count } };
 }
@@ -65,6 +68,8 @@ export async function updateOrderStatus(
     where: { orderNumber },
     data: { status, lastStatusAt: new Date() },
   });
+
+  await logAdminAction('updateOrderStatus', { orderNumber, status });
 
   revalidateOrder(orderNumber);
   return { success: true };
@@ -116,6 +121,14 @@ export async function refundOrder(
         refundedAt: new Date(),
         ...(isFull ? { status: 'REFUNDED' } : {}),
       },
+    });
+
+    await logAdminAction('refundOrder', {
+      orderNumber,
+      refundId: refund.id,
+      refundedAmount,
+      isFull,
+      paymentIntentId,
     });
 
     revalidateOrder(orderNumber);
@@ -182,6 +195,13 @@ export async function createShipmentForOrder(
       lastStatus: result.rawStatus,
       lastStatusAt: new Date(),
     },
+  });
+
+  await logAdminAction('createShipmentForOrder', {
+    orderNumber,
+    reference: result.reference,
+    carrier: result.carrier,
+    serviceName: result.serviceName,
   });
 
   revalidateOrder(orderNumber);

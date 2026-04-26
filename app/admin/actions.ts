@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { logAdminAction } from "@/lib/admin/audit";
 
 function revalidateSeoPaths(kind: string, slug: string) {
   revalidatePath('/');
@@ -37,12 +38,14 @@ export async function updateVariantPrice(id: string, price: number, comparePrice
   try {
     await prisma.variant.update({
       where: { id },
-      data: { 
-        price, 
-        comparePrice 
+      data: {
+        price,
+        comparePrice
       }
     });
-    
+
+    await logAdminAction('updateVariantPrice', { variantId: id, price, comparePrice });
+
     // Purga de la cache extrema de Next.js para forzar la actualización en toda la app
     revalidatePath("/");
     revalidatePath("/admin");
@@ -104,6 +107,13 @@ export async function updateSeoPage(input: {
         summaryJson: input.summaryJson || '[]',
         isPublished: input.isPublished,
       },
+    });
+
+    await logAdminAction('updateSeoPage', {
+      id: input.id,
+      kind: input.kind,
+      slug: input.slug,
+      isPublished: input.isPublished,
     });
 
     revalidateSeoPaths(input.kind, input.slug);
