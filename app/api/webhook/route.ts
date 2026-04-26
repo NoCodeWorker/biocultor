@@ -57,8 +57,24 @@ export async function POST(req: Request) {
         const addr = session.customer_details?.address;
         const addressString = addr ? `${addr.line1} ${addr.line2 || ''}, ${addr.city}, ${addr.postal_code}, ${addr.country}` : 'Desconocida';
         
-        // Recuperar variantes del carrito
-        const metaCartItems = session.metadata?.cartItems ? JSON.parse(session.metadata.cartItems) : [];
+        // Recuperar variantes del carrito desde PendingCart (vía pendingCartId
+        // en metadata). Caemos a `cartItems` legacy si recibimos un evento que
+        // se encoló con el formato anterior — ventana de migración.
+        let metaCartItems: { id: string; q: number; p: number }[] = [];
+        const pendingCartId = session.metadata?.pendingCartId;
+        if (pendingCartId) {
+          const pending = await prisma.pendingCart.findUnique({
+            where: { id: pendingCartId },
+            select: { itemsJson: true },
+          });
+          if (pending) {
+            metaCartItems = JSON.parse(pending.itemsJson);
+          } else {
+            console.warn(`PendingCart ${pendingCartId} no encontrado (¿ya consumido y purgado?).`);
+          }
+        } else if (session.metadata?.cartItems) {
+          metaCartItems = JSON.parse(session.metadata.cartItems);
+        }
 
         // Inyectar o buscar Cliente
         const customer = await prisma.customer.upsert({
@@ -115,6 +131,12 @@ export async function POST(req: Request) {
             return NextResponse.json({ received: true, deduplicated: true });
           }
           throw e;
+        }
+
+        // PendingCart consumido — borramos para no acumular filas. Si falla
+        // (otro delivery lo borró), no es crítico: el Order ya está creado.
+        if (pendingCartId) {
+          prisma.pendingCart.deleteMany({ where: { id: pendingCartId } }).catch(() => {});
         }
 
         // -------------------------------------------------------------

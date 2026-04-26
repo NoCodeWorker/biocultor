@@ -140,13 +140,21 @@ export async function POST(req: Request) {
 
     const origin = process.env.NEXT_PUBLIC_APP_URL || req.headers.get('origin') || 'http://localhost:3000';
 
-    // Metadata: solo id+quantity+precio-de-DB. El webhook lee aquí precios ya
-    // validados, no precios que puso el cliente.
-    const metaCart = items.map((it) => ({
-      id: it.id,
-      q: it.quantity,
-      p: variantById.get(it.id)!.price,
-    }));
+    // Persistimos el carrito completo en DB y metemos solo su `id` (cuid 25c)
+    // en metadata de Stripe. Antes serializábamos hasta 8 items en el campo
+    // `cartItems` (~400 chars), peligrosamente cerca del límite de 500. Ahora
+    // el metadata son ~30 chars fijos pase lo que pase con el carrito.
+    const pendingCart = await prisma.pendingCart.create({
+      data: {
+        itemsJson: JSON.stringify(
+          items.map((it) => ({
+            id: it.id,
+            q: it.quantity,
+            p: variantById.get(it.id)!.price,
+          }))
+        ),
+      },
+    });
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card', 'paypal'],
@@ -160,7 +168,7 @@ export async function POST(req: Request) {
       },
       phone_number_collection: { enabled: true },
       metadata: {
-        cartItems: JSON.stringify(metaCart),
+        pendingCartId: pendingCart.id,
       },
     });
 

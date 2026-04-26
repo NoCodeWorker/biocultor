@@ -73,6 +73,18 @@ model Session {
   @@index([expiresAt])
 }
 
+// Carrito persistido en DB durante el flujo de checkout. Antes guardábamos el
+// carrito serializado en `Stripe.checkout.sessions.metadata.cartItems`, lo que
+// rompe el límite de 500 chars por valor de metadata si el carrito crece.
+// Ahora solo enviamos el `id` de esta tabla a Stripe; el webhook lo recupera.
+model PendingCart {
+  id        String   @id @default(cuid())
+  itemsJson String   // JSON: [{id, q, p}] con precios ya validados contra DB
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 // Bucket genérico de rate limiting por clave (chat:ip:X, otp-req:email:Y, etc.).
 // Usamos DB en vez de in-memory para que el límite sobreviva al redeploy del
 // contenedor — si reiniciamos cada vez que un atacante satura, el límite no
