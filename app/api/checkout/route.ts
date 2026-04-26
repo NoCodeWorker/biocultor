@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { z } from 'zod';
 import prisma from '@/lib/db';
+import { PACKLINK_ORIGIN, variantWeightKg } from '@/lib/packlink';
 
 // El cliente sólo puede elegir QUÉ comprar y CUÁNTAS unidades. Precio, nombre,
 // peso y SKU se leen de la DB en este endpoint — nunca del body — para evitar
@@ -15,14 +16,6 @@ const CartItemSchema = z.object({
 const BodySchema = z.object({
   items: z.array(CartItemSchema).min(1).max(8),
 });
-
-// Peso aproximado en kg por variante: 1 L lleva más tara relativa (botella de 1 L
-// envasada ~1.2 kg); a partir de 5 L vamos al peso nominal + 10 % de embalaje.
-function variantWeightKg(sizeLabel: string): number {
-  const litros = parseInt(sizeLabel.match(/\d+/)?.[0] ?? '1', 10);
-  if (litros <= 1) return 1.2;
-  return Math.ceil(litros * 1.1);
-}
 
 export async function POST(req: Request) {
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -105,7 +98,11 @@ export async function POST(req: Request) {
             'Authorization': `${process.env.PACKLINK_API_KEY}`,
           },
           body: JSON.stringify({
-            from: { country: 'ES', zip: '08001' },
+            // Origen real (Toledo) — antes había un 08001 (Barcelona) hardcoded
+            // que cotizaba tarifas falsas. Destino: Madrid centro como
+            // referencia para la cotización pre-checkout (el cliente no ha
+            // dado aún su dirección; Stripe la pedirá en el siguiente paso).
+            from: { country: PACKLINK_ORIGIN.country, zip: PACKLINK_ORIGIN.zip },
             to: { country: 'ES', zip: '28001' },
             packages: [{ width: 20, height: 20, length: 20, weight: totalWeight }],
           }),

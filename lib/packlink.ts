@@ -1,5 +1,34 @@
 const PACKLINK_BASE = 'https://api.packlink.com/v1';
 
+// Fuente única de verdad sobre el origen del envío. Antes vivía hardcoded en
+// tres sitios (checkout, webhook, helper) con valores incoherentes — el cliente
+// veía tarifas calculadas desde Barcelona pero el envío salía de Toledo.
+export const PACKLINK_ORIGIN = {
+  country: 'ES',
+  zip: '45370',
+  city: 'Santa Cruz de la Zarza',
+  street1: 'Polígono Industrial',
+  contactName: 'Biocultor',
+  contactSurname: 'Logística',
+  phone: '900123456',
+  email: 'logistica@biocultor.com',
+} as const;
+
+/**
+ * Peso aproximado en kg de una variante a partir de su `size` ("1 Litro",
+ * "5 Litros", etc.). 1 L lleva más tara relativa (botella + embalaje ~1.2 kg);
+ * a partir de 5 L vamos al peso nominal + 10 % de embalaje.
+ *
+ * Esta función reemplaza la heurística antigua que infería peso por
+ * `id.includes('1L')` o `price < 20`, que se rompía en cuanto cambiabas SKU
+ * o hacías una promo.
+ */
+export function variantWeightKg(sizeLabel: string): number {
+  const litros = parseInt(sizeLabel.match(/\d+/)?.[0] ?? '1', 10);
+  if (litros <= 1) return 1.2;
+  return Math.ceil(litros * 1.1);
+}
+
 export type TrackingEvent = {
   timestamp: string;
   status: string;
@@ -143,7 +172,7 @@ export async function createPacklinkShipment(
       method: 'POST',
       headers,
       body: JSON.stringify({
-        from: { country: 'ES', zip: '45370' },
+        from: { country: PACKLINK_ORIGIN.country, zip: PACKLINK_ORIGIN.zip },
         to: { country: params.shippingAddress.country || 'ES', zip: params.shippingAddress.postalCode },
         packages: [{ width: 20, height: 20, length: 20, weight: totalWeight }],
       }),
@@ -166,14 +195,14 @@ export async function createPacklinkShipment(
         content: 'Abono Biocultor',
         packages: [{ weight: totalWeight, width: 20, length: 20, height: 20 }],
         from: {
-          name: 'Biocultor',
-          surname: 'Logística',
-          street1: 'Polígono Industrial',
-          zip: '45370',
-          city: 'Santa Cruz de la Zarza',
-          country: 'ES',
-          phone: '900123456',
-          email: 'logistica@biocultor.com',
+          name: PACKLINK_ORIGIN.contactName,
+          surname: PACKLINK_ORIGIN.contactSurname,
+          street1: PACKLINK_ORIGIN.street1,
+          zip: PACKLINK_ORIGIN.zip,
+          city: PACKLINK_ORIGIN.city,
+          country: PACKLINK_ORIGIN.country,
+          phone: PACKLINK_ORIGIN.phone,
+          email: PACKLINK_ORIGIN.email,
         },
         to: {
           name: first || 'Cliente',

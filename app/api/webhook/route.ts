@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { randomBytes } from 'crypto';
 import Stripe from 'stripe';
 import prisma from '@/lib/db';
+import { createPacklinkShipment, variantWeightKg } from '@/lib/packlink';
 
 export const dynamic = 'force-dynamic';
 
@@ -117,96 +118,7 @@ export async function POST(req: Request) {
         }
 
         // -------------------------------------------------------------
-        // CREAR ENVÍO EN PACKLINK PRO
-        // -------------------------------------------------------------
-        let trackUrl: string | undefined = undefined;
-        try {
-          if (process.env.PACKLINK_API_KEY && addr?.postal_code) {
-            let totalWeight = 0;
-            // Calculamos peso estimado (aproximado basado en el ID de la variante, o asumimos un default)
-            metaCartItems.forEach((item: any) => {
-              if (item.id.includes('1L') || item.p < 20) totalWeight += 1.2 * item.q;
-              else if (item.id.includes('5L') || item.p < 40) totalWeight += 5.5 * item.q;
-              else if (item.id.includes('10L')) totalWeight += 11 * item.q;
-              else totalWeight += 26 * item.q; // 25L fallback
-            });
-            if (totalWeight === 0) totalWeight = 5;
-
-            // 1. Obtener el servicio más barato para este CP
-            const ratesRes = await fetch('https://api.packlink.com/v1/services', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Authorization': `${process.env.PACKLINK_API_KEY}` },
-              body: JSON.stringify({
-                from: { country: "ES", zip: "45370" }, // Origen Biocultor (Santa Cruz de la Zarza)
-                to: { country: addr.country || "ES", zip: addr.postal_code },
-                packages: [{ width: 20, height: 20, length: 20, weight: totalWeight }]
-              })
-            });
-
-            if (ratesRes.ok) {
-              const services = await ratesRes.json();
-              const bestService = services.find((s: any) => s.delivery_type === 'door_to_door') || services[0];
-
-              if (bestService) {
-                // 2. Crear el envío
-                const shipmentRes = await fetch('https://api.packlink.com/v1/shipments', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json', 'Authorization': `${process.env.PACKLINK_API_KEY}` },
-                  body: JSON.stringify({
-                    service_id: bestService.id,
-                    content: "Abono Biocultor",
-                    packages: [{ weight: totalWeight, width: 20, length: 20, height: 20 }],
-                    from: {
-                      name: "Biocultor",
-                      surname: "Logística",
-                      street1: "Polígono Industrial",
-                      zip: "45370",
-                      city: "Santa Cruz de la Zarza",
-                      country: "ES",
-                      phone: "900123456",
-                      email: "logistica@biocultor.com"
-                    },
-                    to: {
-                      name: customerName.split(' ')[0] || "Cliente",
-                      surname: customerName.split(' ').slice(1).join(' ') || "Biocultor",
-                      street1: addr.line1 || "Desconocida",
-                      street2: addr.line2 || "",
-                      zip: addr.postal_code,
-                      city: addr.city || "Desconocida",
-                      country: addr.country || "ES",
-                      phone: phone || "600000000",
-                      email: customerEmail
-                    }
-                  })
-                });
-
-                if (shipmentRes.ok) {
-                  const shipmentData = await shipmentRes.json();
-                  trackUrl = shipmentData.track_url;
-                  await prisma.order.update({
-                    where: { id: createdOrder.id },
-                    data: {
-                      packlinkReference: shipmentData.reference ?? null,
-                      trackUrl: shipmentData.track_url ?? null,
-                      carrier: bestService.carrier_name ?? bestService.carrier ?? null,
-                      serviceName: bestService.name ?? null,
-                      lastStatus: 'CREATED',
-                      lastStatusAt: new Date(),
-                    },
-                  });
-                  console.log(`Envío creado en Packlink: ${shipmentData.reference}`);
-                } else {
-                  console.error("Packlink Error creando envío:", await shipmentRes.text());
-                }
-              }
-            }
-          }
-        } catch (packlinkError) {
-          console.error("Error en flujo de Packlink Webhook:", packlinkError);
-        }
-
-        // -------------------------------------------------------------
-        // Enviar correos transaccionales con Resend (incluyendo tracking)
+        // Lookup de variants reales (un solo query reusado para peso + emails)
         // -------------------------------------------------------------
         const variantIds: string[] = metaCartItems.map((i: any) => i.id);
         const variantRows = variantIds.length
@@ -215,6 +127,58 @@ export async function POST(req: Request) {
               include: { product: true },
             })
           : [];
+
+        // -------------------------------------------------------------
+        // CREAR ENVÍO EN PACKLINK PRO
+        // -------------------------------------------------------------
+        // Peso real desde DB (no heurística por substring de id ni precio).
+        // Si por algún motivo no encontramos la variant, asumimos 5 kg conservador.
+        const totalWeight = metaCartItems.reduce((acc: number, item: any) => {
+          const v = variantRows.find((x) => x.id === item.id);
+          if (!v) return acc + 5 * item.q;
+          return acc + variantWeightKg(v.size) * item.q;
+        }, 0);
+
+        try {
+          if (process.env.PACKLINK_API_KEY && addr?.postal_code) {
+            const result = await createPacklinkShipment({
+              customerName,
+              customerEmail,
+              customerPhone: phone,
+              shippingAddress: {
+                line1: addr.line1 || 'Desconocida',
+                line2: addr.line2 ?? '',
+                city: addr.city || 'Desconocida',
+                postalCode: addr.postal_code,
+                country: addr.country || 'ES',
+              },
+              packageWeightKg: Math.max(1, totalWeight),
+            });
+
+            if ('error' in result) {
+              console.error('Packlink Error creando envío:', result.error);
+            } else {
+              await prisma.order.update({
+                where: { id: createdOrder.id },
+                data: {
+                  packlinkReference: result.reference,
+                  trackUrl: result.trackUrl,
+                  carrier: result.carrier,
+                  serviceName: result.serviceName,
+                  lastStatus: result.rawStatus ?? 'CREATED',
+                  lastStatusAt: new Date(),
+                },
+              });
+              console.log(`Envío creado en Packlink: ${result.reference}`);
+            }
+          }
+        } catch (packlinkError) {
+          console.error('Error en flujo de Packlink Webhook:', packlinkError);
+        }
+
+        // -------------------------------------------------------------
+        // Enviar correos transaccionales con Resend (incluyendo tracking)
+        // -------------------------------------------------------------
         const emailItems = metaCartItems.map((item: any) => {
           const v = variantRows.find((x) => x.id === item.id);
           return {
