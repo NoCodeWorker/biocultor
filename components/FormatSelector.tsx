@@ -28,7 +28,7 @@ const formats = [
     pricePerLiter: 9.98,
     icon: Droplet,
     popular: true,
-    features: ['Para 500 litros de riego', 'Tratamiento de choque', 'Ahorras un 33%'],
+    features: ['Para 500 litros de riego', 'Tratamiento de choque', '33% más barato por litro vs formato 1 L'],
     image: '/5%20litros.jpg',
   },
   {
@@ -39,7 +39,7 @@ const formats = [
     pricePerLiter: 7.99,
     icon: Sprout,
     popular: false,
-    features: ['Para 1000 litros de riego', 'Formato de uso continuado', 'Ahorras un 46%'],
+    features: ['Para 1000 litros de riego', 'Formato de uso continuado', '46% más barato por litro vs formato 1 L'],
     image: '/10%20litros.jpg',
   },
   {
@@ -50,7 +50,7 @@ const formats = [
     pricePerLiter: 5.99,
     icon: Tractor,
     popular: false,
-    features: ['Para 2500 litros de riego', 'Uso agrícola a gran escala', 'Ahorras un 60%'],
+    features: ['Para 2500 litros de riego', 'Uso agrícola a gran escala', '60% más barato por litro vs formato 1 L'],
     image: '/25%20litros.jpg',
   }
 ];

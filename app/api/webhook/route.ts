@@ -35,6 +35,18 @@ export async function POST(req: Request) {
     const session = event.data.object as Stripe.Checkout.Session;
 
     if (session.payment_status === 'paid') {
+      // ── Idempotencia (1/2): si ya creamos el Order para este checkout
+      // session, salimos con 200 antes de tocar nada. Stripe reintenta el
+      // webhook hasta 3 días si no recibe 2xx; sin este guard, cada reintento
+      // duplicaba customer upsert, Packlink y correos.
+      const alreadyProcessed = await prisma.order.findUnique({
+        where: { stripeSession: session.id },
+        select: { id: true },
+      });
+      if (alreadyProcessed) {
+        return NextResponse.json({ received: true, deduplicated: true });
+      }
+
       try {
         const customerEmail = session.customer_details?.email || 'anonimo@biocultor.com';
         const customerName = session.customer_details?.name || 'Cliente';
@@ -54,29 +66,55 @@ export async function POST(req: Request) {
           create: { email: customerEmail, name: customerName, phone },
         });
 
-        const newOrderNumber = `BIO-${Math.floor(100000 + Math.random() * 900000)}`;
         const trackingToken = randomBytes(24).toString('hex');
 
-        // Crear Orden Transaccional
-        const createdOrder = await prisma.order.create({
-          data: {
-            orderNumber: newOrderNumber,
-            customerId: customer.id,
-            totalAmount: (session.amount_total || 0) / 100,
-            stripeSession: session.id,
-            shippingAddress: addressString,
-            status: "PAID",
-            trackingToken,
-            shippingPostalCode: addr?.postal_code ?? null,
-            items: {
-              create: metaCartItems.map((item: any) => ({
-                variantId: item.id,
-                quantity: item.q,
-                priceAt: item.p
-              }))
-            }
+        // Crear Orden con número correlativo atómico. El upsert del Counter y
+        // el INSERT del Order van en la misma $transaction: si el INSERT falla
+        // (P2002, etc.) el contador NO avanza. Y dos webhooks simultáneos
+        // jamás reciben el mismo número porque el upsert se serializa.
+        let createdOrder;
+        try {
+          createdOrder = await prisma.$transaction(async (tx) => {
+            const counter = await tx.counter.upsert({
+              where: { name: 'order' },
+              update: { value: { increment: 1 } },
+              // Arrancamos en 1_000_001 para que los nuevos pedidos sean
+              // disjuntos del rango antiguo (BIO-100000..BIO-999999).
+              create: { name: 'order', value: 1_000_001 },
+            });
+            const orderNumber = `BIO-${counter.value}`;
+            return tx.order.create({
+              data: {
+                orderNumber,
+                customerId: customer.id,
+                totalAmount: (session.amount_total || 0) / 100,
+                stripeSession: session.id,
+                shippingAddress: addressString,
+                status: "PAID",
+                trackingToken,
+                shippingPostalCode: addr?.postal_code ?? null,
+                items: {
+                  create: metaCartItems.map((item: any) => ({
+                    variantId: item.id,
+                    quantity: item.q,
+                    priceAt: item.p
+                  }))
+                }
+              }
+            });
+          });
+        } catch (e: unknown) {
+          // ── Idempotencia (2/2): si dos deliveries del webhook entraron casi a
+          // la vez, ambas pasaron el findUnique inicial pero solo uno gana el
+          // INSERT. El segundo recibe P2002 (unique violation en stripeSession
+          // u orderNumber) y debe responder 200, no 500, para que Stripe no
+          // siga reintentando algo ya hecho por la otra delivery.
+          const code = (e as { code?: string } | null)?.code;
+          if (code === 'P2002') {
+            return NextResponse.json({ received: true, deduplicated: true });
           }
-        });
+          throw e;
+        }
 
         // -------------------------------------------------------------
         // CREAR ENVÍO EN PACKLINK PRO
@@ -188,13 +226,20 @@ export async function POST(req: Request) {
           };
         });
 
-        const { sendOrderConfirmationEmail, sendAdminOrderNotification } = await import('@/lib/resend');
-        const { getBaseUrl } = await import('@/lib/site-config');
-        const trackingPageUrl = `${getBaseUrl()}/seguimiento/${newOrderNumber}?token=${trackingToken}`;
-        await Promise.all([
-          sendOrderConfirmationEmail(customerEmail, customerName, newOrderNumber, (session.amount_total || 0) / 100, trackingPageUrl, emailItems),
-          sendAdminOrderNotification(newOrderNumber, (session.amount_total || 0) / 100, customerName, emailItems)
-        ]);
+        // Emails: aislados en su propio try/catch. Si Resend falla, el pedido
+        // YA está en DB y Packlink ya está creado — no queremos que Stripe
+        // reintente el webhook (duplicaría side effects ya hechos). Log y vamos.
+        try {
+          const { sendOrderConfirmationEmail, sendAdminOrderNotification } = await import('@/lib/resend');
+          const { getBaseUrl } = await import('@/lib/site-config');
+          const trackingPageUrl = `${getBaseUrl()}/seguimiento/${createdOrder.orderNumber}?token=${trackingToken}`;
+          await Promise.all([
+            sendOrderConfirmationEmail(customerEmail, customerName, createdOrder.orderNumber, (session.amount_total || 0) / 100, trackingPageUrl, emailItems),
+            sendAdminOrderNotification(createdOrder.orderNumber, (session.amount_total || 0) / 100, customerName, emailItems)
+          ]);
+        } catch (emailErr) {
+          console.error('Error enviando correos transaccionales (no se reintenta el webhook):', emailErr);
+        }
 
       } catch (dbError) {
         console.error("Error insertando pedido en DB", dbError);

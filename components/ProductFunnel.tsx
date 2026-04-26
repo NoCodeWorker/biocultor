@@ -29,9 +29,19 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
     });
   };
 
-  const discount = selected.comparePrice && selected.comparePrice > selected.price 
-    ? Math.round(((selected.comparePrice - selected.price) / selected.comparePrice) * 100)
-    : 0;
+  // `comparePrice` representa el coste equivalente si el cliente comprara
+  // los mismos litros en envases de 1 L (ej. 5 L: 5 × precio del 1 L). NO es
+  // un "precio anterior" — por eso evitamos el tachado con "Ahorra X%" y lo
+  // mostramos como una comparación de tarifa unitaria (€/L), legal bajo
+  // Directiva Omnibus 2019/2161 / RD 7/2021.
+  const liters = parseInt(selected.size?.match(/\d+/)?.[0] ?? '1', 10);
+  const pricePerLiter = liters > 0 ? selected.price / liters : selected.price;
+  const referencePerLiter =
+    selected.comparePrice && liters > 0 ? selected.comparePrice / liters : null;
+  const perLiterDiscount =
+    referencePerLiter && referencePerLiter > pricePerLiter
+      ? Math.round(((referencePerLiter - pricePerLiter) / referencePerLiter) * 100)
+      : 0;
 
   const getModoDeUso = () => {
     switch (selected.sku) {
@@ -189,13 +199,10 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
           <div className="p-5 md:p-8 bg-cream-warm border border-border/50 rounded-2xl md:rounded-3xl relative mt-1 md:mt-2">
             <div className="flex justify-between items-end mb-6 md:mb-8">
               <div className="flex flex-col">
-                {discount > 0 && (
+                {perLiterDiscount > 0 && (
                   <div className="flex items-center gap-2 md:gap-3 mb-1.5 md:mb-2">
-                    <span className="text-base md:text-lg text-muted-foreground line-through decoration-muted-foreground/30 font-medium">
-                      €{selected.comparePrice.toFixed(2)}
-                    </span>
                     <span className="text-[10px] md:text-xs bg-primary/12 text-secondary font-bold px-2 py-0.5 md:px-2.5 rounded-full tracking-wide">
-                      Ahorro del {discount}%
+                      −{perLiterDiscount}% por litro vs formato 1 L
                     </span>
                   </div>
                 )}
@@ -205,6 +212,15 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
                   </span>
                   <span className="text-xs md:text-sm font-medium text-muted-foreground">IVA incl.</span>
                 </div>
+                {liters > 1 && referencePerLiter ? (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {pricePerLiter.toFixed(2)} €/L · vs {referencePerLiter.toFixed(2)} €/L del formato 1 L
+                  </p>
+                ) : liters > 1 ? (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {pricePerLiter.toFixed(2)} €/L
+                  </p>
+                ) : null}
                 {quantity > 1 && (
                   <p className="text-xs text-muted-foreground mt-1">
                     {quantity}× €{selected.price.toFixed(2)} c/u

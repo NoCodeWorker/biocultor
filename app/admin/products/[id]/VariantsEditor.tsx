@@ -168,12 +168,13 @@ export default function VariantsEditor({
                   className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg font-bold text-sm focus:border-primary focus:outline-none"
                 />
               </Cell>
-              <Cell label="Tachado €" span={2}>
+              <Cell label="Ref. 1 L €" span={2}>
                 <input
                   type="number"
                   step="0.01"
                   value={variant.comparePrice ?? ''}
                   placeholder="—"
+                  title="Precio equivalente si se comprara en envases de 1 L (N × precio del 1 L). NO es 'precio anterior'."
                   onChange={(e) =>
                     updateVariantField(
                       variant.id,
@@ -181,11 +182,11 @@ export default function VariantsEditor({
                       e.target.value ? parseFloat(e.target.value) : null
                     )
                   }
-                  className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg text-sm text-muted-foreground line-through focus:border-primary focus:outline-none"
+                  className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg text-sm text-muted-foreground focus:border-primary focus:outline-none"
                 />
                 {hasDiscount && (
                   <span className="text-[10px] font-bold text-primary mt-1 block">
-                    -{discountPct}%
+                    -{discountPct}% por L
                   </span>
                 )}
               </Cell>
@@ -421,18 +422,19 @@ function NewVariantInline({
             className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg font-bold text-sm focus:border-primary focus:outline-none"
           />
         </Cell>
-        <Cell label="Tachado €" span={2}>
+        <Cell label="Ref. 1 L €" span={2}>
           <input
             type="number"
             step="0.01"
             value={draft.comparePrice ?? ''}
+            title="Precio equivalente si se comprara en envases de 1 L (N × precio del 1 L). NO es 'precio anterior'."
             onChange={(e) =>
               setDraft({
                 ...draft,
                 comparePrice: e.target.value ? parseFloat(e.target.value) : null,
               })
             }
-            className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg text-sm text-muted-foreground line-through focus:border-primary focus:outline-none"
+            className="w-full px-3 py-2 bg-card border border-border/60 rounded-lg text-sm text-muted-foreground focus:border-primary focus:outline-none"
           />
         </Cell>
         <Cell label="Stock" span={1}>

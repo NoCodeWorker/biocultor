@@ -202,6 +202,32 @@ docker buildx ls
 
 Este builder se queda creado hasta que lo borres. Todos los `docker compose build` posteriores lo usan automáticamente.
 
+### Baseline tras switch a `migrate deploy` (UNA SOLA VEZ)
+
+A partir de la versión que reemplaza `db push --accept-data-loss` por `prisma migrate deploy`, hay que decirle a la DB que la migración inicial (`prisma/migrations/20260426000000_init/`) ya está aplicada — porque las tablas existen desde antes, creadas por los `db push` previos.
+
+**Hazlo solo la primera vez** que despliegas con el nuevo `docker-compose.yml`:
+
+```bash
+cd /opt/biocultor
+git pull
+
+# 1. Build la nueva imagen (con migrate deploy + el archivo de migración).
+docker compose up -d db
+docker compose build web
+
+# 2. Marca la init migration como aplicada SIN ejecutar el SQL (las tablas
+#    ya existen). Usa `compose run --rm` para no recrear el contenedor en
+#    producción todavía.
+docker compose run --rm web sh -c "node node_modules/prisma/build/index.js migrate resolve --applied 20260426000000_init"
+
+# 3. Ahora sí, swap del contenedor con el nuevo command.
+docker compose up -d --force-recreate web
+docker compose logs -f web
+```
+
+Si te equivocas y haces `up -d` antes del `migrate resolve`, el contenedor caerá en bucle con `Migration ... failed because: relation "Product" already exists`. Solución: parar (`docker compose stop web`), correr el `migrate resolve`, volver a `up -d --force-recreate web`.
+
 ### Deploy recurrente
 
 ```bash
@@ -220,6 +246,27 @@ docker compose up -d --force-recreate web
 # 4. Seguir arranque.
 docker compose logs -f web
 ```
+
+### Crear una nueva migración (workflow local)
+
+Cuando edites `prisma/schema.prisma`, genera el archivo de migración antes de hacer commit. Necesitas un Postgres local; lo más fácil es uno efímero en Docker:
+
+```bash
+# Levantar Postgres temporal en :5433 (no choca con el de producción si lo
+# tuvieras también en local).
+docker run --rm -d --name biocultor-prisma-shadow \
+  -e POSTGRES_USER=prisma -e POSTGRES_PASSWORD=prisma -e POSTGRES_DB=prisma \
+  -p 5433:5432 postgres:16-alpine
+
+# Generar la migración (usa esta DB temporal sólo como shadow).
+DATABASE_URL="postgresql://prisma:prisma@localhost:5433/prisma" \
+  npx prisma migrate dev --name describe_change_aqui
+
+# Apagar el postgres temporal.
+docker rm -f biocultor-prisma-shadow
+```
+
+`migrate dev` crea el archivo `prisma/migrations/<timestamp>_describe_change_aqui/migration.sql`, lo aplica a la shadow DB y lo registra. Commit + push como siempre. En el VPS, `docker compose up -d --force-recreate web` ejecuta `migrate deploy` y aplica la nueva migración automáticamente.
 
 **Por qué este workflow**: la home usa ISR (`export const revalidate = 1800`), por lo que Next intenta pre-renderizarla en build-time consultando Prisma. El Dockerfile espera `DATABASE_URL` como `ARG` (ver `docker-compose.yml → build.args`) y el builder necesita poder conectar al Postgres.
 

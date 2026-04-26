@@ -28,7 +28,7 @@ export default function AdminVariantsTable({ variants }: { variants: any[] }) {
               <th className="p-6 font-heading font-bold text-foreground text-sm uppercase tracking-wider">SKU / Formato</th>
               <th className="p-6 font-heading font-bold text-foreground text-sm uppercase tracking-wider">Audiencia (Target)</th>
               <th className="p-6 font-heading font-bold text-foreground text-sm uppercase tracking-wider text-center">Precio Stripe (€)</th>
-              <th className="p-6 font-heading font-bold text-foreground text-sm uppercase tracking-wider text-center">Precio Tachado (UX)</th>
+              <th className="p-6 font-heading font-bold text-foreground text-sm uppercase tracking-wider text-center">Precio referencia 1 L (€)</th>
               <th className="p-6 font-heading font-bold text-foreground text-sm uppercase tracking-wider text-right">Mando de Acción</th>
             </tr>
           </thead>

@@ -31,7 +31,10 @@ model Variant {
   size        String   // "1 Litro", "5 Litros", "10 Litros", "25 Litros"
   target      String   // "Jardinero Urbano", etc.
   price       Float    
-  comparePrice Float?  // Precio original tachado
+  comparePrice Float?  // Precio de referencia: coste equivalente si el cliente
+                       // comprara los mismos litros en envases de 1 L. NO es
+                       // un "precio anterior". La UI lo presenta como tarifa
+                       // unitaria (€/L) para cumplir Directiva Omnibus 2019/2161.
   stock       Int      @default(0)
   imagePath   String?  // Ej: /1 litro.jpg
   popular     Boolean  @default(false)
@@ -51,9 +54,49 @@ model Customer {
   name               String
   phone              String?
   orders             Order[]
+  sessions           Session[]
   loginCode          String?
   loginCodeExpiresAt DateTime?
   createdAt          DateTime @default(now())
+}
+
+model Session {
+  id         String   @id @default(cuid())
+  token      String   @unique
+  customerId String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@index([expiresAt])
+}
+
+// Bucket genérico de rate limiting por clave (chat:ip:X, otp-req:email:Y, etc.).
+// Usamos DB en vez de in-memory para que el límite sobreviva al redeploy del
+// contenedor — si reiniciamos cada vez que un atacante satura, el límite no
+// sirve. La key encapsula la dimensión (IP, email, customerId) y el endpoint.
+model RateLimitBucket {
+  key         String   @id
+  count       Int      @default(0)
+  windowStart DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([windowStart])
+}
+
+// Contador atómico para emitir números de pedido correlativos sin colisiones.
+// Reemplaza el `BIO-${Math.random*900000}` original, que tenía probabilidad
+// no despreciable de colisión a partir de unos pocos miles de pedidos.
+//
+// Arrancamos en 1_000_000 para que los nuevos números (BIO-1000001+) sean
+// disjuntos del rango antiguo (BIO-100000..BIO-999999) y no colisionen con
+// pedidos ya en DB.
+model Counter {
+  name      String   @id
+  value     Int      @default(0)
+  updatedAt DateTime @updatedAt
 }
 
 model Order {

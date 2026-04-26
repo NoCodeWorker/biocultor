@@ -38,7 +38,7 @@ export async function GET() {
               stock: 50,
               imagePath: "/5 litros.jpg",
               popular: true,
-              features: "Para 500L de riego,Tratamiento de choque,Ahorras un 40%"
+              features: "Para 500L de riego,Tratamiento de choque,40% más barato por litro vs formato 1 L"
             },
             {
               sku: "BIO-10L",
@@ -49,7 +49,7 @@ export async function GET() {
               stock: 30,
               imagePath: "/10 litros.jpg",
               popular: false,
-              features: "Para 1000L de riego,Regeneración intensiva,Ahorras un 52%"
+              features: "Para 1000L de riego,Regeneración intensiva,52% más barato por litro vs formato 1 L"
             },
             {
               sku: "BIO-25L",
@@ -60,7 +60,7 @@ export async function GET() {
               stock: 10,
               imagePath: "/25 litros.jpg",
               popular: false,
-              features: "Para 2500L de riego,Uso agrícola a gran escala,Ahorras un 64%"
+              features: "Para 2500L de riego,Uso agrícola a gran escala,64% más barato por litro vs formato 1 L"
             }
           ]
         }
