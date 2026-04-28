@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ChevronDown, Leaf } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import Script from 'next/script';
+import StructuredData from './StructuredData';
 
 const faqs = [
   {
@@ -44,10 +44,9 @@ export default function FaqAioSeo() {
   return (
     <section id="faq" className="w-full py-20 md:py-28 bg-card relative z-10 border-t border-border/40">
       {/* Schema Injection */}
-      <Script
+      <StructuredData
         id="faq-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        data={faqSchema}
       />
       
       <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 max-w-4xl">
