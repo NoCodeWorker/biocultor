@@ -50,10 +50,10 @@ export default function AnchoringBanner() {
             <div key={i} className="flex items-center justify-between gap-4 py-3 border-b border-white/8 last:border-0">
               <div className="flex-1 min-w-0">
                 <p className="text-cream/85 text-sm font-medium leading-tight truncate">{item.competitor}</p>
-                <p className="text-cream/40 text-xs mt-0.5">{item.note}</p>
+                <p className="text-cream/70 text-xs mt-0.5">{item.note}</p>
               </div>
               <div className="flex items-center gap-3 shrink-0">
-                <span className="text-cream/40 text-sm line-through">{item.competitorPrice}/pl.</span>
+                <span className="text-cream/70 text-sm line-through">{item.competitorPrice}/pl.</span>
                 <span className="text-sm font-black text-primary">0,15€/pl.</span>
                 <span className="text-[10px] font-extrabold bg-primary/20 text-primary px-2 py-0.5 rounded-full">
                   -{item.savings}

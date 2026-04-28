@@ -101,6 +101,7 @@ export default function PremiumAudioPlayer({
       <div className="flex items-center gap-3">
         <button 
           onClick={togglePlay}
+          aria-label={isPlaying ? "Pausar audio" : "Reproducir audio"}
           className="w-10 h-10 shrink-0 rounded-full bg-brand-brown-dark hover:bg-brand-green text-cream flex items-center justify-center transition-colors shadow-md"
         >
           {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
@@ -113,20 +114,22 @@ export default function PremiumAudioPlayer({
             max={duration || 100}
             value={progress}
             onChange={handleSeek}
+            aria-label="Barra de progreso de audio"
             className="w-full h-1.5 bg-brand-brown/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-brand-green [&::-webkit-slider-thumb]:rounded-full transition-all"
             style={{
               background: `linear-gradient(to right, var(--brand-green) ${(progress / (duration || 1)) * 100}%, rgba(87,53,32,0.1) ${(progress / (duration || 1)) * 100}%)`
             }}
           />
           <div className="flex justify-between mt-1.5">
-            <span className="text-[10px] font-medium text-brand-brown/60 font-mono">{formatTime(progress)}</span>
-            <span className="text-[10px] font-medium text-brand-brown/60 font-mono">{formatTime(duration)}</span>
+            <span className="text-[10px] font-medium text-brand-brown/80 font-mono">{formatTime(progress)}</span>
+            <span className="text-[10px] font-medium text-brand-brown/80 font-mono">{formatTime(duration)}</span>
           </div>
         </div>
 
         <button 
           onClick={toggleMute}
-          className="w-8 h-8 shrink-0 rounded-full hover:bg-brand-brown/5 flex items-center justify-center transition-colors text-brand-brown/60"
+          aria-label={isMuted ? "Activar sonido" : "Silenciar audio"}
+          className="w-8 h-8 shrink-0 rounded-full hover:bg-brand-brown/5 flex items-center justify-center transition-colors text-brand-brown/80"
         >
           {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
         </button>

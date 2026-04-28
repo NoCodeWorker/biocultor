@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { Clock, Droplets, Sprout, Sun, CheckCircle2 } from 'lucide-react';
 
@@ -7,7 +7,7 @@ const steps = [
     time: '0h',
     label: 'Aplicación',
     icon: Droplets,
-    color: 'text-blue-500',
+    color: 'text-blue-700',
     bg: 'bg-blue-50',
     border: 'border-blue-100',
     headline: 'El momento en que todo empieza',
@@ -19,7 +19,7 @@ const steps = [
     time: 'Primeros días',
     label: 'Seguimiento',
     icon: Clock,
-    color: 'text-amber-600',
+    color: 'text-amber-700',
     bg: 'bg-amber-50',
     border: 'border-amber-100',
     headline: 'Primera respuesta visible',
@@ -140,7 +140,7 @@ export default function ResultsTimeline() {
         </div>
 
         {/* Bottom disclaimer */}
-        <p className="text-center text-xs text-muted-foreground mt-10 opacity-70">
+        <p className="text-center text-xs text-muted-foreground mt-10">
           Referencia editorial orientativa. La respuesta puede variar según cultivo, suelo, clima, riego y manejo previo.
         </p>
       </div>

@@ -124,7 +124,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-cream/75">Compra informada</p>
-                  <p className="text-[10px] text-cream/40 leading-snug mt-0.5">Sin sellos ni certificaciones no verificadas</p>
+                  <p className="text-[10px] text-cream/70 leading-snug mt-0.5">Sin sellos ni certificaciones no verificadas</p>
                 </div>
               </div>
             </div>

@@ -94,6 +94,7 @@ export default function CostCalculator() {
                     max="500"
                     step="5"
                     value={plants}
+                    aria-label="Número de plantas"
                     onChange={(e) => setPlants(Number(e.target.value))}
                     className="flex-1 h-2 bg-muted rounded-full appearance-none cursor-pointer"
                   />

@@ -94,7 +94,7 @@ export default function RiskReversal() {
               <ShieldCheck className="w-6 h-6 text-primary" />
             </div>
             <p className="text-xl font-display font-black text-cream">Compra informada</p>
-            <p className="text-cream/40 text-xs">Sin métricas simuladas</p>
+            <p className="text-cream/70 text-xs">Sin métricas simuladas</p>
           </div>
 
           <div className="w-px h-16 bg-white/10 hidden md:block" />
@@ -108,7 +108,7 @@ export default function RiskReversal() {
                 <p className="text-cream/65 text-sm leading-relaxed">{note.text}</p>
                 <div className="flex items-center gap-2">
                   <Leaf className="w-3 h-3 text-primary" />
-                  <span className="text-cream/40 text-xs font-semibold">{note.name}</span>
+                  <span className="text-cream/70 text-xs font-semibold">{note.name}</span>
                 </div>
               </div>
             ))}
@@ -117,7 +117,7 @@ export default function RiskReversal() {
           <div className="w-px h-16 bg-white/10 hidden md:block" />
 
           <div className="text-center shrink-0">
-            <p className="text-cream/40 text-xs uppercase tracking-widest mb-3">Antes de pagar</p>
+            <p className="text-cream/70 text-xs uppercase tracking-widest mb-3">Antes de pagar</p>
             <div className="w-16 h-16 rounded-full bg-primary/15 border-2 border-primary/30 flex flex-col items-center justify-center mx-auto">
               <span className="text-2xl font-display font-black text-primary">Info</span>
               <span className="text-[9px] text-primary/70 uppercase tracking-wide leading-none">clara</span>

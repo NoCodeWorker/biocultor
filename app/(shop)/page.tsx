@@ -414,7 +414,7 @@ export default async function Page() {
                 className="group card-lift rounded-2xl md:rounded-3xl border border-border/50 bg-card p-7 md:p-9 relative overflow-hidden"
               >
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-gold to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <p className="text-xs font-bold uppercase tracking-widest text-sage mb-3">
+                <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">
                   {article.category}
                 </p>
                 <h3 className="text-xl md:text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors leading-snug">

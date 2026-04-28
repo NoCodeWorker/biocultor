@@ -56,12 +56,12 @@ export default function ScienceProof() {
                 >
                   {/* Gold accent line */}
                   <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary/60 via-primary/30 to-transparent rounded-r opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <h4 className="text-lg font-heading font-bold text-foreground mb-3 flex items-center gap-3">
+                  <h3 className="text-lg font-heading font-bold text-foreground mb-3 flex items-center gap-3">
                     <span className="p-2 bg-primary/10 text-primary rounded-xl">
                       <CheckCircle2 className="w-5 h-5" />
                     </span>
                     {card.title}
-                  </h4>
+                  </h3>
                   <p className="text-muted-foreground leading-relaxed text-sm">{card.text}</p>
                 </div>
               ))}
@@ -104,7 +104,7 @@ export default function ScienceProof() {
                       B
                     </div>
                     <div>
-                      <h5 className="font-heading font-bold text-foreground">Biocultor</h5>
+                      <p className="font-heading font-bold text-foreground">Biocultor</p>
                       <p className="text-xs text-primary font-semibold tracking-wide uppercase">Lectura editorial</p>
                     </div>
                   </div>

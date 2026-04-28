@@ -72,7 +72,7 @@ export default function CookieConsent() {
           <div className="p-6 md:p-8 space-y-5">
             <div className="flex items-start justify-between gap-4 p-4 rounded-2xl bg-muted/40 border border-border/50">
               <div>
-                <h4 className="font-bold flex items-center gap-2"><Check className="w-4 h-4 text-primary" /> Estrictamente Necesarias</h4>
+                <h3 className="font-bold flex items-center gap-2"><Check className="w-4 h-4 text-primary" /> Estrictamente Necesarias</h3>
                 <p className="text-xs text-muted-foreground mt-1">Garantizan funciones básicas como la navegación y el acceso a áreas seguras (como tu carrito o cuenta).</p>
               </div>
               <div className="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full whitespace-nowrap">Siempre activas</div>
@@ -80,7 +80,7 @@ export default function CookieConsent() {
 
             <div className="flex items-start justify-between gap-4 p-4 rounded-2xl border border-border/50 transition-colors hover:border-primary/30 cursor-pointer" onClick={() => setPreferences(p => ({ ...p, analytics: !p.analytics }))}>
               <div>
-                <h4 className="font-bold">Analíticas y Rendimiento</h4>
+                <h3 className="font-bold">Analíticas y Rendimiento</h3>
                 <p className="text-xs text-muted-foreground mt-1">Nos ayudan a entender cómo usas Biocultor, para poder mejorar constantemente tu experiencia (datos anónimos).</p>
               </div>
               <div className={cn("w-12 h-6 rounded-full transition-colors relative", preferences.analytics ? "bg-primary" : "bg-muted-foreground/30")}>
@@ -90,7 +90,7 @@ export default function CookieConsent() {
 
             <div className="flex items-start justify-between gap-4 p-4 rounded-2xl border border-border/50 transition-colors hover:border-primary/30 cursor-pointer" onClick={() => setPreferences(p => ({ ...p, marketing: !p.marketing }))}>
               <div>
-                <h4 className="font-bold">Marketing y Personalización</h4>
+                <h3 className="font-bold">Marketing y Personalización</h3>
                 <p className="text-xs text-muted-foreground mt-1">Permiten mostrarte publicidad relevante y medir la eficacia de nuestras campañas.</p>
               </div>
               <div className={cn("w-12 h-6 rounded-full transition-colors relative", preferences.marketing ? "bg-primary" : "bg-muted-foreground/30")}>
@@ -110,7 +110,7 @@ export default function CookieConsent() {
               <Settings className="w-4 h-4" />
               {showDetails ? 'Ocultar ajustes' : 'Configurar cookies'}
             </button>
-            <Link href="/politica-de-privacidad" className="text-xs text-muted-foreground/70 hover:underline">
+            <Link href="/politica-de-privacidad" className="text-xs text-muted-foreground hover:underline">
               Leer Política
             </Link>
           </div>
