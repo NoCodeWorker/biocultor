@@ -88,7 +88,7 @@ export default async function Page() {
             className="object-cover object-center"
             priority
             fetchPriority="high"
-            quality={60}
+            quality={50}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px"
           />
           {/* Dark overlay for text readability */}
