@@ -53,8 +53,19 @@ export async function POST(req: Request) {
   const variantById = new Map(variants.map((v) => [v.id, v]));
 
   try {
+    const hasBIO5L = items.some((it) => variantById.get(it.id)?.sku === 'BIO-5L');
+    const hasORT5L = items.some((it) => variantById.get(it.id)?.sku === 'ORT-5L');
+    const isBundle = hasBIO5L && hasORT5L;
+
     const line_items = items.map((item) => {
       const v = variantById.get(item.id)!;
+      let unitPrice = v.price;
+      
+      // Venta cruzada: 5% de descuento si llevan ambos de 5L
+      if (isBundle && (v.sku === 'BIO-5L' || v.sku === 'ORT-5L')) {
+        unitPrice = unitPrice * 0.95;
+      }
+
       return {
         price_data: {
           currency: 'eur',
@@ -62,7 +73,7 @@ export async function POST(req: Request) {
             name: `${v.product.name} - ${v.size}`,
             metadata: { variantId: v.id, sku: v.sku },
           },
-          unit_amount: Math.round(v.price * 100),
+          unit_amount: Math.round(unitPrice * 100),
         },
         quantity: item.quantity,
       };
@@ -70,7 +81,11 @@ export async function POST(req: Request) {
 
     const totalAmountEur = items.reduce((acc, it) => {
       const v = variantById.get(it.id)!;
-      return acc + v.price * it.quantity;
+      let unitPrice = v.price;
+      if (isBundle && (v.sku === 'BIO-5L' || v.sku === 'ORT-5L')) {
+        unitPrice = unitPrice * 0.95;
+      }
+      return acc + unitPrice * it.quantity;
     }, 0);
     const totalWeight = items.reduce((acc, it) => {
       const v = variantById.get(it.id)!;

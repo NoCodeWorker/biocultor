@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { DM_Sans, Quicksand } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -6,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { buildMetadata, organizationSchema, websiteSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
 import CookieConsentLazy from '@/components/CookieConsentLazy';
-
 
 // Quicksand para Headings (geometría redondeada similar a Aristotelica, pero con soporte completo de números)
 const quicksand = Quicksand({
@@ -47,12 +47,35 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="es" suppressHydrationWarning className={cn("antialiased scroll-smooth", dmSans.variable, quicksand.variable)}>
       <head>
         <link rel="dns-prefetch" href="https://js.stripe.com" />
+        {gaId && (
+          <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        )}
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary font-sans">
+        {gaId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
+          </>
+        )}
         <StructuredData id="organization-schema" data={organizationSchema()} />
         <StructuredData id="website-schema" data={websiteSchema()} />
         <ThemeProvider>

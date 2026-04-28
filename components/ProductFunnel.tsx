@@ -26,6 +26,7 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
       price: selected.price,
       image: selected.imagePath || selected.image,
       quantity,
+      sku: selected.sku,
     });
   };
 

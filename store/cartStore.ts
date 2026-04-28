@@ -8,6 +8,7 @@ export type CartItem = {
   image: string;
   quantity: number;
   stripePriceId?: string;
+  sku?: string;
 }
 
 interface CartState {

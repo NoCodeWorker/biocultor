@@ -4,15 +4,39 @@ import { useCartStore } from '@/store/cartStore';
 import { X, Plus, Minus, ShoppingBag, Loader2, Leaf } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 export default function Cart() {
-  const { items, isOpen, setIsOpen, updateQuantity } = useCartStore();
+  const { items, isOpen, setIsOpen, updateQuantity, addItem } = useCartStore();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [crossSellData, setCrossSellData] = useState<any>(null);
 
   const total = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
   const freeShipping = total >= 50;
+
+  const hasBIO5L = items.some(item => item.sku === 'BIO-5L');
+  const hasORT5L = items.some(item => item.sku === 'ORT-5L');
+  const isBundle = hasBIO5L && hasORT5L;
+
+  // Si tiene el bundle, aplicamos 5% de descuento al frontend (en checkout ya se aplica)
+  const cartTotalWithDiscount = items.reduce((acc, item) => {
+    let unitPrice = item.price;
+    if (isBundle && (item.sku === 'BIO-5L' || item.sku === 'ORT-5L')) {
+      unitPrice = unitPrice * 0.95;
+    }
+    return acc + (unitPrice * item.quantity);
+  }, 0);
+
+  // Fetch cross-sell variant (Ortiga 5L) when Cart opens
+
+  useEffect(() => {
+    if (isOpen && !crossSellData) {
+      fetch('/api/cross-sell')
+        .then(res => res.json())
+        .then(data => setCrossSellData(data))
+        .catch(console.error);
+    }
+  }, [isOpen, crossSellData]);
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -142,12 +166,86 @@ export default function Cart() {
           )}
         </div>
 
+        {/* Módulo Cross-Sell Purín de Ortiga */}
+        {hasBIO5L && !hasORT5L && crossSellData?.ort5L && (
+          <div className="mx-6 mb-4 p-4 rounded-2xl bg-brand-olive-dark/10 border border-brand-olive-dark/20 flex flex-col gap-3">
+            <div className="flex items-start justify-between">
+              <div>
+                <h4 className="font-bold text-sm text-foreground">Completa tu tratamiento</h4>
+                <p className="text-xs text-muted-foreground mt-0.5">Añade 5L de Purín de Ortiga y obtén un 5% de descuento en el pack.</p>
+              </div>
+              <Leaf className="w-5 h-5 text-brand-olive-dark flex-shrink-0" />
+            </div>
+            <button
+              onClick={() => {
+                const ort = crossSellData.ort5L;
+                addItem({
+                  id: ort.id,
+                  name: ort.product.name,
+                  size: ort.size,
+                  price: ort.price,
+                  image: ort.imagePath || ort.image || '/5 litros purin.jpg',
+                  quantity: 1,
+                  sku: ort.sku,
+                });
+              }}
+              className="w-full py-2 bg-brand-olive-dark hover:bg-brand-olive-dark/90 text-white text-sm font-bold rounded-xl transition-colors"
+            >
+              Añadir Purín de Ortiga 5L (+€{crossSellData.ort5L.price})
+            </button>
+          </div>
+        )}
+
+        {/* Módulo Cross-Sell Té de Humus (Inverso) */}
+        {hasORT5L && !hasBIO5L && crossSellData?.bio5L && (
+          <div className="mx-6 mb-4 p-4 rounded-2xl bg-brand-olive-dark/10 border border-brand-olive-dark/20 flex flex-col gap-3">
+            <div className="flex items-start justify-between">
+              <div>
+                <h4 className="font-bold text-sm text-foreground">Completa tu nutrición</h4>
+                <p className="text-xs text-muted-foreground mt-0.5">Añade 5L de Té de Humus y obtén un 5% de descuento en el pack.</p>
+              </div>
+              <Leaf className="w-5 h-5 text-brand-olive-dark flex-shrink-0" />
+            </div>
+            <button
+              onClick={() => {
+                const bio = crossSellData.bio5L;
+                addItem({
+                  id: bio.id,
+                  name: bio.product.name,
+                  size: bio.size,
+                  price: bio.price,
+                  image: bio.imagePath || bio.image || '/5 litros.jpg',
+                  quantity: 1,
+                  sku: bio.sku,
+                });
+              }}
+              className="w-full py-2 bg-brand-olive-dark hover:bg-brand-olive-dark/90 text-white text-sm font-bold rounded-xl transition-colors"
+            >
+              Añadir Té de Humus 5L (+€{crossSellData.bio5L.price})
+            </button>
+          </div>
+        )}
+
+        {/* Mensaje de Éxito de Bundle */}
+        {isBundle && (
+          <div className="mx-6 mb-4 p-3 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center gap-2 text-center">
+            <span className="text-primary font-bold text-sm">🎉 ¡Pack de Tratamiento Completo! Tienes un 5% de descuento.</span>
+          </div>
+        )}
+
         {/* Footer CTA */}
         {items.length > 0 && (
           <div className="p-6 border-t border-border/50 bg-cream-warm">
             <div className="flex justify-between items-center mb-5">
-              <span className="text-base text-muted-foreground">Total (IVA incluido)</span>
-              <span className="text-3xl font-heading font-extrabold text-foreground tracking-tighter">€{total.toFixed(2)}</span>
+              <span className="text-base text-muted-foreground">Total (IVA incl.)</span>
+              <div className="flex items-baseline gap-2">
+                {isBundle && (
+                  <span className="text-lg text-muted-foreground line-through font-medium">€{total.toFixed(2)}</span>
+                )}
+                <span className="text-3xl font-heading font-extrabold text-foreground tracking-tighter">
+                  €{isBundle ? cartTotalWithDiscount.toFixed(2) : total.toFixed(2)}
+                </span>
+              </div>
             </div>
             <button 
               disabled={true}
