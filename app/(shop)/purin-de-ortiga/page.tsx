@@ -90,9 +90,7 @@ export default async function PurinOrtigaLandingPage() {
           Sobre esta capa y la evidencia que la respalda
         </h2>
         <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-          La editorial de Biocultor sigue la política de evidencia trazable definida en
-          ADR-002: cada artículo se apoya en una fuente primaria o institucional citable
-          y evita convertir la investigación en promesa comercial.
+          Todo nuestro contenido divulgativo y guías de uso se basan en evidencia técnica real. Nos apoyamos exclusivamente en fuentes agronómicas institucionales y revisiones científicas acreditadas para garantizar un manejo orgánico profesional, sin caer en promesas comerciales vacías.
         </p>
         <div className="mt-6 flex flex-wrap gap-4">
           <Link href="/producto/purin-ortiga-concentrado" className="font-semibold text-foreground hover:text-primary transition-colors">

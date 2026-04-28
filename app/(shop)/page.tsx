@@ -264,10 +264,7 @@ export default async function Page() {
                   Aplicaciones por cultivo
                 </Link>
               </div>
-              <p className="mt-6 text-xs text-muted-foreground leading-relaxed max-w-md">
-                Editorial alineada con ADR-002: las guías de ortiga citan fuentes institucionales y
-                revisiones científicas sin convertir la investigación en promesa comercial.
-              </p>
+
             </div>
             <div className="md:col-span-2 relative min-h-[260px] md:min-h-full">
               <Image
