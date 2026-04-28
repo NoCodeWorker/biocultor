@@ -11,19 +11,17 @@ export default function AgronomicAdvisorChatLazy() {
   const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
-    // Delay loading the heavy chat bundle to improve TTI and TBT
-    const timer = setTimeout(() => {
-      setShouldLoad(true);
-    }, 4500);
-
     const handleInteraction = () => setShouldLoad(true);
     window.addEventListener('scroll', handleInteraction, { once: true, passive: true });
     window.addEventListener('mousemove', handleInteraction, { once: true, passive: true });
+    window.addEventListener('touchstart', handleInteraction, { once: true, passive: true });
+    window.addEventListener('keydown', handleInteraction, { once: true, passive: true });
 
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('scroll', handleInteraction);
       window.removeEventListener('mousemove', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
     };
   }, []);
 

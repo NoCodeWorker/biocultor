@@ -15,31 +15,24 @@ export default function CartLazy() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const triggerLoad = () => setShouldLoad(true);
-
-    const w = window as unknown as {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+    const triggerLoad = () => {
+      setShouldLoad(true);
+      window.removeEventListener('pointerdown', triggerLoad);
+      window.removeEventListener('keydown', triggerLoad);
+      window.removeEventListener('scroll', triggerLoad);
+      window.removeEventListener('mousemove', triggerLoad);
     };
-    const idleId =
-      typeof w.requestIdleCallback === 'function'
-        ? w.requestIdleCallback(triggerLoad, { timeout: 4000 })
-        : (setTimeout(triggerLoad, 3000) as unknown as number);
 
-    const onInteract = () => triggerLoad();
-    window.addEventListener('pointerdown', onInteract, { once: true, passive: true });
-    window.addEventListener('keydown', onInteract, { once: true });
-    window.addEventListener('scroll', onInteract, { once: true, passive: true });
+    window.addEventListener('pointerdown', triggerLoad, { once: true, passive: true });
+    window.addEventListener('keydown', triggerLoad, { once: true });
+    window.addEventListener('scroll', triggerLoad, { once: true, passive: true });
+    window.addEventListener('mousemove', triggerLoad, { once: true, passive: true });
 
     return () => {
-      window.removeEventListener('pointerdown', onInteract);
-      window.removeEventListener('keydown', onInteract);
-      window.removeEventListener('scroll', onInteract);
-      const w2 = window as unknown as { cancelIdleCallback?: (id: number) => void };
-      if (typeof w2.cancelIdleCallback === 'function') {
-        w2.cancelIdleCallback(idleId);
-      } else {
-        clearTimeout(idleId);
-      }
+      window.removeEventListener('pointerdown', triggerLoad);
+      window.removeEventListener('keydown', triggerLoad);
+      window.removeEventListener('scroll', triggerLoad);
+      window.removeEventListener('mousemove', triggerLoad);
     };
   }, []);
 

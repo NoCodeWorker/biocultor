@@ -24,9 +24,9 @@ export default function CookieConsentLazy() {
         requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
       };
       if (typeof w.requestIdleCallback === 'function') {
-        w.requestIdleCallback(cb, { timeout: 3000 });
+        w.requestIdleCallback(cb);
       } else {
-        setTimeout(cb, 2500);
+        setTimeout(cb, 5000);
       }
     };
 
