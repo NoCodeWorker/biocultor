@@ -268,8 +268,8 @@ export default async function Page() {
             </div>
             <div className="md:col-span-2 relative min-h-[260px] md:min-h-full">
               <Image
-                src="/5 litros.jpg"
-                alt="Formato de 5 litros del catálogo Biocultor"
+                src="/uploads/1777414997332-6td6tu.webp"
+                alt="Formato del catálogo Biocultor"
                 fill
                 className="object-cover"
                 sizes="(min-width: 768px) 40vw, 100vw"
