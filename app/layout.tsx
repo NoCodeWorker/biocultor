@@ -50,11 +50,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning className={cn("antialiased scroll-smooth", dmSans.variable, quicksand.variable)}>
       <head>
-        {/* DNS Prefetch & Preconnect for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://js.stripe.com" />
-        
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary font-sans">
         <StructuredData id="organization-schema" data={organizationSchema()} />
