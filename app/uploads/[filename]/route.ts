@@ -3,7 +3,8 @@ import { readFile } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 
-export async function GET(request: Request, { params }: { params: { filename: string } }) {
+export async function GET(request: Request, props: { params: Promise<{ filename: string }> }) {
+  const params = await props.params;
   const filename = params.filename;
   
   // Basic security: prevent path traversal
