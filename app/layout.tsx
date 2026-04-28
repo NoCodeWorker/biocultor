@@ -55,16 +55,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://js.stripe.com" />
         
-        {/* Preload LCP hero image with responsive support to match next/image perfectly */}
-        <link
-          rel="preload"
-          as="image"
-          href="/_next/image?url=%2Fte-de-humus-de-lombriz-biocultor.avif&w=1200&q=60"
-          imageSrcSet="/_next/image?url=%2Fte-de-humus-de-lombriz-biocultor.avif&w=750&q=60 750w, /_next/image?url=%2Fte-de-humus-de-lombriz-biocultor.avif&w=1200&q=60 1200w, /_next/image?url=%2Fte-de-humus-de-lombriz-biocultor.avif&w=1920&q=60 1920w"
-          imageSizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px"
-          type="image/avif"
-          fetchPriority="high"
-        />
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary font-sans">
         <StructuredData id="organization-schema" data={organizationSchema()} />
