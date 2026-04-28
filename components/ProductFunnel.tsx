@@ -36,8 +36,13 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
   // Directiva Omnibus 2019/2161 / RD 7/2021.
   const liters = parseInt(selected.size?.match(/\d+/)?.[0] ?? '1', 10);
   const pricePerLiter = liters > 0 ? selected.price / liters : selected.price;
-  const referencePerLiter =
-    selected.comparePrice && liters > 0 ? selected.comparePrice / liters : null;
+  
+  // Buscamos automáticamente el precio de la variante de 1L (si existe)
+  // para usarlo como precio de referencia por litro, evitando que el usuario 
+  // tenga que calcular el comparePrice multiplicando en el dashboard.
+  const oneLiterVariant = dbVariants.find(v => parseInt(v.size?.match(/\d+/)?.[0] ?? '0', 10) === 1);
+  const referencePerLiter = oneLiterVariant ? oneLiterVariant.price : null;
+
   const perLiterDiscount =
     referencePerLiter && referencePerLiter > pricePerLiter
       ? Math.round(((referencePerLiter - pricePerLiter) / referencePerLiter) * 100)
