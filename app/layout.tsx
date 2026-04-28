@@ -49,6 +49,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning className={cn("antialiased scroll-smooth", dmSans.variable, quicksand.variable)}>
+      <head>
+        {/* Preload LCP hero image to reduce render delay */}
+        <link
+          rel="preload"
+          as="image"
+          href="/_next/image?url=%2Fte-de-humus-de-lombriz-biocultor.avif&w=1080&q=60"
+          type="image/avif"
+        />
+      </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary font-sans">
         <StructuredData id="organization-schema" data={organizationSchema()} />
         <StructuredData id="website-schema" data={websiteSchema()} />

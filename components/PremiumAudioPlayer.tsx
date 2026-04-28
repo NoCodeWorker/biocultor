@@ -16,6 +16,7 @@ export default function PremiumAudioPlayer({
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
+  const [audioLoaded, setAudioLoaded] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -42,6 +43,12 @@ export default function PremiumAudioPlayer({
 
   const togglePlay = () => {
     if (audioRef.current) {
+      // Load audio on first play to avoid downloading on page load
+      if (!audioLoaded) {
+        audioRef.current.src = src;
+        audioRef.current.load();
+        setAudioLoaded(true);
+      }
       if (isPlaying) {
         audioRef.current.pause();
       } else {
@@ -75,7 +82,8 @@ export default function PremiumAudioPlayer({
 
   return (
     <div className="w-full flex flex-col gap-2.5 p-3.5 rounded-2xl bg-[#FAFAF9] border border-brand-green/15 shadow-sm mt-4 group">
-      <audio ref={audioRef} src={src} preload="metadata" />
+      {/* preload="none" + no src on mount = zero network cost until user clicks play */}
+      <audio ref={audioRef} preload="none" />
       
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

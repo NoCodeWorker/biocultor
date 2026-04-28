@@ -88,7 +88,8 @@ export default async function Page() {
             className="object-cover object-center"
             priority
             fetchPriority="high"
-            sizes="100vw"
+            quality={60}
+            sizes="(max-width: 640px) 640px, (max-width: 1080px) 1080px, 1440px"
           />
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-brand-brown-dark/75 via-brand-brown-dark/55 to-brand-brown-dark/92" />
