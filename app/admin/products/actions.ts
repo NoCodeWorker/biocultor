@@ -12,8 +12,6 @@ const SKU_REGEX = /^[A-Z0-9-]+$/;
 // uso desde useActionState y el `if (result?.error)` en los componentes cliente.
 export type ActionResult = { success?: boolean; error?: string };
 
-export const initialActionState: ActionResult = { success: false, error: '' };
-
 function revalidatePublic(slug?: string | null) {
   revalidatePath('/');
   revalidatePath('/admin');

@@ -1,8 +1,10 @@
 'use client';
 
 import { useActionState, useState } from 'react';
-import { createProduct, initialActionState } from '../actions';
+import { createProduct, type ActionResult } from '../actions';
 import { Loader2, AlertCircle } from 'lucide-react';
+
+const initialActionState: ActionResult = { success: false, error: '' };
 
 export default function NewProductForm() {
   const [state, formAction, pending] = useActionState(createProduct, initialActionState);

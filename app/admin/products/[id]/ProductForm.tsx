@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState, useState } from 'react';
-import { updateProduct, initialActionState } from '../actions';
+import { updateProduct } from '../actions';
 import { Save, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 type Product = {
@@ -11,6 +11,8 @@ type Product = {
   description: string;
   benefits: string;
 };
+
+const initialActionState = { success: false, error: '' };
 
 export default function ProductForm({ product }: { product: Product }) {
   const action = updateProduct.bind(null, product.id);
