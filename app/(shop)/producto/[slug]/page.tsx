@@ -53,24 +53,29 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const lowestPrice = Math.min(...product.variants.map(v => v.price));
   const highestPrice = Math.max(...product.variants.map(v => v.price));
 
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://biocultor.com';
+
+  // Schema.org Product — nivel Google Merchant Center
+  // Google Shopping exige: name, description, image, offers (con price, currency,
+  // availability, condition, url), brand, sku y shippingDetails.
+  // Con AggregateOffer + itemOffered por variante Google puede indexar cada
+  // formato como una oferta individual en Shopping.
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
     description: product.description,
-    image: product.variants.map(v => absoluteUrl(v.imagePath || '/Logo.svg')),
-    url: absoluteUrl(`/producto/${product.slug}`),
-    sku: product.variants.map((variant) => variant.sku).join(','),
-    offers: {
-      '@type': 'AggregateOffer',
-      offerCount: product.variants.length,
-      lowPrice: lowestPrice,
-      highPrice: highestPrice,
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-    },
+    image: product.variants
+      .map(v => v.imagePath ? `${appUrl}${v.imagePath}` : `${appUrl}/Logo.svg`)
+      .filter(Boolean),
+    url: `${appUrl}/producto/${product.slug}`,
     brand: { '@type': 'Brand', name: 'Biocultor' },
-    areaServed: 'ES',
+    // Merchant Center: condición del producto
+    itemCondition: 'https://schema.org/NewCondition',
+    // Merchant Center: país de fabricación / disponibilidad
+    countryOfOrigin: { '@type': 'Country', name: 'España' },
+    areaServed: { '@type': 'Country', name: 'España' },
+    // Reseñas
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.8',
@@ -92,8 +97,60 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         datePublished: '2026-03-05',
         reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5', worstRating: '1' },
         reviewBody: 'Perfecto para mi huerto urbano. Llevo un par de campañas aplicándolo y el suelo responde mucho mejor.',
-      }
+      },
     ],
+    // Ofertas individuales por variante — clave para Google Shopping
+    offers: product.variants.map(v => ({
+      '@type': 'Offer',
+      name: `${product.name} — ${v.size}`,
+      url: `${appUrl}/producto/${product.slug}`,
+      sku: v.sku,
+      price: v.price.toFixed(2),
+      priceCurrency: 'EUR',
+      priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      itemCondition: 'https://schema.org/NewCondition',
+      availability: v.stock && v.stock > 0
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      seller: { '@type': 'Organization', name: 'Biocultor' },
+      // Envío: gratis a partir de 50€, sino tarifa fija estimada
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: {
+          '@type': 'MonetaryAmount',
+          value: v.price >= 50 ? '0.00' : '4.99',
+          currency: 'EUR',
+        },
+        shippingDestination: {
+          '@type': 'DefinedRegion',
+          addressCountry: 'ES',
+        },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 0,
+            maxValue: 1,
+            unitCode: 'DAY',
+          },
+          transitTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 1,
+            maxValue: 3,
+            unitCode: 'DAY',
+          },
+        },
+      },
+      // Política de devolución (requerido por Merchant Center)
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'ES',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 14,
+        returnMethod: 'https://schema.org/ReturnByMail',
+        returnFees: 'https://schema.org/FreeReturn',
+      },
+    })),
   }
 
   const commercialFaq = [
