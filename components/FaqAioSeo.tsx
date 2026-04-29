@@ -24,7 +24,7 @@ const faqs = [
   }
 ];
 
-export default function FaqAioSeo() {
+export default function FaqAioSeo({ suppressSchema = false }: { suppressSchema?: boolean }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   // Generamos el JSON-LD para Google (Programa de "Rich Snippets" de FAQ)
@@ -43,11 +43,13 @@ export default function FaqAioSeo() {
 
   return (
     <section id="faq" className="w-full py-20 md:py-28 bg-card relative z-10 border-t border-border/40">
-      {/* Schema Injection */}
-      <StructuredData
-        id="faq-schema"
-        data={faqSchema}
-      />
+      {/* Schema Injection — solo cuando no está ya en la página padre */}
+      {!suppressSchema && (
+        <StructuredData
+          id="faq-schema"
+          data={faqSchema}
+        />
+      )}
       
       <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 max-w-4xl">
         <div className="text-center mb-14">

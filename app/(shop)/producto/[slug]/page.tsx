@@ -195,7 +195,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           { name: product.name, path: `/producto/${product.slug}` },
         ])}
       />
-      <StructuredData id="product-faq-schema" data={faqSchema(commercialFaq)} />
+      {/* FAQ schema unificado: preguntas comerciales + preguntas técnicas del componente FaqAioSeo */}
+      <StructuredData id="product-faq-schema" data={faqSchema([
+        ...commercialFaq,
+        { question: '¿El extracto de humus huele mal?', answer: 'Suele presentar un olor orgánico y terroso propio del producto. Si notas un cambio acusado de olor o estado, conviene revisar conservación, temperatura y tiempo de almacenamiento.' },
+        { question: '¿Puedo quemar las raíces si me paso de dosis?', answer: 'Conviene respetar la dosis de uso recomendada. Aunque se trata de un producto orientado a manejo orgánico, una aplicación poco controlada nunca es la mejor práctica para suelo, riego o cultivo.' },
+        { question: '¿Obstruirá mis sistemas de riego por goteo?', answer: 'Está pensado para aplicarse en sistemas de riego, pero la compatibilidad real depende del estado de la instalación, el filtrado del equipo y la forma de preparación. Si trabajas con goteo, conviene revisar la ficha técnica y hacer una primera prueba controlada.' },
+        { question: '¿Cuánto tiempo tarda en hacer efecto?', answer: 'No hay un plazo universal. La respuesta depende del cultivo, el estado del suelo, la frecuencia de uso y el manejo general. Lo razonable es observar evolución dentro de una rutina de aplicación, no esperar un efecto instantáneo y aislado.' },
+      ])} />
 
       {/* ① STICKY CART BAR — Siempre visible al hacer scroll */}
       <StickyCartBar variants={dbVariants} productName={product.name} />
@@ -244,7 +251,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <RiskReversal />
 
       {/* ⑨ FAQ — Responde las dudas finales */}
-      <FaqAioSeo />
+      {/* ⑨ FAQ — suppressSchema=true porque el schema ya está unificado arriba */}
+      <FaqAioSeo suppressSchema={true} />
 
       {/* ⑩ CROSS-SELL / EXPERTOS — Captura los indecisos*/}
       <section className="w-full py-16 bg-cream-warm border-t border-border/40">
