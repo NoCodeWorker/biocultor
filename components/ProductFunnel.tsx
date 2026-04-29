@@ -98,7 +98,7 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
           {/* Reproductor de Audio Premium (Bajo las Thumbnails) */}
           <div className="w-full mt-2">
             <PremiumAudioPlayer 
-              src={`/audio/${selected.sku.toLowerCase()}.mp3`} 
+              src={selected.sku?.startsWith('ORT-') ? `/audio/${selected.sku}.mp3` : `/audio/${selected.size.toLowerCase().replace(' ', '-')}.mp3`}
               title={`Explicación formato ${selected.size}`} 
             />
           </div>

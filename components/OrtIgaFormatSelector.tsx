@@ -216,7 +216,7 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
                   {/* Audio Player */}
                   <div className="mb-5" onClick={(e) => e.stopPropagation()}>
                     <PremiumAudioPlayer
-                      src={`/audio/ort-${format.size.toLowerCase().replace(' ', '-')}.mp3`}
+                      src={`/audio/${format.id}.mp3`}
                       title="Explicación técnica"
                     />
                   </div>
