@@ -48,29 +48,24 @@ export default function AgronomicAdvisorChat() {
         />
       )}
 
+      {/* Botón Flotante Independiente */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`fixed bottom-[4.5rem] md:bottom-6 right-5 flex items-center justify-center w-14 h-14 bg-brand-brown-dark rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:scale-105 border border-brand-green/20 transition-all duration-300 z-50 group ${
+          isOpen ? 'opacity-0 pointer-events-none scale-90 translate-x-10' : 'opacity-100 scale-100 translate-x-0'
+        }`}
+        aria-label="Abrir asesor"
+      >
+        <div className="relative w-8 h-8">
+          <Image src="/Favicon.svg" alt="Asesor Biocultor" fill className="object-contain brightness-0 invert opacity-90" />
+        </div>
+      </button>
+
       <div
-        className={`fixed top-0 right-0 h-[100dvh] w-full sm:w-[420px] bg-white shadow-2xl z-50 flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] border-l border-brand-green/20 ${
+        className={`fixed top-0 right-0 h-[100dvh] w-full sm:w-[420px] bg-white shadow-2xl z-[51] flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] border-l border-brand-green/20 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="absolute bottom-[5.5rem] md:bottom-6 -left-[76px] flex items-center justify-center w-14 h-14 bg-brand-brown-dark rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:scale-105 border border-brand-green/20 transition-all z-50 group"
-          aria-label="Abrir asesor"
-        >
-          {isOpen ? (
-            <div className="relative flex items-center justify-center w-full h-full">
-              <X className="w-6 h-6 text-cream absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-              <div className="relative w-7 h-7 group-hover:opacity-0 transition-opacity duration-200">
-                <Image src="/Favicon.svg" alt="Cerrar" fill className="object-contain brightness-0 invert opacity-90" />
-              </div>
-            </div>
-          ) : (
-            <div className="relative w-8 h-8">
-              <Image src="/Favicon.svg" alt="Asesor Biocultor" fill className="object-contain brightness-0 invert opacity-90" />
-            </div>
-          )}
-        </button>
 
         <div className="flex items-center justify-between p-5 bg-brand-brown-dark text-cream shrink-0 border-b border-white/10">
           <div className="flex items-center gap-4">
