@@ -68,7 +68,7 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
         
         {/* 📸 COLUMNA IZQUIERDA: GALERÍA (STICKY SOLO EN DESKTOP) */}
         <div className="w-full lg:w-[45%] flex flex-col gap-3 md:gap-4 lg:sticky lg:top-28 lg:self-start relative">
-          <div className="aspect-[4/5] md:aspect-square bg-cream-warm border border-border/40 rounded-2xl md:rounded-3xl relative overflow-hidden flex items-center justify-center p-6 md:p-8 shadow-sm transition-all hover:border-primary/20">
+          <div className="aspect-square bg-cream-warm border border-border/40 rounded-2xl md:rounded-3xl relative overflow-hidden flex items-center justify-center p-6 md:p-8 shadow-sm transition-all hover:border-primary/20">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-transparent pointer-events-none" />
             <Image 
               src={selected.imagePath || selected.image || "/5 litros.jpg"} 
