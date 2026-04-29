@@ -137,7 +137,7 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
                 key={format.id}
                 onClick={() => setSelectedFormat(format.id)}
                 className={cn(
-                  "relative flex flex-col rounded-2xl md:rounded-3xl border-2 transition-all duration-400 cursor-pointer bg-background overflow-hidden group",
+                  "relative flex flex-col rounded-2xl md:rounded-3xl border-2 transition-all duration-400 cursor-pointer bg-background group",
                   isSelected
                     ? "border-primary shadow-xl shadow-primary/8 -translate-y-2 ring-1 ring-primary/15"
                     : "border-border/50 hover:border-primary/25 hover:-translate-y-1 shadow-sm"
@@ -155,11 +155,12 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
                   <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-primary/8 to-transparent rounded-br-[2rem] pointer-events-none z-10" />
                 )}
 
-                {/* Clickable Image → navigates to product page */}
-                <Link
+                {/* Image wrapper con padding igual que FormatSelector */}
+                <div className="px-6 pt-6">
+                <a
                   href={`/producto/${PRODUCT_SLUG}`}
                   onClick={(e) => e.stopPropagation()}
-                  className="block w-full aspect-square relative bg-cream-warm/50 flex items-center justify-center p-3 overflow-hidden"
+                  className="block w-full aspect-square relative mb-5 rounded-2xl overflow-hidden bg-cream-warm/50 p-3 group/img cursor-pointer"
                   aria-label={`Ver producto Purín de Ortiga ${format.size}`}
                 >
                   <Image
@@ -167,18 +168,19 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
                     alt={`Purín de Ortiga Concentrado ${format.size} — Biocultor`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                    className="object-contain drop-shadow-xl transition-transform duration-500 ease-out group-hover:scale-105 p-3"
+                    className="object-contain drop-shadow-xl transition-transform duration-500 ease-out group-hover/img:scale-105"
                   />
                   {/* Hover overlay to signal clickability */}
-                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/4 transition-colors duration-300 flex items-end justify-center pb-3 opacity-0 group-hover:opacity-100">
+                  <div className="absolute inset-0 bg-primary/0 group-hover/img:bg-primary/5 transition-colors duration-300 flex items-end justify-center pb-3 opacity-0 group-hover/img:opacity-100">
                     <span className="bg-white/90 text-foreground text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
                       Ver producto <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>
-                </Link>
+                </a>
+                </div>
 
                 {/* Card content */}
-                <div className="flex flex-col flex-1 p-6">
+                <div className="flex flex-col flex-1 px-6 pb-6">
                   {/* Format Info */}
                   <div className="flex items-center gap-3 mb-3">
                     <div className={cn(
