@@ -143,11 +143,11 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
                 )}
                 
                 {/* Product Image — clickable link to product page */}
-                <Link
+                <a
                   href={`/producto/${productSlug}`}
                   onClick={(e) => e.stopPropagation()}
-                  className="block w-full aspect-square relative mb-5 rounded-2xl overflow-hidden bg-cream-warm/50 flex items-center justify-center p-3 group/img"
-                  aria-label={`Ver producto ${format.size}`}
+                  className="block w-full aspect-square relative mb-5 rounded-2xl overflow-hidden bg-cream-warm/50 p-3 group/img cursor-pointer"
+                  aria-label={`Ver ficha del producto ${format.size}`}
                 >
                    <Image
                      src={format.image}
@@ -156,12 +156,12 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
                      className="object-contain drop-shadow-xl transition-transform duration-500 ease-out group-hover/img:scale-105"
                    />
-                   <div className="absolute inset-0 bg-primary/0 group-hover/img:bg-primary/4 transition-colors duration-300 flex items-end justify-center pb-3 opacity-0 group-hover/img:opacity-100">
+                   <div className="absolute inset-0 bg-primary/0 group-hover/img:bg-primary/5 transition-colors duration-300 flex items-end justify-center pb-3 opacity-0 group-hover/img:opacity-100">
                      <span className="bg-white/90 text-foreground text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
                        Ver producto <ArrowRight className="w-3 h-3" />
                      </span>
                    </div>
-                </Link>
+                </a>
 
                 {/* Format Info */}
                 <div className="flex items-center gap-3 mb-3">
@@ -197,20 +197,30 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
 
                 {/* Reproductor de Audio Premium en cada tarjeta */}
                 <div className="mb-5" onClick={(e) => e.stopPropagation()}>
-                  <PremiumAudioPlayer 
-                    src={`/audio/${format.size.toLowerCase().replace(' ', '-')}.mp3`} 
-                    title="Explicación técnica" 
+                  <PremiumAudioPlayer
+                    src={`/audio/${format.size.toLowerCase().replace(' ', '-')}.mp3`}
+                    title="Explicación técnica"
                   />
                 </div>
 
-                <Button 
-                  size="lg" 
-                  disabled
-                  className="w-full rounded-xl font-bold transition-all text-sm bg-muted/80 text-muted-foreground border border-border cursor-not-allowed shadow-none hover:bg-muted/80"
-                >
-                  <ShoppingBag className="w-4 h-4 mr-2 opacity-50" />
-                  Agotado Temporalmente
-                </Button>
+                {/* Botones de acción */}
+                <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
+                  <Button
+                    size="lg"
+                    disabled
+                    className="w-full rounded-xl font-bold transition-all text-sm bg-muted/80 text-muted-foreground border border-border cursor-not-allowed shadow-none hover:bg-muted/80"
+                  >
+                    <ShoppingBag className="w-4 h-4 mr-2 opacity-50" />
+                    Agotado Temporalmente
+                  </Button>
+                  <a
+                    href={`/producto/${productSlug}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-full text-center py-2.5 rounded-xl border border-border/60 text-sm font-semibold text-foreground hover:border-primary/40 hover:text-primary transition-colors"
+                  >
+                    Ver ficha de producto
+                  </a>
+                </div>
               </div>
             );
           })}
