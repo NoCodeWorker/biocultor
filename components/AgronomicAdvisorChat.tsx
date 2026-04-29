@@ -49,13 +49,13 @@ export default function AgronomicAdvisorChat() {
       )}
 
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white shadow-2xl z-50 flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] border-l border-brand-green/20 ${
+        className={`fixed top-0 right-0 h-[100dvh] w-full sm:w-[420px] bg-white shadow-2xl z-50 flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] border-l border-brand-green/20 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="absolute top-[calc(100svh-7.5rem)] md:top-auto md:bottom-6 -left-[76px] flex items-center justify-center w-14 h-14 bg-brand-brown-dark rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:scale-105 border border-brand-green/20 transition-all z-50 group"
+          className="absolute bottom-[5.5rem] md:bottom-6 -left-[76px] flex items-center justify-center w-14 h-14 bg-brand-brown-dark rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:scale-105 border border-brand-green/20 transition-all z-50 group"
           aria-label="Abrir asesor"
         >
           {isOpen ? (
