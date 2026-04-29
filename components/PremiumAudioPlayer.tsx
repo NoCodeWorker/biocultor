@@ -41,6 +41,21 @@ export default function PremiumAudioPlayer({
     };
   }, []);
 
+  // Effect to handle src prop changes (when user selects a different product format)
+  useEffect(() => {
+    if (audioLoaded && audioRef.current) {
+      const wasPlaying = isPlaying;
+      audioRef.current.src = src;
+      audioRef.current.load();
+      setProgress(0);
+      if (wasPlaying) {
+        audioRef.current.play().catch(e => console.error("Error playing audio:", e));
+      } else {
+        setIsPlaying(false);
+      }
+    }
+  }, [src, audioLoaded, isPlaying]);
+
   const togglePlay = () => {
     if (audioRef.current) {
       // Load audio on first play to avoid downloading on page load
