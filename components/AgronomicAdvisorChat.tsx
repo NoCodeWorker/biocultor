@@ -55,7 +55,7 @@ export default function AgronomicAdvisorChat() {
       >
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="absolute bottom-6 -left-[76px] flex items-center justify-center w-14 h-14 bg-brand-brown-dark rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:scale-105 border border-brand-green/20 transition-all z-50 group"
+          className="absolute top-[calc(100svh-5rem)] md:top-auto md:bottom-6 -left-[76px] flex items-center justify-center w-14 h-14 bg-brand-brown-dark rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:scale-105 border border-brand-green/20 transition-all z-50 group"
           aria-label="Abrir asesor"
         >
           {isOpen ? (
