@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Button } from './ui/button';
-import { Check, Leaf, Droplet, Sprout, Tractor, ShoppingBag } from 'lucide-react';
+import { Check, Leaf, Droplet, Sprout, Tractor, ShoppingBag, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { useCartStore } from '@/store/cartStore';
@@ -55,7 +56,7 @@ const formats = [
   }
 ];
 
-export default function FormatSelector({ dbVariants = [] }: { dbVariants?: any[] }) {
+export default function FormatSelector({ dbVariants = [], productSlug = 'te-humus-liquido-premium' }: { dbVariants?: any[], productSlug?: string }) {
   // Fusionamos datos dinámicos de SQLite con los iconos locales
   const mergedFormats = formats.map(f => {
      const dbMatch = dbVariants.find(dbF => dbF.size === f.size);
@@ -141,16 +142,26 @@ export default function FormatSelector({ dbVariants = [] }: { dbVariants?: any[]
                   <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-primary/8 to-transparent rounded-br-[2rem] pointer-events-none" />
                 )}
                 
-                {/* Product Image */}
-                <div className="w-full aspect-square relative mb-5 rounded-2xl overflow-hidden bg-cream-warm/50 flex items-center justify-center p-3">
-                   <Image 
-                     src={format.image} 
-                     alt={`Formato ${format.size} — Té de Humus Biocultor`} 
-                     fill 
+                {/* Product Image — clickable link to product page */}
+                <Link
+                  href={`/producto/${productSlug}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="block w-full aspect-square relative mb-5 rounded-2xl overflow-hidden bg-cream-warm/50 flex items-center justify-center p-3 group/img"
+                  aria-label={`Ver producto ${format.size}`}
+                >
+                   <Image
+                     src={format.image}
+                     alt={`Formato ${format.size} — Té de Humus Biocultor`}
+                     fill
                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                     className="object-contain drop-shadow-xl transition-transform duration-500 ease-out group-hover:scale-108" 
+                     className="object-contain drop-shadow-xl transition-transform duration-500 ease-out group-hover/img:scale-105"
                    />
-                </div>
+                   <div className="absolute inset-0 bg-primary/0 group-hover/img:bg-primary/4 transition-colors duration-300 flex items-end justify-center pb-3 opacity-0 group-hover/img:opacity-100">
+                     <span className="bg-white/90 text-foreground text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+                       Ver producto <ArrowRight className="w-3 h-3" />
+                     </span>
+                   </div>
+                </Link>
 
                 {/* Format Info */}
                 <div className="flex items-center gap-3 mb-3">

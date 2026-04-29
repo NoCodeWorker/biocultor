@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Leaf, Droplets, FlaskConical, Star, Sparkles, TreePine, Sprout } from "lucide-react"
 import FormatSelector from "@/components/FormatSelector"
+import OrtIgaFormatSelector from "@/components/OrtIgaFormatSelector"
 import nextDynamic from "next/dynamic"
 
 const ScienceProof = nextDynamic(() => import("@/components/ScienceProof"))
@@ -34,16 +35,19 @@ export const metadata = buildMetadata({
 })
 
 export default async function Page() {
-  const dbProduct = await prisma.product.findUnique({
-    where: { slug: "te-humus-liquido-premium" },
-    include: { 
-      variants: {
-        orderBy: { price: 'asc' }
-      } 
-    }
-  });
+  const [dbProduct, dbOrtiga] = await Promise.all([
+    prisma.product.findUnique({
+      where: { slug: "te-humus-liquido-premium" },
+      include: { variants: { orderBy: { price: 'asc' } } }
+    }),
+    prisma.product.findUnique({
+      where: { slug: "purin-ortiga-concentrado" },
+      include: { variants: { orderBy: { price: 'asc' } } }
+    }),
+  ]);
 
   const dbVariants = dbProduct?.variants || [];
+  const dbOrtigaVariants = dbOrtiga?.variants || [];
   const [seoSolutions, seoArticles, seoCommercialPages, seoGeoPages] = await Promise.all([
     getSeoSolutions(),
     getSeoArticles(),
@@ -228,57 +232,12 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           4. FORMAT SELECTOR — SELECTOR DE FORMATOS
       ════════════════════════════════════════════ */}
-      <FormatSelector dbVariants={dbVariants} />
+      <FormatSelector dbVariants={dbVariants} productSlug="te-humus-liquido-premium" />
 
       {/* ════════════════════════════════════════════
-          4bis. CATÁLOGO SECUNDARIO — Purín de ortiga
+          4bis. CATÁLOGO SECUNDARIO — Purín de ortiga (Carrusel)
       ════════════════════════════════════════════ */}
-      <section className="w-full py-20 md:py-24 bg-background border-t border-border/40">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
-          <div className="rounded-[2rem] border border-border/50 bg-cream-warm/60 overflow-hidden grid md:grid-cols-5 gap-0">
-            <div className="md:col-span-3 p-8 md:p-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 text-primary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/15">
-                <Leaf className="w-3.5 h-3.5" />
-                También en catálogo
-              </div>
-              <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
-                Purín concentrado de ortiga.
-              </h2>
-              <p className="mt-5 text-lg text-muted-foreground leading-relaxed max-w-xl">
-                Extracto vegetal concentrado pensado para huerto urbano, rosales, frutales y pequeñas
-                explotaciones con manejo orgánico. Mismos formatos que el té de humus (1 L, 5 L, 10 L, 25 L)
-                para que la elección por escala siga siendo sencilla.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/producto/purin-ortiga-concentrado"
-                  className="inline-flex items-center rounded-full px-7 h-12 font-bold bg-primary text-white shadow-lg shadow-primary/15 text-sm hover:bg-brand-green-hover transition-colors"
-                >
-                  Ver producto
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
-                <Link
-                  href="/purin-de-ortiga"
-                  className="inline-flex items-center rounded-full px-7 h-12 font-bold bg-background border border-border/60 text-foreground text-sm hover:border-primary/40 transition-colors"
-                >
-                  Aplicaciones por cultivo
-                </Link>
-              </div>
-
-            </div>
-            <div className="md:col-span-2 relative min-h-[260px] md:min-h-full">
-              <Image
-                src="/uploads/1777414997332-6td6tu.webp"
-                alt="Formato del catálogo Biocultor"
-                fill
-                className="object-cover"
-                sizes="(min-width: 768px) 40vw, 100vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-cream-warm/40 pointer-events-none" />
-            </div>
-          </div>
-        </div>
-      </section>
+      <OrtIgaFormatSelector dbVariants={dbOrtigaVariants} />
 
       {/* ════════════════════════════════════════════
           5. TIMELINE DE RESULTADOS — ¿Cuándo actúa?
