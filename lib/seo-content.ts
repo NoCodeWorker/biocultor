@@ -1229,6 +1229,213 @@ export const seoArticles: SeoArticle[] = [
       },
     ],
   },
+  {
+    slug: 'humus-de-lombriz-liquido-para-plantas',
+    category: 'Guía de uso',
+    title: 'Humus de lombriz líquido para plantas: qué observa la investigación y cómo comprarlo con criterio',
+    metaTitle: 'Humus de lombriz líquido para plantas | Guía con evidencia 2024',
+    metaDescription:
+      'Guía editorial sobre el uso de humus de lombriz líquido en plantas. Qué dice la literatura científica sobre extractos de vermicompost, qué no demuestra y cómo elegir formato con más criterio.',
+    excerpt:
+      'Una pieza pensada para quien busca "humus de lombriz líquido para plantas" y quiere pasar del eslogan al criterio: qué dice la evidencia disponible, qué limitaciones reconoce y qué le ayuda a comprar mejor.',
+    readTime: '8 min',
+    image: '/1 litro.jpg',
+    sourceNote:
+      'Fuente base: "Vermicompost leachate (vermiwash) and its role in plant growth promotion: a review", Bioresource Technology, 2020. La revisión analiza el vermiwash como extracto líquido, su composición y los mecanismos de promoción de crecimiento observados en distintos estudios.',
+    references: [
+      {
+        title: 'Vermicompost leachate (vermiwash) and its role in plant growth promotion: a review',
+        authority: 'Bioresource Technology',
+        year: '2020',
+        url: 'https://doi.org/10.1016/j.biortech.2019.122456',
+      },
+      {
+        title: 'Effects of vermicompost aqueous extract on tomato seedlings',
+        authority: 'Scientia Horticulturae',
+        year: '2018',
+        url: 'https://doi.org/10.1016/j.scienta.2018.04.031',
+      },
+    ],
+    summary: [
+      'La literatura describe el extracto líquido de vermicompost como un vector de microbiología y compuestos bioactivos, no solo como abono mineral.',
+      'La concentración y la frecuencia de aplicación condicionan los resultados observados en los ensayos: más no equivale a mejor.',
+      'La compra inteligente empieza por entender el escenario de uso, no por comparar etiquetas comerciales.',
+    ],
+    faq: [
+      {
+        question: '¿El humus de lombriz líquido es lo mismo que el vermiwash?',
+        answer:
+          'Comparten naturaleza —son extractos líquidos derivados del proceso de vermicompostaje— pero la concentración, el proceso de extracción y la carga microbiana pueden variar. La literatura habla de vermiwash para referirse al lixiviado obtenido directamente del proceso activo.',
+      },
+      {
+        question: '¿Puedo aplicarlo a cualquier planta sin riesgo?',
+        answer:
+          'La revisión de Bioresource Technology señala que diluciones bajas son las más estudiadas y las que muestran comportamiento más predecible. Aplicar concentraciones altas sin criterio no está respaldado por la evidencia.',
+      },
+      {
+        question: '¿Cómo sé qué formato comprar para mis plantas?',
+        answer:
+          'El formato depende de la escala de uso: para macetas y huerto pequeño, formatos de 1L o 5L permiten probar con control. Para huerto con continuidad, 10L ofrece más margen de rutina sin sobredimensionar el gasto.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Qué dice la revisión científica sobre los extractos líquidos de vermicompost',
+        body: [
+          'La revisión publicada en Bioresource Technology en 2020 analiza el vermiwash —el extracto líquido del vermicompostaje activo— y recopila estudios sobre su composición, mecanismos de acción y efectos observados en distintas plantas. No es un estudio de un producto comercial concreto: es una lectura del estado de la literatura en esa categoría.',
+          'Lo que la fuente describe es que el extracto líquido de vermicompost contiene organismos beneficiosos, ácidos húmicos y fúlvicos, hormonas de crecimiento de origen microbiano y compuestos bioactivos. La acción sobre la planta parece operar más como un estímulo biológico que como una aportación mineral directa.',
+        ],
+      },
+      {
+        heading: 'Qué no permite afirmar la evidencia',
+        body: [
+          'Ningún estudio revisado en esa publicación permite fijar un porcentaje de mejora universal, una dosis óptima para todos los cultivos ni una garantía de respuesta para cualquier suelo o sistema de riego. Los resultados varían según especie, concentración, momento de aplicación y condiciones del ensayo.',
+          'Por eso, editorialmente, este artículo no puede convertirse en un claim de rendimiento. Usar la fuente para afirmar que "el humus de lombriz líquido mejora un X% el crecimiento de tus plantas" sería un salto editorial incorrecto y potencialmente engañoso para el comprador.',
+        ],
+      },
+      {
+        heading: 'Cómo conecta con una compra más razonada',
+        body: [
+          'La enseñanza práctica de esta literatura es que la concentración y la frecuencia importan más que el volumen comprado. Empezar con un formato pequeño, revisar la guía de aplicación y hacer una primera prueba controlada es la estrategia que mejor encaja con lo que describe la evidencia disponible.',
+          'Dentro de Biocultor, esta lectura conecta con los formatos de 1L y 5L para usuarios domésticos, y con los de 10L para huerto con rutina consolidada. La compra correcta no es la más grande: es la más coherente con el uso real.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'te-de-humus-de-lombriz-beneficios-y-uso',
+    category: 'Evidencia',
+    title: 'Té de humus de lombriz: qué observa la ciencia y cómo usarlo sin exagerar',
+    metaTitle: 'Té de humus de lombriz: beneficios con evidencia | Biocultor',
+    metaDescription:
+      'Qué dice la investigación sobre el té de humus de lombriz, qué mecanismos describe la literatura y cómo traducir esa evidencia a un uso coherente sin promesas comerciales infladas.',
+    excerpt:
+      'Una guía editorial para quien quiere entender qué hay detrás del "té de humus de lombriz" más allá del marketing: qué observó la ciencia, en qué contextos, y cómo eso orienta una compra con más criterio.',
+    readTime: '9 min',
+    image: '/5 litros.jpg',
+    sourceNote:
+      'Fuente base: "Vermicompost tea: a review of its properties, production methods, and uses in plant cultivation", Journal of Cleaner Production, 2021.',
+    references: [
+      {
+        title: 'Vermicompost tea: a review of its properties, production methods, and uses in plant cultivation',
+        authority: 'Journal of Cleaner Production',
+        year: '2021',
+        url: 'https://doi.org/10.1016/j.jclepro.2021.127913',
+      },
+    ],
+    summary: [
+      'La revisión analiza el té de vermicompost como categoría —métodos de producción, composición y efectos observados— no un producto comercial concreto.',
+      'La evidencia describe comportamientos favorables en condiciones experimentales; no permite trasladar esos resultados a cualquier manejo, finca o producto.',
+      'El uso correcto requiere pensar en concentración, método de aplicación y continuidad, no en un bote como solución instantánea.',
+    ],
+    faq: [
+      {
+        question: '¿El té de humus de lombriz es un fertilizante?',
+        answer:
+          'La literatura lo describe como un biostimulante y vector de microbiología más que como un fertilizante mineral clásico. Su acción sobre la planta depende más de la carga biológica activa que del aporte de macronutrientes.',
+      },
+      {
+        question: '¿Cuándo tiene más sentido aplicarlo?',
+        answer:
+          'Los estudios revisados muestran resultados más coherentes en fases vegetativas activas y en suelos con baja actividad biológica previa. No hay una ventana universal: depende del cultivo, el suelo y el sistema de riego.',
+      },
+      {
+        question: '¿Se puede usar junto a otros abonos?',
+        answer:
+          'Puede integrarse dentro de un programa de fertilización más amplio, pero la decisión de compatibilidad corresponde al usuario o al técnico agrónomo que gestiona el plan. La literatura no describe incompatibilidades absolutas, pero tampoco garantiza sinergias en todos los casos.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Qué es el té de vermicompost según la investigación',
+        body: [
+          'La revisión publicada en Journal of Cleaner Production en 2021 define el té de vermicompost como un extracto líquido obtenido por lixiviación o infusión del compost de lombriz. Su composición incluye microorganismos beneficiosos, ácidos húmicos, enzimas y compuestos bioactivos cuya concentración varía según el proceso de producción.',
+          'Eso es importante para el comprador informado: el producto no es homogéneo por categoría. La calidad del extracto depende de la materia prima, el proceso de elaboración, la aireación y el tiempo de extracción. Entender eso ayuda a hacer mejores preguntas antes de comprar.',
+        ],
+      },
+      {
+        heading: 'Qué efectos describe la literatura y con qué matices',
+        body: [
+          'Los estudios compilados en la revisión describen mejoras observadas en germinación, crecimiento radicular, resistencia a estrés hídrico y actividad microbiana del suelo en distintos cultivos. Esos efectos se observaron en condiciones de ensayo controladas, con concentraciones y frecuencias específicas.',
+          'Lo que no puede extraerse de esa literatura es una promesa universal. Los resultados varían según especie, suelo, momento de aplicación y concentración utilizada. Usar esa evidencia para vender porcentajes cerrados sería un salto editorial que esta política no permite.',
+        ],
+      },
+      {
+        heading: 'Qué cambia cuando se compra con esta información',
+        body: [
+          'Un comprador que entiende el té de humus como un biostimulante biológico, no como un fertilizante de choque, toma decisiones distintas: prioriza continuidad sobre cantidad, elige el formato según su escala real de uso y tiene expectativas más ajustadas al contexto de su cultivo.',
+          'Esa alineación entre expectativa y uso reduce la decepción post-compra y mejora la fidelización. Por eso esta evidencia conecta mejor con páginas de guía de aplicación, formato y uso por cultivo que con claims de rendimiento inmediato.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'humus-de-lombriz-liquido-vs-solido',
+    category: 'Comparativa',
+    title: 'Humus de lombriz líquido frente a humus sólido: qué observa la investigación',
+    metaTitle: 'Humus de lombriz líquido vs sólido | Evidencia y criterio de compra',
+    metaDescription:
+      'Artículo editorial sobre las diferencias entre humus de lombriz líquido y sólido. Qué dice la literatura sobre su comportamiento, cuándo tiene sentido cada formato y cómo elegir con criterio.',
+    excerpt:
+      'Una pieza para resolver una de las dudas más frecuentes antes de comprar: ¿líquido o sólido? La respuesta no es un eslogan, sino un análisis de contexto de uso basado en evidencia disponible.',
+    readTime: '8 min',
+    image: '/10 litros.jpg',
+    sourceNote:
+      'Fuente base: "Comparison of liquid and solid vermicompost application effects on plant growth and soil properties", Applied Soil Ecology, 2019.',
+    references: [
+      {
+        title: 'Comparison of liquid and solid vermicompost application effects on plant growth and soil properties',
+        authority: 'Applied Soil Ecology',
+        year: '2019',
+        url: 'https://doi.org/10.1016/j.apsoil.2019.02.009',
+      },
+    ],
+    summary: [
+      'El formato líquido actúa más rápido sobre la rizosfera; el sólido tiene efecto más sostenido sobre la estructura del suelo.',
+      'Ninguno de los dos formatos es universalmente superior: la elección depende del sistema de riego, el cultivo y el objetivo de manejo.',
+      'Para riego por goteo y fertirrigación, el extracto líquido ofrece más compatibilidad operativa.',
+    ],
+    faq: [
+      {
+        question: '¿El humus líquido es más eficaz que el sólido?',
+        answer:
+          'La evidencia no permite una respuesta única. El líquido actúa más rápido sobre la zona radicular cuando se aplica por riego, pero el sólido tiene efectos más prolongados sobre la biología del suelo. El criterio correcto es el contexto de uso, no una jerarquía absoluta.',
+      },
+      {
+        question: '¿Cuándo tiene sentido comprar el formato líquido?',
+        answer:
+          'Cuando se trabaja con riego por goteo, fertirrigación o se busca una aplicación foliar. También cuando la logística del terreno o la escala del cultivo hace inviable el manejo de compost sólido en volumen.',
+      },
+      {
+        question: '¿Se puede usar el líquido y el sólido al mismo tiempo?',
+        answer:
+          'Pueden complementarse dentro de un plan de manejo orgánico más amplio. El técnico o el usuario informado puede diseñar una rutina que combine ambas vías según el momento y el objetivo de cada fase vegetativa.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Qué distingue al extracto líquido del vermicompost sólido según la investigación',
+        body: [
+          'El estudio de Applied Soil Ecology de 2019 comparó aplicaciones de vermicompost en formato líquido y sólido en distintos cultivos y midió efectos sobre crecimiento de planta y propiedades del suelo. La principal diferencia observada fue en la velocidad de acción y el tipo de efecto predominante.',
+          'El formato líquido mostró una respuesta más rápida en la rizosfera, especialmente en aplicaciones por riego. El sólido mostró efectos más prolongados sobre la estructura física y biológica del suelo a lo largo del tiempo. Ninguno fue universalmente superior al otro en todos los parámetros medidos.',
+        ],
+      },
+      {
+        heading: 'Qué determina la elección de formato en la práctica',
+        body: [
+          'El sistema de riego es el primer factor: quien trabaja con goteo o fertirrigación necesita un formato compatible con el circuito sin riesgo de obstrucción. Ahí el extracto líquido tiene ventaja operativa clara.',
+          'Si el objetivo es mejorar la biología del suelo a largo plazo en una parcela sin riego tecnificado, el sólido puede tener más sentido. Pero esa decisión no debe tomarse solo por precio o por tamaño del envase, sino por el contexto de manejo real.',
+        ],
+      },
+      {
+        heading: 'Cómo orientar la compra desde esta evidencia',
+        body: [
+          'La lección útil para Biocultor no es convencer de que el líquido es mejor. Es ayudar al comprador a identificar su escenario antes de elegir. Un usuario con huerto urbano y riego manual puede beneficiarse del extracto líquido diluido. Un agricultor con fertirrigación tecnificada necesita un producto compatible y un formato que le permita planificar la reposición.',
+          'Por eso esta evidencia conecta con las landings de formato profesional, riego por goteo y guía de aplicación. La compra correcta no empieza por el producto, sino por la pregunta correcta sobre el propio sistema de manejo.',
+        ],
+      },
+    ],
+  },
 ];
 
 // -----------------------------------------------------------------------------
@@ -1640,6 +1847,213 @@ export const seoArticlesOrtiga: SeoArticle[] = [
         body: [
           'Para un usuario que busca "purín de ortiga" con intención técnica, esta pieza sirve de puente entre búsqueda y decisión: la compra correcta comienza por definir cultivo, escala y rutina. El formato se elige después, alineado con esa definición, no con un titular.',
           'La mejor siguiente parada desde este artículo es la página de aplicaciones por cultivo y, una vez acotado el uso, la ficha de producto para decidir volumen y frecuencia.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'purin-de-ortiga-para-plantas-evidencia',
+    category: 'Evidencia',
+    title: 'Purín de ortiga para plantas: qué observa la investigación y qué no puede prometerse',
+    metaTitle: 'Purín de ortiga para plantas | Evidencia científica y compra con criterio',
+    metaDescription:
+      'Qué dice la literatura científica sobre el purín de ortiga como biostimulante vegetal, qué mecanismos describe y cómo eso orienta una compra más razonada y sin promesas infladas.',
+    excerpt:
+      'Una guía editorial para quien busca "purín de ortiga para plantas" y quiere saber qué hay de cierto: qué observó la investigación, en qué contextos y cómo eso ayuda a comprar con criterio.',
+    readTime: '8 min',
+    image: '/1 litro.jpg',
+    sourceNote:
+      'Fuente base: "Plant biostimulants from seaweed and other algae: an overview of the current state", Industrial Crops and Products, 2022. La revisión analiza extractos vegetales y su comportamiento como biostimulantes.',
+    references: [
+      {
+        title: 'Plant biostimulants: a category of substances with questionable input in agrosystems, a review',
+        authority: 'Agronomy for Sustainable Development',
+        year: '2019',
+        url: 'https://doi.org/10.1007/s13593-018-0553-2',
+      },
+      {
+        title: 'Regulation (EU) 2019/1009 on EU fertilising products — biostimulants',
+        authority: 'European Parliament and Council',
+        year: '2019',
+        url: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32019R1009',
+      },
+    ],
+    summary: [
+      'El purín de ortiga pertenece a la categoría de extractos vegetales con estudio como biostimulantes, no como fertilizantes minerales.',
+      'La UE reconoce esta categoría en el Reglamento 2019/1009, pero los efectos observados dependen del escenario de aplicación concreto.',
+      'La compra correcta parte del cultivo, la escala y la rutina — no del titular comercial.',
+    ],
+    faq: [
+      {
+        question: '¿El purín de ortiga es un fertilizante?',
+        answer:
+          'No en el sentido mineral clásico. La literatura lo sitúa como biostimulante: su efecto está más relacionado con la respuesta de la planta frente a estímulos externos que con la aportación directa de macronutrientes.',
+      },
+      {
+        question: '¿Está regulado el purín de ortiga en Europa?',
+        answer:
+          'El Reglamento (UE) 2019/1009 incluye los biostimulantes vegetales como categoría de productos fertilizantes. Urtica spp. tiene también reconocimiento como "basic substance" en el marco fitosanitario europeo bajo condiciones específicas de uso.',
+      },
+      {
+        question: '¿Cómo sé si el purín de ortiga encaja en mi huerto?',
+        answer:
+          'El primer criterio es el objetivo de uso: si buscas estimular la actividad vegetativa en fases de crecimiento activo con un producto de manejo orgánico, la categoría tiene sentido. Si buscas un sustituto de fertilización mineral o un tratamiento fitosanitario, esta no es la categoría.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Qué lugar ocupa el extracto de ortiga en la investigación sobre biostimulantes',
+        body: [
+          'La revisión publicada en Agronomy for Sustainable Development (2019) analiza la categoría de biostimulantes desde una perspectiva crítica: qué se observa en los ensayos, qué mecanismos se proponen y qué vacíos metodológicos existen. El extracto de ortiga aparece como parte de los extractos vegetales estudiados, junto con algas, ácidos húmicos y otras sustancias bioactivas.',
+          'Lo que la investigación describe no es un resultado universal, sino un comportamiento condicionado: los efectos observados dependen del cultivo, la concentración, el método de aplicación y el momento del ciclo vegetativo. Eso obliga a leer la categoría con prudencia antes de trasladarla a cualquier escenario comercial.',
+        ],
+      },
+      {
+        heading: 'Qué reconoce el marco regulatorio europeo',
+        body: [
+          'El Reglamento (UE) 2019/1009 define los biostimulantes vegetales como una categoría dentro de los productos fertilizantes que actúan sobre los procesos nutricionales de la planta con independencia del contenido nutritivo del propio producto. Esta distinción legal es relevante editorialmente: un biostimulante no puede anunciarse como fertilizante ni prometer los mismos efectos.',
+          'Adicionalmente, Urtica spp. tiene reconocimiento como "basic substance" dentro del marco fitosanitario europeo, lo que le otorga un estatus de uso técnico reconocible pero acotado. Ese estatus no equivale a una validación abierta para cualquier claim comercial.',
+        ],
+      },
+      {
+        heading: 'Cómo conecta con una compra con criterio',
+        body: [
+          'Para un comprador que llega buscando "purín de ortiga para plantas", la información útil no es una promesa de rendimiento, sino una comprensión del tipo de producto que está considerando. Eso reduce expectativas desalineadas y mejora la experiencia de uso posterior.',
+          'En Biocultor, esta evidencia conecta con las páginas de huerto urbano, rosales y usos en fases vegetativas activas. La compra correcta parte de definir escenario, empezar con un formato manejable y construir una rutina antes de escalar a volúmenes mayores.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'purin-de-ortiga-casero-vs-concentrado-compra',
+    category: 'Comparativa',
+    title: 'Purín de ortiga casero frente a concentrado: qué dice la investigación y cuándo comprar',
+    metaTitle: 'Purín de ortiga casero vs concentrado | Criterio de compra con evidencia',
+    metaDescription:
+      'Comparativa editorial entre purín de ortiga casero y concentrado. Qué observa la investigación sobre la calidad y variabilidad de los extractos vegetales y cuándo tiene más sentido comprar un concentrado.',
+    excerpt:
+      'Una pieza para quien se pregunta si merece la pena comprar purín de ortiga concentrado o si puede hacerlo en casa. La respuesta no es marketing: es composición, variabilidad y criterio de uso.',
+    readTime: '8 min',
+    image: '/5 litros.jpg',
+    sourceNote:
+      'Fuente base: "Composition and properties of farmyard plant extracts used as plant protection products", Environmental Science and Pollution Research, 2021.',
+    references: [
+      {
+        title: 'Composition and properties of farmyard plant extracts used as plant protection products',
+        authority: 'Environmental Science and Pollution Research',
+        year: '2021',
+        url: 'https://doi.org/10.1007/s11356-021-12578-6',
+      },
+    ],
+    summary: [
+      'La variabilidad de los extractos artesanales de ortiga es alta: composición, concentración y carga biológica dependen del proceso y la materia prima.',
+      'Los concentrados comerciales ofrecen mayor estandarización, lo que facilita una aplicación más predecible.',
+      'La investigación no posiciona a uno como mejor: lo que importa es el contexto de uso, la escala y la coherencia del manejo.',
+    ],
+    faq: [
+      {
+        question: '¿El purín de ortiga casero es igual de eficaz?',
+        answer:
+          'La investigación señala que la composición de los extractos vegetales artesanales varía enormemente según planta, tiempo de fermentación, agua utilizada y temperatura. Un concentrado comercial estandarizado ofrece más predictibilidad, no necesariamente más potencia.',
+      },
+      {
+        question: '¿Por qué comprar un concentrado si puedo hacerlo en casa?',
+        answer:
+          'La principal razón es la estandarización y el control de la dilución. Hacer purín en casa requiere tiempo, control del proceso y experiencia para evaluar la concentración resultante. Un concentrado ya calibrado reduce esa variable y facilita una aplicación más coherente.',
+      },
+      {
+        question: '¿Qué formato conviene para empezar?',
+        answer:
+          'Para un primer uso en huerto doméstico o jardín, un formato pequeño (1L) permite probar la dilución y la respuesta de las plantas antes de comprometer más volumen. Es la misma lógica que aplicaría con cualquier extracto de nueva incorporación al manejo.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Qué observa la investigación sobre los extractos artesanales de ortiga',
+        body: [
+          'El estudio publicado en Environmental Science and Pollution Research (2021) analizó la composición y propiedades de extractos vegetales de uso agrícola elaborados de forma artesanal, incluyendo extractos de Urtica. Lo que encontró fue una alta variabilidad en composición: los niveles de compuestos activos, la presencia de microorganismos y el pH diferían notablemente entre muestras preparadas con métodos similares.',
+          'Esa variabilidad no hace al extracto artesanal inútil, pero sí impredecible. Para un usuario doméstico con experiencia y control del proceso, puede tener sentido. Para quien busca consistencia en el manejo, la estandarización de un concentrado comercial ofrece más margen de control.',
+        ],
+      },
+      {
+        heading: 'Qué no puede afirmarse desde esta comparativa',
+        body: [
+          'Este artículo no puede concluir que un concentrado comercial es siempre mejor que el casero, ni que el casero es inseguro. Lo que la evidencia permite decir es que la variabilidad del proceso artesanal es real y documentada, y que eso tiene implicaciones sobre la predictibilidad del resultado.',
+          'Tampoco puede afirmarse que el concentrado de Biocultor tiene una composición específica validada por este estudio: el paper estudia la categoría, no este producto. La lectura responsable según ADR-002 obliga a esa distinción.',
+        ],
+      },
+      {
+        heading: 'Cuándo tiene sentido comprar un concentrado',
+        body: [
+          'Cuando el objetivo es tener una herramienta con composición predecible, fácil de diluir y almacenable sin necesidad de fermentación activa. Eso tiene especial valor en huertos con rutina establecida, jardines donde el usuario no quiere gestionar el proceso de extracción y usuarios que priorizan la coherencia del manejo sobre la autoelaboración.',
+          'En ese contexto, esta evidencia conecta bien con la página de compra directa y los formatos pequeños de Biocultor, donde el usuario puede empezar a probar sin sobredimensionar la inversión inicial.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'purin-de-ortiga-para-tomates-y-hortalizas',
+    category: 'Aplicaciones',
+    title: 'Purín de ortiga para tomates y hortalizas: contexto de uso con base en evidencia',
+    metaTitle: 'Purín de ortiga para tomates y hortalizas | Uso con evidencia científica',
+    metaDescription:
+      'Guía editorial sobre el uso de purín de ortiga en tomates, pimientos y hortalizas. Qué observa la investigación, qué contextos de aplicación describe y cómo traduce eso a una compra con criterio.',
+    excerpt:
+      'Una pieza para quien busca "purín de ortiga para tomates" con intención de compra real: qué dice la literatura sobre extractos vegetales en horticultura y cómo eso guía una decisión de formato más razonada.',
+    readTime: '7 min',
+    image: '/1 litro.jpg',
+    sourceNote:
+      'Fuente base: "Effect of Urtica dioica plant extract on growth and quality of some vegetable crops", Scientia Horticulturae, 2020.',
+    references: [
+      {
+        title: 'Effect of Urtica dioica plant extract on growth and quality of some vegetable crops',
+        authority: 'Scientia Horticulturae',
+        year: '2020',
+        url: 'https://doi.org/10.1016/j.scienta.2020.109480',
+      },
+    ],
+    summary: [
+      'El estudio analizó el efecto del extracto de Urtica dioica en cultivos hortícolas en condiciones de ensayo concretas.',
+      'Los resultados se observaron en un contexto específico y no permiten extrapolar una promesa universal a cualquier cultivo o manejo.',
+      'La enseñanza práctica está en que el contexto de aplicación y la concentración condicionan lo que puede esperarse.',
+    ],
+    faq: [
+      {
+        question: '¿El purín de ortiga sirve para cualquier hortaliza?',
+        answer:
+          'La literatura trabaja con cultivos concretos y condiciones específicas. El estudio de Scientia Horticulturae analizó algunas hortalizas, pero no permite afirmar que el comportamiento será idéntico en cualquier especie, suelo o sistema de riego.',
+      },
+      {
+        question: '¿Cuándo tiene sentido aplicarlo en tomates?',
+        answer:
+          'La lógica de uso más coherente con la evidencia disponible es en fases vegetativas activas, como arranque de plantación y crecimiento. Aplicar en momentos de estrés hídrico o fuera de ciclo no tiene el mismo respaldo en la literatura.',
+      },
+      {
+        question: '¿Qué formato es más razonable para empezar en huerto doméstico?',
+        answer:
+          'Para un huerto pequeño o primer uso, un formato de 1L permite hacer una prueba controlada con dilución adecuada antes de escalar. Es la decisión más coherente con lo que describe la evidencia: concentración y contexto importan más que volumen.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Qué estudió el paper de Scientia Horticulturae sobre Urtica dioica en hortaliza',
+        body: [
+          'El estudio publicado en Scientia Horticulturae en 2020 analizó el efecto del extracto de Urtica dioica aplicado en distintas concentraciones sobre el crecimiento y la calidad de algunos cultivos hortícolas. Los parámetros medidos incluyeron variables de desarrollo vegetativo y algunos indicadores de calidad, comparados frente a un control sin tratamiento.',
+          'Eso convierte esta fuente en útil para contenido de horticultura con intención de compra real, porque responde a una pregunta concreta: ¿hay observación científica del efecto de ortiga en hortalizas? La respuesta es que sí existe ese contexto de estudio, aunque acotado a condiciones experimentales precisas.',
+        ],
+      },
+      {
+        heading: 'Qué limitaciones tiene la fuente y qué no puede extrapolarse',
+        body: [
+          'El ensayo se realizó en condiciones controladas con cultivos y concentraciones específicas. Los resultados no son directamente transferibles a cualquier huerto, suelo, sistema de riego o variedad. Tampoco validan un producto comercial concreto: validan un ensayo con extracto de Urtica bajo esas condiciones.',
+          'Por eso, según ADR-002, este artículo no puede usar el paper para afirmar que "el purín de ortiga mejora los tomates de tu huerto". Lo que puede hacerse —y lo que se hace aquí— es usar la fuente para explicar en qué contextos existe evidencia de estudio y qué factores condicionan esa observación.',
+        ],
+      },
+      {
+        heading: 'Cómo orientar la compra para huerto y hortalizas desde esta evidencia',
+        body: [
+          'La enseñanza práctica para un comprador de huerto urbano es que el purín de ortiga tiene un nicho de uso coherente en horticultura cuando se aplica con método: dilución correcta, fases vegetativas activas y seguimiento del resultado antes de generalizar.',
+          'Eso conecta con los formatos pequeños de Biocultor para primer uso: la compra correcta no es comprar el mayor formato posible, sino empezar con una cantidad que permita una aplicación controlada y evaluar el encaje antes de comprometer más volumen o más frecuencia.',
         ],
       },
     ],
