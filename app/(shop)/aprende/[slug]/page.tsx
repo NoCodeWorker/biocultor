@@ -7,16 +7,36 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
 import { breadcrumbSchema, buildMetadata, faqSchema } from '@/lib/seo';
 import { getSeoArticles, getSeoArticlesOrtiga } from '@/lib/seo-store';
+import prisma from '@/lib/db';
 
-async function getAllArticles() {
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+async function getAllStaticArticles() {
   const [base, ortiga] = await Promise.all([getSeoArticles(), getSeoArticlesOrtiga()]);
   return [...base, ...ortiga];
 }
 
+// ---------------------------------------------------------------------------
+// Static params — incluye artículos estáticos + posts de BD
+// ---------------------------------------------------------------------------
+
 export async function generateStaticParams() {
-  const seoArticles = await getAllArticles();
-  return seoArticles.map((article) => ({ slug: article.slug }));
+  const [staticArticles, dbPosts] = await Promise.all([
+    getAllStaticArticles(),
+    prisma.post.findMany({ where: { isPublished: true }, select: { slug: true } }),
+  ]);
+  const slugs = new Set([
+    ...staticArticles.map((a) => a.slug),
+    ...dbPosts.map((p) => p.slug),
+  ]);
+  return Array.from(slugs).map((slug) => ({ slug }));
 }
+
+// ---------------------------------------------------------------------------
+// Metadata — BD primero, fallback estático
+// ---------------------------------------------------------------------------
 
 export async function generateMetadata({
   params,
@@ -24,9 +44,20 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const seoArticles = await getAllArticles();
-  const article = seoArticles.find((entry) => entry.slug === slug);
 
+  const dbPost = await prisma.post.findUnique({ where: { slug } });
+  if (dbPost) {
+    return buildMetadata({
+      title: dbPost.metaTitle ?? dbPost.title,
+      description: dbPost.metaDesc ?? dbPost.excerpt,
+      path: `/aprende/${slug}`,
+      image: dbPost.coverImage ?? undefined,
+      keywords: [dbPost.title, dbPost.category, 'biocultor'],
+    });
+  }
+
+  const staticArticles = await getAllStaticArticles();
+  const article = staticArticles.find((e) => e.slug === slug);
   if (!article) {
     return buildMetadata({
       title: 'Guía no encontrada | Biocultor',
@@ -44,14 +75,127 @@ export async function generateMetadata({
   });
 }
 
+// ---------------------------------------------------------------------------
+// Page — A) Post de BD  B) Artículo estático
+// ---------------------------------------------------------------------------
+
 export default async function AprendeArticlePage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const seoArticles = await getAllArticles();
-  const article = seoArticles.find((entry) => entry.slug === slug);
+
+  // ── A) Post de base de datos (CRUD desde el admin) ───────────────────────
+  const dbPost = await prisma.post.findUnique({ where: { slug } });
+
+  if (dbPost) {
+    const paragraphs = dbPost.content
+      .split('\n\n')
+      .map((p) => p.trim())
+      .filter(Boolean);
+
+    const articleSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: dbPost.title,
+      description: dbPost.metaDesc ?? dbPost.excerpt,
+      author: { '@type': 'Organization', name: 'Biocultor' },
+      articleSection: dbPost.category,
+      image: dbPost.coverImage,
+    };
+
+    return (
+      <article className="w-[92%] lg:w-[75%] mx-auto px-4 py-16 md:py-24">
+        <StructuredData id="article-schema" data={articleSchema} />
+        <StructuredData
+          id="article-breadcrumb-schema"
+          data={breadcrumbSchema([
+            { name: 'Inicio', path: '/' },
+            { name: 'Aprende', path: '/aprende' },
+            { name: dbPost.title, path: `/aprende/${dbPost.slug}` },
+          ])}
+        />
+
+        <Breadcrumbs
+          items={[
+            { label: 'Inicio', href: '/' },
+            { label: 'Aprende', href: '/aprende' },
+            { label: dbPost.title },
+          ]}
+        />
+
+        {dbPost.coverImage && (
+          <div className="mt-6 w-full max-w-4xl aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+            <img
+              src={dbPost.coverImage}
+              alt={dbPost.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
+
+        <div className="max-w-4xl mt-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary/80">
+            {dbPost.category}
+          </p>
+          <h1 className="mt-4 text-4xl md:text-6xl font-heading font-extrabold tracking-tight">
+            {dbPost.title}
+          </h1>
+          <p className="mt-6 text-xl text-muted-foreground leading-relaxed">
+            {dbPost.excerpt}
+          </p>
+        </div>
+
+        <div className="mt-14 max-w-4xl space-y-6">
+          {paragraphs.map((block, i) => {
+            if (block.startsWith('## ')) {
+              return (
+                <h2 key={i} className="text-2xl md:text-3xl font-heading font-bold tracking-tight pt-4">
+                  {block.replace(/^## /, '')}
+                </h2>
+              );
+            }
+            if (block.startsWith('> ')) {
+              return (
+                <blockquote key={i} className="border-l-4 border-primary/40 pl-6 italic text-muted-foreground text-lg leading-relaxed">
+                  {block.replace(/^> /, '')}
+                </blockquote>
+              );
+            }
+            if (block.startsWith('---')) return <hr key={i} className="border-border/40" />;
+            return (
+              <p key={i} className="text-muted-foreground leading-relaxed text-lg">
+                {block}
+              </p>
+            );
+          })}
+        </div>
+
+        <div className="mt-14 max-w-4xl rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
+            ¿Quieres pasar de la guía a la compra?
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+            Biocultor conecta contenido editorial con intención comercial real: formatos, envío
+            en España y una ficha de producto diseñada para convertir sin perder rigor.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-4">
+            <Link href="/producto/te-humus-liquido-premium" className="font-semibold text-foreground hover:text-primary transition-colors">
+              Ver producto
+            </Link>
+            <Link href="/te-de-humus-de-lombriz" className="font-semibold text-foreground hover:text-primary transition-colors">
+              Ver aplicaciones por cultivo
+            </Link>
+          </div>
+        </div>
+      </article>
+    );
+  }
+
+  // ── B) Artículo estático (seoArticles / seoArticlesOrtiga) ───────────────
+  const staticArticles = await getAllStaticArticles();
+  const article = staticArticles.find((entry) => entry.slug === slug);
 
   if (!article) {
     notFound();
@@ -62,10 +206,7 @@ export default async function AprendeArticlePage({
     '@type': 'Article',
     headline: article.title,
     description: article.metaDescription,
-    author: {
-      '@type': 'Organization',
-      name: 'Biocultor',
-    },
+    author: { '@type': 'Organization', name: 'Biocultor' },
     articleSection: article.category,
   };
 
