@@ -21,6 +21,7 @@ export async function createPost(formData: FormData): Promise<PostResult> {
   const metaTitle = (formData.get('metaTitle') as string)?.trim() || title;
   const metaDesc = (formData.get('metaDesc') as string)?.trim() || excerpt;
   const keywords = (formData.get('keywords') as string)?.trim() || '';
+  const coverImage = (formData.get('coverImage') as string)?.trim() || null;
   const isPublished = formData.get('isPublished') === 'on';
 
   if (!title || !slug || !excerpt || !content) {
@@ -31,7 +32,7 @@ export async function createPost(formData: FormData): Promise<PostResult> {
   if (collision) return { error: `Ya existe un post con slug "${slug}".` };
 
   const post = await prisma.post.create({
-    data: { title, slug, excerpt, content, category, metaTitle, metaDesc, keywords, isPublished },
+    data: { title, slug, excerpt, content, category, metaTitle, metaDesc, keywords, coverImage, isPublished },
   });
 
   revalidateBlog(slug);
@@ -47,6 +48,7 @@ export async function updatePost(id: string, formData: FormData): Promise<PostRe
   const metaTitle = (formData.get('metaTitle') as string)?.trim() || title;
   const metaDesc = (formData.get('metaDesc') as string)?.trim() || excerpt;
   const keywords = (formData.get('keywords') as string)?.trim() || '';
+  const coverImage = (formData.get('coverImage') as string)?.trim() || null;
   const isPublished = formData.get('isPublished') === 'on';
 
   if (!title || !slug || !excerpt || !content) {
@@ -59,7 +61,7 @@ export async function updatePost(id: string, formData: FormData): Promise<PostRe
   const prev = await prisma.post.findUnique({ where: { id } });
   await prisma.post.update({
     where: { id },
-    data: { title, slug, excerpt, content, category, metaTitle, metaDesc, keywords, isPublished },
+    data: { title, slug, excerpt, content, category, metaTitle, metaDesc, keywords, coverImage, isPublished },
   });
 
   revalidateBlog(slug);

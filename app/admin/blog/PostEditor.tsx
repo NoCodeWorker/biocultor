@@ -2,7 +2,8 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { Save, Loader2, Eye, EyeOff, Trash2, AlertCircle, CheckCircle2, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
+import { Save, Loader2, Eye, EyeOff, Trash2, AlertCircle, CheckCircle2, ExternalLink, ImageIcon } from 'lucide-react';
 import { updatePost, deletePost, togglePublished } from './actions';
 
 const CATEGORIES = [
@@ -24,6 +25,7 @@ type Post = {
   metaTitle: string | null;
   metaDesc: string | null;
   keywords: string;
+  coverImage: string | null;
 };
 
 export default function PostEditor({ post }: { post: Post }) {
@@ -42,6 +44,7 @@ export default function PostEditor({ post }: { post: Post }) {
   const [metaTitle, setMetaTitle] = useState(post.metaTitle ?? '');
   const [metaDesc, setMetaDesc] = useState(post.metaDesc ?? '');
   const [keywords, setKeywords] = useState(post.keywords);
+  const [coverImage, setCoverImage] = useState(post.coverImage ?? '');
 
   function handleSave() {
     const fd = new FormData();
@@ -53,6 +56,7 @@ export default function PostEditor({ post }: { post: Post }) {
     fd.set('metaTitle', metaTitle);
     fd.set('metaDesc', metaDesc);
     fd.set('keywords', keywords);
+    fd.set('coverImage', coverImage);
     if (isPublished) fd.set('isPublished', 'on');
 
     setError(null);
@@ -206,6 +210,37 @@ export default function PostEditor({ post }: { post: Post }) {
                 className={INPUT + ' opacity-60'}
               />
             </Field>
+          </section>
+
+          <section className="bg-card border border-border/60 rounded-2xl p-6 flex flex-col gap-4">
+            <h2 className="text-base font-heading font-bold">Imagen de cabecera</h2>
+            <Field label="URL de imagen">
+              <input
+                value={coverImage}
+                onChange={(e) => setCoverImage(e.target.value)}
+                className={INPUT}
+                placeholder="/uploads/mi-imagen.jpg o URL externa"
+              />
+              <p className="text-[10px] text-muted-foreground mt-1">
+                Usa la URL de una imagen subida o una URL externa (https://...)
+              </p>
+            </Field>
+            {coverImage && (
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border/40 bg-muted/30">
+                <img
+                  src={coverImage}
+                  alt="Vista previa"
+                  className="w-full h-full object-cover"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              </div>
+            )}
+            {!coverImage && (
+              <div className="w-full aspect-video rounded-xl border border-dashed border-border/40 bg-muted/20 flex flex-col items-center justify-center gap-2">
+                <ImageIcon className="w-8 h-8 text-muted-foreground/30" />
+                <p className="text-xs text-muted-foreground/60">Sin imagen de cabecera</p>
+              </div>
+            )}
           </section>
 
           <section className="bg-card border border-border/60 rounded-2xl p-6 flex flex-col gap-4">

@@ -196,6 +196,9 @@ model Post {
   isPublished Boolean  @default(false)
   author      String   @default("Equipo Biocultor")
   
+  // Imagen de cabecera
+  coverImage  String?  // URL relativa (/uploads/...) o path de /public
+
   // AIO y SEO Metadata
   metaTitle   String?
   metaDesc    String?
