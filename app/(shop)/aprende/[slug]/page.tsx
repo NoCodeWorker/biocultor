@@ -19,19 +19,25 @@ async function getAllStaticArticles() {
 }
 
 // ---------------------------------------------------------------------------
-// Static params — incluye artículos estáticos + posts de BD
+// Static params — resiliente a BD con schema desactualizado
 // ---------------------------------------------------------------------------
 
 export async function generateStaticParams() {
-  const [staticArticles, dbPosts] = await Promise.all([
-    getAllStaticArticles(),
-    prisma.post.findMany({ where: { isPublished: true }, select: { slug: true } }),
-  ]);
-  const slugs = new Set([
-    ...staticArticles.map((a) => a.slug),
-    ...dbPosts.map((p) => p.slug),
-  ]);
-  return Array.from(slugs).map((slug) => ({ slug }));
+  const staticArticles = await getAllStaticArticles();
+  try {
+    const dbPosts = await prisma.post.findMany({
+      where: { isPublished: true },
+      select: { slug: true },
+    });
+    const slugs = new Set([
+      ...staticArticles.map((a) => a.slug),
+      ...dbPosts.map((p) => p.slug),
+    ]);
+    return Array.from(slugs).map((slug) => ({ slug }));
+  } catch {
+    // BD no disponible o schema desactualizado → solo artículos estáticos
+    return staticArticles.map((a) => ({ slug: a.slug }));
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -45,13 +51,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  const dbPost = await prisma.post.findUnique({ where: { slug } });
+  let dbPost = null;
+  try {
+    dbPost = await prisma.post.findUnique({ where: { slug } });
+  } catch {
+    // BD no disponible o schema desactualizado → fallback estático
+  }
+
   if (dbPost) {
     return buildMetadata({
       title: dbPost.metaTitle ?? dbPost.title,
       description: dbPost.metaDesc ?? dbPost.excerpt,
       path: `/aprende/${slug}`,
-      image: dbPost.coverImage ?? undefined,
+      image: (dbPost as any).coverImage ?? undefined,
       keywords: [dbPost.title, dbPost.category, 'biocultor'],
     });
   }
@@ -87,13 +99,20 @@ export default async function AprendeArticlePage({
   const { slug } = await params;
 
   // ── A) Post de base de datos (CRUD desde el admin) ───────────────────────
-  const dbPost = await prisma.post.findUnique({ where: { slug } });
+  let dbPost = null;
+  try {
+    dbPost = await prisma.post.findUnique({ where: { slug } });
+  } catch {
+    // BD no disponible o schema desactualizado → fallback estático
+  }
 
   if (dbPost) {
     const paragraphs = dbPost.content
       .split('\n\n')
       .map((p) => p.trim())
       .filter(Boolean);
+
+    const coverImage = (dbPost as any).coverImage as string | null | undefined;
 
     const articleSchema = {
       '@context': 'https://schema.org',
@@ -102,7 +121,7 @@ export default async function AprendeArticlePage({
       description: dbPost.metaDesc ?? dbPost.excerpt,
       author: { '@type': 'Organization', name: 'Biocultor' },
       articleSection: dbPost.category,
-      image: dbPost.coverImage,
+      image: coverImage,
     };
 
     return (
@@ -125,10 +144,10 @@ export default async function AprendeArticlePage({
           ]}
         />
 
-        {dbPost.coverImage && (
+        {coverImage && (
           <div className="mt-6 w-full max-w-4xl aspect-video rounded-[2rem] overflow-hidden border border-border/40">
             <img
-              src={dbPost.coverImage}
+              src={coverImage}
               alt={dbPost.title}
               className="w-full h-full object-cover"
             />
