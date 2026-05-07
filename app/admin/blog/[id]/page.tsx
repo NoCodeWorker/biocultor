@@ -40,6 +40,7 @@ export default async function EditPostPage({ params }: { params: Promise<{ id: s
           metaTitle: post.metaTitle,
           metaDesc: post.metaDesc,
           keywords: post.keywords,
+          coverImage: post.coverImage ?? null,
         }}
       />
     </div>
