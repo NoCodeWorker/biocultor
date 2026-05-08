@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { Calculator, Euro, Package, Truck, Percent, ShoppingCart, Store, TrendingUp, Info } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Calculator, Euro, Package, Truck, Percent, ShoppingCart, Store, TrendingUp, Info, RefreshCw, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Tipos base
@@ -19,6 +19,7 @@ interface FormatData {
   id: FormatType;
   name: string;
   weightKg: number;
+  dimensions: { width: number, height: number, length: number };
   defaultCosts: Costs;
   defaultPvp: number;
 }
@@ -30,6 +31,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     id: '1L',
     name: 'Botella 1 Litro',
     weightKg: 1.2,
+    dimensions: { width: 10, height: 25, length: 10 },
     defaultCosts: { rawMaterial: 0.05, packaging: 0.5, labor: 0.3, energy: 0.1, other: 0.1 },
     defaultPvp: 14.90,
   },
@@ -37,6 +39,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     id: '5L',
     name: 'Garrafa 5 Litros',
     weightKg: 5.5,
+    dimensions: { width: 15, height: 30, length: 15 },
     defaultCosts: { rawMaterial: 0.25, packaging: 1.2, labor: 0.5, energy: 0.3, other: 0.2 },
     defaultPvp: 44.90,
   },
@@ -44,6 +47,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     id: '10L',
     name: 'Garrafa 10 Litros',
     weightKg: 10.5,
+    dimensions: { width: 20, height: 35, length: 20 },
     defaultCosts: { rawMaterial: 0.50, packaging: 1.8, labor: 0.7, energy: 0.5, other: 0.3 },
     defaultPvp: 85.90,
   },
@@ -51,6 +55,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     id: '25L',
     name: 'Garrafa 25 Litros',
     weightKg: 26.0,
+    dimensions: { width: 25, height: 45, length: 30 },
     defaultCosts: { rawMaterial: 1.25, packaging: 3.8, labor: 1.2, energy: 0.9, other: 0.5 },
     defaultPvp: 169.90,
   },
@@ -58,6 +63,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     id: '1000L',
     name: 'IBC 1000 Litros',
     weightKg: 1050.0,
+    dimensions: { width: 100, height: 115, length: 120 },
     defaultCosts: { rawMaterial: 50.00, packaging: 150.0, labor: 10.0, energy: 5.0, other: 10.0 },
     defaultPvp: 1250.0,
   }
@@ -91,6 +97,75 @@ export default function CalculadoraCostesPage() {
   const [retailMargin, setRetailMargin] = useState<number>(30); // 30% margin for B2B Retailer
   const [iva, setIva] = useState<number>(21); // 21% general, or 10% agricultural
 
+  // Packlink API States
+  const [isFetchingShipping, setIsFetchingShipping] = useState<boolean>(false);
+  const [packlinkRealCost, setPacklinkRealCost] = useState<number | null>(null);
+  const [packlinkError, setPacklinkError] = useState<string | null>(null);
+
+  // Calculations
+  const formatInfo = FORMATS[selectedFormat];
+  const totalWeight = formatInfo.weightKg * quantity;
+
+  // Lógica de consulta a la API de Packlink
+  useEffect(() => {
+    let isMounted = true;
+    const fetchRealShippingQuote = async () => {
+      setIsFetchingShipping(true);
+      setPacklinkError(null);
+      
+      try {
+        const res = await fetch('/api/admin/packlink', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            weight: totalWeight,
+            width: formatInfo.dimensions.width,
+            height: formatInfo.dimensions.height * quantity, // Aproximación básica de apilado
+            length: formatInfo.dimensions.length,
+          }),
+        });
+        
+        const data = await res.json();
+        
+        if (!isMounted) return;
+
+        if (!res.ok) {
+          setPacklinkError(data.error || 'Error desconocido');
+          setPacklinkRealCost(null);
+          return;
+        }
+
+        // Seleccionar la tarifa más barata
+        if (Array.isArray(data) && data.length > 0) {
+          // data[].price.total_price es el precio base sin IVA de Packlink PRO
+          const minPrice = Math.min(...data.map((service: any) => parseFloat(service.price.total_price)));
+          setPacklinkRealCost(minPrice);
+        } else {
+          setPacklinkError('No se encontraron transportistas');
+          setPacklinkRealCost(null);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setPacklinkError('Error de red al consultar API');
+          setPacklinkRealCost(null);
+        }
+      } finally {
+        if (isMounted) {
+          setIsFetchingShipping(false);
+        }
+      }
+    };
+
+    const debounceTimer = setTimeout(() => {
+      fetchRealShippingQuote();
+    }, 600); // 600ms debounce para no saturar la API mientras escriben cantidad
+
+    return () => {
+      isMounted = false;
+      clearTimeout(debounceTimer);
+    };
+  }, [totalWeight, quantity, formatInfo]);
+
   // Handlers
   const handleFormatChange = (format: FormatType) => {
     setSelectedFormat(format);
@@ -112,8 +187,9 @@ export default function CalculadoraCostesPage() {
   const unitCost = costs.rawMaterial + costs.packaging + costs.labor + costs.energy + costs.other;
   const totalProductionCost = unitCost * quantity;
 
-  // Envío (Packlink Pro)
-  const totalShippingCost = calculatePacklinkShipping(totalWeight);
+  // Envío (Si la API devuelve un valor real, usarlo. Si no, usar simulador)
+  const simulatedShippingCost = calculatePacklinkShipping(totalWeight);
+  const totalShippingCost = packlinkRealCost !== null ? packlinkRealCost : simulatedShippingCost;
   const unitShippingCost = totalShippingCost / quantity;
 
   // CANAL B2C (Venta Directa Cliente Final)
@@ -282,22 +358,41 @@ export default function CalculadoraCostesPage() {
         <div className="lg:col-span-7 space-y-6">
           
           {/* Tarjeta Envío Packlink */}
-          <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 shadow-sm">
+          <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 shadow-sm relative">
+            {isFetchingShipping && (
+              <div className="absolute top-4 right-4 text-primary animate-spin">
+                <RefreshCw className="w-5 h-5" />
+              </div>
+            )}
+            
             <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
               <Truck className="w-5 h-5 text-primary" />
-              Estimación de Envío (Base Imponible)
+              Coste Envío (Base Imponible)
             </h2>
+
+            {packlinkError && (
+              <div className="flex items-start gap-2 bg-yellow-500/10 border border-yellow-500/20 p-3 rounded-xl mt-3">
+                <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5 shrink-0" />
+                <p className="text-xs text-yellow-700/90">
+                  <strong>API Offline:</strong> {packlinkError}. <br/> Mostrando algoritmo de estimación local. Para datos exactos en tiempo real, añade <code className="bg-background px-1 rounded">PACKLINK_API_KEY</code> en tu .env.
+                </p>
+              </div>
+            )}
+
             <div className="flex items-start gap-3 mt-4">
               <Info className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-              <p className="text-sm text-muted-foreground">
-                Cálculo de envío basado en el peso total. 
-                El peso de {quantity} unidad(es) de {formatInfo.name} es de <strong>{totalWeight.toFixed(1)} kg</strong>.
-              </p>
+              <div className="text-sm text-muted-foreground">
+                <p>El envío de {quantity} ud(s) x {formatInfo.name} a Madrid (Simulación).</p>
+                <p className="mt-1 font-medium">Peso total: {totalWeight.toFixed(1)} kg | Dims: {formatInfo.dimensions.width}x{formatInfo.dimensions.height * quantity}x{formatInfo.dimensions.length} cm</p>
+              </div>
             </div>
             
             <div className="grid grid-cols-2 gap-4 mt-5">
               <div className="bg-background/50 rounded-xl p-4 border border-border/50">
-                <p className="text-sm text-muted-foreground mb-1">Coste Envío Total</p>
+                <p className="text-sm text-muted-foreground mb-1">
+                  Coste Envío Total
+                  {!packlinkError && packlinkRealCost !== null && <span className="ml-2 text-[10px] bg-emerald-500/20 text-emerald-600 px-1.5 py-0.5 rounded font-bold">API EXACTO</span>}
+                </p>
                 <p className="text-2xl font-bold text-foreground">{totalShippingCost.toFixed(2)} €</p>
               </div>
               <div className="bg-background/50 rounded-xl p-4 border border-border/50">
