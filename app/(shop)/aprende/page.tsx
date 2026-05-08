@@ -7,6 +7,8 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import { buildMetadata, breadcrumbSchema, collectionPageSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
 import { getSeoArticles, getSeoArticlesOrtiga } from '@/lib/seo-store';
+import prisma from '@/lib/db';
+
 
 export const metadata = buildMetadata({
   title: 'Guías de té de humus de lombriz | Biocultor',
@@ -22,11 +24,23 @@ export const metadata = buildMetadata({
 });
 
 export default async function AprendePage() {
-  const [baseArticles, ortigaArticles] = await Promise.all([
+  const [baseArticles, ortigaArticles, dbPosts] = await Promise.all([
     getSeoArticles(),
     getSeoArticlesOrtiga(),
+    prisma.post.findMany({
+      where: { isPublished: true },
+      select: { slug: true, coverImage: true },
+    }).catch(() => [] as { slug: string; coverImage: string | null }[]),
   ]);
-  const seoArticles = [...baseArticles, ...ortigaArticles];
+
+  // Mapa slug → coverImage actualizada desde el admin
+  const dbCoverMap = new Map(dbPosts.map((p) => [p.slug, p.coverImage]));
+
+  const seoArticles = [...baseArticles, ...ortigaArticles].map((a) => ({
+    ...a,
+    image: dbCoverMap.has(a.slug) ? (dbCoverMap.get(a.slug) ?? a.image) : a.image,
+  }));
+
   const evidenceArticles = seoArticles.filter((article) => article.category === 'Evidencia');
   const editorialArticles = seoArticles.filter((article) => article.category !== 'Evidencia');
   const featuredEvidence = evidenceArticles.slice(0, 4);
