@@ -16,6 +16,7 @@ import {
   Settings,
   Mail,
   Truck,
+  Calculator,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -58,7 +59,10 @@ const NAV: NavSection[] = [
   },
   {
     label: 'Analítica',
-    items: [{ href: '/admin/analytics', label: 'Inteligencia', icon: LineChart }],
+    items: [
+      { href: '/admin/analytics', label: 'Inteligencia', icon: LineChart },
+      { href: '/admin/calculadora', label: 'Calculadora', icon: Calculator },
+    ],
   },
   {
     label: 'Contenido',
