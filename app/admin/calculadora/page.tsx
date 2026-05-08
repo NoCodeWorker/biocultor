@@ -190,19 +190,24 @@ export default function CalculadoraCostesPage() {
   const unitShippingCost = totalShippingCost / quantity;
 
   // CANAL B2C (Venta Directa Cliente Final)
-  // Datos tal cual los introduce el usuario (Con IVA)
   const revenueB2C_ConIva = pvp * quantity;
-  const totalCosts_ConIva = totalProductionCost + totalShippingCost;
   
-  // Desglose del IVA (Asumiendo que los costes llevan el mismo IVA general, 
-  // aunque el envío siempre lleva el 21% y el humus podría llevar otro).
+  // Desglose del IVA
+  // Producción está con IVA, así que lo extraemos
   const ivaMultiplier = 1 + (iva / 100);
-  const ivaRepercutido = revenueB2C_ConIva - (revenueB2C_ConIva / ivaMultiplier); // IVA que cobramos al cliente
-  const ivaSoportado = totalCosts_ConIva - (totalCosts_ConIva / ivaMultiplier); // IVA que nos deducimos de los gastos
-  const liquidacionIva = ivaRepercutido - ivaSoportado; // Lo que hay que pagarle a Hacienda
+  const ivaRepercutido = revenueB2C_ConIva - (revenueB2C_ConIva / ivaMultiplier); 
+  const ivaSoportadoProduccion = totalProductionCost - (totalProductionCost / ivaMultiplier);
+  
+  // El envío viene sin IVA (Base Imponible de Packlink), así que el IVA soportado es el 21% directo
+  const ivaSoportadoEnvio = totalShippingCost * 0.21;
+  const ivaSoportadoTotal = ivaSoportadoProduccion + ivaSoportadoEnvio;
+  
+  const liquidacionIva = ivaRepercutido - ivaSoportadoTotal;
 
-  // Beneficio Neto Real (Caja generada - Gastos pagados - Impuestos a liquidar)
-  const profitB2C = revenueB2C_ConIva - totalCosts_ConIva - liquidacionIva;
+  // Beneficio Neto Real
+  // Flujo de caja: Ingresos(ConIVA) - Producción(ConIVA) - Envío(Base+IVA) - Liquidación Hacienda
+  const totalPagadoEnvio = totalShippingCost + ivaSoportadoEnvio;
+  const profitB2C = revenueB2C_ConIva - totalProductionCost - totalPagadoEnvio - liquidacionIva;
   const marginB2C = revenueB2C_ConIva > 0 ? (profitB2C / (revenueB2C_ConIva / ivaMultiplier)) * 100 : 0;
 
   // CANAL B2B (Retail / Distribuidor)
@@ -210,9 +215,9 @@ export default function CalculadoraCostesPage() {
   const revenueB2B_ConIva = pvpB2B_ConIva * quantity;
   
   const ivaRepercutidoB2B = revenueB2B_ConIva - (revenueB2B_ConIva / ivaMultiplier);
-  const liquidacionIvaB2B = ivaRepercutidoB2B - ivaSoportado;
+  const liquidacionIvaB2B = ivaRepercutidoB2B - ivaSoportadoTotal;
   
-  const profitB2B = revenueB2B_ConIva - totalCosts_ConIva - liquidacionIvaB2B; 
+  const profitB2B = revenueB2B_ConIva - totalProductionCost - totalPagadoEnvio - liquidacionIvaB2B; 
   const marginB2B = revenueB2B_ConIva > 0 ? (profitB2B / (revenueB2B_ConIva / ivaMultiplier)) * 100 : 0;
 
   return (
@@ -374,7 +379,7 @@ export default function CalculadoraCostesPage() {
             
             <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
               <Truck className="w-5 h-5 text-primary" />
-              Coste Envío (Con IVA)
+              Coste Envío (Sin IVA / Base Imponible)
             </h2>
 
             {packlinkError && (
@@ -428,13 +433,13 @@ export default function CalculadoraCostesPage() {
                   <span className="font-medium text-foreground">{revenueB2C_ConIva.toFixed(2)} €</span>
                 </div>
                 <div className="flex justify-between items-end border-b border-border/50 pb-2 text-red-400">
-                  <span className="text-sm">Costes Prod. + Envío (Con IVA)</span>
-                  <span className="font-medium">-{(totalCosts_ConIva).toFixed(2)} €</span>
+                  <span className="text-sm">Coste Prod (C/IVA) + Envío (C/IVA)</span>
+                  <span className="font-medium">-{(totalProductionCost + totalPagadoEnvio).toFixed(2)} €</span>
                 </div>
                 <div className="flex justify-between items-end border-b border-border/50 pb-2 text-orange-400">
                   <div className="flex flex-col">
                     <span className="text-sm">Liquidación de IVA a Hacienda</span>
-                    <span className="text-[10px] text-muted-foreground">Repercutido ({ivaRepercutido.toFixed(2)}€) - Soportado ({ivaSoportado.toFixed(2)}€)</span>
+                    <span className="text-[10px] text-muted-foreground">Repercutido ({ivaRepercutido.toFixed(2)}€) - Soportado ({ivaSoportadoTotal.toFixed(2)}€)</span>
                   </div>
                   <span className="font-medium">-{liquidacionIva.toFixed(2)} €</span>
                 </div>
@@ -470,13 +475,13 @@ export default function CalculadoraCostesPage() {
                   <span className="font-medium text-foreground">{revenueB2B_ConIva.toFixed(2)} €</span>
                 </div>
                 <div className="flex justify-between items-end border-b border-border/50 pb-2 text-red-400">
-                  <span className="text-sm">Costes Prod. + Envío (Con IVA)</span>
-                  <span className="font-medium">-{(totalCosts_ConIva).toFixed(2)} €</span>
+                  <span className="text-sm">Coste Prod (C/IVA) + Envío (C/IVA)</span>
+                  <span className="font-medium">-{(totalProductionCost + totalPagadoEnvio).toFixed(2)} €</span>
                 </div>
                 <div className="flex justify-between items-end border-b border-border/50 pb-2 text-orange-400">
                   <div className="flex flex-col">
                     <span className="text-sm">Liquidación de IVA a Hacienda</span>
-                    <span className="text-[10px] text-muted-foreground">Repercutido ({ivaRepercutidoB2B.toFixed(2)}€) - Soportado ({ivaSoportado.toFixed(2)}€)</span>
+                    <span className="text-[10px] text-muted-foreground">Repercutido ({ivaRepercutidoB2B.toFixed(2)}€) - Soportado ({ivaSoportadoTotal.toFixed(2)}€)</span>
                   </div>
                   <span className="font-medium">-{liquidacionIvaB2B.toFixed(2)} €</span>
                 </div>
