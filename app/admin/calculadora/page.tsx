@@ -179,9 +179,6 @@ export default function CalculadoraCostesPage() {
     setCosts(prev => ({ ...prev, [key]: num }));
   };
 
-  // Calculations
-  const formatInfo = FORMATS[selectedFormat];
-  const totalWeight = formatInfo.weightKg * quantity;
   
   // Producción
   const unitCost = costs.rawMaterial + costs.packaging + costs.labor + costs.energy + costs.other;
