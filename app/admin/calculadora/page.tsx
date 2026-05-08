@@ -506,7 +506,7 @@ export default function CalculadoraCostesPage() {
           <div className="bg-card border border-border rounded-2xl p-6 shadow-sm mt-6">
             <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4 flex items-center gap-2">
               <TrendingUp className="w-4 h-4" />
-              Desglose Unitario
+              Desglose Unitario B2B (Sobre PVP)
             </h3>
             
             <div className="flex flex-col gap-4">
@@ -518,25 +518,31 @@ export default function CalculadoraCostesPage() {
                 >Prod.</div>
                 <div 
                   className="bg-orange-500/80 h-full flex items-center justify-center text-[10px] text-white font-bold transition-all"
-                  style={{ width: `${(unitShippingCost / pvp) * 100}%` }}
+                  style={{ width: `${((totalPagadoEnvio / quantity) / pvp) * 100}%` }}
                   title="Envío (C/ IVA)"
                 >Envío</div>
                 <div 
                   className="bg-blue-500/80 h-full flex items-center justify-center text-[10px] text-white font-bold transition-all"
-                  style={{ width: `${(retailMargin)}%` }}
+                  style={{ width: `${retailMargin}%` }}
                   title="Margen Retailer"
                 >Retailer</div>
                 <div 
+                  className="bg-purple-500/80 h-full flex items-center justify-center text-[10px] text-white font-bold transition-all"
+                  style={{ width: `${Math.max(0, ((liquidacionIvaB2B / quantity) / pvp) * 100)}%` }}
+                  title="IVA Hacienda"
+                >IVA</div>
+                <div 
                   className="bg-emerald-500/80 h-full flex items-center justify-center text-[10px] text-white font-bold transition-all"
-                  style={{ width: `${(marginB2B)}%` }}
+                  style={{ width: `${Math.max(0, ((profitB2B / quantity) / pvp) * 100)}%` }}
                   title="Beneficio Biocultor"
                 >Beneficio</div>
               </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
+              <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground mt-2">
                 <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-red-500/80"></div> Producción ({unitCost.toFixed(2)}€)</span>
-                <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-orange-500/80"></div> Envío ({unitShippingCost.toFixed(2)}€)</span>
+                <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-orange-500/80"></div> Envío ({(totalPagadoEnvio / quantity).toFixed(2)}€)</span>
                 <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-blue-500/80"></div> Retailer ({(pvp * (retailMargin/100)).toFixed(2)}€)</span>
-                <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-emerald-500/80"></div> Beneficio Biocultor</span>
+                <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-purple-500/80"></div> IVA Hacienda ({Math.max(0, liquidacionIvaB2B / quantity).toFixed(2)}€)</span>
+                <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-emerald-500/80"></div> Beneficio Biocultor ({(profitB2B / quantity).toFixed(2)}€)</span>
               </div>
             </div>
           </div>
