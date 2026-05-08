@@ -190,20 +190,30 @@ export default function CalculadoraCostesPage() {
   const unitShippingCost = totalShippingCost / quantity;
 
   // CANAL B2C (Venta Directa Cliente Final)
-  const priceB2CExIva = pvp / (1 + (iva / 100));
-  const revenueB2C = priceB2CExIva * quantity;
-  const profitB2C = revenueB2C - totalProductionCost - totalShippingCost;
-  const marginB2C = revenueB2C > 0 ? (profitB2C / revenueB2C) * 100 : 0;
+  // Datos tal cual los introduce el usuario (Con IVA)
+  const revenueB2C_ConIva = pvp * quantity;
+  const totalCosts_ConIva = totalProductionCost + totalShippingCost;
+  
+  // Desglose del IVA (Asumiendo que los costes llevan el mismo IVA general, 
+  // aunque el envío siempre lleva el 21% y el humus podría llevar otro).
+  const ivaMultiplier = 1 + (iva / 100);
+  const ivaRepercutido = revenueB2C_ConIva - (revenueB2C_ConIva / ivaMultiplier); // IVA que cobramos al cliente
+  const ivaSoportado = totalCosts_ConIva - (totalCosts_ConIva / ivaMultiplier); // IVA que nos deducimos de los gastos
+  const liquidacionIva = ivaRepercutido - ivaSoportado; // Lo que hay que pagarle a Hacienda
+
+  // Beneficio Neto Real (Caja generada - Gastos pagados - Impuestos a liquidar)
+  const profitB2C = revenueB2C_ConIva - totalCosts_ConIva - liquidacionIva;
+  const marginB2C = revenueB2C_ConIva > 0 ? (profitB2C / (revenueB2C_ConIva / ivaMultiplier)) * 100 : 0;
 
   // CANAL B2B (Retail / Distribuidor)
-  // El precio al distribuidor se calcula descontando su margen del PVP (sin IVA)
-  const priceB2BExIva = priceB2CExIva * (1 - (retailMargin / 100));
-  const revenueB2B = priceB2BExIva * quantity;
+  const pvpB2B_ConIva = pvp * (1 - (retailMargin / 100));
+  const revenueB2B_ConIva = pvpB2B_ConIva * quantity;
   
-  // Normalmente los envíos grandes a B2B se negocian o van a portes debidos, 
-  // pero lo incluimos como coste asumido para el análisis del peor caso.
-  const profitB2B = revenueB2B - totalProductionCost - totalShippingCost; 
-  const marginB2B = revenueB2B > 0 ? (profitB2B / revenueB2B) * 100 : 0;
+  const ivaRepercutidoB2B = revenueB2B_ConIva - (revenueB2B_ConIva / ivaMultiplier);
+  const liquidacionIvaB2B = ivaRepercutidoB2B - ivaSoportado;
+  
+  const profitB2B = revenueB2B_ConIva - totalCosts_ConIva - liquidacionIvaB2B; 
+  const marginB2B = revenueB2B_ConIva > 0 ? (profitB2B / (revenueB2B_ConIva / ivaMultiplier)) * 100 : 0;
 
   return (
     <div className="max-w-6xl mx-auto pb-20">
@@ -276,7 +286,7 @@ export default function CalculadoraCostesPage() {
           <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
               <Euro className="w-5 h-5 text-primary" />
-              Costes de Producción Unitarios (Sin IVA)
+              Costes de Producción Unitarios (Con IVA)
             </h2>
             
             <div className="space-y-3">
@@ -329,7 +339,7 @@ export default function CalculadoraCostesPage() {
                     className="w-full bg-background border border-border rounded-lg pl-7 pr-3 py-2 font-bold text-foreground focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">Precio sin IVA: {priceB2CExIva.toFixed(2)} €</p>
+                <p className="text-xs text-muted-foreground mt-1">Precio sin IVA: {(pvp / (1 + (iva/100))).toFixed(2)} €</p>
               </div>
 
               <div>
@@ -344,7 +354,7 @@ export default function CalculadoraCostesPage() {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  El distribuidor compra a {priceB2BExIva.toFixed(2)} € (sin IVA) y vende a {pvp} € (con IVA).
+                  El distribuidor compra a {(pvp * (1 - (retailMargin/100))).toFixed(2)} € (con IVA) y vende a {pvp} € (con IVA).
                 </p>
               </div>
             </div>
@@ -364,7 +374,7 @@ export default function CalculadoraCostesPage() {
             
             <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
               <Truck className="w-5 h-5 text-primary" />
-              Coste Envío (Base Imponible)
+              Coste Envío (Con IVA)
             </h2>
 
             {packlinkError && (
@@ -414,12 +424,19 @@ export default function CalculadoraCostesPage() {
               
               <div className="space-y-4 relative z-10">
                 <div className="flex justify-between items-end border-b border-border/50 pb-2">
-                  <span className="text-sm text-muted-foreground">Ingreso Neto (Sin IVA)</span>
-                  <span className="font-medium text-foreground">{revenueB2C.toFixed(2)} €</span>
+                  <span className="text-sm text-muted-foreground">Ingresos (PVP con IVA)</span>
+                  <span className="font-medium text-foreground">{revenueB2C_ConIva.toFixed(2)} €</span>
                 </div>
                 <div className="flex justify-between items-end border-b border-border/50 pb-2 text-red-400">
-                  <span className="text-sm">Costes Prod. + Envío</span>
-                  <span className="font-medium">-{(totalProductionCost + totalShippingCost).toFixed(2)} €</span>
+                  <span className="text-sm">Costes Prod. + Envío (Con IVA)</span>
+                  <span className="font-medium">-{(totalCosts_ConIva).toFixed(2)} €</span>
+                </div>
+                <div className="flex justify-between items-end border-b border-border/50 pb-2 text-orange-400">
+                  <div className="flex flex-col">
+                    <span className="text-sm">Liquidación de IVA a Hacienda</span>
+                    <span className="text-[10px] text-muted-foreground">Repercutido ({ivaRepercutido.toFixed(2)}€) - Soportado ({ivaSoportado.toFixed(2)}€)</span>
+                  </div>
+                  <span className="font-medium">-{liquidacionIva.toFixed(2)} €</span>
                 </div>
                 <div className="pt-2">
                   <span className="block text-sm text-muted-foreground mb-1">Beneficio Neto Total</span>
@@ -449,12 +466,19 @@ export default function CalculadoraCostesPage() {
               
               <div className="space-y-4 relative z-10">
                 <div className="flex justify-between items-end border-b border-border/50 pb-2">
-                  <span className="text-sm text-muted-foreground">Ingreso B2B (Sin IVA)</span>
-                  <span className="font-medium text-foreground">{revenueB2B.toFixed(2)} €</span>
+                  <span className="text-sm text-muted-foreground">Ingreso B2B (Con IVA)</span>
+                  <span className="font-medium text-foreground">{revenueB2B_ConIva.toFixed(2)} €</span>
                 </div>
                 <div className="flex justify-between items-end border-b border-border/50 pb-2 text-red-400">
-                  <span className="text-sm">Costes Prod. + Envío</span>
-                  <span className="font-medium">-{(totalProductionCost + totalShippingCost).toFixed(2)} €</span>
+                  <span className="text-sm">Costes Prod. + Envío (Con IVA)</span>
+                  <span className="font-medium">-{(totalCosts_ConIva).toFixed(2)} €</span>
+                </div>
+                <div className="flex justify-between items-end border-b border-border/50 pb-2 text-orange-400">
+                  <div className="flex flex-col">
+                    <span className="text-sm">Liquidación de IVA a Hacienda</span>
+                    <span className="text-[10px] text-muted-foreground">Repercutido ({ivaRepercutidoB2B.toFixed(2)}€) - Soportado ({ivaSoportado.toFixed(2)}€)</span>
+                  </div>
+                  <span className="font-medium">-{liquidacionIvaB2B.toFixed(2)} €</span>
                 </div>
                 <div className="pt-2">
                   <span className="block text-sm text-muted-foreground mb-1">Beneficio Neto Total</span>
@@ -484,29 +508,29 @@ export default function CalculadoraCostesPage() {
               <div className="w-full bg-muted/30 rounded-full h-8 flex overflow-hidden">
                 <div 
                   className="bg-red-500/80 h-full flex items-center justify-center text-[10px] text-white font-bold transition-all"
-                  style={{ width: `${(unitCost / priceB2CExIva) * 100}%` }}
-                  title="Producción"
+                  style={{ width: `${(unitCost / pvp) * 100}%` }}
+                  title="Producción (C/ IVA)"
                 >Prod.</div>
                 <div 
                   className="bg-orange-500/80 h-full flex items-center justify-center text-[10px] text-white font-bold transition-all"
-                  style={{ width: `${(unitShippingCost / priceB2CExIva) * 100}%` }}
-                  title="Envío"
+                  style={{ width: `${(unitShippingCost / pvp) * 100}%` }}
+                  title="Envío (C/ IVA)"
                 >Envío</div>
                 <div 
                   className="bg-blue-500/80 h-full flex items-center justify-center text-[10px] text-white font-bold transition-all"
-                  style={{ width: `${((priceB2CExIva - priceB2BExIva) / priceB2CExIva) * 100}%` }}
+                  style={{ width: `${(retailMargin)}%` }}
                   title="Margen Retailer"
                 >Retailer</div>
                 <div 
                   className="bg-emerald-500/80 h-full flex items-center justify-center text-[10px] text-white font-bold transition-all"
-                  style={{ width: `${(marginB2B / 100) * 100}%` }}
+                  style={{ width: `${(marginB2B)}%` }}
                   title="Beneficio Biocultor"
                 >Beneficio</div>
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-red-500/80"></div> Producción ({unitCost.toFixed(2)}€)</span>
                 <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-orange-500/80"></div> Envío ({unitShippingCost.toFixed(2)}€)</span>
-                <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-blue-500/80"></div> Retailer ({(priceB2CExIva - priceB2BExIva).toFixed(2)}€)</span>
+                <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-blue-500/80"></div> Retailer ({(pvp * (retailMargin/100)).toFixed(2)}€)</span>
                 <span className="flex items-center gap-1.5"><div className="w-3 h-3 rounded-sm bg-emerald-500/80"></div> Beneficio Biocultor</span>
               </div>
             </div>
