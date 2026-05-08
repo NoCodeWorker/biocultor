@@ -76,17 +76,6 @@ export default function ContactoPage() {
               </div>
             </a>
 
-            {/* Asesoría Agronómica */}
-            <div className="flex items-start gap-4 p-6 rounded-2xl border border-border/50 bg-card">
-              <div className="w-12 h-12 bg-background border border-border/50 text-muted-foreground rounded-full flex items-center justify-center shrink-0">
-                <Phone className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="font-bold text-foreground mb-1">Asesoría Agronómica</h3>
-                <p className="text-foreground tracking-wide font-medium">+34 900 123 456</p>
-                <p className="text-sm text-muted-foreground mt-1">Lunes a Viernes de 09:00 a 18:00h</p>
-              </div>
-            </div>
 
             {/* Instalaciones Centrales */}
             <div className="flex items-start gap-4 p-6 rounded-2xl border border-border/50 bg-card">
