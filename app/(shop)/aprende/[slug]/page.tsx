@@ -63,7 +63,7 @@ export async function generateMetadata({
       title: dbPost.metaTitle ?? dbPost.title,
       description: dbPost.metaDesc ?? dbPost.excerpt,
       path: `/aprende/${slug}`,
-      image: (dbPost as any).coverImage ?? undefined,
+      image: dbPost.coverImage ?? undefined,
       keywords: [dbPost.title, dbPost.category, 'biocultor'],
     });
   }
@@ -112,7 +112,7 @@ export default async function AprendeArticlePage({
       .map((p) => p.trim())
       .filter(Boolean);
 
-    const coverImage = (dbPost as any).coverImage as string | null | undefined;
+    const coverImage = dbPost.coverImage;
 
     const articleSchema = {
       '@context': 'https://schema.org',
