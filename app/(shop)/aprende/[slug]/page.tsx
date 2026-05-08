@@ -205,7 +205,7 @@ export default async function AprendeArticlePage({
   };
 
   return (
-    <article className="w-[92%] lg:w-[75%] mx-auto px-4 py-16 md:py-24">
+    <article className="w-full max-w-5xl mx-auto px-6 py-16 md:py-24">
       <StructuredData id="article-schema" data={articleSchema} />
       <StructuredData id="article-faq-schema" data={faqSchema(article.faq)} />
       <StructuredData
@@ -225,7 +225,7 @@ export default async function AprendeArticlePage({
         ]}
       />
 
-      <div className="max-w-4xl">
+      <div className="max-w-3xl mx-auto">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary/80">
           {article.category}
         </p>
@@ -237,7 +237,7 @@ export default async function AprendeArticlePage({
         </p>
       </div>
 
-      <div className="mt-14 max-w-4xl space-y-10">
+      <div className="mt-14 max-w-3xl mx-auto space-y-10">
         {article.sourceNote && (
           <section className="rounded-[2rem] border border-primary/20 bg-background p-8 md:p-10">
             <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
@@ -274,7 +274,7 @@ export default async function AprendeArticlePage({
         ))}
       </div>
 
-      <section className="mt-10 max-w-4xl rounded-[2rem] border border-border/50 bg-background p-8 md:p-10">
+      <section className="mt-10 max-w-3xl mx-auto rounded-[2rem] border border-border/50 bg-background p-8 md:p-10">
         <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
           Preguntas frecuentes
         </h2>
@@ -289,7 +289,7 @@ export default async function AprendeArticlePage({
       </section>
 
       {article.references && article.references.length > 0 && (
-        <section className="mt-10 max-w-4xl rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">
+        <section className="mt-10 max-w-3xl mx-auto rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">
           <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
             Referencias
           </h2>
@@ -314,7 +314,7 @@ export default async function AprendeArticlePage({
         </section>
       )}
 
-      <div className="mt-14 max-w-4xl rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
+      <div className="mt-14 max-w-3xl mx-auto rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
         <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
           ¿Quieres pasar de la guía a la compra?
         </h2>
