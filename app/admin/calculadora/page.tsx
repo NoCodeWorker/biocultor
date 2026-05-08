@@ -33,7 +33,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     weightKg: 1.2,
     dimensions: { width: 8.0, height: 26.4, length: 8.0 }, // Diámetro 80mm
     defaultCosts: { rawMaterial: 0.05, packaging: 0.70, labor: 0.3, energy: 0.1, other: 0.1 },
-    defaultPvp: 16.90,
+    defaultPvp: 9.95,
   },
   '5L': {
     id: '5L',
@@ -41,7 +41,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     weightKg: 5.5,
     dimensions: { width: 15.8, height: 24.6, length: 17.2 },
     defaultCosts: { rawMaterial: 0.25, packaging: 2.67, labor: 0.5, energy: 0.3, other: 0.2 },
-    defaultPvp: 49.90,
+    defaultPvp: 19.95,
   },
   '10L': {
     id: '10L',
@@ -49,7 +49,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     weightKg: 10.5,
     dimensions: { width: 18.4, height: 31.6, length: 22.3 },
     defaultCosts: { rawMaterial: 0.50, packaging: 4.29, labor: 0.7, energy: 0.5, other: 0.3 },
-    defaultPvp: 79.90,
+    defaultPvp: 29.95,
   },
   '25L': {
     id: '25L',
@@ -57,7 +57,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     weightKg: 26.0,
     dimensions: { width: 25.0, height: 44.5, length: 29.8 },
     defaultCosts: { rawMaterial: 1.25, packaging: 10.19, labor: 1.2, energy: 0.9, other: 0.5 },
-    defaultPvp: 149.90,
+    defaultPvp: 49.95,
   },
   '1000L': {
     id: '1000L',
