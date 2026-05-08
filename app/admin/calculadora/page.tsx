@@ -24,40 +24,41 @@ interface FormatData {
 }
 
 // Datos por defecto basados en los formatos de Biocultor
+// Coste Humus: BigBag 600Kg = 300€. Se usan 100Kg para 1000L => 50€ por 1000L (0.05 €/L).
 const FORMATS: Record<FormatType, FormatData> = {
   '1L': {
     id: '1L',
     name: 'Botella 1 Litro',
     weightKg: 1.2,
-    defaultCosts: { rawMaterial: 0.8, packaging: 0.5, labor: 0.3, energy: 0.1, other: 0.1 },
+    defaultCosts: { rawMaterial: 0.05, packaging: 0.5, labor: 0.3, energy: 0.1, other: 0.1 },
     defaultPvp: 14.90,
   },
   '5L': {
     id: '5L',
     name: 'Garrafa 5 Litros',
     weightKg: 5.5,
-    defaultCosts: { rawMaterial: 3.5, packaging: 1.2, labor: 0.5, energy: 0.3, other: 0.2 },
+    defaultCosts: { rawMaterial: 0.25, packaging: 1.2, labor: 0.5, energy: 0.3, other: 0.2 },
     defaultPvp: 44.90,
   },
   '10L': {
     id: '10L',
     name: 'Garrafa 10 Litros',
     weightKg: 10.5,
-    defaultCosts: { rawMaterial: 6.8, packaging: 1.8, labor: 0.7, energy: 0.5, other: 0.3 },
+    defaultCosts: { rawMaterial: 0.50, packaging: 1.8, labor: 0.7, energy: 0.5, other: 0.3 },
     defaultPvp: 85.90,
   },
   '20L': {
     id: '20L',
     name: 'Garrafa 20 Litros',
     weightKg: 21.0,
-    defaultCosts: { rawMaterial: 13.0, packaging: 3.5, labor: 1.0, energy: 0.8, other: 0.5 },
+    defaultCosts: { rawMaterial: 1.00, packaging: 3.5, labor: 1.0, energy: 0.8, other: 0.5 },
     defaultPvp: 149.90,
   },
   '1000L': {
     id: '1000L',
     name: 'IBC 1000 Litros',
     weightKg: 1050.0,
-    defaultCosts: { rawMaterial: 600.0, packaging: 150.0, labor: 10.0, energy: 5.0, other: 10.0 },
+    defaultCosts: { rawMaterial: 50.00, packaging: 150.0, labor: 10.0, energy: 5.0, other: 10.0 },
     defaultPvp: 1250.0,
   }
 };
