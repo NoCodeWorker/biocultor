@@ -3,9 +3,9 @@
  * Migra todos los artículos estáticos de seo-content.ts a la tabla Post de Prisma.
  * Ejecutar en el servidor: npx tsx scripts/seed-blog-posts.ts
  *
- * - Si el slug ya existe en BD → lo salta (no duplica).
- * - Convierte sections[], summary[], faq[], references[] a Markdown en el campo `content`.
- * - Mapea la categoría estática al enum del admin (EVIDENCE, KNOWLEDGE, etc.).
+ * - Si el slug ya existe en BD → lo actualiza (upsert).
+ * - Convierte sections[], summary[], faq[], references[] a Markdown limpio.
+ * - El markdown generado es compatible con react-markdown + MarkdownContent.tsx
  */
 
 import { PrismaClient } from '../generated/prisma';
@@ -14,7 +14,7 @@ import { seoArticles, seoArticlesOrtiga, type SeoArticle } from '../lib/seo-cont
 const prisma = new PrismaClient();
 
 // ---------------------------------------------------------------------------
-// Utilidades de conversión
+// Mapeo de categoría
 // ---------------------------------------------------------------------------
 
 function mapCategory(cat: string): string {
@@ -25,45 +25,45 @@ function mapCategory(cat: string): string {
   return 'KNOWLEDGE';
 }
 
+// ---------------------------------------------------------------------------
+// Conversión a Markdown limpio
+// ---------------------------------------------------------------------------
+
 function articleToMarkdown(article: SeoArticle): string {
   const parts: string[] = [];
 
-  // Extracto como intro
-  if (article.excerpt) {
-    parts.push(`> ${article.excerpt}\n`);
-  }
-
-  // Nota de fuente
+  // Fuente base (con icono claro)
   if (article.sourceNote) {
-    parts.push(`---\n\n**📚 Fuente base**\n\n${article.sourceNote}\n\n---`);
+    parts.push(`> 📚 **Fuente base:** ${article.sourceNote}`);
   }
 
-  // Resumen rápido
+  // Resumen rápido como lista
   if (article.summary?.length) {
     parts.push(`## Resumen rápido\n\n${article.summary.map((s) => `- ${s}`).join('\n')}`);
   }
 
   // Secciones principales
   for (const section of article.sections ?? []) {
-    parts.push(`## ${section.heading}\n\n${section.body.join('\n\n')}`);
+    const body = section.body.join('\n\n');
+    parts.push(`## ${section.heading}\n\n${body}`);
   }
 
   // FAQ
   if (article.faq?.length) {
-    parts.push(
-      `## Preguntas frecuentes\n\n${article.faq
-        .map((f) => `**${f.question}**\n\n${f.answer}`)
-        .join('\n\n')}`
-    );
+    parts.push('## Preguntas frecuentes');
+    for (const f of article.faq) {
+      parts.push(`### ${f.question}\n\n${f.answer}`);
+    }
   }
 
   // Referencias
   if (article.references?.length) {
-    parts.push(
-      `## Referencias\n\n${article.references
-        .map((r) => `- **${r.title}** — ${r.authority} (${r.year})\n  [Ver fuente](${r.url})`)
-        .join('\n\n')}`
-    );
+    parts.push('## Referencias científicas');
+    for (const r of article.references) {
+      parts.push(
+        `- **${r.title}** — _${r.authority}_ (${r.year})  \n  [Ver fuente →](${r.url})`
+      );
+    }
   }
 
   return parts.join('\n\n');
@@ -76,48 +76,54 @@ function articleToMarkdown(article: SeoArticle): string {
 async function main() {
   const all: SeoArticle[] = [...seoArticles, ...seoArticlesOrtiga];
 
-  console.log(`\n📦 Total artículos estáticos a procesar: ${all.length}\n`);
+  console.log(`\n📦 Total artículos a procesar: ${all.length}\n`);
 
   let created = 0;
-  let skipped = 0;
+  let updated = 0;
+  let errors = 0;
 
   for (const article of all) {
-    const exists = await prisma.post.findUnique({ where: { slug: article.slug } });
-
-    if (exists) {
-      console.log(`  ⏭️  Saltado (ya existe): ${article.slug}`);
-      skipped++;
-      continue;
-    }
-
-    const content = articleToMarkdown(article);
-
-    await prisma.post.create({
-      data: {
-        title:      article.title,
-        slug:       article.slug,
-        excerpt:    article.excerpt,
+    try {
+      const content = articleToMarkdown(article);
+      const data = {
+        title:       article.title,
+        excerpt:     article.excerpt,
         content,
-        category:   mapCategory(article.category),
-        metaTitle:  article.metaTitle,
-        metaDesc:   article.metaDescription,
-        keywords:   [article.title, article.category, 'biocultor'].join(', '),
-        coverImage: article.image ?? null,
+        category:    mapCategory(article.category),
+        metaTitle:   article.metaTitle,
+        metaDesc:    article.metaDescription,
+        keywords:    [article.title, article.category, 'biocultor'].join(', '),
+        coverImage:  article.image ?? null,
         isPublished: true,
-        author:     'Equipo Biocultor',
-      },
-    });
+        author:      'Equipo Biocultor',
+      };
 
-    console.log(`  ✅ Creado: ${article.slug}`);
-    created++;
+      const existing = await prisma.post.findUnique({ where: { slug: article.slug } });
+
+      if (existing) {
+        await prisma.post.update({ where: { slug: article.slug }, data });
+        console.log(`  🔄 Actualizado: ${article.slug}`);
+        updated++;
+      } else {
+        await prisma.post.create({ data: { ...data, slug: article.slug } });
+        console.log(`  ✅ Creado: ${article.slug}`);
+        created++;
+      }
+    } catch (err: any) {
+      console.error(`  ❌ Error en ${article.slug}: ${err.message}`);
+      errors++;
+    }
   }
 
-  console.log(`\n🎉 Proceso terminado: ${created} creados, ${skipped} saltados.\n`);
+  console.log(`\n🎉 Proceso terminado:`);
+  console.log(`   ✅ Creados:     ${created}`);
+  console.log(`   🔄 Actualizados: ${updated}`);
+  console.log(`   ❌ Errores:     ${errors}\n`);
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error:', e);
+    console.error('❌ Error fatal:', e);
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());
