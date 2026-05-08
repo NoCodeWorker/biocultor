@@ -53,6 +53,7 @@ model Customer {
   email              String   @unique
   name               String
   phone              String?
+  discount           Float    @default(0) // % de descuento fijo aplicable a este cliente
   orders             Order[]
   sessions           Session[]
   createdAt          DateTime @default(now())

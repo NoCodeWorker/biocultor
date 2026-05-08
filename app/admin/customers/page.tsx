@@ -1,6 +1,7 @@
 import prisma from '@/lib/db';
 import Link from 'next/link';
-import { Users, ShoppingBag, Euro, TrendingUp, Search, ArrowRight, Mail, Phone } from 'lucide-react';
+import { Users, ShoppingBag, Euro, TrendingUp, Search, ArrowRight, Mail, Phone, Tag } from 'lucide-react';
+import { DiscountEditor } from './DiscountEditor';
 
 export const dynamic = 'force-dynamic';
 
@@ -124,8 +125,9 @@ export default async function AdminCustomersPage({
         </div>
       ) : (
         <div className="bg-card border border-border/60 rounded-2xl overflow-hidden">
-          <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-0 px-5 py-3 border-b border-border/40 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          <div className="grid grid-cols-[1fr_auto_auto_auto_auto_auto] gap-0 px-5 py-3 border-b border-border/40 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
             <span>Cliente</span>
+            <span className="w-28 hidden sm:block">Descuento</span>
             <span className="text-right w-16">Pedidos</span>
             <span className="text-right w-24">Gasto total</span>
             <span className="text-right w-20 hidden md:block">AOV</span>
@@ -134,9 +136,9 @@ export default async function AdminCustomersPage({
           <ul className="divide-y divide-border/30">
             {sorted.map((c) => (
               <li key={c.id}>
-                <div className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-0 px-5 py-3.5 hover:bg-muted/30 transition-colors">
+                <div className="grid grid-cols-[1fr_auto_auto_auto_auto_auto] items-center gap-0 px-5 py-3.5 hover:bg-muted/30 transition-colors">
                   {/* Customer info */}
-                  <div className="min-w-0">
+                  <div className="min-w-0 pr-4">
                     <p className="text-sm font-semibold text-foreground truncate">{c.name}</p>
                     <div className="flex items-center gap-3 mt-0.5">
                       <a
@@ -174,6 +176,11 @@ export default async function AdminCustomersPage({
                         </Link>
                       </div>
                     )}
+                  </div>
+
+                  {/* Descuento Persistente */}
+                  <div className="w-28 hidden sm:block">
+                    <DiscountEditor customerId={c.id} currentDiscount={c.discount} />
                   </div>
 
                   {/* Pedidos */}

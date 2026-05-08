@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import { z } from 'zod';
 import prisma from '@/lib/db';
 import { PACKLINK_ORIGIN, variantWeightKg } from '@/lib/packlink';
+import { getCustomerSession } from '@/lib/session';
 
 // El cliente sólo puede elegir QUÉ comprar y CUÁNTAS unidades. Precio, nombre,
 // peso y SKU se leen de la DB en este endpoint — nunca del body — para evitar
@@ -52,6 +53,16 @@ export async function POST(req: Request) {
   }
   const variantById = new Map(variants.map((v) => [v.id, v]));
 
+  // Obtener el cliente logueado (si existe) para aplicarle su descuento persistente
+  const customerId = await getCustomerSession();
+  const customer = customerId 
+    ? await prisma.customer.findUnique({ where: { id: customerId } }) 
+    : null;
+    
+  const customerDiscountMultiplier = customer && customer.discount > 0 
+    ? (1 - (customer.discount / 100)) 
+    : 1;
+
   try {
     const hasBIO5L = items.some((it) => variantById.get(it.id)?.sku === 'BIO-5L');
     const hasORT5L = items.some((it) => variantById.get(it.id)?.sku === 'ORT-5L');
@@ -66,11 +77,16 @@ export async function POST(req: Request) {
         unitPrice = unitPrice * 0.95;
       }
 
+      // Aplicamos el descuento persistente del cliente (ej. 20% B2B)
+      unitPrice = unitPrice * customerDiscountMultiplier;
+
+      const discountLabel = customer && customer.discount > 0 ? ` (Dto. ${customer.discount}%)` : '';
+
       return {
         price_data: {
           currency: 'eur',
           product_data: {
-            name: `${v.product.name} - ${v.size}`,
+            name: `${v.product.name} - ${v.size}${discountLabel}`,
             metadata: { variantId: v.id, sku: v.sku },
           },
           unit_amount: Math.round(unitPrice * 100),
@@ -85,6 +101,7 @@ export async function POST(req: Request) {
       if (isBundle && (v.sku === 'BIO-5L' || v.sku === 'ORT-5L')) {
         unitPrice = unitPrice * 0.95;
       }
+      unitPrice = unitPrice * customerDiscountMultiplier;
       return acc + unitPrice * it.quantity;
     }, 0);
     const totalWeight = items.reduce((acc, it) => {
@@ -184,6 +201,7 @@ export async function POST(req: Request) {
       phone_number_collection: { enabled: true },
       metadata: {
         pendingCartId: pendingCart.id,
+        customerId: customer?.id || '',
       },
     });
 

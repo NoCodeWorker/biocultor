@@ -81,11 +81,21 @@ export async function POST(req: Request) {
         }
 
         // Inyectar o buscar Cliente
-        const customer = await prisma.customer.upsert({
-          where: { email: customerEmail },
-          update: { name: customerName, phone },
-          create: { email: customerEmail, name: customerName, phone },
-        });
+        let customer;
+        const metaCustomerId = session.metadata?.customerId;
+        
+        if (metaCustomerId) {
+          customer = await prisma.customer.update({
+            where: { id: metaCustomerId },
+            data: { name: customerName, phone: phone || undefined },
+          });
+        } else {
+          customer = await prisma.customer.upsert({
+            where: { email: customerEmail },
+            update: { name: customerName, phone },
+            create: { email: customerEmail, name: customerName, phone },
+          });
+        }
 
         const trackingToken = randomBytes(24).toString('hex');
 
