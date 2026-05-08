@@ -5,7 +5,7 @@ import { Calculator, Euro, Package, Truck, Percent, ShoppingCart, Store, Trendin
 import { Button } from '@/components/ui/button';
 
 // Tipos base
-type FormatType = '1L' | '5L' | '10L' | '20L' | '1000L';
+type FormatType = '1L' | '5L' | '10L' | '25L' | '1000L';
 
 interface Costs {
   rawMaterial: number;
@@ -47,12 +47,12 @@ const FORMATS: Record<FormatType, FormatData> = {
     defaultCosts: { rawMaterial: 0.50, packaging: 1.8, labor: 0.7, energy: 0.5, other: 0.3 },
     defaultPvp: 85.90,
   },
-  '20L': {
-    id: '20L',
-    name: 'Garrafa 20 Litros',
-    weightKg: 21.0,
-    defaultCosts: { rawMaterial: 1.00, packaging: 3.5, labor: 1.0, energy: 0.8, other: 0.5 },
-    defaultPvp: 149.90,
+  '25L': {
+    id: '25L',
+    name: 'Garrafa 25 Litros',
+    weightKg: 26.0,
+    defaultCosts: { rawMaterial: 1.25, packaging: 3.8, labor: 1.2, energy: 0.9, other: 0.5 },
+    defaultPvp: 169.90,
   },
   '1000L': {
     id: '1000L',
@@ -202,7 +202,7 @@ export default function CalculadoraCostesPage() {
           <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
               <Euro className="w-5 h-5 text-primary" />
-              Costes de Producción (Unitarios)
+              Costes de Producción Unitarios (Sin IVA)
             </h2>
             
             <div className="space-y-3">
@@ -284,7 +284,7 @@ export default function CalculadoraCostesPage() {
           <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground mb-2 flex items-center gap-2">
               <Truck className="w-5 h-5 text-primary" />
-              Estimación de Envío (Packlink Pro API)
+              Estimación de Envío (Base Imponible)
             </h2>
             <div className="flex items-start gap-3 mt-4">
               <Info className="w-5 h-5 text-primary shrink-0 mt-0.5" />
