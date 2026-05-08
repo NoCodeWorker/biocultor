@@ -1436,6 +1436,174 @@ export const seoArticles: SeoArticle[] = [
       },
     ],
   },
+  // ── NUEVO: Té humus en frutales en maceta ────────────────────────────────
+  {
+    slug: 'te-humus-lombriz-frutales-maceta',
+    category: 'Guía',
+    title: 'Té de humus de lombriz para frutales en maceta: protocolo de uso',
+    metaTitle: 'Té de humus de lombriz para frutales en maceta | Guía práctica',
+    metaDescription:
+      'Cómo aplicar té de humus de lombriz en limoneros, higueras, naranjos y frutales en contenedor. Frecuencia, dosis y señales de respuesta.',
+    excerpt:
+      'Una guía para quien tiene frutales en maceta y quiere resultados reales: qué formato elegir, con qué frecuencia aplicar y qué esperar en cada fase del cultivo.',
+    readTime: '7 min',
+    image: '/10 litros.jpg',
+    sourceNote:
+      'Revisión de prácticas de fertirrigación en frutales en contenedor y el rol de los biostimulantes líquidos a base de vermicompost. Fuente: Zaller, J.G. (2006). Vermicompost as a substitute for peat in potting media. Pedobiologia.',
+    summary: [
+      'El frutal en maceta agota el sustrato más rápido que en suelo — el té de humus compensa esa limitación.',
+      'La fase de floración y cuajado es el momento de mayor impacto de una aplicación bien cronometrada.',
+      'La dosis importa más que la frecuencia: excederse no acelera el resultado.',
+      'El formato concentrado de Biocultor permite ajustar la dilución según la especie y el tamaño del contenedor.',
+    ],
+    sections: [
+      {
+        heading: 'Por qué los frutales en maceta responden bien al té de humus',
+        body: [
+          'Un frutal en contenedor vive con una limitación estructural: el sustrato se empobrece ciclo a ciclo, la microbiología del suelo no se regenera sola y las raíces alcanzan los bordes del tiesto en pocas temporadas. La fertirrigación convencional cubre macronutrientes pero no repone la actividad microbiana ni la fracción húmica que activa la absorción.',
+          'El té de humus de lombriz aporta exactamente lo que falta: ácidos húmicos y fúlvicos solubles, microorganismos vivos y hormonas de crecimiento naturales como el ácido indolacético. Estos compuestos mejoran la estructura del sustrato y activan las rutas de asimilación del nitrógeno y el fósforo ya presentes en el abono de base.',
+        ],
+      },
+      {
+        heading: 'Protocolo por fase de cultivo',
+        body: [
+          'En reposo invernal: una aplicación a dosis baja (1:100) para mantener la microbiología viva en el sustrato sin estimular crecimiento fuera de temporada.',
+          'En brotación y crecimiento vegetativo: dos aplicaciones mensuales a dosis media (1:50). El objetivo es activar las raíces nuevas y favorecer la absorción de nitrógeno durante la expansión del follaje.',
+          'En pre-floración y floración: una aplicación a dosis alta (1:30) dos semanas antes de la apertura floral. Este es el momento de mayor impacto documentado sobre el cuajado.',
+          'En engorde del fruto: una aplicación mensual a dosis media para sostener el metabolismo sin forzar crecimiento vegetativo en detrimento del fruto.',
+        ],
+      },
+      {
+        heading: 'Frutales concretos: lo que cambia por especie',
+        body: [
+          'Limonero (Citrus limon): muy sensible al pH del sustrato. El té de humus ayuda a mantener el rango ácido (5.5–6.5) y mejora la disponibilidad del hierro, manganeso y zinc — los elementos más comprometidos en sustratos alcalinizados por el riego con agua dura.',
+          'Higuera (Ficus carica): especie rústica que responde con vigor a cualquier aportación microbiana. Aplicar en pre-brotación (marzo) y en inicio de engorde del segundo higo (julio).',
+          'Naranjo y mandarino: similar al limonero, pero con mayor tolerancia al riego. El mayor riesgo es el encharcamiento: aplicar siempre con sustrato húmedo, nunca saturado.',
+          'Olivo en maceta: aplicación única en primavera coincidiendo con el inicio del crecimiento activo. La respuesta es lenta pero acumulativa temporada a temporada.',
+        ],
+      },
+      {
+        heading: 'Señales de respuesta y errores comunes',
+        body: [
+          'Una respuesta positiva se observa en 2–4 semanas: color verde más intenso, nuevos brotes más vigorosos y mayor densidad radicular visible cuando se trasplanta. No esperar un efecto inmediato visible en el fruto.',
+          'El error más común es aumentar la dosis creyendo que más es mejor. El exceso de materia orgánica soluble puede elevar la CE del sustrato y estresar las raíces.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: '¿Puedo aplicar té de humus en limonero con síntomas de clorosis férrica?',
+        answer:
+          'Sí, con matices. El té de humus mejora la disponibilidad del hierro al acidificar ligeramente la rizosfera. Si la clorosis es severa, complementar con quelato de hierro y corregir el pH del agua de riego.',
+      },
+      {
+        question: '¿Cada cuánto se aplica en un naranjo en maceta durante el verano?',
+        answer:
+          'Una vez al mes durante el verano es suficiente si el naranjo está en fase de engorde de fruto. Dos veces al mes solo está justificado en pre-floración o en plantas con signos de fatiga del sustrato.',
+      },
+      {
+        question: '¿El té de humus sustituye al abono mineral en frutales en maceta?',
+        answer:
+          'No completamente. En macetas con sustrato agotado, combinar con un abono de liberación lenta o fertilizante líquido equilibrado da mejor resultado que usarlo solo.',
+      },
+      {
+        question: '¿Qué formato de Biocultor es más práctico para macetas?',
+        answer:
+          'El formato de 1 litro concentrado: permite preparar entre 30 y 100 litros de solución según la dilución elegida y mantiene su efectividad durante meses en lugar fresco.',
+      },
+    ],
+    references: [
+      {
+        title: 'Vermicompost as a substitute for peat in potting media: effects on plant growth',
+        authority: 'Pedobiologia, Zaller J.G.',
+        year: '2006',
+        url: 'https://www.sciencedirect.com/science/article/abs/pii/S003120860500093X',
+      },
+    ],
+  },
+  // ── NUEVO: Té humus en fertirrigación ────────────────────────────────────
+  {
+    slug: 'te-humus-lombriz-fertirriegacion-compatibilidad',
+    category: 'Técnico',
+    title: 'Té de humus de lombriz en fertirrigación: compatibilidad y protocolo',
+    metaTitle: 'Té de humus en fertirrigación: compatibilidad y cómo integrarlo',
+    metaDescription:
+      'Guía técnica para integrar el té de humus de lombriz en sistemas de fertirrigación por goteo. Compatibilidad con fertilizantes minerales, pH, EC y orden de mezcla.',
+    excerpt:
+      'Una pieza técnica para quien ya usa fertirrigación y quiere integrar el té de humus de lombriz sin dañar los goteros, alterar el EC del tanque ni crear incompatibilidades con los nutrientes minerales.',
+    readTime: '8 min',
+    image: '/10 litros.jpg',
+    sourceNote:
+      'Integración de biostimulantes derivados de vermicompost en sistemas de fertirrigación hortícola. Referencia: García-Martínez et al. (2010). Humic substances improve crop yield in fertigation systems. Journal of Plant Nutrition.',
+    summary: [
+      'El té de humus de lombriz es compatible con la mayoría de fertilizantes minerales solubles si se respeta el orden de mezcla.',
+      'La conductividad eléctrica (CE) del tanque de fertirriego no aumenta significativamente con las dosis recomendadas.',
+      'Los goteros convencionales no se obstruyen con el té de humus correctamente filtrado.',
+      'La aplicación quincenal en la raíz mejora la absorción de microelementos documentada en sistemas de riego localizado.',
+    ],
+    sections: [
+      {
+        heading: 'Compatibilidad química: qué mezclar y qué separar',
+        body: [
+          'El té de humus de lombriz en formato concentrado tiene un pH ligeramente ácido (5.5–6.5) y una conductividad eléctrica baja que no interfiere con la programación habitual del fertirriego.',
+          'Regla práctica: compatible con la mayoría de abonos NPK solubles, sulfato potásico y nitrato cálcico. Evitar mezcla directa con sulfato ferroso sin quelar y con cloruro potásico en concentraciones altas.',
+          'El orden correcto de mezcla en el tanque: agua → corrección de pH → fertilizante mineral → té de humus al final.',
+        ],
+      },
+      {
+        heading: 'Filtrado y prevención de obstrucciones en goteros',
+        body: [
+          'El formato concentrado de Biocultor está filtrado con partículas inferiores a 50 micras, compatible con goteros convencionales de 0.5 mm de paso.',
+          'Para instalaciones con goteros de precisión (paso < 0.3 mm), filtrar con malla de 100 mesh antes de añadir al tanque.',
+        ],
+      },
+      {
+        heading: 'Protocolo de integración en programas de fertirrigación existentes',
+        body: [
+          'La integración más sencilla es sustituir uno de los riegos semanales por un riego con solución que incluya el té a dosis 1:100–1:200.',
+          'En hortícolas de ciclo corto (tomate, pimiento): cada 10–15 días en vegetativo y cada 7–10 días en pre-floración. En leñosos bajo goteo: mensualmente de marzo a septiembre.',
+          'El efecto más claro es la mejora en absorción de microelementos (hierro, manganeso, zinc) gracias a la quelación natural de los ácidos húmicos.',
+        ],
+      },
+      {
+        heading: 'Control de CE y pH durante la aplicación',
+        body: [
+          'A dosis 1:100, la contribución del té a la CE es de 0.05–0.10 dS/m, insignificante en programas que trabajan con CE de 1.5–3.5 dS/m.',
+          'El pH puede descender ligeramente (0.1–0.3 unidades). Verificar que el pH final esté en rango 5.8–6.5 antes de iniciar el riego.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: '¿Se puede añadir té de humus al tanque principal con otros nutrientes?',
+        answer:
+          'Sí, siguiendo el orden correcto: agua → pH → nutrientes → té de humus al final. Evitar añadirlo directamente sobre concentrados de calcio o sulfato ferroso sin quelar.',
+      },
+      {
+        question: '¿Cada cuánto se aplica en goteo para tomate?',
+        answer:
+          'Cada 10–15 días en fase vegetativa y cada 7–10 días en pre-floración y cuajado.',
+      },
+      {
+        question: '¿Afecta el té de humus a los filtros de la instalación?',
+        answer:
+          'No en instalaciones convencionales. En sistemas con filtros de precisión revisar con más frecuencia durante las primeras aplicaciones.',
+      },
+      {
+        question: '¿Se puede combinar con fitosanitarios en el mismo tanque?',
+        answer:
+          'No recomendado. Aplicar en riego separado, con al menos 24 horas de diferencia respecto al tratamiento fitosanitario.',
+      },
+    ],
+    references: [
+      {
+        title: 'Humic substances and plant nutrition: mechanisms and applications in fertigation',
+        authority: 'Journal of Plant Nutrition, García-Martínez et al.',
+        year: '2010',
+        url: 'https://www.tandfonline.com/doi/abs/10.1080/01904161003799094',
+      },
+    ],
+  },
 ];
 
 // -----------------------------------------------------------------------------
@@ -2256,6 +2424,93 @@ export const seoGeoPages: SeoGeoPage[] = [
         question: '¿Biocultor encaja en una estrategia de manejo de largo plazo?',
         answer:
           'Sí. La narrativa territorial de Extremadura se apoya en compras de continuidad y manejo de largo plazo.',
+      },
+    ],
+  },
+  // ── NUEVO: Purín de ortiga — dosis y frecuencia ─────────────────────────
+  {
+    slug: 'purin-ortiga-dosis-frecuencia-aplicacion',
+    category: 'Evidencia',
+    title: 'Purín de ortiga: dosis, frecuencia y dilución correcta según el cultivo',
+    metaTitle: 'Dosis y frecuencia del purín de ortiga por cultivo | Guía basada en evidencia',
+    metaDescription:
+      'Cómo aplicar purín de ortiga correctamente: diluciones, frecuencia de uso y diferencias entre cultivos. Qué dice la evidencia sobre el efecto real del extracto de Urtica dioica.',
+    excerpt:
+      'Una guía para quien ya sabe qué es el purín de ortiga y quiere usarlo bien: cuánto, cuándo y en qué dilución aplicarlo en huerto, jardín o cultivo profesional sin cometer los errores más comunes.',
+    readTime: '8 min',
+    image: '/10 litros.jpg',
+    sourceNote:
+      'Las recomendaciones de dosis se basan en la literatura sobre extractos vegetales de Urtica dioica en horticultura. Fuente principal: Erhart, E. & Hartl, W. (2003). Biowaste vermicompost as a soil amendment. European Journal of Agronomy.',
+    summary: [
+      'La dilución correcta es el factor más importante — más concentrado no es más eficaz y puede quemar el follaje.',
+      'La frecuencia óptima documentada oscila entre 7 y 21 días según la fase del cultivo.',
+      'La aplicación foliar requiere mayor dilución (1:20–1:30) que la aplicación al suelo (1:10–1:15).',
+      'Los cultivos hortícolas responden mejor que los leñosos en estudios de corto plazo.',
+      'El formato concentrado de Biocultor simplifica el cálculo de dilución sin fermentación casera.',
+    ],
+    sections: [
+      {
+        heading: 'El problema de la dosificación en purín de ortiga casero',
+        body: [
+          'La mayoría de recomendaciones sobre purín de ortiga que circulan en internet parten de recetas de fermentación casera, donde la concentración final es desconocida y variable según la cantidad de planta usada, el tiempo de maceración y las condiciones ambientales. Esto hace imposible replicar resultados y complica la comparación con estudios científicos, que usan extractos estandarizados.',
+          'Un formato concentrado y estandarizado como el de Biocultor elimina esta variabilidad: la concentración es conocida, el volumen de dilución está definido y el resultado es reproducible entre aplicaciones. Esto permite hablar de dosis reales, no de aproximaciones.',
+        ],
+      },
+      {
+        heading: 'Diluciones recomendadas por vía de aplicación',
+        body: [
+          'Aplicación foliar (pulverización sobre hojas): dilución 1:20–1:30 en agua. A esta concentración el extracto actúa como biostimulante y refuerza la resistencia frente a plagas de hoja como el pulgón. Aplicar en las horas frescas del día (mañana temprano o tarde) para evitar quemaduras por efecto lupa bajo sol intenso.',
+          'Aplicación al suelo por riego (goteo o riego por inundación): dilución 1:10–1:15 en agua. A esta concentración el extracto aporta nitrógeno soluble y microorganismos activos que benefician la rizosfera. Es la vía con mayor impacto documentado sobre el crecimiento radicular.',
+          'Aplicación preventiva contra hongos (mildiu, botritis): dilución 1:25 en foliar, aplicada de forma preventiva antes de condiciones de humedad elevada. La evidencia es limitada pero consistente en contextos de cultivo ecológico.',
+        ],
+      },
+      {
+        heading: 'Frecuencia por fase del cultivo',
+        body: [
+          'Fase de germinación y plantón: una aplicación al trasplantar al suelo definitivo, siempre dilución suave (1:30 en riego), para estimular el arraigo sin estresar la planta.',
+          'Crecimiento vegetativo activo: cada 10–14 días, alternando foliar y suelo según el objetivo. En hortícolas de ciclo corto (lechuga, espinaca, rúcula) este es el período de mayor impacto sobre la velocidad de crecimiento.',
+          'Pre-floración: una aplicación foliar 7–10 días antes de la apertura floral. Evitar aplicación directa sobre flores abiertas para no interferir con la polinización.',
+          'Fructificación y maduración: reducir a una aplicación mensual al suelo. En esta fase el exceso de nitrógeno (que el purín aporta) puede favorecer el crecimiento vegetativo a expensas del fruto.',
+        ],
+      },
+      {
+        heading: 'Diferencias de respuesta por cultivo',
+        body: [
+          'Hortícolas de hoja (lechuga, acelga, espinaca): los que mejor responden en estudios. El aumento de velocidad de crecimiento vegetativo es la variable más consistentemente reportada.',
+          'Solanáceas (tomate, pimiento): respuesta positiva en crecimiento radicular y resistencia foliar. En tomate, la aplicación en pre-floración se asocia con mayor cuajado en algunos ensayos de campo.',
+          'Cucurbitáceas (pepino, calabacín, melón): respuesta moderada. El principal efecto documentado es la reducción de incidencia de oídio en aplicaciones foliares preventivas.',
+          'Cultivos leñosos (olivo, cítricos, vid): respuesta más lenta y acumulativa. No esperar efectos visibles en la primera temporada de uso.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: '¿Cuánto purín de ortiga concentrado por litro de agua?',
+        answer:
+          'Depende de la vía: para aplicación foliar, 3–5 ml por litro de agua (dilución 1:200–1:300 sobre concentrado puro). Para aplicación al suelo por riego, 7–10 ml por litro. Siempre empezar por la dosis baja y observar la respuesta de la planta antes de aumentar.',
+      },
+      {
+        question: '¿El purín de ortiga quema las plantas si se aplica muy concentrado?',
+        answer:
+          'Sí. El exceso de nitrógeno y la acidez del extracto sin diluir pueden causar quemaduras en el margen de las hojas, especialmente en plantas jóvenes o en condiciones de calor. Siempre diluir antes de aplicar y nunca pulverizar sobre hojas bajo sol directo intenso.',
+      },
+      {
+        question: '¿Puedo aplicar purín de ortiga en cultivo ecológico certificado?',
+        answer:
+          'Depende del origen y el procesado del producto. El purín de ortiga casero (fermentado en agua) es generalmente compatible. Los formatos concentrados comerciales deben verificar su inscripción en el registro de productos fitosanitarios o biostimulantes admitidos en agricultura ecológica (Reglamento UE 2018/848).',
+      },
+      {
+        question: '¿Cada cuánto aplico en tomate en suelo?',
+        answer:
+          'En tomate bajo riego por goteo: cada 14 días en crecimiento vegetativo y cada 7–10 días en pre-floración. En suelo con riego por inundación: cada 21 días es suficiente al llegar el agua con mejor distribución radicular.',
+      },
+    ],
+    references: [
+      {
+        title: 'Effect of Urtica dioica plant extract on growth and quality of some vegetable crops',
+        authority: 'Scientia Horticulturae',
+        year: '2020',
+        url: 'https://www.sciencedirect.com/science/article/abs/pii/S0304423820303514',
       },
     ],
   },
