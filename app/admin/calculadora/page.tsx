@@ -65,7 +65,7 @@ const FORMATS: Record<FormatType, FormatData> = {
     weightKg: 1050.0,
     dimensions: { width: 100, height: 115, length: 120 },
     defaultCosts: { rawMaterial: 50.00, packaging: 150.0, labor: 10.0, energy: 5.0, other: 10.0 },
-    defaultPvp: 1250.0,
+    defaultPvp: 750.0,
   }
 };
 
