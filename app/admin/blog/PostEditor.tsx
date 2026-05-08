@@ -45,6 +45,25 @@ export default function PostEditor({ post }: { post: Post }) {
   const [metaDesc, setMetaDesc] = useState(post.metaDesc ?? '');
   const [keywords, setKeywords] = useState(post.keywords);
   const [coverImage, setCoverImage] = useState(post.coverImage ?? '');
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  async function handleImageUpload(file: File) {
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Error al subir');
+      setCoverImage(data.url);
+    } catch (err: any) {
+      setUploadError(err.message);
+    } finally {
+      setUploading(false);
+    }
+  }
 
   function handleSave() {
     const fd = new FormData();
@@ -214,32 +233,87 @@ export default function PostEditor({ post }: { post: Post }) {
 
           <section className="bg-card border border-border/60 rounded-2xl p-6 flex flex-col gap-4">
             <h2 className="text-base font-heading font-bold">Imagen de cabecera</h2>
-            <Field label="URL de imagen">
+
+            {/* Drop zone / upload */}
+            <label
+              className={`relative flex flex-col items-center justify-center w-full aspect-video rounded-xl border-2 border-dashed transition-colors cursor-pointer overflow-hidden
+                ${uploading ? 'opacity-60 pointer-events-none' : 'hover:border-primary/60'}
+                ${coverImage ? 'border-border/40' : 'border-border/30 bg-muted/20'}`}
+            >
               <input
-                value={coverImage}
-                onChange={(e) => setCoverImage(e.target.value)}
-                className={INPUT}
-                placeholder="/uploads/mi-imagen.jpg o URL externa"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/avif"
+                className="sr-only"
+                disabled={uploading}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleImageUpload(file);
+                }}
               />
-              <p className="text-[10px] text-muted-foreground mt-1">
-                Usa la URL de una imagen subida o una URL externa (https://...)
-              </p>
-            </Field>
-            {coverImage && (
-              <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border/40 bg-muted/30">
+              {coverImage ? (
                 <img
                   src={coverImage}
                   alt="Vista previa"
                   className="w-full h-full object-cover"
                   onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                 />
+              ) : (
+                <div className="flex flex-col items-center gap-2 p-4 text-center pointer-events-none">
+                  {uploading
+                    ? <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                    : <ImageIcon className="w-8 h-8 text-muted-foreground/40" />}
+                  <p className="text-sm font-medium text-muted-foreground">
+                    {uploading ? 'Subiendo...' : 'Haz clic para subir imagen'}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground/60">JPG · PNG · WEBP · AVIF · máx 5 MB</p>
+                </div>
+              )}
+              {coverImage && uploading && (
+                <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                </div>
+              )}
+            </label>
+
+            {/* Cambiar / quitar */}
+            {coverImage && !uploading && (
+              <div className="flex gap-2 flex-wrap">
+                <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/avif"
+                    className="sr-only"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) handleImageUpload(file);
+                    }}
+                  />
+                  Cambiar imagen
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setCoverImage('')}
+                  className="text-xs font-semibold text-destructive hover:underline"
+                >
+                  Quitar imagen
+                </button>
               </div>
             )}
-            {!coverImage && (
-              <div className="w-full aspect-video rounded-xl border border-dashed border-border/40 bg-muted/20 flex flex-col items-center justify-center gap-2">
-                <ImageIcon className="w-8 h-8 text-muted-foreground/30" />
-                <p className="text-xs text-muted-foreground/60">Sin imagen de cabecera</p>
-              </div>
+
+            {/* URL manual (fallback) */}
+            <Field label="O pega una URL externa">
+              <input
+                value={coverImage}
+                onChange={(e) => setCoverImage(e.target.value)}
+                className={INPUT}
+                placeholder="https://ejemplo.com/imagen.jpg"
+              />
+            </Field>
+
+            {uploadError && (
+              <p className="text-xs text-destructive flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" /> {uploadError}
+              </p>
             )}
           </section>
 
