@@ -38,7 +38,7 @@ export default function Footer() {
                   alt="Biocultor Logo" 
                   width={140} 
                   height={40} 
-                  className="mb-6 brightness-[10] opacity-75 hover:opacity-100 transition-opacity" 
+                  className="mb-6 brightness-0 invert opacity-75 hover:opacity-100 transition-opacity" 
                 />
               </Link>
               <p className="text-sm text-cream/55 leading-relaxed pr-4 mb-6">
