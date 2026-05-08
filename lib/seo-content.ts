@@ -2226,6 +2226,93 @@ export const seoArticlesOrtiga: SeoArticle[] = [
       },
     ],
   },
+  // ── NUEVO: Purín de ortiga — dosis y frecuencia ─────────────────────────
+  {
+    slug: 'purin-ortiga-dosis-frecuencia-aplicacion',
+    category: 'Evidencia',
+    title: 'Purín de ortiga: dosis, frecuencia y dilución correcta según el cultivo',
+    metaTitle: 'Dosis y frecuencia del purín de ortiga por cultivo | Guía basada en evidencia',
+    metaDescription:
+      'Cómo aplicar purín de ortiga correctamente: diluciones, frecuencia de uso y diferencias entre cultivos. Qué dice la evidencia sobre el efecto real del extracto de Urtica dioica.',
+    excerpt:
+      'Una guía para quien ya sabe qué es el purín de ortiga y quiere usarlo bien: cuánto, cuándo y en qué dilución aplicarlo en huerto, jardín o cultivo profesional sin cometer los errores más comunes.',
+    readTime: '8 min',
+    image: '/10 litros.jpg',
+    sourceNote:
+      'Las recomendaciones de dosis se basan en la literatura sobre extractos vegetales de Urtica dioica en horticultura. Fuente principal: Erhart, E. & Hartl, W. (2003). Biowaste vermicompost as a soil amendment. European Journal of Agronomy.',
+    summary: [
+      'La dilución correcta es el factor más importante — más concentrado no es más eficaz y puede quemar el follaje.',
+      'La frecuencia óptima documentada oscila entre 7 y 21 días según la fase del cultivo.',
+      'La aplicación foliar requiere mayor dilución (1:20–1:30) que la aplicación al suelo (1:10–1:15).',
+      'Los cultivos hortícolas responden mejor que los leñosos en estudios de corto plazo.',
+      'El formato concentrado de Biocultor simplifica el cálculo de dilución sin fermentación casera.',
+    ],
+    sections: [
+      {
+        heading: 'El problema de la dosificación en purín de ortiga casero',
+        body: [
+          'La mayoría de recomendaciones sobre purín de ortiga que circulan en internet parten de recetas de fermentación casera, donde la concentración final es desconocida y variable según la cantidad de planta usada, el tiempo de maceración y las condiciones ambientales. Esto hace imposible replicar resultados y complica la comparación con estudios científicos, que usan extractos estandarizados.',
+          'Un formato concentrado y estandarizado como el de Biocultor elimina esta variabilidad: la concentración es conocida, el volumen de dilución está definido y el resultado es reproducible entre aplicaciones. Esto permite hablar de dosis reales, no de aproximaciones.',
+        ],
+      },
+      {
+        heading: 'Diluciones recomendadas por vía de aplicación',
+        body: [
+          'Aplicación foliar (pulverización sobre hojas): dilución 1:20–1:30 en agua. A esta concentración el extracto actúa como biostimulante y refuerza la resistencia frente a plagas de hoja como el pulgón. Aplicar en las horas frescas del día (mañana temprano o tarde) para evitar quemaduras por efecto lupa bajo sol intenso.',
+          'Aplicación al suelo por riego (goteo o riego por inundación): dilución 1:10–1:15 en agua. A esta concentración el extracto aporta nitrógeno soluble y microorganismos activos que benefician la rizosfera. Es la vía con mayor impacto documentado sobre el crecimiento radicular.',
+          'Aplicación preventiva contra hongos (mildiu, botritis): dilución 1:25 en foliar, aplicada de forma preventiva antes de condiciones de humedad elevada. La evidencia es limitada pero consistente en contextos de cultivo ecológico.',
+        ],
+      },
+      {
+        heading: 'Frecuencia por fase del cultivo',
+        body: [
+          'Fase de germinación y plantón: una aplicación al trasplantar al suelo definitivo, siempre dilución suave (1:30 en riego), para estimular el arraigo sin estresar la planta.',
+          'Crecimiento vegetativo activo: cada 10–14 días, alternando foliar y suelo según el objetivo. En hortícolas de ciclo corto (lechuga, espinaca, rúcula) este es el período de mayor impacto sobre la velocidad de crecimiento.',
+          'Pre-floración: una aplicación foliar 7–10 días antes de la apertura floral. Evitar aplicación directa sobre flores abiertas para no interferir con la polinización.',
+          'Fructificación y maduración: reducir a una aplicación mensual al suelo. En esta fase el exceso de nitrógeno (que el purín aporta) puede favorecer el crecimiento vegetativo a expensas del fruto.',
+        ],
+      },
+      {
+        heading: 'Diferencias de respuesta por cultivo',
+        body: [
+          'Hortícolas de hoja (lechuga, acelga, espinaca): los que mejor responden en estudios. El aumento de velocidad de crecimiento vegetativo es la variable más consistentemente reportada.',
+          'Solanáceas (tomate, pimiento): respuesta positiva en crecimiento radicular y resistencia foliar. En tomate, la aplicación en pre-floración se asocia con mayor cuajado en algunos ensayos de campo.',
+          'Cucurbitáceas (pepino, calabacín, melón): respuesta moderada. El principal efecto documentado es la reducción de incidencia de oídio en aplicaciones foliares preventivas.',
+          'Cultivos leñosos (olivo, cítricos, vid): respuesta más lenta y acumulativa. No esperar efectos visibles en la primera temporada de uso.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: '¿Cuánto purín de ortiga concentrado por litro de agua?',
+        answer:
+          'Depende de la vía: para aplicación foliar, 3–5 ml por litro de agua (dilución 1:200–1:300 sobre concentrado puro). Para aplicación al suelo por riego, 7–10 ml por litro. Siempre empezar por la dosis baja y observar la respuesta de la planta antes de aumentar.',
+      },
+      {
+        question: '¿El purín de ortiga quema las plantas si se aplica muy concentrado?',
+        answer:
+          'Sí. El exceso de nitrógeno y la acidez del extracto sin diluir pueden causar quemaduras en el margen de las hojas, especialmente en plantas jóvenes o en condiciones de calor. Siempre diluir antes de aplicar y nunca pulverizar sobre hojas bajo sol directo intenso.',
+      },
+      {
+        question: '¿Puedo aplicar purín de ortiga en cultivo ecológico certificado?',
+        answer:
+          'Depende del origen y el procesado del producto. El purín de ortiga casero (fermentado en agua) es generalmente compatible. Los formatos concentrados comerciales deben verificar su inscripción en el registro de productos fitosanitarios o biostimulantes admitidos en agricultura ecológica (Reglamento UE 2018/848).',
+      },
+      {
+        question: '¿Cada cuánto aplico en tomate en suelo?',
+        answer:
+          'En tomate bajo riego por goteo: cada 14 días en crecimiento vegetativo y cada 7–10 días en pre-floración. En suelo con riego por inundación: cada 21 días es suficiente al llegar el agua con mejor distribución radicular.',
+      },
+    ],
+    references: [
+      {
+        title: 'Effect of Urtica dioica plant extract on growth and quality of some vegetable crops',
+        authority: 'Scientia Horticulturae',
+        year: '2020',
+        url: 'https://www.sciencedirect.com/science/article/abs/pii/S0304423820303514',
+      },
+    ],
+  },
 ];
 
 export const seoGeoPages: SeoGeoPage[] = [
@@ -2424,93 +2511,6 @@ export const seoGeoPages: SeoGeoPage[] = [
         question: '¿Biocultor encaja en una estrategia de manejo de largo plazo?',
         answer:
           'Sí. La narrativa territorial de Extremadura se apoya en compras de continuidad y manejo de largo plazo.',
-      },
-    ],
-  },
-  // ── NUEVO: Purín de ortiga — dosis y frecuencia ─────────────────────────
-  {
-    slug: 'purin-ortiga-dosis-frecuencia-aplicacion',
-    category: 'Evidencia',
-    title: 'Purín de ortiga: dosis, frecuencia y dilución correcta según el cultivo',
-    metaTitle: 'Dosis y frecuencia del purín de ortiga por cultivo | Guía basada en evidencia',
-    metaDescription:
-      'Cómo aplicar purín de ortiga correctamente: diluciones, frecuencia de uso y diferencias entre cultivos. Qué dice la evidencia sobre el efecto real del extracto de Urtica dioica.',
-    excerpt:
-      'Una guía para quien ya sabe qué es el purín de ortiga y quiere usarlo bien: cuánto, cuándo y en qué dilución aplicarlo en huerto, jardín o cultivo profesional sin cometer los errores más comunes.',
-    readTime: '8 min',
-    image: '/10 litros.jpg',
-    sourceNote:
-      'Las recomendaciones de dosis se basan en la literatura sobre extractos vegetales de Urtica dioica en horticultura. Fuente principal: Erhart, E. & Hartl, W. (2003). Biowaste vermicompost as a soil amendment. European Journal of Agronomy.',
-    summary: [
-      'La dilución correcta es el factor más importante — más concentrado no es más eficaz y puede quemar el follaje.',
-      'La frecuencia óptima documentada oscila entre 7 y 21 días según la fase del cultivo.',
-      'La aplicación foliar requiere mayor dilución (1:20–1:30) que la aplicación al suelo (1:10–1:15).',
-      'Los cultivos hortícolas responden mejor que los leñosos en estudios de corto plazo.',
-      'El formato concentrado de Biocultor simplifica el cálculo de dilución sin fermentación casera.',
-    ],
-    sections: [
-      {
-        heading: 'El problema de la dosificación en purín de ortiga casero',
-        body: [
-          'La mayoría de recomendaciones sobre purín de ortiga que circulan en internet parten de recetas de fermentación casera, donde la concentración final es desconocida y variable según la cantidad de planta usada, el tiempo de maceración y las condiciones ambientales. Esto hace imposible replicar resultados y complica la comparación con estudios científicos, que usan extractos estandarizados.',
-          'Un formato concentrado y estandarizado como el de Biocultor elimina esta variabilidad: la concentración es conocida, el volumen de dilución está definido y el resultado es reproducible entre aplicaciones. Esto permite hablar de dosis reales, no de aproximaciones.',
-        ],
-      },
-      {
-        heading: 'Diluciones recomendadas por vía de aplicación',
-        body: [
-          'Aplicación foliar (pulverización sobre hojas): dilución 1:20–1:30 en agua. A esta concentración el extracto actúa como biostimulante y refuerza la resistencia frente a plagas de hoja como el pulgón. Aplicar en las horas frescas del día (mañana temprano o tarde) para evitar quemaduras por efecto lupa bajo sol intenso.',
-          'Aplicación al suelo por riego (goteo o riego por inundación): dilución 1:10–1:15 en agua. A esta concentración el extracto aporta nitrógeno soluble y microorganismos activos que benefician la rizosfera. Es la vía con mayor impacto documentado sobre el crecimiento radicular.',
-          'Aplicación preventiva contra hongos (mildiu, botritis): dilución 1:25 en foliar, aplicada de forma preventiva antes de condiciones de humedad elevada. La evidencia es limitada pero consistente en contextos de cultivo ecológico.',
-        ],
-      },
-      {
-        heading: 'Frecuencia por fase del cultivo',
-        body: [
-          'Fase de germinación y plantón: una aplicación al trasplantar al suelo definitivo, siempre dilución suave (1:30 en riego), para estimular el arraigo sin estresar la planta.',
-          'Crecimiento vegetativo activo: cada 10–14 días, alternando foliar y suelo según el objetivo. En hortícolas de ciclo corto (lechuga, espinaca, rúcula) este es el período de mayor impacto sobre la velocidad de crecimiento.',
-          'Pre-floración: una aplicación foliar 7–10 días antes de la apertura floral. Evitar aplicación directa sobre flores abiertas para no interferir con la polinización.',
-          'Fructificación y maduración: reducir a una aplicación mensual al suelo. En esta fase el exceso de nitrógeno (que el purín aporta) puede favorecer el crecimiento vegetativo a expensas del fruto.',
-        ],
-      },
-      {
-        heading: 'Diferencias de respuesta por cultivo',
-        body: [
-          'Hortícolas de hoja (lechuga, acelga, espinaca): los que mejor responden en estudios. El aumento de velocidad de crecimiento vegetativo es la variable más consistentemente reportada.',
-          'Solanáceas (tomate, pimiento): respuesta positiva en crecimiento radicular y resistencia foliar. En tomate, la aplicación en pre-floración se asocia con mayor cuajado en algunos ensayos de campo.',
-          'Cucurbitáceas (pepino, calabacín, melón): respuesta moderada. El principal efecto documentado es la reducción de incidencia de oídio en aplicaciones foliares preventivas.',
-          'Cultivos leñosos (olivo, cítricos, vid): respuesta más lenta y acumulativa. No esperar efectos visibles en la primera temporada de uso.',
-        ],
-      },
-    ],
-    faq: [
-      {
-        question: '¿Cuánto purín de ortiga concentrado por litro de agua?',
-        answer:
-          'Depende de la vía: para aplicación foliar, 3–5 ml por litro de agua (dilución 1:200–1:300 sobre concentrado puro). Para aplicación al suelo por riego, 7–10 ml por litro. Siempre empezar por la dosis baja y observar la respuesta de la planta antes de aumentar.',
-      },
-      {
-        question: '¿El purín de ortiga quema las plantas si se aplica muy concentrado?',
-        answer:
-          'Sí. El exceso de nitrógeno y la acidez del extracto sin diluir pueden causar quemaduras en el margen de las hojas, especialmente en plantas jóvenes o en condiciones de calor. Siempre diluir antes de aplicar y nunca pulverizar sobre hojas bajo sol directo intenso.',
-      },
-      {
-        question: '¿Puedo aplicar purín de ortiga en cultivo ecológico certificado?',
-        answer:
-          'Depende del origen y el procesado del producto. El purín de ortiga casero (fermentado en agua) es generalmente compatible. Los formatos concentrados comerciales deben verificar su inscripción en el registro de productos fitosanitarios o biostimulantes admitidos en agricultura ecológica (Reglamento UE 2018/848).',
-      },
-      {
-        question: '¿Cada cuánto aplico en tomate en suelo?',
-        answer:
-          'En tomate bajo riego por goteo: cada 14 días en crecimiento vegetativo y cada 7–10 días en pre-floración. En suelo con riego por inundación: cada 21 días es suficiente al llegar el agua con mejor distribución radicular.',
-      },
-    ],
-    references: [
-      {
-        title: 'Effect of Urtica dioica plant extract on growth and quality of some vegetable crops',
-        authority: 'Scientia Horticulturae',
-        year: '2020',
-        url: 'https://www.sciencedirect.com/science/article/abs/pii/S0304423820303514',
       },
     ],
   },
