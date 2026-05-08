@@ -121,7 +121,7 @@ export default async function AprendeArticlePage({
     };
 
     return (
-      <article className="w-[92%] lg:w-[75%] mx-auto px-4 py-16 md:py-24">
+      <article className="w-full max-w-5xl mx-auto px-6 py-16 md:py-24">
         <StructuredData id="article-schema" data={articleSchema} />
         <StructuredData
           id="article-breadcrumb-schema"
@@ -141,7 +141,7 @@ export default async function AprendeArticlePage({
         />
 
         {coverImage && (
-          <div className="mt-6 w-full max-w-4xl aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+          <div className="mt-8 w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
             <img
               src={coverImage}
               alt={dbPost.title}
@@ -150,7 +150,7 @@ export default async function AprendeArticlePage({
           </div>
         )}
 
-        <div className="max-w-4xl mt-8">
+        <div className="mt-10 max-w-3xl mx-auto">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary/80">
             {dbPost.category}
           </p>
@@ -162,14 +162,11 @@ export default async function AprendeArticlePage({
           </p>
         </div>
 
-        <div className="mt-14 max-w-4xl">
-          <MarkdownContent
-            content={dbPost.content}
-            className="space-y-5"
-          />
+        <div className="mt-14 max-w-3xl mx-auto">
+          <MarkdownContent content={dbPost.content} className="space-y-5" />
         </div>
 
-        <div className="mt-14 max-w-4xl rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
+        <div className="mt-16 max-w-3xl mx-auto rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
           <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
             ¿Quieres pasar de la guía a la compra?
           </h2>
