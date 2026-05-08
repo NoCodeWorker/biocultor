@@ -70,14 +70,15 @@ const calculatePacklinkShipping = (totalWeightKg: number): number => {
   if (totalWeightKg <= 2) return 4.50;
   if (totalWeightKg <= 5) return 5.80;
   if (totalWeightKg <= 10) return 7.50;
-  if (totalWeightKg <= 25) return 12.00;
-  if (totalWeightKg <= 50) return 25.00;
-  if (totalWeightKg <= 100) return 45.00;
+  if (totalWeightKg <= 20) return 9.50;
+  if (totalWeightKg <= 30) return 12.36; // Tarifa Correos Express 24h para garrafa de 25L (26kg)
+  if (totalWeightKg <= 50) return 18.00;
+  if (totalWeightKg <= 100) return 35.00;
   
   // Paletizado (aprox > 100kg)
-  const basePallet = 65.00;
+  const basePallet = 55.00;
   const extraKg = totalWeightKg - 100;
-  return basePallet + (Math.ceil(extraKg / 100) * 15.00);
+  return basePallet + (Math.ceil(extraKg / 100) * 12.00);
 };
 
 export default function CalculadoraCostesPage() {
