@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
+import MarkdownContent from '@/components/MarkdownContent';
 import { breadcrumbSchema, buildMetadata, faqSchema } from '@/lib/seo';
 import { getSeoArticles, getSeoArticlesOrtiga } from '@/lib/seo-store';
 import prisma from '@/lib/db';
@@ -107,11 +108,6 @@ export default async function AprendeArticlePage({
   }
 
   if (dbPost) {
-    const paragraphs = dbPost.content
-      .split('\n\n')
-      .map((p) => p.trim())
-      .filter(Boolean);
-
     const coverImage = dbPost.coverImage;
 
     const articleSchema = {
@@ -166,29 +162,11 @@ export default async function AprendeArticlePage({
           </p>
         </div>
 
-        <div className="mt-14 max-w-4xl space-y-6">
-          {paragraphs.map((block, i) => {
-            if (block.startsWith('## ')) {
-              return (
-                <h2 key={i} className="text-2xl md:text-3xl font-heading font-bold tracking-tight pt-4">
-                  {block.replace(/^## /, '')}
-                </h2>
-              );
-            }
-            if (block.startsWith('> ')) {
-              return (
-                <blockquote key={i} className="border-l-4 border-primary/40 pl-6 italic text-muted-foreground text-lg leading-relaxed">
-                  {block.replace(/^> /, '')}
-                </blockquote>
-              );
-            }
-            if (block.startsWith('---')) return <hr key={i} className="border-border/40" />;
-            return (
-              <p key={i} className="text-muted-foreground leading-relaxed text-lg">
-                {block}
-              </p>
-            );
-          })}
+        <div className="mt-14 max-w-4xl">
+          <MarkdownContent
+            content={dbPost.content}
+            className="space-y-5"
+          />
         </div>
 
         <div className="mt-14 max-w-4xl rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
