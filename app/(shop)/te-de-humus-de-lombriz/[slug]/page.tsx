@@ -88,16 +88,18 @@ export default async function SeoSolutionPage({
       />
 
       {solution.image && (
-        <div className="mt-8 w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
-          <img
-            src={solution.image}
-            alt={solution.title}
-            className="w-full h-full object-cover"
-          />
+        <div className="mt-10 max-w-4xl mx-auto">
+          <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+            <img
+              src={solution.image}
+              alt={solution.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       )}
 
-      <div className="mt-10 max-w-4xl">
+      <div className="mt-10 max-w-4xl mx-auto">
         <p className="text-xs font-bold uppercase tracking-widest text-primary">
           {solution.audience}
         </p>

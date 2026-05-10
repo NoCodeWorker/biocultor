@@ -81,16 +81,18 @@ export default async function GeoPage({
       />
 
       {page.image && (
-        <div className="mt-8 w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
-          <img
-            src={page.image}
-            alt={page.title}
-            className="w-full h-full object-cover"
-          />
+        <div className="mt-10 max-w-4xl mx-auto">
+          <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+            <img
+              src={page.image}
+              alt={page.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       )}
 
-      <div className="mt-10 max-w-4xl">
+      <div className="mt-10 max-w-4xl mx-auto">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary/80">
           {page.region}
         </p>

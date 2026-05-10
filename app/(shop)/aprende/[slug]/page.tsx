@@ -141,12 +141,14 @@ export default async function AprendeArticlePage({
         />
 
         {coverImage && (
-          <div className="mt-8 w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
-            <img
-              src={coverImage}
-              alt={dbPost.title}
-              className="w-full h-full object-cover"
-            />
+          <div className="mt-10 max-w-3xl mx-auto">
+            <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+              <img
+                src={coverImage}
+                alt={dbPost.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         )}
 
@@ -226,12 +228,14 @@ export default async function AprendeArticlePage({
       />
 
       {article.image && (
-        <div className="mt-8 w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
-          <img
-            src={article.image}
-            alt={article.title}
-            className="w-full h-full object-cover"
-          />
+        <div className="mt-10 max-w-3xl mx-auto">
+          <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+            <img
+              src={article.image}
+              alt={article.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       )}
 
