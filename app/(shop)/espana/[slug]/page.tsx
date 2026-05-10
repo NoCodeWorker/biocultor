@@ -81,7 +81,7 @@ export default async function GeoPage({
       />
 
       {page.image && (
-        <div className="mt-10 max-w-3xl mx-auto">
+        <div className="mt-10">
           <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
             <img
               src={page.image}

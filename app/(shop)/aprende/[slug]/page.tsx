@@ -141,7 +141,7 @@ export default async function AprendeArticlePage({
         />
 
         {coverImage && (
-          <div className="mt-10 max-w-3xl mx-auto">
+          <div className="mt-10">
             <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
               <img
                 src={coverImage}
@@ -228,7 +228,7 @@ export default async function AprendeArticlePage({
       />
 
       {article.image && (
-        <div className="mt-10 max-w-3xl mx-auto">
+        <div className="mt-10">
           <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
             <img
               src={article.image}
