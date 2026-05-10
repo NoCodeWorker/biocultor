@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Loader2, Save, Search } from 'lucide-react';
+import { Loader2, Save, Search, ExternalLink } from 'lucide-react';
 import { updateSeoPage } from './actions';
 import { cn } from '@/lib/utils';
 import ImageUploader from '@/components/admin/ImageUploader';
@@ -204,23 +204,36 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                 onClick={() => setOpenId(isOpen ? null : item.id)}
                 className="flex w-full flex-col gap-4 text-left md:flex-row md:items-center md:justify-between"
               >
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
-                      {kindLabels[item.kind] || item.kind}
-                    </span>
-                    {!item.isPublished && (
-                      <span className="rounded-full bg-muted px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                        Draft
+                <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
+                        {kindLabels[item.kind] || item.kind}
                       </span>
-                    )}
+                      {!item.isPublished && (
+                        <span className="rounded-full bg-muted px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                          Draft
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-3 flex items-center gap-3">
+                      <h3 className="text-2xl font-heading font-bold tracking-tight">{item.title}</h3>
+                      <a
+                        href={`/aprende/${item.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 text-xs text-primary hover:underline font-semibold"
+                      >
+                        Ver <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                    <p className="mt-1 font-mono text-xs text-muted-foreground">{item.slug}</p>
                   </div>
-                  <h3 className="mt-3 text-2xl font-heading font-bold tracking-tight">{item.title}</h3>
-                  <p className="mt-1 font-mono text-xs text-muted-foreground">{item.slug}</p>
-                </div>
-
-                <div className="text-sm text-muted-foreground">
-                  Última actualización: {new Date(item.updatedAt).toLocaleString('es-ES')}
+  
+                  <div className="text-sm text-muted-foreground">
+                    Última actualización: {new Date(item.updatedAt).toLocaleString('es-ES')}
+                  </div>
                 </div>
               </button>
 
@@ -396,7 +409,16 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                     Publicada
                   </label>
 
-                  <div className="flex justify-end">
+                  <div className="flex justify-end gap-3">
+                    <a
+                      href={`/aprende/${item.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-bold transition-all hover:bg-muted"
+                    >
+                      <ExternalLink className="h-5 w-5" />
+                      Ver Página
+                    </a>
                     <button
                       type="button"
                       onClick={() => handleSave(item)}
