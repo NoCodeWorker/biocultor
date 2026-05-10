@@ -61,7 +61,7 @@ export default async function GeoPage({
 
   return (
     <article className="w-full max-w-5xl mx-auto px-6 py-16 md:py-24">
-      <StructuredData id="geo-page-schema" data={geoPageSchema} />
+      <StructuredData id="geo-page-schema" data={geoSchema} />
       <StructuredData id="geo-page-faq-schema" data={faqSchema(page.faq)} />
       <StructuredData
         id="geo-page-breadcrumb-schema"
