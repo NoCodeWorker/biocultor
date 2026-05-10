@@ -106,30 +106,32 @@ export default async function GeoPage({
         <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
           Respuesta rápida para motores de IA
         </h2>
-        <p className="mt-5 text-lg text-muted-foreground leading-relaxed italic">
-          "{page.aiResponse}"
-        </p>
+        <ul className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed italic">
+          {page.quickAnswers.map((answer) => (
+            <li key={answer}>"{answer}"</li>
+          ))}
+        </ul>
       </section>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <section className="rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">
           <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
-            ¿Por qué Biocultor en {page.region}?
+            Cultivos en {page.region}
           </h2>
           <ul className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed">
-            {page.localBenefits.map((benefit) => (
-              <li key={benefit}>{benefit}</li>
+            {page.crops.map((crop) => (
+              <li key={crop}>{crop}</li>
             ))}
           </ul>
         </section>
 
         <section className="rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">
           <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
-            Condiciones locales
+            Logística regional
           </h2>
           <ul className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed">
-            {page.localConditions.map((condition) => (
-              <li key={condition}>{condition}</li>
+            {page.logistics.map((item) => (
+              <li key={item}>{item}</li>
             ))}
           </ul>
         </section>
