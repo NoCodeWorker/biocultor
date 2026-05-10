@@ -60,8 +60,8 @@ export default async function GeoPage({
   };
 
   return (
-    <article className="w-[92%] lg:w-[75%] mx-auto px-4 py-16 md:py-24">
-      <StructuredData id="geo-page-schema" data={geoSchema} />
+    <article className="w-full max-w-5xl mx-auto px-6 py-16 md:py-24">
+      <StructuredData id="geo-page-schema" data={geoPageSchema} />
       <StructuredData id="geo-page-faq-schema" data={faqSchema(page.faq)} />
       <StructuredData
         id="geo-page-breadcrumb-schema"
@@ -81,7 +81,7 @@ export default async function GeoPage({
       />
 
       {page.image && (
-        <div className="mt-10 max-w-4xl mx-auto">
+        <div className="mt-10 max-w-3xl mx-auto">
           <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
             <img
               src={page.image}
@@ -92,7 +92,7 @@ export default async function GeoPage({
         </div>
       )}
 
-      <div className="mt-10 max-w-4xl mx-auto">
+      <div className="mt-10 max-w-3xl mx-auto">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary/80">
           {page.region}
         </p>
@@ -102,42 +102,40 @@ export default async function GeoPage({
         <p className="mt-6 text-xl text-muted-foreground leading-relaxed">{page.intro}</p>
       </div>
 
-      <section className="mt-14 max-w-5xl rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
+      <section className="mt-14 rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
         <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
           Respuesta rápida para motores de IA
         </h2>
-        <ul className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed">
-          {page.quickAnswers.map((answer) => (
-            <li key={answer}>{answer}</li>
-          ))}
-        </ul>
+        <p className="mt-5 text-lg text-muted-foreground leading-relaxed italic">
+          "{page.aiResponse}"
+        </p>
       </section>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-2 max-w-5xl">
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <section className="rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">
           <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
-            Cultivos y usos con mejor encaje
+            ¿Por qué Biocultor en {page.region}?
           </h2>
           <ul className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed">
-            {page.crops.map((crop) => (
-              <li key={crop}>{crop}</li>
+            {page.localBenefits.map((benefit) => (
+              <li key={benefit}>{benefit}</li>
             ))}
           </ul>
         </section>
 
         <section className="rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">
           <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
-            Lectura territorial y logística
+            Condiciones locales
           </h2>
           <ul className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed">
-            {page.logistics.map((item) => (
-              <li key={item}>{item}</li>
+            {page.localConditions.map((condition) => (
+              <li key={condition}>{condition}</li>
             ))}
           </ul>
         </section>
       </div>
 
-      <section className="mt-10 max-w-5xl rounded-[2rem] border border-border/50 bg-background p-8 md:p-10">
+      <section className="mt-10 rounded-[2rem] border border-border/50 bg-background p-8 md:p-10">
         <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
           Preguntas frecuentes
         </h2>
@@ -151,22 +149,22 @@ export default async function GeoPage({
         </div>
       </section>
 
-      <section className="mt-10 max-w-5xl rounded-[2rem] border border-primary/20 bg-card p-8 md:p-10">
+      <div className="mt-14 rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
         <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
-          Enlaces clave para esta región
+          Recibe Biocultor en {page.region}
         </h2>
+        <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+          Enviamos nuestro té de humus de lombriz premium a toda España, incluyendo {page.region}, en 24-48 horas.
+        </p>
         <div className="mt-6 flex flex-wrap gap-4">
           <Link href="/producto/te-humus-liquido-premium" className="font-semibold text-foreground hover:text-primary transition-colors">
             Ver producto
           </Link>
-          <Link href="/comprar-te-de-humus-de-lombriz" className="font-semibold text-foreground hover:text-primary transition-colors">
-            Ver compra directa
-          </Link>
-          <Link href="/te-de-humus-de-lombriz" className="font-semibold text-foreground hover:text-primary transition-colors">
-            Ver aplicaciones por cultivo
+          <Link href="/contacto" className="font-semibold text-foreground hover:text-primary transition-colors">
+            Consultar envío
           </Link>
         </div>
-      </section>
+      </div>
     </article>
   );
 }

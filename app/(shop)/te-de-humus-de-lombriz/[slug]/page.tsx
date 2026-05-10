@@ -67,7 +67,7 @@ export default async function SeoSolutionPage({
   };
 
   return (
-    <article className="w-[92%] lg:w-[75%] mx-auto px-4 py-16 md:py-24">
+    <article className="w-full max-w-5xl mx-auto px-6 py-16 md:py-24">
       <StructuredData id="solution-schema" data={serviceSchema} />
       <StructuredData id="solution-faq-schema" data={faqSchema(solution.faq)} />
       <StructuredData
@@ -88,7 +88,7 @@ export default async function SeoSolutionPage({
       />
 
       {solution.image && (
-        <div className="mt-10 max-w-4xl mx-auto">
+        <div className="mt-10 max-w-3xl mx-auto">
           <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
             <img
               src={solution.image}
@@ -99,7 +99,7 @@ export default async function SeoSolutionPage({
         </div>
       )}
 
-      <div className="mt-10 max-w-4xl mx-auto">
+      <div className="mt-10 max-w-3xl mx-auto">
         <p className="text-xs font-bold uppercase tracking-widest text-primary">
           {solution.audience}
         </p>
@@ -111,7 +111,7 @@ export default async function SeoSolutionPage({
         </p>
       </div>
 
-      <div className="mt-14 grid gap-6 lg:grid-cols-2 max-w-5xl">
+      <div className="mt-14 grid gap-6 lg:grid-cols-2">
         <section className="rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">
           <h2 className="text-2xl md:text-3xl font-heading font-bold text-foreground">
             Beneficios para tu Cultivo
@@ -135,7 +135,7 @@ export default async function SeoSolutionPage({
         </section>
       </div>
 
-      <section className="mt-10 max-w-5xl rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
+      <section className="mt-10 rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
         <h2 className="text-2xl md:text-3xl font-heading font-bold text-foreground">
           Encuentra el formato adecuado para este uso
         </h2>
