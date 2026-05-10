@@ -80,7 +80,17 @@ export default async function CommercialPage({
         ]}
       />
 
-      <div className="max-w-4xl">
+      {page.image && (
+        <div className="mt-8 w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+          <img
+            src={page.image}
+            alt={page.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+
+      <div className="mt-10 max-w-4xl">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary/80">
           {page.keyword}
         </p>
@@ -89,16 +99,6 @@ export default async function CommercialPage({
         </h1>
         <p className="mt-6 text-xl text-muted-foreground leading-relaxed">{page.intro}</p>
       </div>
-
-      {page.image && (
-        <div className="mt-12 max-w-5xl overflow-hidden rounded-[2.5rem] border border-border/50 bg-muted aspect-[21/9]">
-          <img
-            src={page.image}
-            alt={page.title}
-            className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-          />
-        </div>
-      )}
 
       <div className="mt-14 grid gap-6 lg:grid-cols-2 max-w-5xl">
         <section className="rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">

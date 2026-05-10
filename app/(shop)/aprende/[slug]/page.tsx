@@ -225,6 +225,16 @@ export default async function AprendeArticlePage({
         ]}
       />
 
+      {article.image && (
+        <div className="mt-8 w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+          <img
+            src={article.image}
+            alt={article.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+
       <div className="max-w-3xl mx-auto">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary/80">
           {article.category}

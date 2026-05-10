@@ -87,7 +87,17 @@ export default async function SeoSolutionPage({
         ]}
       />
 
-      <div className="max-w-4xl">
+      {solution.image && (
+        <div className="mt-8 w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+          <img
+            src={solution.image}
+            alt={solution.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+
+      <div className="mt-10 max-w-4xl">
         <p className="text-xs font-bold uppercase tracking-widest text-primary">
           {solution.audience}
         </p>
@@ -98,16 +108,6 @@ export default async function SeoSolutionPage({
           {solution.intro}
         </p>
       </div>
-
-      {solution.image && (
-        <div className="mt-12 max-w-5xl overflow-hidden rounded-[2.5rem] border border-border/50 bg-muted aspect-[21/9]">
-          <img
-            src={solution.image}
-            alt={solution.title}
-            className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-          />
-        </div>
-      )}
 
       <div className="mt-14 grid gap-6 lg:grid-cols-2 max-w-5xl">
         <section className="rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">
