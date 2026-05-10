@@ -132,42 +132,203 @@ function mergeGeo(base: SeoGeoPage, override?: DbSeoPage): SeoGeoPage {
 
 export async function getSeoSolutions() {
   const overrides = await getSeoOverrides('SOLUTION');
-  return seoSolutions.map((entry) => mergeSolution(entry, overrides.get(entry.slug)));
+  const staticSlugs = new Set(seoSolutions.map((s) => s.slug));
+  const results = seoSolutions.map((entry) => mergeSolution(entry, overrides.get(entry.slug)));
+
+  for (const [slug, override] of overrides) {
+    if (!staticSlugs.has(slug)) {
+      results.push(
+        mergeSolution(
+          {
+            slug,
+            title: '',
+            metaTitle: '',
+            metaDescription: '',
+            intro: '',
+            audience: '',
+            benefits: [],
+            applications: [],
+            faq: [],
+          },
+          override
+        )
+      );
+    }
+  }
+  return results;
 }
 
 export async function getSeoCommercialPages() {
   const overrides = await getSeoOverrides('COMMERCIAL');
-  return seoCommercialPages.map((entry) => mergeCommercial(entry, overrides.get(entry.slug)));
+  const staticSlugs = new Set(seoCommercialPages.map((s) => s.slug));
+  const results = seoCommercialPages.map((entry) => mergeCommercial(entry, overrides.get(entry.slug)));
+
+  for (const [slug, override] of overrides) {
+    if (!staticSlugs.has(slug)) {
+      results.push(
+        mergeCommercial(
+          {
+            slug,
+            title: '',
+            metaTitle: '',
+            metaDescription: '',
+            intro: '',
+            keyword: '',
+            reasons: [],
+            bestFor: [],
+            faq: [],
+          },
+          override
+        )
+      );
+    }
+  }
+  return results;
 }
 
 export async function getSeoArticles() {
   const overrides = await getSeoOverrides('ARTICLE');
-  return seoArticles.map((entry) => mergeArticle(entry, overrides.get(entry.slug)));
+  const staticSlugs = new Set(seoArticles.map((s) => s.slug));
+  const results = seoArticles.map((entry) => mergeArticle(entry, overrides.get(entry.slug)));
+
+  for (const [slug, override] of overrides) {
+    if (!staticSlugs.has(slug)) {
+      results.push(
+        mergeArticle(
+          {
+            slug,
+            category: 'BIOCULTOR',
+            title: '',
+            metaTitle: '',
+            metaDescription: '',
+            excerpt: '',
+            readTime: '5 min',
+            image: '',
+            sections: [],
+            summary: [],
+            faq: [],
+          },
+          override
+        )
+      );
+    }
+  }
+  return results;
 }
 
 export async function getSeoGeoPages() {
   const overrides = await getSeoOverrides('GEO');
-  return seoGeoPages.map((entry) => mergeGeo(entry, overrides.get(entry.slug)));
-}
+  const staticSlugs = new Set(seoGeoPages.map((s) => s.slug));
+  const results = seoGeoPages.map((entry) => mergeGeo(entry, overrides.get(entry.slug)));
 
-// -----------------------------------------------------------------------------
-// Purín de ortiga — getters paralelos con kind propio para permitir overrides
-// editoriales sin colisión con los slugs del clúster del té de humus.
-// -----------------------------------------------------------------------------
+  for (const [slug, override] of overrides) {
+    if (!staticSlugs.has(slug)) {
+      results.push(
+        mergeGeo(
+          {
+            slug,
+            region: '',
+            title: '',
+            metaTitle: '',
+            metaDescription: '',
+            intro: '',
+            crops: [],
+            logistics: [],
+            quickAnswers: [],
+            faq: [],
+          },
+          override
+        )
+      );
+    }
+  }
+  return results;
+}
 
 export async function getSeoSolutionsOrtiga() {
   const overrides = await getSeoOverrides('SOLUTION_ORTIGA');
-  return seoSolutionsOrtiga.map((entry) => mergeSolution(entry, overrides.get(entry.slug)));
+  const staticSlugs = new Set(seoSolutionsOrtiga.map((s) => s.slug));
+  const results = seoSolutionsOrtiga.map((entry) => mergeSolution(entry, overrides.get(entry.slug)));
+
+  for (const [slug, override] of overrides) {
+    if (!staticSlugs.has(slug)) {
+      results.push(
+        mergeSolution(
+          {
+            slug,
+            title: '',
+            metaTitle: '',
+            metaDescription: '',
+            intro: '',
+            audience: '',
+            benefits: [],
+            applications: [],
+            faq: [],
+          },
+          override
+        )
+      );
+    }
+  }
+  return results;
 }
 
 export async function getSeoCommercialPagesOrtiga() {
   const overrides = await getSeoOverrides('COMMERCIAL_ORTIGA');
-  return seoCommercialPagesOrtiga.map((entry) =>
+  const staticSlugs = new Set(seoCommercialPagesOrtiga.map((s) => s.slug));
+  const results = seoCommercialPagesOrtiga.map((entry) =>
     mergeCommercial(entry, overrides.get(entry.slug))
   );
+
+  for (const [slug, override] of overrides) {
+    if (!staticSlugs.has(slug)) {
+      results.push(
+        mergeCommercial(
+          {
+            slug,
+            title: '',
+            metaTitle: '',
+            metaDescription: '',
+            intro: '',
+            keyword: '',
+            reasons: [],
+            bestFor: [],
+            faq: [],
+          },
+          override
+        )
+      );
+    }
+  }
+  return results;
 }
 
 export async function getSeoArticlesOrtiga() {
   const overrides = await getSeoOverrides('ARTICLE_ORTIGA');
-  return seoArticlesOrtiga.map((entry) => mergeArticle(entry, overrides.get(entry.slug)));
+  const staticSlugs = new Set(seoArticlesOrtiga.map((s) => s.slug));
+  const results = seoArticlesOrtiga.map((entry) => mergeArticle(entry, overrides.get(entry.slug)));
+
+  for (const [slug, override] of overrides) {
+    if (!staticSlugs.has(slug)) {
+      results.push(
+        mergeArticle(
+          {
+            slug,
+            category: 'BIOCULTOR',
+            title: '',
+            metaTitle: '',
+            metaDescription: '',
+            excerpt: '',
+            readTime: '5 min',
+            image: '',
+            sections: [],
+            summary: [],
+            faq: [],
+          },
+          override
+        )
+      );
+    }
+  }
+  return results;
 }
