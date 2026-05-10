@@ -4,15 +4,31 @@ import SeoPagesEditor from '../SeoPagesEditor';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminSeoPage() {
-  const pages = await prisma.seoPage.findMany({
-    orderBy: [{ priorityScore: 'desc' }, { kind: 'asc' }, { slug: 'asc' }],
-  });
+  const [pages, posts] = await Promise.all([
+    prisma.seoPage.findMany({
+      orderBy: [{ priorityScore: 'desc' }, { kind: 'asc' }, { slug: 'asc' }],
+    }),
+    prisma.post.findMany({
+      select: { slug: true, coverImage: true },
+    }),
+  ]);
 
-  const priorityCount = pages.filter((page) => page.workflowStatus === 'PRIORITY').length;
-  const readyCount = pages.filter((page) => page.workflowStatus === 'READY').length;
+  const postImageMap = new Map(posts.map((p) => [p.slug, p.coverImage]));
+
+  const enrichedPages = pages.map((page) => ({
+    ...page,
+    updatedAt: page.updatedAt.toISOString(),
+    // Fallback a la imagen del post si la de SEO está vacía
+    image: page.image || postImageMap.get(page.slug) || null,
+  }));
+
+  const priorityCount = enrichedPages.filter((page) => page.workflowStatus === 'PRIORITY').length;
+  const readyCount = enrichedPages.filter((page) => page.workflowStatus === 'READY').length;
   const avgPriority =
-    pages.length > 0
-      ? Math.round(pages.reduce((acc, page) => acc + page.priorityScore, 0) / pages.length)
+    enrichedPages.length > 0
+      ? Math.round(
+          enrichedPages.reduce((acc, page) => acc + page.priorityScore, 0) / enrichedPages.length
+        )
       : 0;
 
   return (
@@ -47,12 +63,7 @@ export default async function AdminSeoPage() {
         </div>
       </div>
 
-      <SeoPagesEditor
-        pages={pages.map((page) => ({
-          ...page,
-          updatedAt: page.updatedAt.toISOString(),
-        }))}
-      />
+      <SeoPagesEditor pages={enrichedPages} />
     </div>
   );
 }
