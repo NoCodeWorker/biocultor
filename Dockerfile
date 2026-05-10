@@ -45,15 +45,21 @@ RUN addgroup --system --gid 1001 nodejs && \
 # Artefacto standalone (contiene server.js + node_modules minimizados)
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# En modo standalone, Next.js busca 'public' en la raíz del proyecto para servir estáticos
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
-# Prisma (schema + binarios + cliente generado) para poder ejecutar migrate deploy
+# Prisma (schema + binarios + cliente generado) para poder ejecutar migrate deploy y consultas
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/generated ./generated
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 
+# Aseguramos que la carpeta de uploads exista (aunque luego se monte el volumen encima)
+RUN mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public/uploads
+
 USER nextjs
 EXPOSE 3000
+ENV PORT 3000
+# El servidor standalone de Next.js sirve los estáticos si public está al lado de server.js
 CMD ["node", "server.js"]

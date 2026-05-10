@@ -72,6 +72,7 @@ function mergeSolution(base: SeoSolution, override?: DbSeoPage): SeoSolution {
     benefits: payload.benefits || base.benefits,
     applications: payload.applications || base.applications,
     faq: parseJson(override.faqJson, base.faq),
+    image: override.image || base.image,
   };
 }
 
@@ -88,6 +89,7 @@ function mergeCommercial(base: SeoCommercialPage, override?: DbSeoPage): SeoComm
     reasons: payload.reasons || base.reasons,
     bestFor: payload.bestFor || base.bestFor,
     faq: parseJson(override.faqJson, base.faq),
+    image: override.image || base.image,
   };
 }
 
@@ -127,6 +129,7 @@ function mergeGeo(base: SeoGeoPage, override?: DbSeoPage): SeoGeoPage {
     logistics: payload.logistics || base.logistics,
     quickAnswers: payload.quickAnswers || base.quickAnswers,
     faq: parseJson(override.faqJson, base.faq),
+    image: override.image || base.image,
   };
 }
 

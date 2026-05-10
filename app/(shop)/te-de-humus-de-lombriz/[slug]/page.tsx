@@ -99,6 +99,16 @@ export default async function SeoSolutionPage({
         </p>
       </div>
 
+      {solution.image && (
+        <div className="mt-12 max-w-5xl overflow-hidden rounded-[2.5rem] border border-border/50 bg-muted aspect-[21/9]">
+          <img
+            src={solution.image}
+            alt={solution.title}
+            className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+          />
+        </div>
+      )}
+
       <div className="mt-14 grid gap-6 lg:grid-cols-2 max-w-5xl">
         <section className="rounded-[2rem] border border-border/50 bg-card p-8 md:p-10">
           <h2 className="text-2xl md:text-3xl font-heading font-bold text-foreground">

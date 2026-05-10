@@ -17,6 +17,7 @@ export type SeoSolution = {
   benefits: string[];
   applications: string[];
   faq: SeoFaq[];
+  image?: string;
 };
 
 export type SeoCommercialPage = {
@@ -29,6 +30,7 @@ export type SeoCommercialPage = {
   reasons: string[];
   bestFor: string[];
   faq: SeoFaq[];
+  image?: string;
 };
 
 export type SeoArticle = {
@@ -58,6 +60,7 @@ export type SeoGeoPage = {
   logistics: string[];
   quickAnswers: string[];
   faq: SeoFaq[];
+  image?: string;
 };
 
 export const seoSolutions: SeoSolution[] = [

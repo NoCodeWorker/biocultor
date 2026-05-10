@@ -90,6 +90,16 @@ export default async function GeoPage({
         <p className="mt-6 text-xl text-muted-foreground leading-relaxed">{page.intro}</p>
       </div>
 
+      {page.image && (
+        <div className="mt-12 max-w-5xl overflow-hidden rounded-[2.5rem] border border-border/50 bg-muted aspect-[21/9]">
+          <img
+            src={page.image}
+            alt={page.title}
+            className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+          />
+        </div>
+      )}
+
       <section className="mt-14 max-w-5xl rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
         <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
           Respuesta rápida para motores de IA
