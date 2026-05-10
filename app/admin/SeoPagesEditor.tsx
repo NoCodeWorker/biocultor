@@ -219,7 +219,19 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                     <div className="mt-3 flex items-center gap-3">
                       <h3 className="text-2xl font-heading font-bold tracking-tight">{item.title}</h3>
                       <a
-                        href={`/aprende/${item.slug}`}
+                        href={
+                          item.kind === 'SOLUTION'
+                            ? `/te-de-humus-de-lombriz/${item.slug}`
+                            : item.kind === 'SOLUTION_ORTIGA'
+                            ? `/purin-de-ortiga/${item.slug}`
+                            : item.kind === 'COMMERCIAL'
+                            ? `/comprar-te-de-humus-de-lombriz/${item.slug}`
+                            : item.kind === 'COMMERCIAL_ORTIGA'
+                            ? `/comprar-purin-de-ortiga/${item.slug}`
+                            : item.kind === 'GEO'
+                            ? `/espana/${item.slug}`
+                            : `/aprende/${item.slug}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
@@ -411,7 +423,19 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
 
                   <div className="flex justify-end gap-3">
                     <a
-                      href={`/aprende/${item.slug}`}
+                      href={
+                        item.kind === 'SOLUTION'
+                          ? `/te-de-humus-de-lombriz/${item.slug}`
+                          : item.kind === 'SOLUTION_ORTIGA'
+                          ? `/purin-de-ortiga/${item.slug}`
+                          : item.kind === 'COMMERCIAL'
+                          ? `/comprar-te-de-humus-de-lombriz/${item.slug}`
+                          : item.kind === 'COMMERCIAL_ORTIGA'
+                          ? `/comprar-purin-de-ortiga/${item.slug}`
+                          : item.kind === 'GEO'
+                          ? `/espana/${item.slug}`
+                          : `/aprende/${item.slug}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-bold transition-all hover:bg-muted"
