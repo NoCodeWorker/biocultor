@@ -14,6 +14,7 @@ const BuyerPersonaSelector = nextDynamic(() => import("@/components/BuyerPersona
 const ResultsTimeline = nextDynamic(() => import("@/components/ResultsTimeline"))
 const CostCalculator = nextDynamic(() => import("@/components/CostCalculator"))
 const RiskReversal = nextDynamic(() => import("@/components/RiskReversal"))
+const SocialProof = nextDynamic(() => import("@/components/SocialProof"))
 
 import prisma from "@/lib/db"
 import { buildMetadata, breadcrumbSchema, collectionPageSchema } from '@/lib/seo'
@@ -248,6 +249,11 @@ export default async function Page() {
           6. SCIENCE & PROOF — TESTIMONIOS + CIENCIA
       ════════════════════════════════════════════ */}
       <ScienceProof />
+
+      {/* ════════════════════════════════════════════
+          6b. PRUEBAS SOCIALES — Testimonios geolocalizados
+      ════════════════════════════════════════════ */}
+      <SocialProof />
 
       {/* ════════════════════════════════════════════
           7. CALCULADORA DE AHORRO — Argumento racional
