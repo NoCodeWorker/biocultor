@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { Calculator, Leaf, TrendingDown, Sprout, TreePine, Sun, Home } from 'lucide-react';
 
@@ -43,8 +44,8 @@ export default function CostCalculator() {
             ¿Cuánto ahorras con Biocultor?
           </h2>
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-            Compara el coste real por planta frente a fertilizantes convencionales. 
-            El extracto de humus es la opción más económica <em>y</em> más eficaz.
+            Compara el coste estimado por planta frente a fertilizantes convencionales de mercado.
+            Datos orientativos basados en consumo medio y precios de referencia 2025.
           </p>
         </div>
 
@@ -140,7 +141,7 @@ export default function CostCalculator() {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Fertilizante convencional</p>
-                    <p className="text-muted-foreground text-sm">Químico + Riesgo</p>
+                    <p className="text-muted-foreground text-sm">Mayor coste por planta</p>
                   </div>
                   <div className="text-right">
                     <p className="text-4xl font-display font-bold text-muted-foreground line-through decoration-red-400">€{chemicalCost.toFixed(2)}</p>
@@ -174,9 +175,18 @@ export default function CostCalculator() {
             </div>
           </div>
 
-          <p className="text-center text-xs text-muted-foreground mt-6 opacity-70">
-            * Cálculos basados en consumo medio por planta según tipo de cultivo. Ratios de dilución Biocultor: 1L / 100L agua.
-          </p>
+          {/* CTA post-calculadora — captura la intención en el pico de impacto */}
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/producto/te-humus-liquido-premium"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-primary hover:bg-brand-green-hover text-white font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all duration-300"
+            >
+              Empezar a ahorrar → Ver formatos
+            </Link>
+            <p className="text-xs text-muted-foreground">
+              * Coste orientativo. Metodología disponible en <Link href="/contacto" className="underline hover:text-foreground">contacto</Link>.
+            </p>
+          </div>
         </div>
       </div>
     </section>

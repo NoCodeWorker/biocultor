@@ -115,6 +115,11 @@ export default async function Page() {
             <span className="text-brand-green-light">Té de Humus Premium.</span>
           </h1>
 
+          {/* Subtítulo semántico GEO/SEO — invisible en diseño, legible por bots */}
+          <p className="text-sm text-cream/50 font-light tracking-wide -mt-3 hidden md:block">
+            Compra té de humus de lombriz en España · Envío 24/48h a toda la Península
+          </p>
+
           <p className="text-base md:text-xl text-cream/80 max-w-2xl leading-relaxed font-light drop-shadow-sm">
             Té de humus de lombriz elaborado en España para huerto, jardín y cultivo profesional,
             explicado con una lógica de uso clara y sin promesas infladas.
@@ -150,12 +155,12 @@ export default async function Page() {
             ))}
           </div>
 
-          {/* Proof Stats */}
+          {/* Proof Stats — datos reales de credibilidad */}
           <div className="mt-6 grid grid-cols-3 gap-4 md:gap-12 w-full max-w-xl pb-6">
             {[
-              { value: '4', label: 'Formatos principales' },
-              { value: 'ES', label: 'Cobertura nacional' },
-              { value: 'SSR', label: 'Contenido server-first' },
+              { value: '4', label: 'Formatos para cada uso' },
+              { value: '5★', label: 'Media de valoraciones' },
+              { value: '24h', label: 'Envío express España' },
             ].map(({ value, label }) => (
               <div key={label} className="flex flex-col items-center gap-1.5">
                 <span className="text-3xl md:text-4xl font-heading font-bold text-cream drop-shadow-md">{value}</span>
@@ -235,10 +240,7 @@ export default async function Page() {
       ════════════════════════════════════════════ */}
       <FormatSelector dbVariants={dbVariants} productSlug="te-humus-liquido-premium" />
 
-      {/* ════════════════════════════════════════════
-          4bis. CATÁLOGO SECUNDARIO — Purín de ortiga (Carrusel)
-      ════════════════════════════════════════════ */}
-      <OrtIgaFormatSelector dbVariants={dbOrtigaVariants} />
+      {/* OrtIgaFormatSelector movido al final — ver sección upsell tras GEO */}
 
       {/* ════════════════════════════════════════════
           5. TIMELINE DE RESULTADOS — ¿Cuándo actúa?
@@ -265,18 +267,23 @@ export default async function Page() {
       ════════════════════════════════════════════ */}
       <section className="w-full py-20 md:py-28 bg-cream-warm relative">
         <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
-          <div className="max-w-3xl mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 text-primary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/15">
-              <Sprout className="w-3.5 h-3.5" />
-              Soluciones por cultivo
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 text-primary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/15">
+                <Sprout className="w-3.5 h-3.5" />
+                Soluciones por cultivo
+              </div>
+              <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
+                Encuentra la fórmula exacta para tu cultivo.
+              </h2>
+              <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
+                Olivar, cítricos, huerto urbano, vivero o jardinería profesional — cada cultivo 
+                tiene sus necesidades. Nosotros las cubrimos.
+              </p>
             </div>
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
-              Encuentra la fórmula exacta para tu cultivo.
-            </h2>
-            <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-              Olivar, cítricos, huerto urbano, vivero o jardinería profesional — cada cultivo 
-              tiene sus necesidades. Nosotros las cubrimos.
-            </p>
+            <Link href="/te-de-humus-de-lombriz" className="text-sm font-bold text-primary hover:text-primary/80 transition-colors whitespace-nowrap flex items-center gap-1">
+              Ver todos los cultivos <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2 stagger-children">
@@ -398,18 +405,23 @@ export default async function Page() {
       ════════════════════════════════════════════ */}
       <section className="w-full py-20 md:py-28 bg-cream-warm border-t border-border/40">
         <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
-          <div className="max-w-3xl mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-earth-brown/8 text-brand-brown text-xs font-bold uppercase tracking-widest mb-5 border border-earth-brown/15">
-              <MapPinIcon />
-              Biocultor en España
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-earth-brown/8 text-brand-brown text-xs font-bold uppercase tracking-widest mb-5 border border-earth-brown/15">
+                <MapPinIcon />
+                Biocultor en España
+              </div>
+              <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
+                Entregamos vida a cada rincón de la Península.
+              </h2>
+              <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
+                Cobertura completa en toda España con logística express. Descubre recomendaciones 
+                específicas para los cultivos dominantes de tu región.
+              </p>
             </div>
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
-              Entregamos vida a cada rincón de la Península.
-            </h2>
-            <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-              Cobertura completa en toda España con logística express. Descubre recomendaciones 
-              específicas para los cultivos dominantes de tu región.
-            </p>
+            <Link href="/espana" className="text-sm font-bold text-primary hover:text-primary/80 transition-colors whitespace-nowrap flex items-center gap-1">
+              Ver todas las regiones <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 stagger-children">
@@ -427,11 +439,20 @@ export default async function Page() {
                   {geo.title}
                 </h3>
                 <p className="mt-3 text-muted-foreground leading-relaxed text-sm line-clamp-3">{geo.intro}</p>
+                <div className="mt-4 inline-flex items-center text-xs font-bold text-primary">
+                  Ver guía regional <ArrowRight className="ml-1.5 h-3 w-3 transition-transform group-hover:translate-x-1" />
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
+
+      {/* ════════════════════════════════════════════
+          CATÁLOGO SECUNDARIO — Purín de ortiga
+          (posicionado aquí como upsell, no como distracción del funnel principal)
+      ════════════════════════════════════════════ */}
+      <OrtIgaFormatSelector dbVariants={dbOrtigaVariants} />
 
       {/* ════════════════════════════════════════════
           9. GARANTÍA — Destruye la última objeción

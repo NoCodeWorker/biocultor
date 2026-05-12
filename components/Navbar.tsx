@@ -32,7 +32,7 @@ const navLinks: NavLink[] = [
       },
     ],
   },
-  { kind: 'link', href: '/aprende', label: 'Blog' },
+  { kind: 'link', href: '/aprende', label: 'Aprende' },
   { kind: 'link', href: '/contacto', label: 'Contacto' },
 ];
 
