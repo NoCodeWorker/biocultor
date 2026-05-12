@@ -7,21 +7,45 @@ import StructuredData from './StructuredData';
 
 const faqs = [
   {
+    question: '¿Qué es el té de humus de lombriz y para qué sirve?',
+    answer: 'El té de humus de lombriz es un extracto líquido obtenido del vermicompost. Se usa como bioestimulante radicular y foliar para mejorar la actividad microbiana del suelo, la disponibilidad de nutrientes y la tolerancia de la planta al estrés. Es compatible con agricultura ecológica y fertirrigación. El resultado depende del cultivo, el suelo y la forma de aplicación.'
+  },
+  {
+    question: '¿Cuánto cuesta el té de humus de lombriz en España?',
+    answer: 'En Biocultor los precios son: 1 Litro — 14,90€ · 5 Litros — 49,90€ · 10 Litros — 79,90€ · 25 Litros — 149,90€ (todos con IVA incluido). El envío es gratuito para pedidos superiores a 50€ a toda la Península. La entrega estimada es de 24 a 48 horas en días laborables.'
+  },
+  {
+    question: '¿Cuál es la diferencia entre té de humus líquido y humus sólido?',
+    answer: 'El humus sólido (vermicompost) se incorpora directamente al sustrato o al suelo. El té de humus líquido se aplica disuelto en agua, lo que permite distribuirlo mediante sistemas de riego por goteo, aspersión o riego manual. El formato líquido es más práctico para aplicaciones foliares y para cultivos en riego localizado. Ambos aportan microorganismos beneficiosos, pero el líquido actúa de forma más inmediata en la zona radicular.'
+  },
+  {
+    question: '¿El té de humus es apto para agricultura ecológica certificada?',
+    answer: 'El vermicompost y sus extractos son compatibles con los principios de la agricultura ecológica regulada por el Reglamento (UE) 2018/848. Sin embargo, la certificación ecológica depende del organismo de control de cada finca y de su pliego de condiciones. Recomendamos verificar la ficha técnica del producto con el asesor o la entidad certificadora antes de la aplicación.'
+  },
+  {
     question: '¿El extracto de humus huele mal?',
-    answer: 'Suele presentar un olor orgánico y terroso propio del producto. Si notas un cambio acusado de olor o estado, conviene revisar conservación, temperatura y tiempo de almacenamiento.'
+    answer: 'Suele presentar un olor orgánico y terroso propio del producto biológico. No es un olor agresivo en condiciones normales. Si notas un cambio acusado de olor, coloración inusual o separación excesiva, conviene revisar las condiciones de conservación: temperatura, luz directa y tiempo desde la apertura del envase.'
   },
   {
-    question: '¿Puedo quemar las raíces si me paso de dosis?',
-    answer: 'Conviene respetar la dosis de uso recomendada. Aunque se trata de un producto orientado a manejo orgánico, una aplicación poco controlada nunca es la mejor práctica para suelo, riego o cultivo.'
+    question: '¿Puedo aplicarlo en sistemas de riego por goteo?',
+    answer: 'Está formulado para ser compatible con sistemas de riego, incluido el goteo. La compatibilidad real depende del estado de la instalación, el nivel de filtrado del equipo y la correcta dilución. La recomendación general es realizar una primera prueba controlada en un sector pequeño, verificar que no hay sedimentación ni obstrucción, y ajustar la dosis antes de escalar.'
   },
   {
-    question: '¿Obstruirá mis sistemas de riego por goteo?',
-    answer: 'Está pensado para aplicarse en sistemas de riego, pero la compatibilidad real depende del estado de la instalación, el filtrado del equipo y la forma de preparación. Si trabajas con goteo, conviene revisar la ficha técnica y hacer una primera prueba controlada.'
+    question: '¿Con qué frecuencia se aplica y cuál es la dosis?',
+    answer: 'La dosis estándar orientativa es de 1 parte de concentrado por cada 100 partes de agua de riego (1%). La frecuencia depende del cultivo y del ciclo vegetativo: en fases activas de crecimiento, cada 7-14 días; en mantenimiento, cada 15-30 días. No hay una fórmula universal: lo recomendable es seguir la guía de uso e ir ajustando según la respuesta del cultivo.'
   },
   {
-    question: '¿Cuánto tiempo tarda en hacer efecto?',
-    answer: 'No hay un plazo universal. La respuesta depende del cultivo, el estado del suelo, la frecuencia de uso y el manejo general. Lo razonable es observar evolución dentro de una rutina de aplicación, no esperar un efecto instantáneo y aislado.'
-  }
+    question: '¿Se puede usar en huerto urbano y macetas?',
+    answer: 'Sí. El formato de 1 Litro está específicamente pensado para huerto urbano, balcón y macetas. Una botella trata hasta 100 litros de agua de riego, lo que equivale a una temporada completa para huertos de menos de 15 m². Se aplica con regadera o pulverizador a la dosis recomendada, sin riesgo de quemar raíces si se respetan las proporciones.'
+  },
+  {
+    question: '¿Cuándo se envía y cuánto tarda en llegar?',
+    answer: 'Los pedidos realizados antes de las 13h en días laborables se procesan el mismo día. La entrega estimada es de 24 a 48 horas laborables para toda la Península Ibérica (España continental y Portugal). Las Islas Baleares, Canarias, Ceuta y Melilla tienen plazos y condiciones de envío diferenciadas. El envío es gratuito a partir de 50€ de pedido.'
+  },
+  {
+    question: '¿Qué hago si mi pedido llega con algún problema?',
+    answer: 'Si el pedido llega con daños visibles de transporte o en mal estado, contacta con nosotros en soporte@biocultor.com adjuntando fotos del packaging y el número de pedido. Revisamos cada incidencia de forma individual y te indicamos los pasos a seguir según las condiciones de la compra. La comunicación dentro del plazo aplicable es clave para poder gestionarlo.'
+  },
 ];
 
 export default function FaqAioSeo({ suppressSchema = false }: { suppressSchema?: boolean }) {

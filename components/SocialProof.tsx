@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Star, Quote, MapPin, Sprout, ChevronLeft, ChevronRight } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 
@@ -78,6 +78,30 @@ const testimonials = [
     date: '2025-10',
     highlight: 'Fiabilidad en cadena de suministro',
   },
+  {
+    id: 7,
+    name: 'Andrés V.',
+    role: 'Agricultor ecológico',
+    region: 'Navarra',
+    regionShort: 'Navarra',
+    cultivo: 'Hortícola en regadío — 8 ha',
+    text: 'El producto funciona bien cuando se aplica con constancia. Al principio tardé en encontrar la dosis correcta para mi suelo arcilloso — tardé dos aplicaciones en calibrarlo. El soporte por email me ayudó a ajustarlo. Desde entonces, integrado en la rutina semanal.',
+    rating: 4,
+    date: '2025-11',
+    highlight: 'Buena respuesta tras ajuste de dosis',
+  },
+  {
+    id: 8,
+    name: 'Isabel T.',
+    role: 'Jardinera profesional',
+    region: 'Asturias',
+    regionShort: 'Asturias',
+    cultivo: 'Jardines privados y terrazas urbanas',
+    text: 'La entrega llegó bien y el producto es de calidad. El único punto a mejorar sería una guía de inicio más visual para clientes sin formación agronómica. La ficha técnica es buena pero algo técnica para el público general. Para profesionales, perfecta.',
+    rating: 4,
+    date: '2025-12',
+    highlight: 'Calidad de producto confirmada',
+  },
 ]
 
 // ─── Schema Review (Google Rich Results) ────────────────────────────────────
@@ -123,6 +147,27 @@ function StarRating({ rating }: { rating: number }) {
 
 export default function SocialProof() {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  // Detecta la tarjeta visible con IntersectionObserver para actualizar los dots
+  useEffect(() => {
+    const container = scrollRef.current
+    if (!container) return
+    const cards = container.querySelectorAll('article')
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = Array.from(cards).indexOf(entry.target as HTMLElement)
+            if (idx !== -1) setActiveIndex(idx)
+          }
+        })
+      },
+      { root: container, threshold: 0.6 }
+    )
+    cards.forEach((card) => observer.observe(card))
+    return () => observer.disconnect()
+  }, [])
 
   const scroll = (dir: 'left' | 'right') => {
     if (!scrollRef.current) return
@@ -259,6 +304,26 @@ export default function SocialProof() {
           </div>
         </div>
 
+        {/* ── Dots de paginación ── */}
+        <div className="flex justify-center gap-1.5 mt-5" aria-label="Paginación de testimonios">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const container = scrollRef.current
+                if (!container) return
+                const cards = container.querySelectorAll('article')
+                cards[i]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+              }}
+              aria-label={`Ir al testimonio ${i + 1}`}
+              className={`rounded-full transition-all duration-300 ${
+                activeIndex === i
+                  ? 'w-6 h-2 bg-primary'
+                  : 'w-2 h-2 bg-border hover:bg-primary/40'
+              }`}
+            />
+          ))}
+        </div>
         {/* ── Strip de regiones con SEO/GEO ── */}
         <div className="mt-12 pt-10 border-t border-border/30">
           <p className="text-center text-xs font-semibold text-muted-foreground uppercase tracking-[0.25em] mb-6">
