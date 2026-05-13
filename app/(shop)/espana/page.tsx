@@ -47,14 +47,15 @@ export default async function EspanaHubPage() {
 
       <div className="max-w-4xl">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary/80">
-          Dominio GEO/IA
+          Cobertura y Logística
         </p>
         <h1 className="mt-4 text-4xl md:text-6xl font-heading font-extrabold tracking-tight">
-          Té de humus de lombriz para toda España, con contexto regional útil.
+          Té de humus de lombriz en toda la Península Ibérica.
         </h1>
         <p className="mt-6 text-xl text-muted-foreground leading-relaxed">
-          Esta capa territorial no está hecha para repetir ciudades: está construida para mezclar
-          región, cultivo, logística y respuestas breves que los motores de IA pueden reutilizar.
+          Nuestra red logística asegura la entrega de fertilizante orgánico vivo en 24/48h.
+          Selecciona tu región para conocer las recomendaciones específicas según el clima 
+          y los cultivos dominantes de tu zona.
         </p>
       </div>
 

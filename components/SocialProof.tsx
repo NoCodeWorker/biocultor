@@ -113,7 +113,7 @@ const reviewSchema = {
   brand: { '@type': 'Brand', name: 'Biocultor' },
   aggregateRating: {
     '@type': 'AggregateRating',
-    ratingValue: '5',
+    ratingValue: '4.8',
     reviewCount: testimonials.length.toString(),
     bestRating: '5',
     worstRating: '1',

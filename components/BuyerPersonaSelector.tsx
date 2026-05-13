@@ -99,7 +99,7 @@ export default function BuyerPersonaSelector() {
   const Icon = persona.icon;
 
   return (
-    <section className="w-full py-20 md:py-28 bg-background border-t border-border/40">
+    <section id="tu-biocultor" className="w-full py-20 md:py-28 bg-background border-t border-border/40">
       <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
 
         {/* Header */}

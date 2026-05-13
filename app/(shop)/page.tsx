@@ -60,7 +60,7 @@ export default async function Page() {
   const featuredSolutions = seoSolutions.slice(0, 4);
   const featuredArticles = seoArticles.slice(0, 3);
   const featuredCommercial = seoCommercialPages.slice(0, 3);
-  const featuredGeo = seoGeoPages.slice(0, 4);
+  const featuredGeo = seoGeoPages.slice(0, 6);
 
   return (
     <div className="flex flex-col w-full">

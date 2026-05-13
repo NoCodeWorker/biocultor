@@ -141,7 +141,7 @@ export default function CostCalculator() {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Fertilizante convencional</p>
-                    <p className="text-muted-foreground text-sm">Mayor coste por planta</p>
+                    <p className="text-muted-foreground text-sm">Referencia precio mercado 2025</p>
                   </div>
                   <div className="text-right">
                     <p className="text-4xl font-display font-bold text-muted-foreground line-through decoration-red-400">€{chemicalCost.toFixed(2)}</p>
@@ -152,7 +152,7 @@ export default function CostCalculator() {
                   <div className="h-2 bg-muted-foreground/30 rounded-full w-full" />
                 </div>
                 <p className="text-xs text-muted-foreground font-bold mt-2.5">
-                  {selectedCrop.chemical.toFixed(2)}€ / planta + daño al suelo
+                  {selectedCrop.chemical.toFixed(2)}€ / planta · precio de referencia
                 </p>
               </div>
 
