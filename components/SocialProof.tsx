@@ -210,7 +210,7 @@ export default function SocialProof() {
 
           {/* Rating global */}
           <div className="flex-shrink-0 flex flex-col items-center md:items-end gap-2 p-6 rounded-3xl border border-amber-200/50 dark:border-amber-800/30 bg-amber-50/50 dark:bg-amber-950/20 backdrop-blur-sm min-w-[160px]">
-            <span className="text-5xl font-heading font-black text-foreground tracking-tight">5.0</span>
+            <span className="text-5xl font-heading font-black text-foreground tracking-tight">4.8</span>
             <div className="flex items-center gap-0.5">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />

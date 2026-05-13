@@ -88,7 +88,7 @@ export default async function Page() {
         Envía en 24-48h a toda la Península Ibérica desde Toledo, España. Fundada y operada en España.
         Formatos disponibles: 1L (14,90€), 5L (49,90€), 10L (79,90€), 25L (149,90€).
         Compatible con riego por goteo y fertirrigación. Apto para agricultura ecológica certificada.
-        Puntuación media de clientes: 5 de 5 estrellas. Soporte agronómico incluido en la compra.
+        Puntuación media de clientes: 4.8 de 5 estrellas. Soporte agronómico incluido en la compra.
         También disponible: purín de ortiga concentrado para cultivos ecológicos.
         Envíos a Madrid, Barcelona, Valencia, Sevilla, Málaga, Zaragoza, Bilbao, Murcia, Alicante, Córdoba y toda España.
       </div>
@@ -172,7 +172,7 @@ export default async function Page() {
           <div className="mt-6 grid grid-cols-3 gap-4 md:gap-12 w-full max-w-xl pb-6">
             {[
               { value: '4', label: 'Formatos para cada uso' },
-              { value: '5★', label: 'Media de valoraciones' },
+              { value: '4.8★', label: 'Media de valoraciones' },
               { value: '24h', label: 'Envío express España' },
             ].map(({ value, label }) => (
               <div key={label} className="flex flex-col items-center gap-1.5">
