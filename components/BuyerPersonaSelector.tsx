@@ -16,7 +16,7 @@ const personas = [
     price: '14,90€',
     benefit: 'Pensado para prueba, macetas y huerto pequeño.',
     cta: 'Empezar con 1 Litro',
-    href: '/producto/te-humus-liquido-premium',
+    href: '/producto/te-humus-liquido-premium?variant=te-humus-liquido-premium-1l',
     tabActive: 'border-green-600 text-green-700 bg-green-50',
     cardBg: 'bg-green-50',
     cardBorder: 'border-green-200',
@@ -37,7 +37,7 @@ const personas = [
     price: '49,90€',
     benefit: '500 litros de riego. Ahorra un 33% vs. formato pequeño.',
     cta: 'El más vendido → 5 Litros',
-    href: '/producto/te-humus-liquido-premium',
+    href: '/producto/te-humus-liquido-premium?variant=te-humus-liquido-premium-5l',
     tabActive: 'border-primary text-primary bg-primary/8',
     cardBg: 'bg-primary/5',
     cardBorder: 'border-primary/25',
@@ -59,7 +59,7 @@ const personas = [
     price: '79,90€',
     benefit: 'Formato pensado para reposición y uso recurrente.',
     cta: 'Uso Continuado → 10 Litros',
-    href: '/producto/te-humus-liquido-premium',
+    href: '/producto/te-humus-liquido-premium?variant=te-humus-liquido-premium-10l',
     tabActive: 'border-brand-olive text-secondary bg-muted',
     cardBg: 'bg-muted',
     cardBorder: 'border-border/60',
@@ -80,7 +80,7 @@ const personas = [
     price: '149,90€',
     benefit: 'Mejor encaje cuando el consumo ya es recurrente.',
     cta: 'Uso Profesional → 25 Litros',
-    href: '/producto/te-humus-liquido-premium',
+    href: '/producto/te-humus-liquido-premium?variant=te-humus-liquido-premium-25l',
     tabActive: 'border-brand-brown text-brand-brown bg-brand-brown-light',
     cardBg: 'bg-brand-brown-light',
     cardBorder: 'border-brand-brown/25',
@@ -208,6 +208,20 @@ export default function BuyerPersonaSelector() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Escape CTA — Audit fix 3.2: captura visitantes indecisos */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 text-center">
+          <p className="text-sm text-muted-foreground">
+            ¿No estás seguro de qué perfil te encaja?
+          </p>
+          <Link
+            href="/contacto"
+            className="inline-flex items-center gap-2 text-sm font-bold text-primary border border-primary/25 rounded-full px-5 py-2.5 hover:bg-primary/8 transition-colors"
+          >
+            Hablar con un experto
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 'use client';
 
-import { CheckCircle2, FlaskConical, Leaf } from 'lucide-react';
+import Link from 'next/link';
+import { CheckCircle2, FlaskConical, Leaf, BookOpen, ArrowRight } from 'lucide-react';
 
 const usageNotes = [
   {
@@ -66,6 +67,19 @@ export default function ScienceProof() {
                 </div>
               ))}
             </div>
+
+            {/* Link a investigación publicada — audit fix 6.1 */}
+            <Link
+              href="/aprende"
+              className="group inline-flex items-center gap-3 mt-6 px-5 py-3.5 rounded-2xl border border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all duration-200"
+            >
+              <BookOpen className="w-4 h-4 text-primary shrink-0" />
+              <span className="text-sm font-bold text-primary leading-tight">
+                Basado en investigación publicada{' '}
+                <span className="font-normal text-muted-foreground">— vermicompost, microbioma y biología del suelo</span>
+              </span>
+              <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity ml-auto shrink-0" />
+            </Link>
           </div>
 
           {/* Right Column: Usage notes */}
@@ -99,14 +113,11 @@ export default function ScienceProof() {
                     {item.text}
                   </p>
                   
-                  <div className="flex items-center gap-4 pt-5 border-t border-border/40">
-                    <div className="w-12 h-12 rounded-full bg-cream-warm flex items-center justify-center text-brand-brown font-heading font-bold text-sm border-2 border-primary/25 shadow-inner">
-                      B
-                    </div>
-                    <div>
-                      <p className="font-heading font-bold text-foreground">Biocultor</p>
-                      <p className="text-xs text-primary font-semibold tracking-wide uppercase">Lectura editorial</p>
-                    </div>
+                  <div className="flex items-center gap-2 pt-5 border-t border-border/40">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/15 text-xs font-bold text-primary tracking-wide uppercase">
+                      <BookOpen className="w-3 h-3" />
+                      Nota editorial · Biocultor
+                    </span>
                   </div>
                 </div>
               ))}

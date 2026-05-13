@@ -66,14 +66,15 @@ export default function ResultsTimeline() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 text-primary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/15">
             <Clock className="w-3.5 h-3.5" />
-            Uso responsable
+            Método de uso
           </div>
           <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground mb-5">
-            Cómo seguir el uso de Biocultor.
+            La diferencia entre un buen<br />
+            <span className="text-primary">y un mal resultado es el método.</span>
           </h2>
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-            La respuesta no se puede fijar en horas ni porcentajes universales. Lo útil es entender
-            cómo introducir el producto, qué observar y cuándo reevaluar.
+            Aquí está el nuestro. Aplicación ordenada, observación progresiva y evaluación real
+            al final del ciclo — sin promesas cerradas ni atajos que no funcionan.
           </p>
         </div>
 

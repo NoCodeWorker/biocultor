@@ -57,9 +57,9 @@ export default function RiskReversal() {
             Compra sin riesgo
           </div>
           <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-cream mb-5">
-            Compra con contexto.
+            Compras con información.
             <br />
-            <span className="text-primary">Sin teatralidad comercial.</span>
+            <span className="text-primary">No con presión.</span>
           </h2>
           <p className="text-base md:text-lg text-cream/55 leading-relaxed">
             Esta sección deja fuera el lenguaje inflado. Lo que importa es que las condiciones,
@@ -116,12 +116,13 @@ export default function RiskReversal() {
 
           <div className="w-px h-16 bg-white/10 hidden md:block" />
 
-          <div className="text-center shrink-0">
-            <p className="text-cream/70 text-xs uppercase tracking-widest mb-3">Antes de pagar</p>
-            <div className="w-16 h-16 rounded-full bg-primary/15 border-2 border-primary/30 flex flex-col items-center justify-center mx-auto">
-              <span className="text-2xl font-display font-black text-primary">Info</span>
-              <span className="text-[9px] text-primary/70 uppercase tracking-wide leading-none">clara</span>
-            </div>
+          <div className="text-center shrink-0 flex flex-col justify-center items-center">
+            <a 
+              href="/producto/te-humus-liquido-premium" 
+              className="inline-flex items-center justify-center bg-primary text-white hover:bg-brand-green-hover transition-colors font-bold rounded-xl px-6 py-4 shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] duration-200"
+            >
+              Comprar ahora
+            </a>
           </div>
         </div>
       </div>
