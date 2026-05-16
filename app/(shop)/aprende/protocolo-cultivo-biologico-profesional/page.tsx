@@ -6,7 +6,7 @@ import { buildMetadata, breadcrumbSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
 import prisma from '@/lib/db';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export const metadata = buildMetadata({
   title: 'Protocolo de Cultivo Biológico Profesional | Biocultor',
@@ -28,6 +28,11 @@ export default async function ProtocoloCultivoPage() {
     where: { slug: 'protocolo-cultivo-biologico-profesional' }
   });
 
+  // Debug log para producción
+  if (!landingData) {
+    console.error('[Protocolo Landing] Error: No se encontró el registro en la DB para el slug: protocolo-cultivo-biologico-profesional');
+  }
+
   const payload = landingData?.payloadJson ? JSON.parse(landingData.payloadJson) : {};
   
   // Imágenes dinámicas con fallback a las originales
@@ -39,7 +44,7 @@ export default async function ProtocoloCultivoPage() {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full antialiased">
       <StructuredData
         id="protocolo-breadcrumb-schema"
         data={breadcrumbSchema([
@@ -50,15 +55,16 @@ export default async function ProtocoloCultivoPage() {
       />
 
       {/* ── Hero Section ──────────────────────── */}
-      <section className="relative w-full py-20 md:py-32 bg-earth-dark overflow-hidden">
+      <section className="relative w-full py-20 md:py-32 bg-earth-dark overflow-hidden min-h-[500px] flex items-center">
         <div className="absolute inset-0 z-0">
           <Image
             src={images.hero}
             alt="Cultivo Biológico Profesional"
             fill
-            className="object-cover opacity-20"
+            priority
+            className="object-cover opacity-30"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-earth-dark via-earth-dark/90 to-earth-dark/70" />
+          <div className="absolute inset-0 bg-gradient-to-t from-earth-dark via-earth-dark/80 to-transparent" />
         </div>
         
         <div className="relative z-10 w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
@@ -77,7 +83,7 @@ export default async function ProtocoloCultivoPage() {
               {landingData?.title || 'Protocolo de Cultivo Biológico Profesional'}
             </h1>
             <p className="text-lg md:text-xl text-cream/80 leading-relaxed max-w-2xl font-light">
-              {landingData?.intro || 'Cómo integrar Té de Humus de Lombriz y Purín de Ortiga para prevenir patógenos radiculares, acelerar el crecimiento vegetativo e inducir una floración explosiva y rica en resina. Basado en evidencia agronómica real.'}
+              {landingData?.intro || 'Cómo integrar Té de Humus de Lombriz y Purín de Ortiga para prevenir patógenos radiculares, acelerar el crecimiento vegetativo e inducir una floración explosiva y rica en resina.'}
             </p>
           </div>
         </div>
@@ -92,30 +98,30 @@ export default async function ProtocoloCultivoPage() {
             </h2>
             <div className="prose prose-lg text-muted-foreground">
               <p>
-                Durante años, la industria ha empujado a los cultivadores hacia entornos completamente estériles, dependiendo de fertilizantes minerales y fungicidas químicos agresivos. El problema de un medio estéril es que se convierte en un lienzo en blanco para patógenos oportunistas como el <em>Pythium</em> y el <em>Fusarium</em>.
+                Durante años, la industria ha empujado a los cultivadores hacia entornos completamente estériles. El problema es que un medio estéril es un lienzo en blanco para patógenos oportunistas como el <em>Pythium</em>.
               </p>
               <p>
-                Este protocolo cambia el paradigma. Al inocular el sustrato con microbiología viva y aplicar elicitores botánicos en el follaje, construimos un ecosistema supresor de enfermedades que, además, estimula los mecanismos naturales de defensa del cannabis, disparando la producción de tricomas y cannabinoides.
+                Este protocolo cambia el paradigma. Al inocular el sustrato con microbiología viva, construimos un ecosistema supresor que además dispara la producción de tricomas y cannabinoides.
               </p>
             </div>
           </div>
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-cream-warm p-6 rounded-2xl border border-border/50 card-lift">
+            <div className="bg-cream-warm p-6 rounded-2xl border border-border/50 shadow-sm">
               <h3 className="font-heading font-bold text-xl text-foreground flex items-center gap-2 mb-4">
                 <TestTube className="w-5 h-5 text-primary" /> Pilares del Protocolo
               </h3>
-              <ul className="space-y-4 text-sm text-muted-foreground">
+              <ul className="space-y-4 text-sm text-muted-foreground font-medium">
                 <li className="flex gap-3">
                   <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-                  <span><strong>Microbiología activa:</strong> Exclusión competitiva en la rizosfera frente a hongos patógenos.</span>
+                  <span><strong>Microbiología activa:</strong> Exclusión competitiva en la rizosfera.</span>
                 </li>
                 <li className="flex gap-3">
                   <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-                  <span><strong>Bioestimulación:</strong> Aceleración metabólica segura con nitrógeno y hierro biodisponible.</span>
+                  <span><strong>Bioestimulación:</strong> Aceleración metabólica con Nitrógeno orgánico.</span>
                 </li>
                 <li className="flex gap-3">
                   <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-                  <span><strong>Elicitación (ISR):</strong> Activación de defensas sistémicas para forzar la secreción de tricomas.</span>
+                  <span><strong>Elicitación (ISR):</strong> Activación de defensas sistémicas.</span>
                 </li>
               </ul>
             </div>
@@ -123,9 +129,9 @@ export default async function ProtocoloCultivoPage() {
         </div>
       </section>
 
-      {/* ── FASE 1: Raíz y Sustrato ────────────── */}
-      <section className="w-full py-20 bg-cream-warm border-b border-border/40 relative overflow-hidden">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 relative z-10">
+      {/* ── FASE 1: Raíz ──────────────────────── */}
+      <section className="w-full py-20 bg-cream-warm border-b border-border/40">
+        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
           <div className="flex items-center gap-4 mb-8">
             <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-heading font-bold text-2xl">
               1
@@ -135,47 +141,43 @@ export default async function ProtocoloCultivoPage() {
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <div>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                El protocolo comienza en el momento de la germinación y el primer trasplante. Utilizando el <strong className="text-foreground">Té de Humus de Lombriz Premium</strong> en riego (Drench), saturamos el sustrato con bacterias aeróbicas que colonizan el espacio físico alrededor de las raíces.
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                Utilizando el <strong className="text-foreground">Té de Humus de Lombriz Premium</strong> en riego, saturamos el sustrato con bacterias aeróbicas que colonizan el espacio físico alrededor de las raíces.
               </p>
               <div className="space-y-4">
-                <Link href="/aprende/prevencion-pythium-fusarium-cannabis-te-humus" className="group flex items-center gap-3 p-4 bg-background rounded-xl border border-border/50 hover:border-primary/50 transition-colors">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                    <Shield className="w-5 h-5" />
+                <Link href="/aprende/prevencion-pythium-fusarium-cannabis-te-humus" className="group flex items-center gap-4 p-5 bg-background rounded-2xl border border-border/50 hover:border-primary/50 transition-all shadow-sm hover:shadow-md">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary group-hover:text-white">
+                    <Shield className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">Prevención de Pythium y Fusarium</h4>
-                    <p className="text-sm text-muted-foreground">Lee la evidencia científica sobre microbiología supresora.</p>
-                  </div>
-                </Link>
-                <Link href="/aprende/te-vermicompost-rendimiento-cannabinoides-thc-cbd" className="group flex items-center gap-3 p-4 bg-background rounded-xl border border-border/50 hover:border-primary/50 transition-colors">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                    <Leaf className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">Rendimiento en Biomasa</h4>
-                    <p className="text-sm text-muted-foreground">Cómo las fitohormonas aumentan el tamaño del sistema radicular.</p>
+                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">Prevención de Patógenos</h4>
+                    <p className="text-xs text-muted-foreground mt-0.5">Lee la evidencia sobre microbiología supresora.</p>
                   </div>
                 </Link>
               </div>
             </div>
-            <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] md:aspect-auto h-auto md:h-full">
-              <Image src={images.section1} alt="Té de humus para raíces" fill className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6">
-                <h3 className="text-white font-bold text-xl mb-2">Producto Clave: Té de Humus</h3>
-                <p className="text-white/80 text-sm">Dilución: 1:10 en riego cada 15 días.</p>
+            <div className="relative rounded-3xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] w-full bg-muted">
+              <Image 
+                src={images.section1} 
+                alt="Protección radicular" 
+                fill 
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-6">
+                <p className="text-white font-bold text-lg">Producto: Té de Humus</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── FASE 2: Impulso Vegetativo ─────────── */}
-      <section className="w-full py-20 bg-background border-b border-border/40 relative overflow-hidden">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 relative z-10">
+      {/* ── FASE 2: Vegetativo ────────────────── */}
+      <section className="w-full py-20 bg-background border-b border-border/40">
+        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
           <div className="flex items-center gap-4 mb-8">
             <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-heading font-bold text-2xl">
               2
@@ -185,36 +187,32 @@ export default async function ProtocoloCultivoPage() {
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="order-2 md:order-1 relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] md:aspect-auto h-auto md:h-full">
-              <Image src={images.section2} alt="Purín de ortiga para crecimiento" fill className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6">
-                <h3 className="text-white font-bold text-xl mb-2">Producto Clave: Purín de Ortiga</h3>
-                <p className="text-white/80 text-sm">Foliar: 3-5ml/L. Riego: 7-10ml/L.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+            <div className="order-2 md:order-1 relative rounded-3xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] w-full bg-muted">
+              <Image 
+                src={images.section2} 
+                alt="Crecimiento acelerado" 
+                fill 
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-6 left-6">
+                <p className="text-white font-bold text-lg">Producto: Purín de Ortiga</p>
               </div>
             </div>
             <div className="order-1 md:order-2">
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Durante la fase de crecimiento, la planta demanda grandes cantidades de nitrógeno y hierro para la síntesis de clorofila. Introducimos el <strong className="text-foreground">Purín de Ortiga Concentrado</strong> como bioestimulante foliar y radicular para acortar esta fase sin recurrir a sales químicas que quemen las raíces.
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                El <strong className="text-foreground">Purín de Ortiga Concentrado</strong> actúa como bioestimulante foliar y radicular para acortar la fase de crecimiento sin sales químicas.
               </p>
               <div className="space-y-4">
-                <Link href="/aprende/purin-ortiga-crecimiento-vegetativo-cannabis-biostimulante" className="group flex items-center gap-3 p-4 bg-cream-warm rounded-xl border border-border/50 hover:border-primary/50 transition-colors">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                    <Leaf className="w-5 h-5" />
+                <Link href="/aprende/purin-ortiga-crecimiento-vegetativo-cannabis-biostimulante" className="group flex items-center gap-4 p-5 bg-cream-warm rounded-2xl border border-border/50 hover:border-primary/50 transition-all shadow-sm hover:shadow-md">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary group-hover:text-white">
+                    <Leaf className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">Efecto Bioestimulante Directo</h4>
-                    <p className="text-sm text-muted-foreground">Reverdece hojas en 48h y engrosa los tallos estructurales.</p>
-                  </div>
-                </Link>
-                <Link href="/aprende/purin-ortiga-control-plagas-arana-roja-pulgon-cannabis" className="group flex items-center gap-3 p-4 bg-cream-warm rounded-xl border border-border/50 hover:border-primary/50 transition-colors">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                    <Shield className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">Control de Plagas Integrado</h4>
-                    <p className="text-sm text-muted-foreground">Acción repelente contra araña roja y pulgón sin pesticidas tóxicos.</p>
+                    <h4 className="font-bold text-foreground group-hover:text-primary transition-colors">Bioestimulación Directa</h4>
+                    <p className="text-xs text-muted-foreground mt-0.5">Reverdece hojas en 48h y engrosa los tallos.</p>
                   </div>
                 </Link>
               </div>
@@ -223,10 +221,10 @@ export default async function ProtocoloCultivoPage() {
         </div>
       </section>
 
-      {/* ── FASE 3: Floración y Resina ─────────── */}
-      <section className="w-full py-20 bg-earth-dark text-cream relative overflow-hidden">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 relative z-10">
-          <div className="flex items-center gap-4 mb-10">
+      {/* ── FASE 3: Floración ─────────────────── */}
+      <section className="w-full py-24 bg-earth-dark text-cream">
+        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
+          <div className="flex items-center gap-4 mb-12">
             <div className="w-12 h-12 rounded-full bg-primary-light text-earth-dark flex items-center justify-center font-heading font-bold text-2xl">
               3
             </div>
@@ -235,103 +233,54 @@ export default async function ProtocoloCultivoPage() {
             </h2>
           </div>
           
-          <div className="max-w-4xl grid md:grid-cols-12 gap-8">
-            <div className="md:col-span-8">
-              <p className="text-xl text-cream/80 leading-relaxed mb-8">
-                En las semanas previas a la floración y durante la misma, el objetivo cambia: ya no buscamos solo crecimiento estructural, buscamos que la genética exprese todo su potencial químico (terpenos y cannabinoides).
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7">
+              <p className="text-xl text-cream/80 leading-relaxed mb-10">
+                Al pulverizar Purín de Ortiga, sus fitoquímicos actúan como "elicitores". Engañan al sistema de la planta para que produzca más resina como defensa natural.
               </p>
-              <div className="bg-earth/50 border border-white/10 p-8 rounded-2xl mb-8 card-lift backdrop-blur-sm">
-                <h3 className="text-2xl font-bold text-primary-light mb-4">¿Qué es la Resistencia Sistémica Inducida (ISR)?</h3>
-                <p className="text-cream/80 mb-6">
-                  Al pulverizar Purín de Ortiga, sus fitoquímicos actúan como "elicitores". Engañan al sistema inmunológico de la planta haciéndole creer que está bajo ataque (eustrés o estrés positivo). La respuesta defensiva natural del cannabis es producir más resina y tricomas como barrera física.
+              <div className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-md">
+                <h3 className="text-2xl font-bold text-primary-light mb-4">¿Qué es la ISR?</h3>
+                <p className="text-cream/80 mb-6 leading-relaxed">
+                  La Resistencia Sistémica Inducida activa los mecanismos de defensa antes de que llegue el ataque, forzando una mayor concentración de terpenos.
                 </p>
                 <Link
                   href="/aprende/purin-ortiga-elicitor-resina-defensas-cannabis"
-                  className="inline-flex items-center text-primary-light font-bold hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 text-primary-light font-bold hover:text-white transition-all group"
                 >
-                  Leer el estudio sobre elicitores
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  Leer estudio completo
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
             </div>
-            <div className="md:col-span-4 relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl aspect-[4/5] md:aspect-auto h-auto md:h-full">
-              <Image src={images.section3} alt="Elicitación y resina" fill className="object-cover" />
+            <div className="lg:col-span-5 relative rounded-3xl overflow-hidden border border-white/10 shadow-3xl aspect-[4/5] bg-earth">
+              <Image 
+                src={images.section3} 
+                alt="Elicitación de resina" 
+                fill 
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 40vw"
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Resumen Legal y Estratégico ────────── */}
-      <section className="w-full py-16 bg-cream-warm">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-10 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 text-primary font-bold text-xs uppercase tracking-widest mb-4 border border-primary/15">
-                <BookOpen className="w-3.5 h-3.5" /> Marco Normativo
-              </div>
-              <h2 className="text-3xl font-heading font-bold text-foreground mb-4">
-                Por qué la calidad por planta es la única vía legal.
-              </h2>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                En España no existe un número fijo de plantas legales. La ley penaliza la visibilidad y comercialización. En espacios de autoconsumo reducidos (indoor o terrazas discretas), no puedes compensar la falta de producción poniendo más macetas. El único camino es lograr el máximo rendimiento bioquímico y estructural de cada semilla invertida.
-              </p>
-              <Link
-                href="/aprende/cuantas-plantas-marihuana-legales-espana"
-                className="inline-flex items-center gap-2 bg-background border border-border/60 hover:border-primary/50 text-foreground px-6 py-3 rounded-full transition-all font-medium"
-              >
-                Leer guía legal sobre autoconsumo
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-            <div className="bg-card p-8 rounded-3xl border border-border/50 shadow-xl">
-              <h3 className="font-heading font-bold text-xl text-foreground mb-6">Tu Plan Mensual de Cultivo Biológico</h3>
-              <ul className="space-y-6">
-                <li className="flex gap-4">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0 font-bold">1</div>
-                  <div>
-                    <h4 className="font-bold text-foreground">Semana 1-4 (Vegetativo)</h4>
-                    <p className="text-sm text-muted-foreground">Té de Humus (Riego 1:10) alternado con Purín de Ortiga (Foliar 3ml/L) cada 10 días.</p>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0 font-bold">2</div>
-                  <div>
-                    <h4 className="font-bold text-foreground">Semana 5-8 (Pre-flora y Flora Temprana)</h4>
-                    <p className="text-sm text-muted-foreground">Foliar intensivo de Purín (Elicitor) + Riego con Té de Humus (Prevención Pythium).</p>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0 font-bold">3</div>
-                  <div>
-                    <h4 className="font-bold text-foreground">Semana 9+ (Engorde y Lavado)</h4>
-                    <p className="text-sm text-muted-foreground">Suspender foliar. Mantener riegos esporádicos con Té de Humus para no estresar el sustrato.</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA to Shop ──────────────────────── */}
-      <section className="w-full py-20 bg-background border-t border-border/30 text-center">
+      {/* ── Footer / CTA ─────────────────────── */}
+      <section className="w-full py-24 bg-background text-center">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Empieza a cultivar con rigor.
+          <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-8 tracking-tight">
+            Empieza tu protocolo hoy.
           </h2>
-          <p className="text-lg text-muted-foreground mb-10">
-            Adquiere los dos pilares del protocolo botánico. Formatos desde 1L hasta 25L para cubrir todo el ciclo de tu cultivo, ya sea en armario o en invernadero comercial.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
             <Link
               href="/producto/te-humus-liquido-premium"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary hover:bg-brand-green-hover text-white font-bold px-8 py-4 rounded-full shadow-xl shadow-primary/15 transition-all hover:scale-[1.02]"
+              className="w-full sm:w-auto bg-primary hover:bg-brand-green-hover text-white font-bold px-10 py-5 rounded-2xl shadow-xl shadow-primary/20 transition-all hover:-translate-y-1"
             >
               Comprar Té de Humus
             </Link>
             <Link
               href="/producto/purin-ortiga-concentrado"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-background border-2 border-primary hover:bg-primary/5 text-primary font-bold px-8 py-4 rounded-full transition-all hover:scale-[1.02]"
+              className="w-full sm:w-auto bg-background border-2 border-primary text-primary hover:bg-primary/5 font-bold px-10 py-5 rounded-2xl transition-all hover:-translate-y-1"
             >
               Comprar Purín de Ortiga
             </Link>

@@ -10,7 +10,7 @@ function revalidateSeoPaths(kind: string, slug: string) {
   revalidatePath('/admin/seo');
   revalidatePath('/sitemap.xml');
 
-  if (kind === 'ARTICLE') {
+  if (kind === 'ARTICLE' || kind === 'LANDING') {
     revalidatePath('/aprende');
     revalidatePath(`/aprende/${slug}`);
     return;
@@ -19,6 +19,12 @@ function revalidateSeoPaths(kind: string, slug: string) {
   if (kind === 'COMMERCIAL') {
     revalidatePath('/comprar-te-de-humus-de-lombriz');
     revalidatePath(`/comprar-te-de-humus-de-lombriz/${slug}`);
+    return;
+  }
+
+  if (kind === 'COMMERCIAL_ORTIGA') {
+    revalidatePath('/comprar-purin-de-ortiga');
+    revalidatePath(`/comprar-purin-de-ortiga/${slug}`);
     return;
   }
 
@@ -31,6 +37,12 @@ function revalidateSeoPaths(kind: string, slug: string) {
   if (kind === 'SOLUTION') {
     revalidatePath('/te-de-humus-de-lombriz');
     revalidatePath(`/te-de-humus-de-lombriz/${slug}`);
+    return;
+  }
+
+  if (kind === 'SOLUTION_ORTIGA') {
+    revalidatePath('/purin-de-ortiga');
+    revalidatePath(`/purin-de-ortiga/${slug}`);
   }
 }
 
@@ -79,11 +91,11 @@ export async function updateSeoPage(input: {
   isPublished: boolean;
 }) {
   try {
-    JSON.parse(input.payloadJson || '{}');
-    JSON.parse(input.faqJson || '[]');
-    JSON.parse(input.summaryJson || '[]');
+    if (input.payloadJson && input.payloadJson.trim()) JSON.parse(input.payloadJson);
+    if (input.faqJson && input.faqJson.trim()) JSON.parse(input.faqJson);
+    if (input.summaryJson && input.summaryJson.trim()) JSON.parse(input.summaryJson);
   } catch {
-    return { success: false, error: 'JSON inválido en payload, FAQ o summary' };
+    return { success: false, error: 'JSON inválido en uno de los campos (Payload, FAQ o Summary)' };
   }
 
   try {
@@ -102,9 +114,9 @@ export async function updateSeoPage(input: {
         image: input.image || null,
         label: input.label || null,
         readTime: input.readTime || null,
-        payloadJson: input.payloadJson || '{}',
-        faqJson: input.faqJson || '[]',
-        summaryJson: input.summaryJson || '[]',
+        payloadJson: (input.payloadJson && input.payloadJson.trim()) ? input.payloadJson : '{}',
+        faqJson: (input.faqJson && input.faqJson.trim()) ? input.faqJson : '[]',
+        summaryJson: (input.summaryJson && input.summaryJson.trim()) ? input.summaryJson : '[]',
         isPublished: input.isPublished,
       },
     });
