@@ -38,16 +38,23 @@ export const metadata = buildMetadata({
 })
 
 export default async function Page() {
-  const [dbProduct, dbOrtiga] = await Promise.all([
-    prisma.product.findUnique({
-      where: { slug: "te-humus-liquido-premium" },
-      include: { variants: { orderBy: { price: 'asc' } } }
-    }),
-    prisma.product.findUnique({
-      where: { slug: "purin-ortiga-concentrado" },
-      include: { variants: { orderBy: { price: 'asc' } } }
-    }),
-  ]);
+  let dbProduct = null;
+  let dbOrtiga = null;
+  
+  try {
+    [dbProduct, dbOrtiga] = await Promise.all([
+      prisma.product.findUnique({
+        where: { slug: "te-humus-liquido-premium" },
+        include: { variants: { orderBy: { price: 'asc' } } }
+      }),
+      prisma.product.findUnique({
+        where: { slug: "purin-ortiga-concentrado" },
+        include: { variants: { orderBy: { price: 'asc' } } }
+      }),
+    ]);
+  } catch (error) {
+    console.error("Home page DB error:", error);
+  }
 
   const dbVariants = dbProduct?.variants || [];
   const dbOrtigaVariants = dbOrtiga?.variants || [];

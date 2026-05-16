@@ -5,8 +5,13 @@ import { notFound } from "next/navigation"
 import { Metadata } from "next"
 
 export async function generateStaticParams() {
-  const products = await prisma.product.findMany({ select: { slug: true } });
-  return products.map((p) => ({ slug: p.slug }));
+  try {
+    const products = await prisma.product.findMany({ select: { slug: true } });
+    return products.map((p) => ({ slug: p.slug }));
+  } catch (error) {
+    console.error("Error fetching products for static params:", error);
+    return []; // No pre-renderizar ninguno si falla la DB
+  }
 }
 import ProductFunnel from "@/components/ProductFunnel"
 import ScienceProof from "@/components/ScienceProof"
@@ -23,11 +28,17 @@ import Link from 'next/link'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
-  const product = await prisma.product.findUnique({
-    where: { slug: resolvedParams.slug },
-    include: { variants: true }
-  })
-  if (!product) return { title: 'Producto No Encontrado' }
+  let product = null;
+  try {
+    product = await prisma.product.findUnique({
+      where: { slug: resolvedParams.slug },
+      include: { variants: true }
+    })
+  } catch (error) {
+    console.error("Metadata DB error:", error);
+  }
+
+  if (!product) return { title: 'Producto Biocultor' }
   return buildMetadata({
     title: `${product.name} | Comprar online en España`,
     description: product.description,
@@ -44,10 +55,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
-  const product = await prisma.product.findUnique({
-    where: { slug: resolvedParams.slug },
-    include: { variants: { orderBy: { price: 'asc' } } }
-  })
+  let product = null;
+  try {
+    product = await prisma.product.findUnique({
+      where: { slug: resolvedParams.slug },
+      include: { variants: { orderBy: { price: 'asc' } } }
+    })
+  } catch (error) {
+    console.error("Product page DB error:", error);
+  }
+
   if (!product) notFound();
 
   const lowestPrice = Math.min(...product.variants.map(v => v.price));
