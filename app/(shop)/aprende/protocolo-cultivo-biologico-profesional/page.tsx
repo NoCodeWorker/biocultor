@@ -5,29 +5,34 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import { buildMetadata, breadcrumbSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
 import prisma from '@/lib/db';
+import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
+// Forzamos revalidación en cada petición sin usar force-dynamic directamente si da problemas
+export const revalidate = 0;
 
-export const metadata = buildMetadata({
-  title: 'Protocolo de Cultivo Biológico Profesional | Biocultor',
-  description:
-    'La guía definitiva paso a paso para maximizar biomasa, cannabinoides y prevenir patógenos en el cultivo de cannabis mediante Té de Humus y Purín de Ortiga.',
-  path: '/aprende/protocolo-cultivo-biologico-profesional',
-  keywords: [
-    'protocolo cultivo biologico',
-    'té de humus cannabis',
-    'purín de ortiga marihuana',
-    'prevención pythium',
-    'aumento resina cannabis',
-    'bioestimulante natural',
-  ],
-});
+export async function generateMetadata(): Promise<Metadata> {
+  return buildMetadata({
+    title: 'Protocolo de Cultivo Biológico Profesional | Biocultor',
+    description:
+      'La guía definitiva paso a paso para maximizar biomasa, cannabinoides y prevenir patógenos en el cultivo de cannabis mediante Té de Humus y Purín de Ortiga.',
+    path: '/aprende/protocolo-cultivo-biologico-profesional',
+    keywords: [
+      'protocolo cultivo biologico',
+      'té de humus cannabis',
+      'purín de ortiga marihuana',
+      'prevención pythium',
+      'aumento resina cannabis',
+      'bioestimulante natural',
+    ],
+  });
+}
 
 export default async function ProtocoloCultivoPage() {
   let landingData = null;
   let payload: any = {};
 
   try {
+    // Intentamos obtener los datos de la DB
     landingData = await prisma.seoPage.findUnique({
       where: { slug: 'protocolo-cultivo-biologico-profesional' }
     });
@@ -37,10 +42,11 @@ export default async function ProtocoloCultivoPage() {
       payload = parsed && typeof parsed === 'object' ? parsed : {};
     }
   } catch (error) {
-    console.error('[Protocolo Landing] Error fetching or parsing landing data:', error);
+    // Si falla la DB, el bloque catch asegura que no haya un 500
+    console.error('[Protocolo Landing] Error crítico capturado:', error);
   }
 
-  // Imágenes dinámicas con fallback a las originales
+  // Imágenes con fallback absoluto a local public/
   const images = {
     hero: payload.heroImage || '/10 litros.jpg',
     section1: payload.section1Image || '/5 litros.jpg',
@@ -49,7 +55,7 @@ export default async function ProtocoloCultivoPage() {
   };
 
   return (
-    <div className="flex flex-col w-full antialiased bg-background">
+    <main className="flex flex-col w-full antialiased bg-background min-h-screen">
       <StructuredData
         id="protocolo-breadcrumb-schema"
         data={breadcrumbSchema([
@@ -72,7 +78,7 @@ export default async function ProtocoloCultivoPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-earth-dark via-earth-dark/80 to-transparent" />
         </div>
         
-        <div className="relative z-10 w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
+        <div className="relative z-10 w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 text-left">
           <Breadcrumbs
             items={[
               { label: 'Inicio', href: '/' },
@@ -82,7 +88,7 @@ export default async function ProtocoloCultivoPage() {
           />
           <div className="max-w-4xl mt-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 text-primary-light font-bold text-xs uppercase tracking-widest mb-6 border border-primary/30">
-              <Shield className="w-3.5 h-3.5" /> La Guía Definitiva de Biocultor
+              <Shield className="w-4 h-4" /> La Guía Definitiva de Biocultor
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-extrabold text-cream mb-6 tracking-tight leading-tight">
               {landingData?.title || 'Protocolo de Cultivo Biológico Profesional'}
@@ -113,7 +119,7 @@ export default async function ProtocoloCultivoPage() {
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-cream-warm p-6 rounded-2xl border border-border/50 shadow-sm">
               <h3 className="font-heading font-bold text-xl text-foreground flex items-center gap-2 mb-4">
-                <TestTube className="w-5 h-5 text-primary" /> Pilares del Protocolo
+                <BookOpen className="w-5 h-5 text-primary" /> Pilares del Protocolo
               </h3>
               <ul className="space-y-4 text-sm text-muted-foreground font-medium">
                 <li className="flex gap-3">
@@ -292,6 +298,6 @@ export default async function ProtocoloCultivoPage() {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
