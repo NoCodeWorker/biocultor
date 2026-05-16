@@ -1,6 +1,7 @@
 import prisma from '@/lib/db';
 import Link from 'next/link';
-import { PenSquare, Plus, Eye, EyeOff, ArrowRight, FileText, BookOpen } from 'lucide-react';
+import { PenSquare, Plus, Eye, EyeOff, ArrowRight, FileText, BookOpen, RefreshCw } from 'lucide-react';
+import { seoArticles, seoArticlesOrtiga } from '@/lib/seo-content';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,6 +13,42 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export default async function AdminBlogPage() {
+  // --- SYNC LOGIC: Asegura que los artículos estáticos existan en la DB ---
+  const allStatic = [...seoArticles, ...seoArticlesOrtiga];
+  
+  // Añadir también la nueva mega-landing para que sea gestionable
+  allStatic.push({
+    slug: 'protocolo-cultivo-biologico-profesional',
+    title: 'Protocolo de Cultivo Biológico Profesional',
+    category: 'Evidencia',
+    excerpt: 'La guía definitiva de Biocultor para el ciclo completo.',
+    // campos mínimos para que el type check no de guerra si es parcial
+  } as any);
+
+  const existingInDb = await prisma.post.findMany({
+    select: { slug: true }
+  });
+  const dbSlugs = new Set(existingInDb.map(p => p.slug));
+
+  const missing = allStatic.filter(s => !dbSlugs.has(s.slug));
+
+  if (missing.length > 0) {
+    await Promise.all(missing.map(art => 
+      prisma.post.create({
+        data: {
+          title: art.title,
+          slug: art.slug,
+          excerpt: art.excerpt || '',
+          content: 'Artículo sincronizado automáticamente desde el sistema SEO. Edita aquí para gestionar su imagen y metadatos.',
+          category: art.category === 'Evidencia' ? 'EVIDENCE' : 'KNOWLEDGE',
+          isPublished: true,
+          keywords: art.slug.replace(/-/g, ' '),
+        }
+      })
+    ));
+  }
+  // -----------------------------------------------------------------------
+
   const posts = await prisma.post.findMany({
     orderBy: { createdAt: 'desc' },
   });
