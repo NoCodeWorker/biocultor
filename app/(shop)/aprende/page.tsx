@@ -47,6 +47,11 @@ export default async function AprendePage() {
   const featuredGuides = editorialArticles.slice(0, 6);
   const intentClusters = [
     {
+      title: 'Protocolo Profesional',
+      description: 'Guía paso a paso combinando Té de Humus y Purín de Ortiga para el ciclo completo.',
+      href: '/aprende/protocolo-cultivo-biologico-profesional',
+    },
+    {
       title: 'Comprar con evidencia',
       description: 'Papers, meta-análisis y estudios traducidos a criterio de compra sin exageraciones.',
       href: '#evidencia',
@@ -55,11 +60,6 @@ export default async function AprendePage() {
       title: 'Aplicación y formato',
       description: 'Guías para entender frecuencia, sistema de uso, riego y elección de formato.',
       href: '#guias',
-    },
-    {
-      title: 'Cultivos concretos',
-      description: 'Recorridos para olivo, cítricos, huerto urbano, tomate y horticultura.',
-      href: '/te-de-humus-de-lombriz',
     },
   ];
 
@@ -141,6 +141,40 @@ export default async function AprendePage() {
                 <p className="text-sm text-muted-foreground leading-relaxed">{cluster.description}</p>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Featured Protocol Section ────────── */}
+      <section className="w-full py-16 bg-earth-dark text-cream relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <Image
+            src="/10 litros.jpg"
+            alt="Protocolo de cultivo"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 relative z-10">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 text-primary-light font-bold text-xs uppercase tracking-widest mb-6 border border-primary/30">
+              <Shield className="w-3.5 h-3.5" /> Nuevo: Guía Maestra
+            </div>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-cream mb-6 tracking-tight">
+              Protocolo de Cultivo <br />
+              <span className="text-primary-light">Biológico Profesional.</span>
+            </h2>
+            <p className="text-lg text-cream/70 leading-relaxed max-w-2xl mb-8">
+              La unificación de nuestra autoridad técnica en una sola guía paso a paso. 
+              Aprende a combinar nuestros productos para maximizar rendimiento y salud radicular.
+            </p>
+            <Link
+              href="/aprende/protocolo-cultivo-biologico-profesional"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-brand-green-hover text-white font-bold px-8 py-4 rounded-full transition-all hover:scale-[1.02]"
+            >
+              Ver Protocolo Completo
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

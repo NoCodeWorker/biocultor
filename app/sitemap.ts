@@ -47,6 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/te-de-humus-de-lombriz',
     '/purin-de-ortiga',
     '/terminos',
+    '/aprende/protocolo-cultivo-biologico-profesional',
   ];
 
   return [
