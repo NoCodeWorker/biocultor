@@ -16,15 +16,6 @@ export default async function AdminBlogPage() {
   // --- SYNC LOGIC: Asegura que los artículos estáticos existan en la DB ---
   const allStatic = [...seoArticles, ...seoArticlesOrtiga];
   
-  // Añadir también la nueva mega-landing para que sea gestionable
-  allStatic.push({
-    slug: 'protocolo-cultivo-biologico-profesional',
-    title: 'Protocolo de Cultivo Biológico Profesional',
-    category: 'Evidencia',
-    excerpt: 'La guía definitiva de Biocultor para el ciclo completo.',
-    // campos mínimos para que el type check no de guerra si es parcial
-  } as any);
-
   const existingInDb = await prisma.post.findMany({
     select: { slug: true }
   });
