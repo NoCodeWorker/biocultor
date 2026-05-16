@@ -17,7 +17,7 @@ export default function Breadcrumbs({
       aria-label="Breadcrumb"
       className={`mb-8 overflow-x-auto ${className}`.trim()}
     >
-      <ol className="flex min-w-0 flex-wrap items-center gap-2 text-sm text-muted-foreground">
+      <ol className="flex min-w-0 flex-wrap items-center gap-2 text-sm">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
 
@@ -29,7 +29,7 @@ export default function Breadcrumbs({
                 </Link>
               ) : (
                 <span
-                  className={`truncate ${isLast ? 'font-medium text-foreground' : ''}`}
+                  className={`truncate ${isLast ? 'font-medium opacity-100' : 'opacity-70'}`}
                   aria-current={isLast ? 'page' : undefined}
                 >
                   {item.label}

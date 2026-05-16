@@ -66,34 +66,41 @@ export default async function ProtocoloCultivoPage() {
       />
 
       {/* ── Hero Section ──────────────────────── */}
-      <section className="relative w-full py-20 md:py-32 bg-earth-dark overflow-hidden min-h-[500px] flex items-center">
+      <section className="relative w-full aspect-video min-h-[500px] max-h-[85vh] bg-earth-dark overflow-hidden flex items-center">
         <div className="absolute inset-0 z-0">
           <Image
             src={images.hero}
             alt="Cultivo Biológico Profesional"
             fill
             priority
-            className="object-cover opacity-30"
+            className="object-cover opacity-40 scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-earth-dark via-earth-dark/80 to-transparent" />
+          {/* Capas de contraste para accesibilidad */}
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-earth-dark via-earth-dark/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-earth-dark via-transparent to-transparent" />
         </div>
         
-        <div className="relative z-10 w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 text-left">
-          <Breadcrumbs
-            items={[
-              { label: 'Inicio', href: '/' },
-              { label: 'Aprende', href: '/aprende' },
-              { label: 'Protocolo Profesional' },
-            ]}
-          />
-          <div className="max-w-4xl mt-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 text-primary-light font-bold text-xs uppercase tracking-widest mb-6 border border-primary/30">
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12">
+          <div className="max-w-4xl">
+            <Breadcrumbs
+              items={[
+                { label: 'Inicio', href: '/' },
+                { label: 'Aprende', href: '/aprende' },
+                { label: 'Protocolo Profesional' },
+              ]}
+              className="text-cream/90 drop-shadow-sm"
+            />
+            
+            <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/30 text-primary-light font-bold text-xs uppercase tracking-widest mb-8 border border-primary/40 backdrop-blur-sm shadow-xl shadow-black/20">
               <Shield className="w-4 h-4" /> La Guía Definitiva de Biocultor
             </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-extrabold text-cream mb-6 tracking-tight leading-tight">
+            
+            <h1 className="text-4xl md:text-6xl lg:text-8xl font-heading font-extrabold text-white mb-8 tracking-tighter leading-[1.05] drop-shadow-2xl">
               {landingData?.title || 'Protocolo de Cultivo Biológico Profesional'}
             </h1>
-            <p className="text-lg md:text-xl text-cream/80 leading-relaxed max-w-2xl font-light">
+            
+            <p className="text-lg md:text-2xl text-cream/95 leading-relaxed max-w-2xl font-medium drop-shadow-lg">
               {landingData?.intro || 'Cómo integrar Té de Humus de Lombriz y Purín de Ortiga para prevenir patógenos radiculares, acelerar el crecimiento vegetativo e inducir una floración explosiva y rica en resina.'}
             </p>
           </div>

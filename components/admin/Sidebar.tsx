@@ -67,7 +67,7 @@ const NAV: NavSection[] = [
   {
     label: 'Contenido',
     items: [
-      { href: '/admin/seo', label: 'SEO Editorial', icon: Search },
+      { href: '/admin/seo', label: 'Landings & SEO', icon: Search },
       { href: '/admin/blog', label: 'Blog', icon: PenSquare },
     ],
   },

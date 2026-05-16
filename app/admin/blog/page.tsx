@@ -90,13 +90,22 @@ export default async function AdminBlogPage() {
       </div>
 
       {/* Notice about static articles */}
-      <div className="bg-muted/30 border border-border/40 rounded-xl px-4 py-3 flex items-start gap-3 text-sm">
-        <BookOpen className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
-        <p className="text-muted-foreground leading-relaxed">
-          Los artículos estáticos de <span className="font-mono text-xs">lib/seo-store.ts</span> siguen activos en{' '}
-          <code className="text-xs">/aprende</code>. Los artículos que crees aquí aparecerán cuando integres{' '}
-          <code className="text-xs">prisma.post.findMany()</code> en la página pública.
-        </p>
+      <div className="bg-primary/5 border border-primary/20 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-start gap-3 text-sm">
+          <BookOpen className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+          <div>
+            <p className="font-bold text-foreground">Gestión de Landings Especiales</p>
+            <p className="text-muted-foreground mt-0.5">
+              La landing "Protocolo Profesional" se edita desde la sección de Landings & SEO para permitir configuraciones avanzadas.
+            </p>
+          </div>
+        </div>
+        <Link 
+          href="/admin/seo" 
+          className="inline-flex items-center gap-2 bg-background border border-border px-4 py-2 rounded-xl text-sm font-bold hover:bg-muted transition-colors"
+        >
+          Ir al editor de Landings <ArrowRight className="w-4 h-4" />
+        </Link>
       </div>
 
       {/* Posts list */}
