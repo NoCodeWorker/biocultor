@@ -236,7 +236,18 @@ export default async function AprendeArticlePage({
       </header>
 
       <article className="w-full max-w-5xl mx-auto px-6 py-16 md:py-24">
-        <StructuredData id="article-schema" data={articleSchema} />
+        <StructuredData
+          id="article-schema"
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: staticArt.title,
+            description: staticArt.metaDescription,
+            author: { '@type': 'Organization', name: 'Biocultor' },
+            articleSection: staticArt.category,
+            image: finalImage,
+          }}
+        />
         <StructuredData id="article-faq-schema" data={faqSchema(staticArt.faq)} />
         <StructuredData
           id="article-breadcrumb-schema"
