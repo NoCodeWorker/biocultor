@@ -65,7 +65,7 @@ export async function generateMetadata({
       title: dbPost.metaTitle ?? dbPost.title,
       description: dbPost.metaDesc ?? dbPost.excerpt,
       path: `/aprende/${slug}`,
-      image: (dbPost as any).coverImage ?? undefined,
+      image: dbPost.coverImage ?? undefined,
       keywords: [dbPost.title, dbPost.category, 'biocultor'],
     });
   }
@@ -112,7 +112,7 @@ export default async function AprendeArticlePage({
   const isPlaceholder = dbPost?.content === 'PLACEHOLDER';
 
   if (dbPost && !isPlaceholder) {
-    const coverImage = (dbPost as any)?.coverImage;
+    const coverImage = dbPost?.coverImage;
 
     const articleSchema = {
       '@context': 'https://schema.org',
@@ -198,7 +198,7 @@ export default async function AprendeArticlePage({
 
   // Imagen final: prioriza la de BD si el post es placeholder pero el usuario cambió la imagen.
   // Si no hay imagen en BD, usa la del objeto estático.
-  const finalImage = (isPlaceholder && (dbPost as any)?.coverImage) ? (dbPost as any).coverImage : (staticArt.image || '/Logo.svg');
+  const finalImage = (isPlaceholder && dbPost?.coverImage) ? dbPost.coverImage : (staticArt.image || '/Logo.svg');
 
   return (
     <div className="bg-background min-h-screen">
