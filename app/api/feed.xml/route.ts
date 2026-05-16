@@ -18,8 +18,8 @@ export async function GET() {
     console.error("Feed generation DB error:", error);
   }
 
-  const items = products.flatMap(product =>
-    product.variants.map(variant => {
+  const items = products.flatMap((product: any) =>
+    product.variants.map((variant: any) => {
       const imageUrl = variant.imagePath
         ? `${appUrl}${variant.imagePath}`
         : `${appUrl}/Logo.svg`;
