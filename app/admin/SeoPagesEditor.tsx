@@ -34,6 +34,7 @@ const kindLabels: Record<string, string> = {
   COMMERCIAL: 'Transaccional',
   GEO: 'GEO/IA',
   SOLUTION: 'Aplicación',
+  LANDING: 'Landing Especial',
 };
 
 const workflowLabels: Record<string, string> = {
@@ -146,6 +147,7 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
               <option value="ARTICLE">Informacional</option>
               <option value="GEO">GEO/IA</option>
               <option value="SOLUTION">Aplicaciones</option>
+              <option value="LANDING">Landings</option>
             </select>
           </div>
         </div>
@@ -230,6 +232,8 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                             ? `/comprar-purin-de-ortiga/${item.slug}`
                             : item.kind === 'GEO'
                             ? `/espana/${item.slug}`
+                            : item.kind === 'LANDING'
+                            ? `/aprende/${item.slug}`
                             : `/aprende/${item.slug}`
                         }
                         target="_blank"
@@ -434,6 +438,8 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                           ? `/comprar-purin-de-ortiga/${item.slug}`
                           : item.kind === 'GEO'
                           ? `/espana/${item.slug}`
+                          : item.kind === 'LANDING'
+                          ? `/aprende/${item.slug}`
                           : `/aprende/${item.slug}`
                       }
                       target="_blank"

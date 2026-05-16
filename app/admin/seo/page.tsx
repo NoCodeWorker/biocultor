@@ -4,6 +4,33 @@ import SeoPagesEditor from '../SeoPagesEditor';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminSeoPage() {
+  // --- SYNC LANDINGS ---
+  const landingSlug = 'protocolo-cultivo-biologico-profesional';
+  const existingLanding = await prisma.seoPage.findUnique({
+    where: { slug: landingSlug }
+  });
+
+  if (!existingLanding) {
+    await prisma.seoPage.create({
+      data: {
+        kind: 'LANDING',
+        slug: landingSlug,
+        title: 'Protocolo de Cultivo Biológico Profesional',
+        metaTitle: 'Protocolo de Cultivo Biológico Profesional | Biocultor',
+        metaDescription: 'La guía definitiva paso a paso para maximizar biomasa, cannabinoides y prevenir patógenos en el cultivo de cannabis mediante Té de Humus y Purín de Ortiga.',
+        workflowStatus: 'READY',
+        priorityScore: 90,
+        payloadJson: JSON.stringify({
+          heroImage: '/10 litros.jpg',
+          section1Image: '/5 litros.jpg',
+          section2Image: '/1 litro.jpg',
+          section3Image: '/10 litros.jpg'
+        }),
+      }
+    });
+  }
+  // ----------------------
+
   const [pages, posts] = await Promise.all([
     prisma.seoPage.findMany({
       orderBy: [{ priorityScore: 'desc' }, { kind: 'asc' }, { slug: 'asc' }],

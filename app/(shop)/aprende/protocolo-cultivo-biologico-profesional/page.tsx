@@ -4,6 +4,9 @@ import Image from 'next/image';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { buildMetadata, breadcrumbSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
+import prisma from '@/lib/db';
+
+export const revalidate = 3600;
 
 export const metadata = buildMetadata({
   title: 'Protocolo de Cultivo Biológico Profesional | Biocultor',
@@ -20,7 +23,21 @@ export const metadata = buildMetadata({
   ],
 });
 
-export default function ProtocoloCultivoPage() {
+export default async function ProtocoloCultivoPage() {
+  const landingData = await prisma.seoPage.findUnique({
+    where: { slug: 'protocolo-cultivo-biologico-profesional' }
+  });
+
+  const payload = landingData?.payloadJson ? JSON.parse(landingData.payloadJson) : {};
+  
+  // Imágenes dinámicas con fallback a las originales
+  const images = {
+    hero: payload.heroImage || '/10 litros.jpg',
+    section1: payload.section1Image || '/5 litros.jpg',
+    section2: payload.section2Image || '/1 litro.jpg',
+    section3: payload.section3Image || '/10 litros.jpg'
+  };
+
   return (
     <div className="flex flex-col w-full">
       <StructuredData
@@ -36,7 +53,7 @@ export default function ProtocoloCultivoPage() {
       <section className="relative w-full py-20 md:py-32 bg-earth-dark overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/10 litros.jpg"
+            src={images.hero}
             alt="Cultivo Biológico Profesional"
             fill
             className="object-cover opacity-20"
@@ -57,11 +74,10 @@ export default function ProtocoloCultivoPage() {
               <Shield className="w-3.5 h-3.5" /> La Guía Definitiva de Biocultor
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-extrabold text-cream mb-6 tracking-tight leading-tight">
-              Protocolo de Cultivo <br />
-              <span className="text-primary-light">Biológico Profesional.</span>
+              {landingData?.title || 'Protocolo de Cultivo Biológico Profesional'}
             </h1>
             <p className="text-lg md:text-xl text-cream/80 leading-relaxed max-w-2xl font-light">
-              Cómo integrar Té de Humus de Lombriz y Purín de Ortiga para prevenir patógenos radiculares, acelerar el crecimiento vegetativo e inducir una floración explosiva y rica en resina. Basado en evidencia agronómica real.
+              {landingData?.intro || 'Cómo integrar Té de Humus de Lombriz y Purín de Ortiga para prevenir patógenos radiculares, acelerar el crecimiento vegetativo e inducir una floración explosiva y rica en resina. Basado en evidencia agronómica real.'}
             </p>
           </div>
         </div>
@@ -146,7 +162,7 @@ export default function ProtocoloCultivoPage() {
               </div>
             </div>
             <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl h-80 md:h-auto">
-              <Image src="/5 litros.jpg" alt="Té de humus para raíces" fill className="object-cover" />
+              <Image src={images.section1} alt="Té de humus para raíces" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
                 <h3 className="text-white font-bold text-xl mb-2">Producto Clave: Té de Humus</h3>
@@ -171,7 +187,7 @@ export default function ProtocoloCultivoPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="order-2 md:order-1 relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl h-80 md:h-auto">
-              <Image src="/1 litro.jpg" alt="Purín de ortiga para crecimiento" fill className="object-cover" />
+              <Image src={images.section2} alt="Purín de ortiga para crecimiento" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
                 <h3 className="text-white font-bold text-xl mb-2">Producto Clave: Purín de Ortiga</h3>
@@ -219,22 +235,27 @@ export default function ProtocoloCultivoPage() {
             </h2>
           </div>
           
-          <div className="max-w-4xl">
-            <p className="text-xl text-cream/80 leading-relaxed mb-8">
-              En las semanas previas a la floración y durante la misma, el objetivo cambia: ya no buscamos solo crecimiento estructural, buscamos que la genética exprese todo su potencial químico (terpenos y cannabinoides).
-            </p>
-            <div className="bg-earth/50 border border-white/10 p-8 rounded-2xl mb-8 card-lift backdrop-blur-sm">
-              <h3 className="text-2xl font-bold text-primary-light mb-4">¿Qué es la Resistencia Sistémica Inducida (ISR)?</h3>
-              <p className="text-cream/80 mb-6">
-                Al pulverizar Purín de Ortiga, sus fitoquímicos actúan como "elicitores". Engañan al sistema inmunológico de la planta haciéndole creer que está bajo ataque (eustrés o estrés positivo). La respuesta defensiva natural del cannabis es producir más resina y tricomas como barrera física.
+          <div className="max-w-4xl grid md:grid-cols-12 gap-8">
+            <div className="md:col-span-8">
+              <p className="text-xl text-cream/80 leading-relaxed mb-8">
+                En las semanas previas a la floración y durante la misma, el objetivo cambia: ya no buscamos solo crecimiento estructural, buscamos que la genética exprese todo su potencial químico (terpenos y cannabinoides).
               </p>
-              <Link
-                href="/aprende/purin-ortiga-elicitor-resina-defensas-cannabis"
-                className="inline-flex items-center text-primary-light font-bold hover:text-white transition-colors"
-              >
-                Leer el estudio sobre elicitores
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
+              <div className="bg-earth/50 border border-white/10 p-8 rounded-2xl mb-8 card-lift backdrop-blur-sm">
+                <h3 className="text-2xl font-bold text-primary-light mb-4">¿Qué es la Resistencia Sistémica Inducida (ISR)?</h3>
+                <p className="text-cream/80 mb-6">
+                  Al pulverizar Purín de Ortiga, sus fitoquímicos actúan como "elicitores". Engañan al sistema inmunológico de la planta haciéndole creer que está bajo ataque (eustrés o estrés positivo). La respuesta defensiva natural del cannabis es producir más resina y tricomas como barrera física.
+                </p>
+                <Link
+                  href="/aprende/purin-ortiga-elicitor-resina-defensas-cannabis"
+                  className="inline-flex items-center text-primary-light font-bold hover:text-white transition-colors"
+                >
+                  Leer el estudio sobre elicitores
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </div>
+            </div>
+            <div className="md:col-span-4 relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl h-64 md:h-auto">
+              <Image src={images.section3} alt="Elicitación y resina" fill className="object-cover" />
             </div>
           </div>
         </div>
