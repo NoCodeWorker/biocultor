@@ -1,6 +1,6 @@
 export const revalidate = 3600
 
-import { BookOpen, ArrowRight, Clock, Leaf } from 'lucide-react';
+import { BookOpen, ArrowRight, Clock, Leaf, Shield } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Breadcrumbs from '@/components/Breadcrumbs';
