@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
+import { alertCritical } from '@/lib/alert';
 
 // Feed de productos en formato Google Merchant Center (RSS 2.0 + Google Shopping)
 // URL pública: https://biocultor.com/api/feed.xml
@@ -15,7 +16,7 @@ export async function GET() {
       include: { variants: { orderBy: { price: 'asc' } } },
     });
   } catch (error) {
-    console.error("Feed generation DB error:", error);
+    alertCritical('FeedRoute.generateProducts', error);
   }
 
   const items = products.flatMap((product: any) =>

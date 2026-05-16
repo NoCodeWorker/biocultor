@@ -1,6 +1,7 @@
 export const revalidate = 300
 
 import prisma from "@/lib/db"
+import { alertCritical } from "@/lib/alert"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
 
@@ -9,8 +10,8 @@ export async function generateStaticParams() {
     const products = await prisma.product.findMany({ select: { slug: true } });
     return products.map((p) => ({ slug: p.slug }));
   } catch (error) {
-    console.error("Error fetching products for static params:", error);
-    return []; // No pre-renderizar ninguno si falla la DB
+    alertCritical('ProductPage.generateStaticParams', error);
+    return [];
   }
 }
 import ProductFunnel from "@/components/ProductFunnel"
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       include: { variants: true }
     })
   } catch (error) {
-    console.error("Metadata DB error:", error);
+    alertCritical('ProductPage.generateMetadata', error, { extra: { slug: resolvedParams.slug } });
   }
 
   if (!product) return { title: 'Producto Biocultor' }
@@ -62,7 +63,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       include: { variants: { orderBy: { price: 'asc' } } }
     })
   } catch (error) {
-    console.error("Product page DB error:", error);
+    alertCritical('ProductPage.render', error, { extra: { slug: resolvedParams.slug } });
   }
 
   if (!product) notFound();

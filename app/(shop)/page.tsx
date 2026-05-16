@@ -7,6 +7,7 @@ import { ArrowRight, Leaf, Droplets, FlaskConical, Star, Sparkles, TreePine, Spr
 import FormatSelector from "@/components/FormatSelector"
 import OrtIgaFormatSelector from "@/components/OrtIgaFormatSelector"
 import nextDynamic from "next/dynamic"
+import { alertCritical } from "@/lib/alert"
 
 const ScienceProof = nextDynamic(() => import("@/components/ScienceProof"))
 const FaqAioSeo = nextDynamic(() => import("@/components/FaqAioSeo"))
@@ -53,7 +54,7 @@ export default async function Page() {
       }),
     ]);
   } catch (error) {
-    console.error("Home page DB error:", error);
+    alertCritical('HomePage.loadProducts', error, { extra: { slugs: ['te-humus-liquido-premium', 'purin-ortiga-concentrado'] } });
   }
 
   const dbVariants = dbProduct?.variants || [];

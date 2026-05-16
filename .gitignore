@@ -51,3 +51,6 @@ stripe.zip
 dev.db
 prisma/dev.db
 *.db-journal
+
+# Scripts de diagnóstico y debug temporal
+/scratch/

@@ -92,8 +92,8 @@ export default async function ProtocoloCultivoPage() {
               className="text-cream/90 drop-shadow-sm"
             />
             
-            <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/30 text-primary-light font-bold text-xs uppercase tracking-widest mb-8 border border-primary/40 backdrop-blur-sm shadow-xl shadow-black/20">
-              <Shield className="w-4 h-4" /> La Guía Definitiva de Biocultor
+            <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/50 text-white font-bold text-xs uppercase tracking-widest mb-8 border border-white/20 backdrop-blur-sm shadow-xl shadow-black/20">
+              <Shield className="w-4 h-4 text-green-400" /> La Guía Definitiva de Biocultor
             </div>
             
             <h1 className="text-4xl md:text-6xl lg:text-8xl font-heading font-extrabold text-white mb-8 tracking-tighter leading-[1.05] drop-shadow-2xl">

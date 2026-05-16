@@ -10,6 +10,7 @@ import MarkdownContent from '@/components/MarkdownContent';
 import { breadcrumbSchema, buildMetadata, faqSchema } from '@/lib/seo';
 import { getSeoArticles, getSeoArticlesOrtiga } from '@/lib/seo-store';
 import prisma from '@/lib/db';
+import { alertCritical, alertWarning } from '@/lib/alert';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -56,8 +57,8 @@ export async function generateMetadata({
   let dbPost = null;
   try {
     dbPost = await prisma.post.findUnique({ where: { slug } });
-  } catch {
-    // BD no disponible o schema desactualizado → fallback estático
+  } catch (err) {
+    alertCritical('ArticlePage.generateMetadata', err, { extra: { slug } });
   }
 
   if (dbPost) {
@@ -103,10 +104,9 @@ export default async function AprendeArticlePage({
   let dbPost = null;
   try {
     dbPost = await prisma.post.findUnique({ where: { slug } });
-  } catch {
-    // BD no disponible o schema desactualizado → fallback estático
+  } catch (err) {
+    alertWarning('ArticlePage.render', 'DB no disponible, usando contenido estático', { slug });
   }
-
   const staticArticles = await getAllStaticArticles();
   const staticArt = staticArticles.find((entry) => entry.slug === slug);
   const isPlaceholder = dbPost?.content === 'PLACEHOLDER';
