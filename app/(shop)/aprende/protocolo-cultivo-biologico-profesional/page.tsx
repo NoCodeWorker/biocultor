@@ -73,12 +73,12 @@ export default async function ProtocoloCultivoPage() {
             alt="Cultivo Biológico Profesional"
             fill
             priority
-            className="object-cover opacity-40 scale-105"
+            className="object-cover opacity-80 scale-105"
           />
-          {/* Capas de contraste para accesibilidad */}
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 bg-gradient-to-r from-earth-dark via-earth-dark/60 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-earth-dark via-transparent to-transparent" />
+          {/* Overlay: suficiente contraste WCAG AA sin ahogar la imagen */}
+          <div className="absolute inset-0 bg-black/35" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         </div>
         
         <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12">
