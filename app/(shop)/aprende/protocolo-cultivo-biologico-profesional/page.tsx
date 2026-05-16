@@ -161,7 +161,7 @@ export default async function ProtocoloCultivoPage() {
                 </Link>
               </div>
             </div>
-            <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl h-80 md:h-auto">
+            <div className="relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] md:aspect-auto h-auto md:h-full">
               <Image src={images.section1} alt="Té de humus para raíces" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
@@ -186,7 +186,7 @@ export default async function ProtocoloCultivoPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="order-2 md:order-1 relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl h-80 md:h-auto">
+            <div className="order-2 md:order-1 relative rounded-2xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] md:aspect-auto h-auto md:h-full">
               <Image src={images.section2} alt="Purín de ortiga para crecimiento" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
@@ -254,7 +254,7 @@ export default async function ProtocoloCultivoPage() {
                 </Link>
               </div>
             </div>
-            <div className="md:col-span-4 relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl h-64 md:h-auto">
+            <div className="md:col-span-4 relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl aspect-[4/5] md:aspect-auto h-auto md:h-full">
               <Image src={images.section3} alt="Elicitación y resina" fill className="object-cover" />
             </div>
           </div>

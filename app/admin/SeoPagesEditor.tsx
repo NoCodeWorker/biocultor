@@ -81,6 +81,22 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
     );
   };
 
+  const updatePayloadField = (id: string, key: string, value: string) => {
+    setItems((current) =>
+      current.map((item) => {
+        if (item.id !== id) return item;
+        let payload: any = {};
+        try {
+          payload = JSON.parse(item.payloadJson || '{}');
+        } catch (e) {
+          payload = {};
+        }
+        const newPayload = { ...payload, [key]: value };
+        return { ...item, payloadJson: JSON.stringify(newPayload) };
+      })
+    );
+  };
+
   const handleSave = async (item: SeoPageRecord) => {
     setSavingId(item.id);
     setMessage(null);
@@ -384,6 +400,66 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                       />
                     </label>
                   </div>
+
+                  {item.kind === 'LANDING' && (
+                    <div className="p-8 rounded-[2rem] bg-primary/5 border border-primary/20 space-y-8">
+                      <div>
+                        <h3 className="text-xl font-heading font-black tracking-tight text-primary">Contenido Visual del Protocolo</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Gestiona las imágenes de cada sección de la landing profesional sin tocar el JSON.</p>
+                      </div>
+
+                      <div className="grid gap-8 md:grid-cols-2">
+                        <div className="space-y-4">
+                          <ImageUploader
+                            label="Imagen Hero (Cabecera)"
+                            value={(() => {
+                              try { return JSON.parse(item.payloadJson).heroImage || ''; } catch { return ''; }
+                            })()}
+                            onChange={(url) => updatePayloadField(item.id, 'heroImage', url || '')}
+                            size="lg"
+                            allowManual
+                            hint="Imagen de fondo para la sección principal."
+                          />
+                        </div>
+                        <div className="space-y-4">
+                          <ImageUploader
+                            label="Fase 1: Protección Radicular"
+                            value={(() => {
+                              try { return JSON.parse(item.payloadJson).section1Image || ''; } catch { return ''; }
+                            })()}
+                            onChange={(url) => updatePayloadField(item.id, 'section1Image', url || '')}
+                            size="lg"
+                            allowManual
+                            hint="Imagen para la sección de Té de Humus y Raíces."
+                          />
+                        </div>
+                        <div className="space-y-4">
+                          <ImageUploader
+                            label="Fase 2: Aceleración Vegetativa"
+                            value={(() => {
+                              try { return JSON.parse(item.payloadJson).section2Image || ''; } catch { return ''; }
+                            })()}
+                            onChange={(url) => updatePayloadField(item.id, 'section2Image', url || '')}
+                            size="lg"
+                            allowManual
+                            hint="Imagen para la sección de Purín de Ortiga y Crecimiento."
+                          />
+                        </div>
+                        <div className="space-y-4">
+                          <ImageUploader
+                            label="Fase 3: Elicitación y Resina"
+                            value={(() => {
+                              try { return JSON.parse(item.payloadJson).section3Image || ''; } catch { return ''; }
+                            })()}
+                            onChange={(url) => updatePayloadField(item.id, 'section3Image', url || '')}
+                            size="lg"
+                            allowManual
+                            hint="Imagen para la sección de Floración y Terpenos."
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="grid gap-4">
                     <label className="flex flex-col gap-2">
