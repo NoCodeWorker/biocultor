@@ -8,10 +8,15 @@ export const revalidate = 3600; // Regenerar cada hora
 
 export async function GET() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://biocultor.com';
+  let products = [];
 
-  const products = await prisma.product.findMany({
-    include: { variants: { orderBy: { price: 'asc' } } },
-  });
+  try {
+    products = await prisma.product.findMany({
+      include: { variants: { orderBy: { price: 'asc' } } },
+    });
+  } catch (error) {
+    console.error("Feed generation DB error:", error);
+  }
 
   const items = products.flatMap(product =>
     product.variants.map(variant => {
