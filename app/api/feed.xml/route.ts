@@ -8,7 +8,7 @@ export const revalidate = 3600; // Regenerar cada hora
 
 export async function GET() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://biocultor.com';
-  let products = [];
+  let products: any[] = [];
 
   try {
     products = await prisma.product.findMany({

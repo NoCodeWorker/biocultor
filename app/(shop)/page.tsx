@@ -38,8 +38,8 @@ export const metadata = buildMetadata({
 })
 
 export default async function Page() {
-  let dbProduct = null;
-  let dbOrtiga = null;
+  let dbProduct: any = null;
+  let dbOrtiga: any = null;
   
   try {
     [dbProduct, dbOrtiga] = await Promise.all([
