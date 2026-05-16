@@ -24,17 +24,22 @@ export const metadata = buildMetadata({
 });
 
 export default async function ProtocoloCultivoPage() {
-  const landingData = await prisma.seoPage.findUnique({
-    where: { slug: 'protocolo-cultivo-biologico-profesional' }
-  });
+  let landingData = null;
+  let payload: any = {};
 
-  // Debug log para producción
-  if (!landingData) {
-    console.error('[Protocolo Landing] Error: No se encontró el registro en la DB para el slug: protocolo-cultivo-biologico-profesional');
+  try {
+    landingData = await prisma.seoPage.findUnique({
+      where: { slug: 'protocolo-cultivo-biologico-profesional' }
+    });
+
+    if (landingData?.payloadJson) {
+      const parsed = JSON.parse(landingData.payloadJson);
+      payload = parsed && typeof parsed === 'object' ? parsed : {};
+    }
+  } catch (error) {
+    console.error('[Protocolo Landing] Error fetching or parsing landing data:', error);
   }
 
-  const payload = landingData?.payloadJson ? JSON.parse(landingData.payloadJson) : {};
-  
   // Imágenes dinámicas con fallback a las originales
   const images = {
     hero: payload.heroImage || '/10 litros.jpg',
@@ -44,7 +49,7 @@ export default async function ProtocoloCultivoPage() {
   };
 
   return (
-    <div className="flex flex-col w-full antialiased">
+    <div className="flex flex-col w-full antialiased bg-background">
       <StructuredData
         id="protocolo-breadcrumb-schema"
         data={breadcrumbSchema([
@@ -158,7 +163,7 @@ export default async function ProtocoloCultivoPage() {
                 </Link>
               </div>
             </div>
-            <div className="relative rounded-3xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] w-full bg-muted">
+            <div className="relative rounded-3xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] w-full bg-muted min-h-[200px]">
               <Image 
                 src={images.section1} 
                 alt="Protección radicular" 
@@ -188,7 +193,7 @@ export default async function ProtocoloCultivoPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div className="order-2 md:order-1 relative rounded-3xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] w-full bg-muted">
+            <div className="order-2 md:order-1 relative rounded-3xl overflow-hidden border border-border/50 shadow-2xl aspect-[16/9] w-full bg-muted min-h-[200px]">
               <Image 
                 src={images.section2} 
                 alt="Crecimiento acelerado" 
@@ -252,7 +257,7 @@ export default async function ProtocoloCultivoPage() {
                 </Link>
               </div>
             </div>
-            <div className="lg:col-span-5 relative rounded-3xl overflow-hidden border border-white/10 shadow-3xl aspect-[4/5] bg-earth">
+            <div className="lg:col-span-5 relative rounded-3xl overflow-hidden border border-white/10 shadow-3xl aspect-[4/5] bg-earth min-h-[300px]">
               <Image 
                 src={images.section3} 
                 alt="Elicitación de resina" 
