@@ -59,7 +59,9 @@ export async function generateMetadata({
     // BD no disponible o schema desactualizado → fallback estático
   }
 
-  if (dbPost) {
+  const PLACEHOLDER = 'Artículo sincronizado automáticamente desde el sistema SEO. Edita aquí para gestionar su imagen y metadatos.';
+
+  if (dbPost && dbPost.content !== PLACEHOLDER) {
     return buildMetadata({
       title: dbPost.metaTitle ?? dbPost.title,
       description: dbPost.metaDesc ?? dbPost.excerpt,
@@ -107,7 +109,9 @@ export default async function AprendeArticlePage({
     // BD no disponible o schema desactualizado → fallback estático
   }
 
-  if (dbPost) {
+  const PLACEHOLDER = 'Artículo sincronizado automáticamente desde el sistema SEO. Edita aquí para gestionar su imagen y metadatos.';
+
+  if (dbPost && dbPost.content !== PLACEHOLDER) {
     const coverImage = dbPost.coverImage;
 
     const articleSchema = {
