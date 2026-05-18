@@ -142,8 +142,8 @@ export default async function Page() {
           </p>
 
           <p className="text-base md:text-xl text-cream/80 max-w-2xl leading-relaxed font-light drop-shadow-sm">
-            Té de humus de lombriz elaborado en España para huerto, jardín y cultivo profesional,
-            explicado con una lógica de uso clara y sin promesas infladas.
+            Auténtico <strong>extracto de humus de lombriz</strong> elaborado en España para huerto, jardín y cultivo profesional. 
+            Un <Link href="/producto/te-humus-liquido-premium" className="underline font-medium text-cream hover:text-white transition-colors">té de humus líquido premium</Link> explicado con una lógica de uso clara y sin promesas infladas.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
