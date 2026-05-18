@@ -11,6 +11,7 @@ import {
   getSeoSolutions,
   getSeoSolutionsOrtiga,
 } from '@/lib/seo-store';
+import prisma from '@/lib/db';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -31,6 +32,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getSeoSolutions(),
     getSeoSolutionsOrtiga(),
   ]);
+
+  const dynamicPosts = await prisma.post.findMany({
+    where: { isPublished: true },
+    select: { slug: true, updatedAt: true, createdAt: true },
+  });
 
   const staticRoutes = [
     '/',
@@ -98,6 +104,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.8,
+    })),
+    ...dynamicPosts.map((post) => ({
+      url: absoluteUrl(`/aprende/${post.slug}`),
+      lastModified: post.updatedAt || post.createdAt || now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.75,
     })),
   ];
 }
