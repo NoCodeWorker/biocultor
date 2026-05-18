@@ -4,8 +4,8 @@ import path from 'path';
 
 const prisma = new PrismaClient();
 
-// Expresión regular para extraer las partes del post
-const POST_REGEX = /## POST \d:.*?\n\*\*Palabra Clave Principal:\*\* (.*?)\n\*\*GEO Objetivo:\*\*.*?\n\*\*Estructura AI:\*\*.*?\n+### Título \(H1\): (.*?)\n\n([\s\S]*?)(?=\n---|\n## POST \d|$)/g;
+// Expresión regular robusta para extraer las partes del post (soporta \r\n de Windows y variables de Estructura)
+const POST_REGEX = /## POST \d:.*?\r?\n\*\*Palabra Clave Principal:\*\* (.*?)\r?\n\*\*GEO Objetivo:\*\*.*?\r?\n\*\*(?:Estructura AI|Estructura ADR-002):\*\*.*?\r?\n+### Título \(H1\): (.*?)\r?\n\r?\n([\s\S]*?)(?=\r?\n---|\r?\n## POST \d|$)/g;
 
 async function importPostsFromFile(filePath: string) {
   const content = fs.readFileSync(filePath, 'utf-8');
