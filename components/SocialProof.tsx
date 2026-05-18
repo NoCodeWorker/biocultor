@@ -134,7 +134,7 @@ const reviewSchema = {
 
 function StarRating({ rating }: { rating: number }) {
   return (
-    <div className="flex items-center gap-0.5" aria-label={`${rating} de 5 estrellas`}>
+    <div role="img" className="flex items-center gap-0.5" aria-label={`${rating} de 5 estrellas`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
@@ -294,7 +294,7 @@ export default function SocialProof() {
                       <MapPin className="w-3 h-3 text-primary" />
                       {t.regionShort}
                     </div>
-                    <p className="text-[10px] text-muted-foreground/70 text-right leading-tight max-w-[110px]">
+                    <p className="text-[10px] text-muted-foreground text-right leading-tight max-w-[110px]">
                       {t.cultivo}
                     </p>
                   </div>
@@ -305,10 +305,12 @@ export default function SocialProof() {
         </div>
 
         {/* ── Dots de paginación ── */}
-        <div className="flex justify-center gap-1.5 mt-5" aria-label="Paginación de testimonios">
+        <div className="flex justify-center gap-1 mt-5" aria-label="Paginación de testimonios" role="tablist">
           {testimonials.map((_, i) => (
             <button
               key={i}
+              role="tab"
+              aria-selected={activeIndex === i}
               onClick={() => {
                 const container = scrollRef.current
                 if (!container) return
@@ -316,12 +318,16 @@ export default function SocialProof() {
                 cards[i]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
               }}
               aria-label={`Ir al testimonio ${i + 1}`}
-              className={`rounded-full transition-all duration-300 ${
-                activeIndex === i
-                  ? 'w-6 h-2 bg-primary'
-                  : 'w-2 h-2 bg-border hover:bg-primary/40'
-              }`}
-            />
+              className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] p-0"
+            >
+              <span
+                className={`rounded-full transition-all duration-300 block ${
+                  activeIndex === i
+                    ? 'w-6 h-2 bg-primary'
+                    : 'w-2 h-2 bg-border hover:bg-primary/40'
+                }`}
+              />
+            </button>
           ))}
         </div>
         {/* ── Strip de regiones con SEO/GEO ── */}

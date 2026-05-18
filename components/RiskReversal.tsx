@@ -9,7 +9,7 @@ const guarantees = [
     description:
       'Si necesitas desistir dentro del plazo aplicable, la compra se gestiona según las condiciones publicadas por la tienda.',
     badge: 'Condiciones claras',
-    badgeColor: 'text-primary bg-primary/10 border-primary/20',
+    badgeColor: 'text-cream bg-primary/30 border-primary/40',
     iconColor: 'text-primary bg-primary/10',
   },
   {
@@ -18,7 +18,7 @@ const guarantees = [
     description:
       'Si el pedido llega con daños de transporte, la incidencia debe comunicarse para poder revisarla y gestionarla correctamente.',
     badge: 'Gestión de incidencia',
-    badgeColor: 'text-brand-green-mid bg-brand-green-light border-brand-green/25',
+    badgeColor: 'text-cream bg-brand-green-mid/30 border-brand-green/30',
     iconColor: 'text-brand-green-mid bg-brand-green-light',
   },
   {
@@ -27,7 +27,7 @@ const guarantees = [
     description:
       'La tienda puede orientar sobre formato, aplicación y dudas básicas de uso antes o después de la compra.',
     badge: 'Acompañamiento',
-    badgeColor: 'text-secondary bg-secondary/8 border-secondary/20',
+    badgeColor: 'text-cream bg-secondary/30 border-secondary/30',
     iconColor: 'text-secondary bg-secondary/8',
   },
   {
@@ -36,7 +36,7 @@ const guarantees = [
     description:
       'Las decisiones de compra deben apoyarse en contexto agronómico y fuentes primarias, huyendo de promesas mágicas y claims comerciales inflados.',
     badge: 'Criterio agronómico',
-    badgeColor: 'text-brand-brown bg-brand-brown-light border-brand-brown/20',
+    badgeColor: 'text-cream bg-brand-brown/30 border-brand-brown/40',
     iconColor: 'text-brand-brown bg-brand-brown-light',
   },
 ];
@@ -61,7 +61,7 @@ export default function RiskReversal() {
             <br />
             <span className="text-primary">No con presión.</span>
           </h2>
-          <p className="text-base md:text-lg text-cream/55 leading-relaxed">
+          <p className="text-base md:text-lg text-cream/75 leading-relaxed">
             Esta sección deja fuera el lenguaje inflado. Lo que importa es que las condiciones,
             la logística y el soporte sean comprensibles antes de pagar.
           </p>
@@ -82,7 +82,7 @@ export default function RiskReversal() {
                 <span className={`inline-flex self-start text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full border ${badgeColor}`}>
                   {badge}
                 </span>
-                <p className="text-cream/55 text-sm leading-relaxed mt-1">{description}</p>
+                <p className="text-cream/75 text-sm leading-relaxed mt-1">{description}</p>
               </div>
             </div>
           ))}
@@ -105,7 +105,7 @@ export default function RiskReversal() {
               { text: 'Si necesitas compatibilidad con riego o volumen alto, conviene revisar condiciones de aplicación y disponibilidad real.', name: 'Uso y logística' },
             ].map((note) => (
               <div key={note.name} className="flex flex-col gap-2">
-                <p className="text-cream/65 text-sm leading-relaxed">{note.text}</p>
+                <p className="text-cream/80 text-sm leading-relaxed">{note.text}</p>
                 <div className="flex items-center gap-2">
                   <Leaf className="w-3 h-3 text-primary" />
                   <span className="text-cream/70 text-xs font-semibold">{note.name}</span>

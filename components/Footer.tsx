@@ -41,11 +41,11 @@ export default function Footer() {
                   className="mb-6 brightness-0 invert opacity-75 hover:opacity-100 transition-opacity" 
                 />
               </Link>
-              <p className="text-sm text-cream/55 leading-relaxed pr-4 mb-6">
+              <p className="text-sm text-cream/75 leading-relaxed pr-4 mb-6">
                 Biocultor presenta su producto desde formato, aplicación y contexto de uso,
                 evitando promesas infladas y referencias regulatorias no verificadas en la propia web.
               </p>
-              <div className="flex flex-col gap-3 text-sm text-cream/45">
+              <div className="flex flex-col gap-3 text-sm text-cream/75">
                 <a href="mailto:soporte@biocultor.com" className="flex items-center gap-2 hover:text-cream/80 transition-colors">
                   <Mail className="w-4 h-4" /> soporte@biocultor.com
                 </a>
@@ -73,7 +73,7 @@ export default function Footer() {
                   { href: '/espana', label: 'Biocultor en España' },
                 ].map(link => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-cream/55 hover:text-cream/90 transition-colors">
+                    <Link href={link.href} className="text-cream/75 hover:text-cream transition-colors">
                       {link.label}
                     </Link>
                   </li>
@@ -92,7 +92,7 @@ export default function Footer() {
                   { href: '/contacto', label: 'Consultar ficha técnica' },
                 ].map(link => (
                   <li key={link.label}>
-                    <Link href={link.href} className="text-cream/55 hover:text-cream/90 transition-colors">
+                    <Link href={link.href} className="text-cream/75 hover:text-cream transition-colors">
                       {link.label}
                     </Link>
                   </li>
@@ -110,7 +110,7 @@ export default function Footer() {
                   { href: '/cookies', label: 'Política de Cookies' },
                 ].map(link => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-cream/55 hover:text-cream/90 transition-colors">
+                    <Link href={link.href} className="text-cream/75 hover:text-cream transition-colors">
                       {link.label}
                     </Link>
                   </li>
@@ -134,7 +134,7 @@ export default function Footer() {
           <div className="w-full h-px bg-gradient-to-r from-transparent via-cream/12 to-transparent mb-8" />
 
           {/* Copyright */}
-          <div className="flex flex-col md:flex-row items-center justify-between text-xs text-cream/35 gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-between text-xs text-cream/60 gap-4">
             <p>© {new Date().getFullYear()} Biocultor®. Todos los derechos reservados.</p>
             <div className="flex items-center gap-1.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary/50" />

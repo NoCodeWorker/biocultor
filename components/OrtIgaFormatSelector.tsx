@@ -231,12 +231,14 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
                       <ShoppingBag className="w-4 h-4 mr-2 opacity-50" />
                       Agotado Temporalmente
                     </Button>
-                    <Link
+                    <a
                       href={`/producto/${PRODUCT_SLUG}`}
+                      onClick={(e) => e.stopPropagation()}
                       className="w-full text-center py-2.5 rounded-xl border border-border/60 text-sm font-semibold text-foreground hover:border-primary/40 hover:text-primary transition-colors"
+                      aria-label={`Ver ficha de producto - formato ${format.size}`}
                     >
                       Ver ficha de producto
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>
