@@ -27,8 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${page.title} | Biocultor`,
     description: page.excerpt || '',
     path: `/solucion-humus/${page.slug}`,
-    image: payload.heroImage || page.image || '/Logo.svg',
-    type: 'article'
+    image: payload.heroImage || page.image || '/Logo.svg'
   });
 }
 
