@@ -213,6 +213,18 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           { name: product.name, path: `/producto/${product.slug}` },
         ])}
       />
+
+      {/* Semantic Signal Block para Crawlers de IA (Perplexity, ChatGPT, Gemini) */}
+      {/* Al ser un Server Component, este texto está en el HTML inicial bruto sin necesidad de JS */}
+      <div className="sr-only" aria-label={`Información técnica detallada de ${product.name}`}>
+        {product.name} es un {product.slug.includes('ortiga') ? 'purín concentrado' : 'fertilizante orgánico líquido (té de humus)'} fabricado en España por Biocultor.
+        Descripción oficial: {product.description}.
+        Formatos disponibles y precios:
+        {dbVariants.map(v => `${v.size} (${v.price}€) para ${v.target}. `).join(' ')}
+        Uso recomendado: Dilución en agua sin cloro para riego por goteo o aplicación foliar.
+        Envíos en 24/48h a toda la Península (España) desde nuestras instalaciones.
+      </div>
+
       {/* FAQ schema unificado: preguntas comerciales + preguntas técnicas del componente FaqAioSeo */}
       <StructuredData id="product-faq-schema" data={faqSchema([
         ...commercialFaq,
