@@ -10,51 +10,67 @@ import { ArrowRight, CheckCircle2, ShieldCheck, Truck } from 'lucide-react';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
-  const post = await prisma.post.findFirst({
+  const page = await prisma.seoPage.findFirst({
     where: { 
       slug: resolvedParams.slug,
-      category: 'GEO_LANDING',
+      kind: 'LANDING',
       isPublished: true
     }
   });
 
-  if (!post) return { title: 'Solución Biocultor' };
+  if (!page) return { title: 'Solución Biocultor' };
+
+  let payload: any = {};
+  try { payload = JSON.parse(page.payloadJson || '{}'); } catch (e) {}
 
   return buildMetadata({
-    title: `${post.title} | Biocultor`,
-    description: post.excerpt,
-    path: `/solucion-humus/${post.slug}`,
-    image: post.image || '/Logo.svg',
+    title: `${page.title} | Biocultor`,
+    description: page.excerpt || '',
+    path: `/solucion-humus/${page.slug}`,
+    image: payload.heroImage || page.image || '/Logo.svg',
     type: 'article'
   });
 }
 
 export default async function GeoLandingPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
-  const post = await prisma.post.findFirst({
+  const page = await prisma.seoPage.findFirst({
     where: { 
       slug: resolvedParams.slug,
-      category: 'GEO_LANDING',
+      kind: 'LANDING',
       isPublished: true
     }
   });
 
-  if (!post) notFound();
+  if (!page) notFound();
+
+  let payload: any = {};
+  try { payload = JSON.parse(page.payloadJson || '{}'); } catch (e) {}
+
+  const heroImage = payload.heroImage;
+  const sectionImages = [payload.section1Image, payload.section2Image, payload.section3Image].filter(Boolean);
+  const markdownContent = payload.markdownContent || '';
 
   return (
     <article className="w-full bg-background relative z-10 antialiased pb-20">
       {/* Hero Transaccional GEO */}
-      <div className="w-full bg-cream-warm border-b border-border/40 py-16 md:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+      <div className="w-full bg-cream-warm border-b border-border/40 py-16 md:py-24 relative overflow-hidden min-h-[400px] flex items-center justify-center">
+        {heroImage && (
+          <div className="absolute inset-0 z-0">
+            <Image src={heroImage} alt={page.title} fill className="object-cover opacity-30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none z-0" />
         <div className="w-[92%] lg:w-[80%] xl:w-[65%] mx-auto px-4 relative z-10 flex flex-col items-center text-center">
-          <span className="text-primary font-bold tracking-widest uppercase text-xs md:text-sm mb-4">
+          <span className="text-primary font-bold tracking-widest uppercase text-xs md:text-sm mb-4 bg-background/80 px-3 py-1 rounded-full backdrop-blur-sm border border-primary/20">
             Solución Agronómica Biocultor
           </span>
-          <h1 className="text-4xl md:text-6xl font-heading font-bold text-foreground leading-[1.1] mb-6 tracking-tight">
-            {post.title}
+          <h1 className="text-4xl md:text-6xl font-heading font-bold text-foreground leading-[1.1] mb-6 tracking-tight drop-shadow-sm">
+            {page.title}
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed mb-8">
-            {post.excerpt}
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed mb-8 font-medium bg-background/50 p-4 rounded-2xl backdrop-blur-sm">
+            {page.excerpt}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <Link 
@@ -78,14 +94,20 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
 
       {/* Contenido Técnico (ADR-002) */}
       <div className="w-[92%] lg:w-[80%] xl:w-[60%] mx-auto px-4 py-16">
-        {post.image && (
-          <div className="w-full aspect-[21/9] relative rounded-3xl overflow-hidden mb-12 shadow-lg border border-border/50">
-            <Image src={post.image} alt={post.title} fill className="object-cover" />
+        
+        {/* Galería de Secciones si existen */}
+        {sectionImages.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {sectionImages.map((img, i) => (
+              <div key={i} className="w-full aspect-video relative rounded-2xl overflow-hidden shadow-md border border-border/50">
+                <Image src={img} alt={`Fase ${i+1}`} fill className="object-cover hover:scale-105 transition-transform duration-500" />
+              </div>
+            ))}
           </div>
         )}
-        
+
         <div className="prose prose-lg prose-headings:font-heading prose-headings:font-bold prose-h2:text-3xl prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-2xl max-w-none text-muted-foreground">
-          <Markdown>{post.content}</Markdown>
+          <Markdown>{markdownContent}</Markdown>
         </div>
       </div>
 

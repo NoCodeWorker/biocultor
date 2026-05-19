@@ -404,8 +404,8 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                   {item.kind === 'LANDING' && (
                     <div className="p-8 rounded-[2rem] bg-primary/5 border border-primary/20 space-y-8">
                       <div>
-                        <h3 className="text-xl font-heading font-black tracking-tight text-primary">Contenido Visual del Protocolo</h3>
-                        <p className="text-sm text-muted-foreground mt-1">Gestiona las imágenes de cada sección de la landing profesional sin tocar el JSON.</p>
+                        <h3 className="text-xl font-heading font-black tracking-tight text-primary">Contenido Visual y Texto de la Landing</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Gestiona las imágenes de cada sección y el contenido técnico (Markdown) de la landing especial sin tocar el JSON crudo.</p>
                       </div>
 
                       <div className="grid gap-8 md:grid-cols-2">
@@ -457,6 +457,22 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                             hint="Imagen para la sección de Floración y Terpenos."
                           />
                         </div>
+                      </div>
+
+                      <div className="grid gap-4 mt-8">
+                        <label className="flex flex-col gap-2">
+                          <span className="text-sm font-semibold">Contenido Técnico (Markdown)</span>
+                          <p className="text-xs text-muted-foreground">Opcional: Si esta landing usa contenido dinámico (como las GEO), escribe aquí el Markdown. El Protocolo ignorará este campo.</p>
+                          <textarea
+                            value={(() => {
+                              try { return JSON.parse(item.payloadJson).markdownContent || ''; } catch { return ''; }
+                            })()}
+                            onChange={(e) => updatePayloadField(item.id, 'markdownContent', e.target.value)}
+                            rows={16}
+                            className="rounded-xl border border-border/50 bg-background p-4 font-mono text-sm outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10 resize-y w-full"
+                            placeholder="# Título de la sección&#10;&#10;Escribe aquí el contenido técnico completo..."
+                          />
+                        </label>
                       </div>
                     </div>
                   )}

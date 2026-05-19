@@ -75,23 +75,23 @@ async function main() {
   console.log("Iniciando inyección de Landing Pages GEO en la base de datos...");
   for (const landing of geoLandings) {
     try {
-      await prisma.post.upsert({
+      await prisma.seoPage.upsert({
         where: { slug: landing.slug },
         update: {
           title: landing.title,
-          category: landing.category,
+          kind: landing.category === "GEO_LANDING" ? "LANDING" : landing.category,
           excerpt: landing.excerpt,
-          content: landing.content,
-          isPublished: true, // Las publicamos directo para verlas!
+          payloadJson: JSON.stringify({ markdownContent: landing.content }),
+          isPublished: true,
         },
         create: {
           title: landing.title,
           slug: landing.slug,
-          category: landing.category,
+          kind: landing.category === "GEO_LANDING" ? "LANDING" : landing.category,
           excerpt: landing.excerpt,
-          content: landing.content,
-          isPublished: true, // Las publicamos directo para verlas!
-          keywords: landing.title.toLowerCase(),
+          payloadJson: JSON.stringify({ markdownContent: landing.content }),
+          isPublished: true,
+          targetKeyword: landing.title.toLowerCase(),
         },
       });
       console.log(`✅ GEO Landing: ${landing.title}`);

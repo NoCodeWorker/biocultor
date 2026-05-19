@@ -47,21 +47,16 @@
 
 ---
 
-## Arquitectura de la URL Propuesta (SEO Técnico)
+## Arquitectura de la URL Oficial (Aprobada por SEO/AIO)
 
-Para estructurar esto sin ensuciar el blog, deberíamos crear una estructura de carpetas en Next.js dedicada a los casos de uso:
+**Estructura elegida:** `biocultor.com/solucion-humus/[problema-cultivo-region]`
 
-\`\`\`text
-biocultor.com/cultivos/andalucia/olivar-secano
-biocultor.com/cultivos/valencia/citricos-clorosis
-biocultor.com/cultivos/castilla-la-mancha/vinedo
-\`\`\`
+*Ejemplo:* `biocultor.com/solucion-humus/clorosis-ferrica-citricos-valencia`
 
-O una estructura más plana:
-\`\`\`text
-biocultor.com/soluciones/olivar-andalucia
-biocultor.com/soluciones/citricos-comunidad-valenciana
-\`\`\`
+**¿Por qué es la arquitectura perfecta?**
+1. **Claridad Semántica Inmediata:** El subdirectorio `/solucion-humus/` le dice a Google y a los LLMs (ChatGPT, Perplexity) exactamente qué es lo que ofreces antes de leer el contenido.
+2. **Estructura Plana (Flat Architecture):** Evita enterrar la página en subcarpetas profundas (ej. `/cultivos/valencia/citricos/...`). Al estar a un solo clic de la raíz, retiene el máximo "Link Juice" de la Home.
+3. **Keyword Stuffing Controlado:** El slug final (`clorosis-ferrica-citricos-valencia`) contiene el **Problema**, el **Cultivo** y la **Región** en una sola línea, lo cual es oro puro para búsquedas ultra-transaccionales.
 
 ## Elementos Obligatorios de la Landing Page GEO
 Para que conviertan, cada una de estas Landings debe contener:
