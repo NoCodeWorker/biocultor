@@ -280,9 +280,9 @@ async function main() {
           keywords: post.title.toLowerCase(),
         },
       });
-      console.log(\`✅ \${post.title}\`);
+      console.log(`✅ ${post.title}`);
     } catch (error) {
-      console.error(\`❌ Error insertando: \${post.title}\`, error);
+      console.error(`❌ Error insertando: ${post.title}`, error);
     }
   }
   console.log("Inyección completada. Los posts están como Borrador en el Dashboard.");
