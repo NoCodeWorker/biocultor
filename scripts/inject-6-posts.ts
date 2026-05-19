@@ -4,161 +4,288 @@ const prisma = new PrismaClient();
 
 const posts = [
   {
-    title: "Cómo Recuperar el Césped Amarillo: Por qué el Té de Humus Líquido Supera al Abono Químico",
-    slug: "como-recuperar-el-cesped-amarillo-por-que-el-te-de-humus-liquido-supera-al-abono-quimico",
-    excerpt: "Si tu césped amarillea a pesar del riego, el problema rara vez es la falta de agua; suele ser un suelo compactado, carente de microbiología...",
-    content: `Si tu césped amarillea a pesar del riego, el problema rara vez es la falta de agua; suele ser un suelo compactado, carente de microbiología, que no permite a la raíz absorber nutrientes. Especialmente en zonas con veranos duros como Madrid, Andalucía o el Levante español, el estrés térmico bloquea el desarrollo de la pradera.
+    title: "Costes y Rentabilidad: Té de Humus Líquido vs Abonos Químicos en Parques Públicos",
+    slug: "costes-rentabilidad-te-humus-liquido-vs-abonos-quimicos-parques-publicos",
+    category: "TECHNICAL",
+    excerpt: "Análisis económico y agronómico para empresas de mantenimiento: cómo la recuperación de la red trófica del suelo reduce la dependencia de fertilizantes sintéticos y el consumo de agua a medio plazo.",
+    content: `
+El mantenimiento de zonas verdes urbanas y parques públicos enfrenta una presión creciente: presupuestos ajustados, normativas medioambientales más estrictas y la necesidad de reducir el uso de químicos. Tradicionalmente, la solución rápida ha sido la fertilización sintética. Sin embargo, a largo plazo, esta práctica degrada la estructura del suelo, aumentando los costes operativos.
 
-Frente a la clásica aplicación de nitrógeno en forma de urea (que proporciona un verdor rápido pero fugaz y quema la raíz si te excedes), el **té de humus de lombriz líquido** actúa desde la base: restaura la rizosfera.
+El **té de humus de lombriz líquido** se presenta no como un gasto adicional, sino como una inversión en la infraestructura biológica del suelo que revierte la dependencia química.
 
-#### ¿Qué hace el Té de Humus en tu Césped?
-1. **Desbloqueo de nutrientes:** Su alta carga microbiana solubiliza el fósforo y el potasio que ya están en tu suelo pero que la raíz no puede tomar.
-2. **Estimulación radicular:** Los ácidos húmicos y fúlvicos fomentan una raíz más profunda, haciendo al césped más resistente a las olas de calor y reduciendo la necesidad de riego.
-3. **Absorción foliar inmediata:** Al aplicarse pulverizado o en el agua de riego, la hoja absorbe directamente parte de los nutrientes biológicos.
+## El Problema del Abono Químico en Suelos Urbanos
 
-#### Dosificación para Césped (Dosis de Choque y Mantenimiento)
-Para praderas dañadas, en Biocultor recomendamos una aplicación foliar (o mediante fertirrigación si dispones de sistema inyector). 
-* **Tratamiento de choque (Césped amarillo):** Diluir al 10-15% (1 a 1.5 litros de té por cada 10 litros de agua). Aplicar a primera hora de la mañana o última de la tarde.
-* **Mantenimiento mensual:** Dilución al 5%. 
+Los fertilizantes de síntesis (NPK) son sales. Su aplicación continuada provoca:
+1. **Lixiviación:** Gran parte del nitrógeno se lava con el riego o la lluvia antes de ser absorbido por el césped o las ornamentales, obligando a re-aplicaciones frecuentes.
+2. **Compactación:** Al eliminar la microbiología del suelo, este pierde su estructura migajosa. Un suelo compactado exige mayor gasto en escarificados y aireados mecánicos.
+3. **Estrés Hídrico:** La falta de materia orgánica y estructura reduce la capacidad de retención de agua.
 
-**¿Qué formato comprar?** Para jardines pequeños o adosados, el formato de 1 Litro o 5 Litros de Biocultor es suficiente para cubrir las necesidades de toda la temporada. Si gestionas superficies grandes o eres jardinero profesional, el formato de 25 Litros ofrece el mejor coste por aplicación.
+## El Impacto Económico del Té de Humus Líquido
 
-*Comprar té de humus de lombriz puro, fabricado en España y sin intermediarios asegura que la microbiología llega viva a tu jardín. Evita productos que han pasado meses en estanterías a altas temperaturas.*`,
-    keywords: "té de humus de lombriz para césped, recuperar césped amarillo",
-    metaTitle: "Cómo Recuperar el Césped Amarillo: Por qué el Té de Humus Líquido Supera al Abono Químico",
-    metaDesc: "Descubre cómo el té de humus de lombriz líquido puede recuperar tu césped amarillo y mejorar la salud de tu pradera.",
-    isPublished: false
+Al introducir **té de humus de lombriz** (un concentrado de microorganismos beneficiosos y ácidos húmicos/fúlvicos) mediante la red de riego existente, los costes cambian de forma estructural:
+
+### 1. Reducción de la Frecuencia de Abonado
+Las bacterias y hongos presentes en el té de humus trabajan procesando la materia orgánica latente en el suelo (como los restos de siega) y fijando nitrógeno atmosférico. Esto crea un ciclo de nutrientes de liberación lenta. 
+* **Resultado:** Reducción de hasta un 40% en la necesidad de NPK sintético en el primer año.
+
+### 2. Ahorro en Consumo de Agua
+Las redes de micelio (hongos beneficiosos) actúan como una extensión del sistema radicular, reteniendo la humedad. Además, la mejora en la estructura física del suelo evita la escorrentía superficial.
+* **Resultado:** Optimización del riego y reducción del consumo hídrico, vital en climas mediterráneos.
+
+### 3. Reducción de Fitosanitarios
+Un suelo microbiológicamente rico genera competencia competitiva (exclusión competitiva) contra patógenos oportunistas (*Pythium*, *Fusarium*). Un césped más fuerte enferma menos.
+* **Resultado:** Menor partida presupuestaria en fungicidas químicos.
+
+## Tabla Comparativa de Costes Ocultos
+
+| Factor | Abono Químico Tradicional | Té de Humus Líquido (Mantenimiento) |
+| :--- | :--- | :--- |
+| **Lixiviación** | Alta (Pérdida de dinero por lavado) | Nula (Los microorganismos retienen los nutrientes) |
+| **Consumo de Agua** | Mayor (Suelo pobre no retiene humedad) | Menor (Mayor retención hídrica) |
+| **Enfermedades** | Tratamientos reactivos costosos | Prevención biológica activa |
+| **Aplicación** | Maquinaria esparcidora (sólidos) | Integración directa en fertirrigación (líquido) |
+
+## Conclusión para Paisajistas
+
+La transición hacia el uso de té de humus líquido no exige cambiar la infraestructura (es 100% compatible con los sistemas de fertirrigación actuales al no tener sólidos en suspensión). Es un movimiento financiero estratégico: cambiar un modelo de dependencia química constante por un modelo de suelo vivo que se auto-regula y exige menos intervenciones mecánicas e hídricas con el tiempo.
+`
   },
   {
-    title: "Comprar Té de Humus para el Jardín: Dosis, Aplicación y Dónde Encontrar Calidad Profesional",
-    slug: "comprar-te-de-humus-para-el-jardin-dosis-aplicacion-y-donde-encontrar-calidad-profesional",
-    excerpt: "Cuando buscas un fertilizante ecológico para tus plantas ornamentales, rosales o setos, el mercado está lleno de opciones diluidas. El té de humus...",
-    content: `Cuando buscas un fertilizante ecológico para tus plantas ornamentales, rosales o setos, el mercado está lleno de opciones diluidas. El té de humus de lombriz no es un simple lixiviado (el agua que escurre de las lombrices); es un extracto elaborado de forma aeróbica que multiplica exponencialmente los microorganismos beneficiosos.
+    title: "Cómo Incrementar la Producción de Resina en Cannabis usando Té de Humus en Floración",
+    slug: "como-incrementar-produccion-resina-cannabis-te-humus-floracion",
+    category: "KNOWLEDGE",
+    excerpt: "Descubre cómo los microorganismos beneficiosos actúan como elicitores biológicos, estimulando las defensas naturales del cannabis y maximizando la producción de tricomas y terpenos.",
+    content: `
+En el cultivo de cannabis de alto valor, el objetivo final durante la etapa de floración no es solo el peso, sino la concentración de metabolitos secundarios: **tricomas, resina y terpenos**. 
 
-Si has decidido **comprar té de humus líquido para tu jardín**, la clave del éxito está en dos factores: la concentración del producto y la frescura de la carga microbiana.
+Muchos cultivadores recurren al estrés abiótico (sequía controlada, frío) o a aditivos de síntesis costosos para forzar esta producción. Sin embargo, existe una vía biológica mucho más eficiente y segura para la planta: **la inducción de resistencia a través de la microbiología del suelo**. Aquí es donde el **té de humus de lombriz líquido** marca la diferencia.
 
-#### ¿Cómo aplicarlo en Plantas de Jardín y Macetas?
-En Biocultor no vendemos milagros, vendemos biología activa. La aplicación en el jardín es sencilla y no tiene riesgo de sobredosis (no quema las raíces):
-* **Riego de macetas y jardineras:** Diluye 50 ml de Té de Humus Biocultor por cada litro de agua de riego. Aplica cada 15 días en primavera y verano.
-* **Plantación de nuevos arbustos/árboles:** Un riego con dilución al 10% en el momento del trasplante reduce drásticamente el estrés post-plantación.
-* **Aplicación foliar en ornamentales:** Pulveriza las hojas (diluido al 5%) al atardecer para fortalecer la planta frente a plagas como el pulgón y enfermedades fúngicas.
+## La Resina como Mecanismo de Defensa
 
-#### Por qué elegir Biocultor para tu Jardín
-Producimos nuestro té de humus en Toledo, controlando todo el proceso sin intermediarios. Al enviarlo directamente desde nuestras instalaciones a toda la Península en 24/48h, garantizamos que el producto no pierde viabilidad térmica en almacenes de terceros. 
+La resina (y los cannabinoides y terpenos que contiene) es, desde el punto de vista evolutivo, el mecanismo de defensa de la planta contra patógenos, insectos y radiación UV. 
 
-Para aficionados a la jardinería, recomendamos el **formato de 5 Litros**, que permite un tratamiento continuado durante toda la temporada a un precio muy competitivo (apenas unos céntimos por aplicación).`,
-    keywords: "comprar té de humus para jardín, dosis humus líquido jardín, abono ecológico plantas",
-    metaTitle: "Comprar Té de Humus para el Jardín: Dosis, Aplicación y Calidad",
-    metaDesc: "Guía de dosis y aplicación del té de humus de lombriz para tu jardín. Dónde comprar calidad profesional con envío directo.",
-    isPublished: false
+Si la planta percibe una amenaza (biológica o ambiental), aumenta la producción de resina para proteger sus flores. El reto es activar esta respuesta de defensa **sin llegar a estresar a la planta** al punto de mermar su producción o salud general.
+
+## El Papel de los Elicitores Biológicos en el Té de Humus
+
+El té de humus de lombriz es un caldo denso en microorganismos vivos (Rizobacterias Promotoras del Crecimiento Vegetal - PGPR) y compuestos orgánicos (ácidos húmicos y fúlvicos). 
+
+Cuando aplicas té de humus en el riego, introduces millones de bacterias y hongos beneficiosos en la rizosfera. Esta interacción radicular genera una respuesta en la planta conocida como **Resistencia Sistémica Inducida (ISR)**.
+
+1. **Reconocimiento:** Las raíces detectan la presencia de actividad microbiana intensa (incluso si es beneficiosa).
+2. **Señalización:** La planta envía señales hormonales (ácido jasmónico, etileno) hacia las partes aéreas (las flores).
+3. **Respuesta (Aumento de Resina):** Las flores aceleran la producción de tricomas glandulares y terpenos como medida preventiva (creyendo que el entorno biológico está muy activo).
+
+## Ventajas sobre el "Estrés" Tradicional
+
+* **No hay parón de crecimiento:** Al usar té de humus, estimulas la resina mediante elicitors biológicos, no mediante privación de agua o luz, por lo que las flores siguen engordando a su ritmo máximo.
+* **Nutrición desbloqueada:** Además de actuar como elicitor, los microorganismos del té de humus solubilizan fósforo y potasio (P-K) que haya quedado bloqueado en el sustrato, entregándolo a la planta justo cuando más lo necesita en floración media-tardía.
+
+## Cómo Aplicarlo en Floración
+
+Para maximizar la resina sin aportar un exceso de nitrógeno en floración (que podría inducir crecimiento foliar no deseado), el té de humus líquido se aplica en dosis controladas:
+
+* **Frecuencia:** Una aplicación semanal o quincenal desde la segunda semana de floración hasta la semana de lavado de raíces.
+* **Dosis en riego:** 50ml a 100ml por cada 10 litros de agua sin cloro.
+* **Aplicación foliar (Solo primeras semanas):** Se puede aplicar vía foliar a baja dosis (2%) durante la transición a floración para proteger las hojas, pero debe suspenderse una vez formados los cogollos para evitar exceso de humedad.
+
+El uso continuado de té de humus líquido permite cosechas más pesadas, pero sobre todo, perfiles de terpenos más complejos y pegajosos, característicos del auténtico "Living Soil".
+`
   },
   {
-    title: "Guía Definitiva del Té de Humus Líquido en Jardinería: Preguntas Frecuentes",
-    slug: "guia-definitiva-del-te-de-humus-liquido-en-jardineria-preguntas-frecuentes",
-    excerpt: "Los motores de búsqueda y asistentes de voz reciben cada día miles de preguntas sobre el cuidado del huerto y jardín. Hemos recopilado las respuestas...",
-    content: `Los motores de búsqueda y asistentes de voz reciben cada día miles de preguntas sobre el cuidado del huerto y jardín. Hemos recopilado las respuestas técnicas y directas sobre el uso del té de humus de lombriz.
+    title: "Regeneración de Suelos en Viñedos Agotados: Inyección de Microbiología por Goteo",
+    slug: "regeneracion-suelos-vinedos-agotados-inyeccion-microbiologia-goteo",
+    category: "EVIDENCE",
+    excerpt: "Los suelos de viñedo sometidos a laboreo intenso y tratamientos cúpricos pierden su biología. Cómo el humus líquido por fertirrigación restaura la vida del terroir.",
+    content: `
+La viticultura tradicional y convencional ha llevado a muchos suelos a un estado de agotamiento biológico. Décadas de laboreo intensivo, compactación por maquinaria y, sobre todo, el uso continuado de fungicidas basados en cobre y azufre, han diezmado las poblaciones naturales de bacterias y micorrizas en el *terroir*.
 
-#### ¿Cuál es la diferencia entre el humus sólido y el té de humus líquido?
-El humus sólido actúa como un enmendante estructural a largo plazo, mejorando la esponjosidad y retención de agua del suelo. El té de humus líquido es una inyección inmediata de microbiología y nutrientes solubles. Mientras que el sólido tarda meses en descomponerse totalmente, el líquido entra por la raíz y la hoja en cuestión de horas. En jardinería, lo ideal es combinar ambos.
+El resultado es un viñedo dependiente de la fertilización química, con cepas más vulnerables al estrés hídrico y enfermedades de la madera (como la yesca). La inyección de **té de humus de lombriz líquido** a través de sistemas de fertirrigación por goteo ofrece una solución escalable para revertir este proceso.
 
-#### ¿El té de humus líquido huele mal?
-No. Un té de humus de lombriz bien elaborado de forma aeróbica (con oxígeno) tiene un olor suave a "tierra mojada" o bosque húmedo. Si un fertilizante líquido huele a putrefacción o cloaca, indica que se ha producido en condiciones anaeróbicas y puede contener patógenos dañinos para tu jardín. El té de Biocultor es 100% aeróbico e inodoro una vez diluido, perfecto para jardines urbanos o patios interiores.
+## El Problema del "Suelo Muerto" en Viticultura
 
-#### ¿Puedo usar té de humus líquido en césped artificial?
-Evidentemente no. El té de humus requiere un suelo vivo y materia orgánica para actuar. Sin embargo, si tienes maceteros perimetrales o arriates bordeando tu césped artificial, es la herramienta perfecta para mantenerlos vigorosos sin manchar las superficies sintéticas.
+Un suelo sin biología es simplemente un sustrato inerte. En estos suelos:
+1. **El fósforo se bloquea:** Los nutrientes aportados reaccionan con el calcio o el hierro del suelo y quedan insolubles, inaccesibles para las raíces de la vid.
+2. **Las raíces se atrofian:** Sin la simbiosis con hongos micorrícicos, el sistema radicular explora un volumen de suelo mucho menor, haciendo a la planta extremadamente sensible a las olas de calor y sequías.
 
-#### ¿Dónde comprar humus de lombriz líquido puro en España?
-Para garantizar que adquieres un extracto biológico activo y no agua tintada, es fundamental comprar directamente al productor. En **Biocultor**, elaboramos nuestro té bajo estrictos estándares agronómicos. Disponemos de envío a toda España en formatos adaptados a jardinería: desde garrafas de 1 Litro hasta bidones de 25 Litros para fincas más extensas.`,
-    keywords: "qué es el té de humus, para qué sirve el humus líquido, humus líquido vs sólido",
-    metaTitle: "Té de Humus Líquido en Jardinería: Preguntas Frecuentes",
-    metaDesc: "Respuestas directas y técnicas sobre el uso del té de humus líquido en jardinería. Diferencias, olores y aplicación.",
-    isPublished: false
+## La Solución: Inyección de Microbiología Líquida
+
+El té de humus de lombriz no es un simple "abono NPK". Es un inóculo líquido cargado de biología aeróbica extraída del vermicompost de alta calidad, junto con ácidos fúlvicos que actúan como quelatantes naturales.
+
+### Ventajas de la Aplicación por Goteo
+
+Para el viticultor, la operatividad es clave. Aplicar enmiendas orgánicas sólidas (compost, estiércol) requiere maquinaria, combustible y tiempo. 
+
+El té de humus líquido premium se caracteriza por estar **microfiltrado**, lo que permite su inyección directa a través del Venturi o bomba dosificadora del sistema de riego por goteo, **sin riesgo de obturación de goteros**.
+
+### Beneficios Agronómicos Observados
+
+1. **Desbloqueo Nutricional:** Las bacterias solubilizadoras presentes en el té de humus liberan el fósforo y potasio retenidos en el suelo, llevándolos a la savia de la cepa.
+2. **Mitigación del Estrés Hídrico:** Los ácidos húmicos mejoran la floculación de las arcillas, aumentando la capacidad de retención de agua del suelo. Además, una red radicular sana y micorrizada accede a reservas de humedad más profundas.
+3. **Expresión del Terroir:** Un suelo biológicamente activo permite a la vid absorber microelementos de manera natural, lo que a menudo se traduce en mostos con perfiles aromáticos más complejos y mejor acidez.
+
+## Protocolo Básico de Aplicación en Viñedo
+
+* **Desborre / Inicio de brotación:** Primera inyección fuerte para inocular el bulbo húmedo del gotero y promover el desarrollo de raicillas absorbentes.
+* **Cuajado a Envero:** Inyecciones periódicas de mantenimiento a menor dosis para asegurar la asimilación de potasio y evitar bloqueos en el periodo de máxima demanda.
+* **Post-cosecha:** Aplicación crucial para ayudar a la planta a acumular reservas en el tronco antes del reposo invernal y acelerar la descomposición de las hojas caídas.
+
+Recuperar la vida del suelo no ocurre de la noche a la mañana, pero la inyección líquida es, actualmente, la vía más directa, económica y efectiva de llevar la biología exactamente donde la cepa la necesita: su sistema radicular.
+`
   },
   {
-    title: "Té de Humus Líquido en Mantenimiento de Zonas Verdes: Reducción de Costes y Tiempos de Aplicación",
-    slug: "te-de-humus-liquido-en-mantenimiento-de-zonas-verdes-reduccion-de-costes-y-tiempos-de-aplicacion",
-    excerpt: "La gestión de grandes superficies ornamentales y parques empresariales exige un equilibrio difícil: mantener una estética impecable cumpliendo con...",
-    content: `La gestión de grandes superficies ornamentales y parques empresariales exige un equilibrio difícil: mantener una estética impecable cumpliendo con normativas medioambientales cada vez más estrictas sobre el uso de químicos. Sin embargo, la transición a abonos orgánicos sólidos a menudo dispara los costes de mano de obra debido al tiempo requerido para su distribución e incorporación al suelo.
+    title: "Dosis Exacta de Té de Humus Líquido para Tomates en Maceta (Sin Riesgo de Quema)",
+    slug: "dosis-exacta-te-humus-liquido-tomates-maceta",
+    category: "KNOWLEDGE",
+    excerpt: "Cultivar tomates en huertos urbanos exige nutrición constante, pero los abonos químicos queman las raíces fácilmente. Guía de dosificación de humus líquido.",
+    content: `
+Cultivar tomates en un balcón, terraza o patio es uno de los mayores placeres del huerto urbano, pero también uno de los mayores retos. La tomatera es una planta muy exigente (una "heavy feeder"), devorando nutrientes rápidamente.
 
-La respuesta técnica a este cuello de botella logístico es el paso a formatos biológicos solubles.
+El error más común en macetas es utilizar fertilizantes químicos líquidos. En un volumen de tierra tan reducido, un ligero exceso de nitrógeno sintético causa acumulación de sales, quemando las raíces y arruinando la planta en cuestión de días. El **té de humus de lombriz líquido** elimina por completo este riesgo.
 
-#### 🔬 Píldora de Ciencia: Eficiencia de Asimilación
-> Diversos ensayos agronómicos (como los documentados en el *Journal of Plant Nutrition*) evidencian que la aplicación foliar y vía fertirrigación de extractos ricos en ácidos húmicos y fúlvicos reduce el tiempo de asimilación de nutrientes de semanas a horas. Mientras que el abono sólido depende de la humedad y temperatura para mineralizarse, el té de humus entra directamente al sistema vascular de la planta o estabiliza la rizosfera de forma inmediata.
+## ¿Por qué el Té de Humus NO quema las plantas?
 
-#### Beneficios Operativos Reales para Empresas de Paisajismo
-1. **Reducción de horas-hombre (Mano de obra):** Aplicar el té de humus a través de pulverizadores de mochila o inyectándolo directamente en la red de riego por goteo elimina la necesidad de esparcir, cavar y enterrar enmiendas sólidas.
-2. **Cero impacto visual y olfativo:** A diferencia de los purines o estiércoles tradicionales, el té de humus de lombriz aeróbico es inodoro. Esto es crítico cuando se realizan labores de mantenimiento en hoteles, residenciales premium o zonas urbanas transitadas.
-3. **No obstruye los sistemas de riego:** Nuestro proceso de filtrado avanzado asegura que el producto fluya perfectamente por emisores y goteros.
+A diferencia de los abonos químicos que entregan los nutrientes en forma de sales directas, el té de humus aporta nutrición en forma biológica y orgánica. Contiene microorganismos que procesan la materia orgánica y liberan nitrógeno, fósforo y potasio de forma lenta y asimilable, exactamente al ritmo que la planta lo pide.
 
-**Prueba en tu próximo mantenimiento:** Para cuadrillas profesionales y contratos recurrentes, el **formato de 25 Litros** ofrece el mejor coste por aplicación (hasta un 60% más económico por litro frente al formato pequeño).`,
-    keywords: "té de humus líquido paisajismo, fertilizante líquido para grandes superficies, mantenimiento zonas verdes",
-    metaTitle: "Mantenimiento Zonas Verdes: Reducción de Costes con Humus",
-    metaDesc: "Descubre cómo el té de humus líquido reduce costes y tiempos de aplicación en el mantenimiento de zonas verdes y paisajismo urbano.",
-    isPublished: false
+Incluso si te excedes ligeramente en la dosis, **no hay riesgo de toxicidad ni quemaduras por exceso de sales**.
+
+## La Dosis Recomendada para Tomates en Maceta
+
+Aunque es seguro, existe una dosificación óptima para no desperdiciar producto y mantener a la tomatera en su máximo rendimiento productivo.
+
+### 1. Dilución Estándar (Riego Semanal)
+* **Dosis:** 10% de Té de Humus Líquido.
+* **Preparación:** Mezcla 100 ml de té de humus por cada litro de agua (idealmente agua sin cloro o reposada durante 24 horas).
+* **Frecuencia:** Riega con esta mezcla una vez cada 7 a 10 días durante toda la fase de crecimiento y floración.
+
+### 2. Aplicación Foliar (Prevención y Engorde)
+El té de humus también puede pulverizarse sobre las hojas. Esto fortalece la cutícula foliar y previene el ataque de hongos y pulgones.
+* **Dosis foliar:** 3% a 5% (30-50 ml por litro de agua).
+* **Preparación:** Filtra bien la mezcla si tu pulverizador es muy fino.
+* **Aplicación:** Pulveriza a primera hora de la mañana o al atardecer (nunca a pleno sol). Hazlo cada 15 días, deteniéndote cuando los tomates empiecen a engordar para evitar exceso de humedad en los frutos.
+
+## Momentos Clave en el Cultivo del Tomate
+
+1. **Trasplante:** Riega con la dilución al 10% justo después de pasar la planta a su maceta definitiva. Esto reduce drásticamente el shock del trasplante.
+2. **Aparición de las primeras flores:** Mantén el riego semanal. El aporte orgánico mejorará el cuajado de las flores.
+3. **Engorde del fruto:** Durante esta fase, el tomate demanda mucho potasio. Los microorganismos del té de humus ayudan a solubilizar el potasio del sustrato, asegurando tomates con mejor sabor y piel más resistente (previniendo grietas).
+
+Cultivar tomates en maceta no tiene por qué ser una ciencia exacta si usas la biología a tu favor. Con agua sin cloro y té de humus líquido, garantizas una cosecha 100% ecológica y sin riesgo de errores fatales.
+`
   },
   {
-    title: "Cómo Mitigar el Shock de Trasplante en Proyectos de Paisajismo con Té de Humus",
-    slug: "como-mitigar-el-shock-de-trasplante-en-proyectos-de-paisajismo-con-te-de-humus",
-    excerpt: "El momento de la plantación es la fase de mayor riesgo financiero en la ejecución de un proyecto paisajístico. La reposición de arbolado o arbustivas...",
-    content: `El momento de la plantación es la fase de mayor riesgo financiero en la ejecución de un proyecto paisajístico. La reposición de arbolado o arbustivas muertas por shock de trasplante destruye los márgenes de beneficio, especialmente en zonas de clima cálido como Andalucía o la costa levantina.
+    title: "Por qué el Té de Humus Líquido es el Mejor Abono Orgánico para Bonsáis de Interior",
+    slug: "mejor-abono-organico-bonsais-interior-te-humus-liquido",
+    category: "KNOWLEDGE",
+    excerpt: "Los sustratos inorgánicos de los bonsáis (akadama, pómice) necesitan biología sin arriesgar obstrucciones ni acumulación de sales. El humus líquido es la solución perfecta.",
+    content: `
+El cultivo del bonsái, especialmente las variedades adaptadas al interior (como los *Ficus*, *Carmona* o *Zelkova*), representa la máxima expresión de control en jardinería. Estos pequeños árboles viven en un volumen de sustrato extremadamente reducido, lo que hace que su nutrición sea un proceso crítico.
 
-El estrés post-plantación no se soluciona únicamente con agua; un exceso de riego en una raíz dañada o inactiva provoca asfixia radicular y pudrición. Lo que la planta necesita es un estímulo biológico que reactive el crecimiento de los pelos absorbentes.
+La gran mayoría de bonsaistas avanzados utilizan sustratos inertes o minerales granulares (como la Akadama, el pómice o la grava volcánica) por su excelente drenaje y aireación. Sin embargo, estos sustratos tienen un problema: **carecen por completo de vida microbiana y nutrientes orgánicos**. 
 
-#### 🔬 Píldora de Ciencia: Rizogénesis y Ácidos Fúlvicos
-> Investigaciones publicadas por centros de edafología demuestran que la carga microbiológica (bacterias PGPR) y los ácidos fúlvicos presentes en los lixiviados y tés de vermicompost estimulan la rizogénesis (creación de nuevas raíces secundarias). Esto mejora exponencialmente la arquitectura radicular, permitiendo a la planta explorar el suelo y captar agua de forma autónoma mucho antes.
+Aquí es donde el **té de humus de lombriz líquido** se convierte en el aliado definitivo.
 
-#### Protocolo de Plantación Biocultor
-En campo, hemos observado que integrar biología activa en el momento del trasplante eleva significativamente las tasas de supervivencia:
-* **Hoyo de plantación:** Aplicar un riego de asiento con una dilución de Té de Humus al 10% (1 litro de producto por cada 10 litros de agua).
-* **Mantenimiento del primer mes:** Pulverización foliar quincenal al 5% para reducir el estrés oxidativo en las hojas mientras el sistema radicular se establece.
+## El Peligro de los Abonos Tradicionales en Bonsáis
 
-**Asegura tus plantaciones:** No dejes el éxito de tu proyecto al azar ni a fertilizantes de asimilación lenta. Mantén garrafas del **formato de 10 Litros** en los vehículos de tus operarios para uso inmediato en cada nueva plantación.`,
-    keywords: "shock de trasplante árboles, bioestimulante enraizamiento paisajismo, supervivencia trasplantes verano",
-    metaTitle: "Mitigar Shock de Trasplante en Paisajismo con Té de Humus",
-    metaDesc: "Soluciones biológicas para asegurar la supervivencia en trasplantes de árboles y arbustivas con humus de lombriz.",
-    isPublished: false
+1. **Abonos Químicos:** El uso de fertilizantes NPK líquidos sintéticos en macetas tan pequeñas provoca una rápida acumulación de sales tóxicas. Si no se lavan las raíces continuamente, las puntas de las hojas se queman y las raíces finas mueren.
+2. **Abonos Orgánicos Sólidos (Pellets):** Aunque son seguros, al descomponerse generan una pasta que **obstruye los poros de la Akadama**, arruinando el drenaje y provocando asfixia radicular (podredumbre).
+
+## La Solución: Biología en Formato Líquido y Limpio
+
+El té de humus de lombriz líquido ofrece lo mejor de ambos mundos:
+
+* **Nutrición Biológica Segura:** Al igual que el pellet orgánico, entrega los nutrientes de forma lenta a través de la acción bacteriana, sin quemar las raíces (incluso en dosis generosas).
+* **Drenaje Intacto:** Al ser un líquido microfiltrado, penetra por la porosidad del pómice y la akadama sin dejar residuos sólidos que compacten el sustrato.
+
+## Beneficios Específicos para el Bonsái
+
+1. **Inoculación del Sustrato Inerte:** Convierte la akadama muerta en un ecosistema vivo. Las micorrizas y bacterias colonizan los gránulos, ayudando al bonsái a asimilar microelementos vitales como el hierro y el magnesio, evitando el amarilleo (clorosis).
+2. **Reducción del Estrés:** Los bonsáis sufren intervenciones agresivas (poda de raíces, alambrado, trasplantes). Los ácidos húmicos y fúlvicos presentes en el té actúan como un potente bioestimulante anti-estrés, acelerando la emisión de nuevas raíces capilares.
+3. **Resistencia a Plagas de Interior:** En interiores, la falta de ventilación favorece plagas como la araña roja o la cochinilla. Un bonsái nutrido biológicamente tiene un sistema inmunológico más fuerte, con paredes celulares más gruesas y resistentes a chupadores.
+
+## Cómo Usarlo en tu Bonsái
+
+* **Dosis de Mantenimiento:** Diluir 50 ml de té de humus líquido por cada litro de agua (5%).
+* **Frecuencia:** Riego cada 10-15 días durante la época de crecimiento activo (primavera-verano). Una vez al mes en otoño-invierno (si es especie de interior que no entra en letargo profundo).
+* **Agua:** Utilizar siempre agua de calidad (sin cloro, de ósmosis o de lluvia) para no matar a los microorganismos beneficiosos del té.
+
+El té de humus de lombriz no solo alimenta a tu bonsái, alimenta al micro-ecosistema en el que vive, garantizando un árbol longevo, verde y saludable en el interior de tu hogar.
+`
   },
   {
-    title: "Uso Profesional del Té de Humus Líquido: Preguntas Técnicas y Compatibilidad",
-    slug: "uso-profesional-del-te-de-humus-liquido-preguntas-tecnicas-y-compatibilidad",
-    excerpt: "Los gestores de parques y jardineros profesionales manejan presupuestos ajustados y no pueden arriesgarse a usar insumos incompatibles con su...",
-    content: `Los gestores de parques y jardineros profesionales manejan presupuestos ajustados y no pueden arriesgarse a usar insumos incompatibles con su maquinaria o sus protocolos. Aquí resolvemos con transparencia las dudas técnicas más habituales sobre nuestro Té de Humus de Lombriz.
+    title: "Diferencia Científica entre Lixiviado de Lombriz y Té de Humus Líquido (Aireado)",
+    slug: "diferencia-cientifica-lixiviado-lombriz-vs-te-humus-liquido-aireado",
+    category: "EVIDENCE",
+    excerpt: "No todos los líquidos oscuros son iguales. Comprende la diferencia entre el agua de escorrentía (lixiviado) y una extracción aeróbica controlada (Té de Humus).",
+    content: `
+Existe una gran confusión en el mercado y entre los aficionados a la agricultura ecológica respecto a los fertilizantes líquidos derivados de la lombricultura. A menudo, se venden o se intercambian bajo el mismo nombre dos productos radicalmente distintos: el **Lixiviado de Lombriz** y el **Té de Humus de Lombriz (AACT - Actively Aerated Compost Tea)**.
 
-#### ¿El té de humus obstruye los emisores o el riego por goteo?
-No. El problema de obstrucción ocurre cuando se intentan disolver humus sólido o se utilizan tés caseros sin microfiltrado. En Biocultor, el proceso industrial incluye un filtrado micrométrico final que retiene la materia orgánica gruesa, permitiendo el paso de la microbiología y los ácidos húmicos/fúlvicos líquidos. Es 100% compatible con sistemas de fertirrigación estándar y pulverizadores.
+Comprender la diferencia científica entre ambos es crucial para garantizar la salud de tus cultivos y evitar la introducción de patógenos en tu suelo.
 
-#### ¿Es compatible mezclarlo con tratamientos fitosanitarios químicos?
-Aquí hay que ser muy claros agronómicamente: **No recomendamos la mezcla en tanque con fungicidas o bactericidas de síntesis química**. El gran valor del té de humus es su carga microbiana viva. Si lo mezclas con un producto diseñado para matar hongos o bacterias, destruirás gran parte de su efectividad. Se debe aplicar siempre por separado, dejando un margen de al menos 4-5 días tras un tratamiento biocida.
+## 1. ¿Qué es el Lixiviado de Lombriz?
 
-#### ¿Cuánto dura el producto almacenado en el almacén de la empresa?
-A diferencia de los químicos inertes, este es un producto biológicamente activo. Para garantizar su máxima viabilidad microbiana, recomendamos su uso dentro de los primeros 6 a 8 meses tras la compra. Debe almacenarse en un lugar fresco, protegido de la luz solar directa y de temperaturas extremas. Por ello, enviamos desde fábrica directamente a tus instalaciones, sin estancias prolongadas en distribuidores intermediarios.
+El lixiviado es simplemente el líquido que escurre y gotea en el fondo de una vermicompostera doméstica o industrial. 
 
-#### ¿Cómo acceder a formatos de gran volumen para empresas?
-Si gestionas grandes superficies y requieres reposición constante, el formato de garrafa de 25 Litros está diseñado para uso profesional intensivo. Nuestro modelo de venta directa asegura un stock rotativo fresco y envío en 24/48h a cualquier punto de la Península.`,
-    keywords: "compatibilidad humus líquido fitosanitarios, conservación té de humus, obstrucción goteros humus",
-    metaTitle: "Té de Humus Profesional: Dudas y Compatibilidad",
-    metaDesc: "Respuestas para paisajistas: obstrucción de goteros, compatibilidad con fitosanitarios y almacenamiento del humus líquido.",
-    isPublished: false
+* **Origen:** Proviene del exceso de humedad de los restos orgánicos en descomposición y del agua de riego de la cama de lombrices.
+* **Composición:** Arrastra algunos nutrientes solubles y ácidos fúlvicos, PERO al estancarse en el fondo del recipiente sin oxígeno, sufre un proceso de **descomposición anaeróbica**.
+* **El Riesgo Científico:** Los entornos anaeróbicos (sin oxígeno) son el caldo de cultivo perfecto para bacterias fitopatógenas y organismos responsables de la putrefacción. Un lixiviado mal gestionado huele mal (a sulfuro de hidrógeno o amoníaco) y puede contener *E. coli*, *Salmonella* o toxinas que dañan las raíces de las plantas en lugar de curarlas.
+
+## 2. ¿Qué es el Té de Humus Líquido (Aireado)?
+
+El Té de Humus de Lombriz no es un residuo, es una **extracción biológica de alta ingeniería**. No proviene del goteo, sino del humus sólido y maduro.
+
+* **Origen:** Se fabrica tomando humus de lombriz sólido 100% curado y estable, sumergiéndolo en agua declorada.
+* **El Proceso Clave (Aireación Activa):** A la mezcla se le inyecta oxígeno de forma continua y violenta (burbujeo) durante 24 a 48 horas. A menudo se añaden catalizadores como melazas libres de azufre para alimentar a la microbiología.
+* **Composición Científica:** El oxígeno inyectado provoca una **reproducción explosiva de microorganismos aeróbicos** (los beneficiosos para el suelo, como rizobacterias y hongos formadores de micorrizas), ahogando a cualquier patógeno anaeróbico. 
+
+## Tabla Resumen de Diferencias
+
+| Característica | Lixiviado de Lombriz (Escorrentía) | Té de Humus Líquido (Extracto Aireado) |
+| :--- | :--- | :--- |
+| **Oxigenación** | Anaeróbico (Sin oxígeno, estancado) | Aeróbico (Alta oxigenación constante) |
+| **Carga Microbiana** | Impredecible, riesgo de patógenos | Alta concentración de microorganismos beneficiosos |
+| **Olor** | A menudo desagradable (putrefacción) | Olor a tierra fresca de bosque |
+| **Control de Calidad** | Residuo pasivo del proceso | Producto activo, filtrado y estabilizado |
+| **Uso Principal** | Fertilizante leve (con riesgo) | Bioestimulante potente e inóculo biológico |
+
+## Conclusión para el Agricultor y Jardinero
+
+Utilizar lixiviado casero en plantas ornamentales fuertes puede aportar ciertos nutrientes, pero aplicarlo en semilleros, hortalizas de consumo crudo o cultivos de alto valor (como cannabis o viñedo) representa un riesgo agronómico y sanitario.
+
+El **té de humus de lombriz líquido premium** garantiza la exclusión competitiva de enfermedades: estás regando tus plantas con miles de millones de defensores microscópicos aeróbicos que protegerán las raíces, mejorarán la estructura del suelo y desbloquearán nutrientes con total seguridad y eficacia científica.
+`
   }
 ];
 
 async function main() {
-  console.log("Iniciando inyección forzada de los 6 posts en la base de datos...");
+  console.log("Iniciando inyección forzada de los 6 posts de la Ronda 2 en la base de datos...");
   for (const post of posts) {
     try {
       await prisma.post.upsert({
         where: { slug: post.slug },
-        update: post,
-        create: post,
+        update: {
+          title: post.title,
+          category: post.category,
+          excerpt: post.excerpt,
+          content: post.content,
+          isPublished: false, // Dejamos en borrador para que ponga la foto
+        },
+        create: {
+          title: post.title,
+          slug: post.slug,
+          category: post.category,
+          excerpt: post.excerpt,
+          content: post.content,
+          isPublished: false,
+          keywords: post.title.toLowerCase(),
+        },
       });
-      console.log(`✅ ${post.title}`);
-    } catch (e) {
-      console.error(`❌ Error insertando: ${post.title}`, e);
+      console.log(\`✅ \${post.title}\`);
+    } catch (error) {
+      console.error(\`❌ Error insertando: \${post.title}\`, error);
     }
   }
-  console.log("Inyección completada.");
+  console.log("Inyección completada. Los posts están como Borrador en el Dashboard.");
 }
 
-main()
-  .catch(console.error)
-  .finally(() => prisma.$disconnect());
+main().catch(console.error).finally(() => prisma.$disconnect());
