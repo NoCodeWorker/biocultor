@@ -404,73 +404,111 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                   {item.kind === 'LANDING' && (
                     <div className="p-8 rounded-[2rem] bg-primary/5 border border-primary/20 space-y-8">
                       <div>
-                        <h3 className="text-xl font-heading font-black tracking-tight text-primary">Contenido Visual y Texto de la Landing</h3>
-                        <p className="text-sm text-muted-foreground mt-1">Gestiona las imágenes de cada sección y el contenido técnico (Markdown) de la landing especial sin tocar el JSON crudo.</p>
+                        <h3 className="text-xl font-heading font-bold tracking-tight text-primary">Contenido Visual y Texto de la Landing</h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {item.slug === 'protocolo-cultivo-biologico-profesional'
+                            ? 'Gestiona las imágenes del Hero y de cada una de las 3 fases del protocolo.'
+                            : 'Gestiona la imagen de cabecera (Hero) y el contenido Markdown de la landing programmática GEO.'}
+                        </p>
                       </div>
 
-                      <div className="grid gap-8 md:grid-cols-2">
-                        <div className="space-y-4">
-                          <ImageUploader
-                            label="Imagen Hero (Cabecera)"
-                            value={(() => {
-                              try { return JSON.parse(item.payloadJson).heroImage || ''; } catch { return ''; }
-                            })()}
-                            onChange={(url) => updatePayloadField(item.id, 'heroImage', url || '')}
-                            size="lg"
-                            allowManual
-                            hint="Imagen de fondo para la sección principal."
-                          />
+                      {/* ── PROTOCOLO: Hero + 3 fases ── */}
+                      {item.slug === 'protocolo-cultivo-biologico-profesional' ? (
+                        <div className="grid gap-8 md:grid-cols-2">
+                          <div className="space-y-4">
+                            <ImageUploader
+                              label="Imagen Hero (Cabecera)"
+                              value={(() => {
+                                try { return JSON.parse(item.payloadJson).heroImage || ''; } catch { return ''; }
+                              })()}
+                              onChange={(url) => updatePayloadField(item.id, 'heroImage', url || '')}
+                              size="lg"
+                              allowManual
+                              hint="Imagen de fondo para la sección principal."
+                            />
+                          </div>
+                          <div className="space-y-4">
+                            <ImageUploader
+                              label="Fase 1: Protección Radicular"
+                              value={(() => {
+                                try { return JSON.parse(item.payloadJson).section1Image || ''; } catch { return ''; }
+                              })()}
+                              onChange={(url) => updatePayloadField(item.id, 'section1Image', url || '')}
+                              size="lg"
+                              allowManual
+                              hint="Imagen para la sección de Té de Humus y Raíces."
+                            />
+                          </div>
+                          <div className="space-y-4">
+                            <ImageUploader
+                              label="Fase 2: Aceleración Vegetativa"
+                              value={(() => {
+                                try { return JSON.parse(item.payloadJson).section2Image || ''; } catch { return ''; }
+                              })()}
+                              onChange={(url) => updatePayloadField(item.id, 'section2Image', url || '')}
+                              size="lg"
+                              allowManual
+                              hint="Imagen para la sección de Purín de Ortiga y Crecimiento."
+                            />
+                          </div>
+                          <div className="space-y-4">
+                            <ImageUploader
+                              label="Fase 3: Elicitación y Resina"
+                              value={(() => {
+                                try { return JSON.parse(item.payloadJson).section3Image || ''; } catch { return ''; }
+                              })()}
+                              onChange={(url) => updatePayloadField(item.id, 'section3Image', url || '')}
+                              size="lg"
+                              allowManual
+                              hint="Imagen para la sección de Floración y Terpenos."
+                            />
+                          </div>
                         </div>
-                        <div className="space-y-4">
-                          <ImageUploader
-                            label="Fase 1: Protección Radicular"
-                            value={(() => {
-                              try { return JSON.parse(item.payloadJson).section1Image || ''; } catch { return ''; }
-                            })()}
-                            onChange={(url) => updatePayloadField(item.id, 'section1Image', url || '')}
-                            size="lg"
-                            allowManual
-                            hint="Imagen para la sección de Té de Humus y Raíces."
-                          />
+                      ) : (
+                        /* ── LANDINGS GEO PROGRAMÁTICAS: Hero + Markdown ── */
+                        <div className="grid gap-8 md:grid-cols-2">
+                          <div className="space-y-4">
+                            <ImageUploader
+                              label="Imagen Hero (Cabecera)"
+                              value={(() => {
+                                try { return JSON.parse(item.payloadJson).heroImage || ''; } catch { return ''; }
+                              })()}
+                              onChange={(url) => updatePayloadField(item.id, 'heroImage', url || '')}
+                              size="lg"
+                              allowManual
+                              hint="Imagen de fondo del hero de la landing. Recomendado: 16:9 (ej. 1600×900px)."
+                            />
+                          </div>
+                          <div className="flex flex-col justify-center p-5 rounded-2xl bg-background border border-border/50 text-sm text-muted-foreground space-y-2">
+                            <p className="font-semibold text-foreground">Landing Programática GEO</p>
+                            <p>El contenido de esta landing se genera dinámicamente desde el <strong>Markdown</strong> que escribes abajo. No necesita imágenes de fases: el layout se divide automáticamente por secciones <code className="text-xs bg-muted px-1 py-0.5 rounded">## Título</code>.</p>
+                          </div>
                         </div>
-                        <div className="space-y-4">
-                          <ImageUploader
-                            label="Fase 2: Aceleración Vegetativa"
-                            value={(() => {
-                              try { return JSON.parse(item.payloadJson).section2Image || ''; } catch { return ''; }
-                            })()}
-                            onChange={(url) => updatePayloadField(item.id, 'section2Image', url || '')}
-                            size="lg"
-                            allowManual
-                            hint="Imagen para la sección de Purín de Ortiga y Crecimiento."
-                          />
-                        </div>
-                        <div className="space-y-4">
-                          <ImageUploader
-                            label="Fase 3: Elicitación y Resina"
-                            value={(() => {
-                              try { return JSON.parse(item.payloadJson).section3Image || ''; } catch { return ''; }
-                            })()}
-                            onChange={(url) => updatePayloadField(item.id, 'section3Image', url || '')}
-                            size="lg"
-                            allowManual
-                            hint="Imagen para la sección de Floración y Terpenos."
-                          />
-                        </div>
-                      </div>
+                      )}
 
                       <div className="grid gap-4 mt-8">
                         <label className="flex flex-col gap-2">
-                          <span className="text-sm font-semibold">Contenido Técnico (Markdown)</span>
-                          <p className="text-xs text-muted-foreground">Opcional: Si esta landing usa contenido dinámico (como las GEO), escribe aquí el Markdown. El Protocolo ignorará este campo.</p>
+                          <span className="text-sm font-semibold">
+                            {item.slug === 'protocolo-cultivo-biologico-profesional'
+                              ? 'Contenido Markdown (no usado por el Protocolo)'
+                              : 'Contenido Técnico Markdown'}
+                          </span>
+                          <p className="text-xs text-muted-foreground">
+                            {item.slug === 'protocolo-cultivo-biologico-profesional'
+                              ? 'El Protocolo usa sus textos hardcodeados. Este campo se ignora.'
+                              : 'Escribe el contenido de la landing. Usa ## para crear secciones: la primera es el diagnóstico, la segunda la estrategia, la tercera la aplicación práctica. Los items de lista con * **Título:** texto se renderizan como tarjetas visuales.'}
+                          </p>
                           <textarea
                             value={(() => {
                               try { return JSON.parse(item.payloadJson).markdownContent || ''; } catch { return ''; }
                             })()}
                             onChange={(e) => updatePayloadField(item.id, 'markdownContent', e.target.value)}
-                            rows={16}
+                            rows={item.slug === 'protocolo-cultivo-biologico-profesional' ? 4 : 20}
                             className="rounded-xl border border-border/50 bg-background p-4 font-mono text-sm outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10 resize-y w-full"
-                            placeholder="# Título de la sección&#10;&#10;Escribe aquí el contenido técnico completo..."
+                            placeholder={item.slug === 'protocolo-cultivo-biologico-profesional'
+                              ? '(No necesario para el Protocolo)'
+                              : '## Por qué los Cítricos en Valencia Sufren Clorosis Férrica\n\nTexto introductorio...\n\n## La Solución Orgánica\n\n1. **Microbiología activa:** texto\n\n## Aplicación Práctica\n\n* **Tratamiento foliar:** texto del punto'
+                            }
                           />
                         </label>
                       </div>

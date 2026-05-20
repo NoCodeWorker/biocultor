@@ -652,8 +652,11 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
                   <div className="text-muted-foreground leading-relaxed space-y-4 text-base md:text-lg">
                     {section.paragraphs.map((p, pi) => {
                       if (p.startsWith('*')) {
-                        const cleanListItem = p.replace(/^\*\s+\*\*(.*?)\*\*:\s*/, '');
-                        const itemTitle = p.match(/^\*\s+\*\*(.*?)\*\*/)?.[1] || 'Guía';
+                        // Extraer el título limpio (strip de colons finales: ":" o "::") 
+                        const rawTitle = p.match(/^\*\s+\*\*(.*?)\*\*/)?.[1] || 'Guía';
+                        const itemTitle = rawTitle.replace(/:+$/, '').trim();
+                        // Eliminar el prefijo completo "* **Título::" incluyendo cualquier número de ":" y espacio posterior
+                        const cleanListItem = p.replace(/^\*\s+\*\*.*?\*\*:*\s*/, '').trim();
                         return (
                           <div key={pi} className="flex gap-3 items-start bg-muted/40 p-4 rounded-xl border border-border/20 text-sm md:text-base">
                             <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
