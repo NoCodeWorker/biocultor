@@ -14,6 +14,8 @@ export default function StickyCartBar({ variants, productName }: StickyCartBarPr
   const [visible, setVisible] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(variants.find(v => v.popular) || variants[0]);
   const { addItem } = useCartStore();
+  const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+  const isOutOfStock = !selectedVariant || !selectedVariant.stock || selectedVariant.stock <= 0;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,13 +76,31 @@ export default function StickyCartBar({ variants, productName }: StickyCartBarPr
           </div>
 
           {/* Columna 3: Botón Añadir */}
-          <button
-            onClick={handleAddToCart}
-            className="flex items-center justify-center gap-1.5 bg-primary text-white font-bold px-3.5 py-2 rounded-lg shadow-md shadow-primary/10 shrink-0 active:scale-95 transition-transform"
-          >
-            <ShoppingBag className="w-4 h-4" />
-            <span className="text-xs">Añadir</span>
-          </button>
+          {isMaintenance ? (
+            <button
+              disabled
+              className="flex items-center justify-center gap-1.5 bg-muted border border-border text-muted-foreground font-bold px-3.5 py-2 rounded-lg cursor-not-allowed shrink-0"
+            >
+              <ShoppingBag className="w-4 h-4 opacity-50" />
+              <span className="text-xs">Mantenimiento</span>
+            </button>
+          ) : isOutOfStock ? (
+            <button
+              disabled
+              className="flex items-center justify-center gap-1.5 bg-muted border border-border text-muted-foreground font-bold px-3.5 py-2 rounded-lg cursor-not-allowed shrink-0"
+            >
+              <ShoppingBag className="w-4 h-4 opacity-50" />
+              <span className="text-xs">Agotado</span>
+            </button>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              className="flex items-center justify-center gap-1.5 bg-primary text-white font-bold px-3.5 py-2 rounded-lg shadow-md shadow-primary/10 shrink-0 active:scale-95 transition-transform cursor-pointer"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <span className="text-xs">Añadir</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -127,13 +147,31 @@ export default function StickyCartBar({ variants, productName }: StickyCartBarPr
                 {selectedVariant.price >= 50 ? 'Envío gratis' : 'Envío 24/48h'}
               </div>
             </div>
-            <button
-              onClick={handleAddToCart}
-              className="flex items-center gap-2 bg-primary hover:bg-brand-green-hover text-white font-bold px-8 py-3 rounded-xl shadow-lg shadow-primary/15 transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap"
-            >
-              <ShoppingBag className="w-5 h-5" />
-              Añadir al Carrito
-            </button>
+            {isMaintenance ? (
+              <button
+                disabled
+                className="flex items-center gap-2 bg-muted border border-border text-muted-foreground font-bold px-8 py-3 rounded-xl cursor-not-allowed whitespace-nowrap"
+              >
+                <ShoppingBag className="w-5 h-5 opacity-50" />
+                Mantenimiento
+              </button>
+            ) : isOutOfStock ? (
+              <button
+                disabled
+                className="flex items-center gap-2 bg-muted border border-border text-muted-foreground font-bold px-8 py-3 rounded-xl cursor-not-allowed whitespace-nowrap"
+              >
+                <ShoppingBag className="w-5 h-5 opacity-50" />
+                Agotado
+              </button>
+            ) : (
+              <button
+                onClick={handleAddToCart}
+                className="flex items-center gap-2 bg-primary hover:bg-brand-green-hover text-white font-bold px-8 py-3 rounded-xl shadow-lg shadow-primary/15 transition-all hover:scale-[1.02] active:scale-95 whitespace-nowrap cursor-pointer"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                Añadir al Carrito
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -70,10 +70,15 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
          pricePerLiter: dbMatch.price / literCount,
          popular: dbMatch.popular,
          features: Array.isArray(dbMatch.features) ? dbMatch.features : dbMatch.features?.split(',') || [],
-         image: dbMatch.imagePath || dbMatch.image || f.image
+         image: dbMatch.imagePath || dbMatch.image || f.image,
+         stock: dbMatch.stock ?? 12,
+         sku: dbMatch.sku,
        }
      }
-     return f;
+     return {
+       ...f,
+       stock: 12, // fallback
+     };
   });
 
   const [selectedFormat, setSelectedFormat] = useState(mergedFormats.length > 1 ? mergedFormats[1].id : '1L');
@@ -118,6 +123,8 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
           {mergedFormats.map((format) => {
             const Icon = format.icon;
             const isSelected = selectedFormat === format.id;
+            const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+            const isOutOfStock = !format.stock || format.stock <= 0;
 
             return (
               <div 
@@ -205,14 +212,42 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
 
                 {/* Botones de acción */}
                 <div className="flex flex-col gap-2" onClick={(e) => e.stopPropagation()}>
-                  <Button
-                    size="lg"
-                    disabled
-                    className="w-full rounded-xl font-bold transition-all text-sm bg-muted/80 text-muted-foreground border border-border cursor-not-allowed shadow-none hover:bg-muted/80"
-                  >
-                    <ShoppingBag className="w-4 h-4 mr-2 opacity-50" />
-                    Agotado Temporalmente
-                  </Button>
+                  {isMaintenance ? (
+                    <Button
+                      size="lg"
+                      disabled
+                      className="w-full rounded-xl font-bold transition-all text-sm bg-muted/80 text-muted-foreground border border-border cursor-not-allowed shadow-none"
+                    >
+                      <ShoppingBag className="w-4 h-4 mr-2 opacity-50" />
+                      Compras Suspendidas
+                    </Button>
+                  ) : isOutOfStock ? (
+                    <Button
+                      size="lg"
+                      disabled
+                      className="w-full rounded-xl font-bold transition-all text-sm bg-muted/80 text-muted-foreground border border-border cursor-not-allowed shadow-none"
+                    >
+                      <ShoppingBag className="w-4 h-4 mr-2 opacity-50" />
+                      Agotado
+                    </Button>
+                  ) : !isSelected ? (
+                    <Button
+                      size="lg"
+                      onClick={() => setSelectedFormat(format.id)}
+                      className="w-full rounded-xl font-bold transition-all text-sm bg-transparent border-2 border-primary/40 hover:border-primary text-primary hover:bg-primary/5 cursor-pointer"
+                    >
+                      Seleccionar Formato
+                    </Button>
+                  ) : (
+                    <Button
+                      size="lg"
+                      onClick={() => handleAction(format)}
+                      className="w-full rounded-xl font-bold transition-all text-sm bg-primary hover:bg-brand-green-hover text-white shadow-md shadow-primary/10 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                    >
+                      <ShoppingBag className="w-4 h-4 mr-2" />
+                      Añadir al Carrito
+                    </Button>
+                  )}
                   <a
                     href={`/producto/${productSlug}`}
                     onClick={(e) => e.stopPropagation()}

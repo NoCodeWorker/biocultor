@@ -169,7 +169,7 @@ export default function AgronomicAdvisorChat() {
               </div>
             </div>
             <a
-              href="/producto/te-de-humus-de-lombriz-liquido"
+              href="/producto/te-humus-liquido-premium"
               className="flex items-center justify-center w-full text-sm font-bold bg-brand-green text-white px-4 py-3 rounded-xl hover:bg-brand-green-dark transition-colors shadow-md mt-1"
             >
               Ver formato recomendado

@@ -9,6 +9,7 @@ export default function Cart() {
   const { items, isOpen, setIsOpen, updateQuantity, addItem } = useCartStore();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [crossSellData, setCrossSellData] = useState<any>(null);
+  const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
 
   const total = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
@@ -247,12 +248,29 @@ export default function Cart() {
                 </span>
               </div>
             </div>
-            <button 
-              disabled={true}
-              className="w-full bg-muted border border-border text-muted-foreground font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all cursor-not-allowed text-base"
-            >
-              Compras Suspendidas (Mantenimiento)
-            </button>
+            {isMaintenance ? (
+              <button 
+                disabled={true}
+                className="w-full bg-muted border border-border text-muted-foreground font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all cursor-not-allowed text-base"
+              >
+                Compras Suspendidas (Mantenimiento)
+              </button>
+            ) : (
+              <button 
+                onClick={handleCheckout}
+                disabled={isCheckoutLoading}
+                className="w-full bg-primary hover:bg-brand-green-hover text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99] text-base cursor-pointer shadow-lg shadow-primary/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isCheckoutLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Iniciando pago seguro...
+                  </>
+                ) : (
+                  "Tramitar Pedido Seguro"
+                )}
+              </button>
+            )}
             <p className="text-center text-xs text-muted-foreground mt-3 opacity-70">
               Pagos encriptados con seguridad bancaria mediante Stripe®
             </p>

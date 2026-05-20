@@ -12,11 +12,13 @@ import PremiumAudioPlayer from '@/components/PremiumAudioPlayer';
 import SocialProofTicker from '@/components/SocialProofTicker';
 
 export default function ProductFunnel({ product, dbVariants }: { product: any, dbVariants: any[] }) {
+  const { addItem } = useCartStore();
   const defaultVariant = dbVariants.find(v => v.popular) || dbVariants[0];
   const [selected, setSelected] = useState(defaultVariant);
   const [activeTab, setActiveTab] = useState<'modo' | 'envio' | 'ciencia'>('modo');
   const [quantity, setQuantity] = useState(1);
-  const { addItem } = useCartStore();
+  const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+  const isOutOfStock = !selected || !selected.stock || selected.stock <= 0;
 
   const handleAddToCart = () => {
     addItem({
@@ -240,14 +242,34 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
               <SocialProofTicker />
             </div>
 
-            <Button 
-              size="lg" 
-              disabled
-              className="w-full h-14 rounded-xl md:rounded-2xl text-base md:text-lg font-bold bg-muted/80 border border-border text-muted-foreground shadow-none cursor-not-allowed"
-            >
-              <ShoppingBag className="w-5 h-5 mr-2 opacity-50" />
-              Agotado Temporalmente (Mantenimiento)
-            </Button>
+            {isMaintenance ? (
+              <Button 
+                size="lg" 
+                disabled
+                className="w-full h-14 rounded-xl md:rounded-2xl text-base md:text-lg font-bold bg-muted/80 border border-border text-muted-foreground shadow-none cursor-not-allowed"
+              >
+                <ShoppingBag className="w-5 h-5 mr-2 opacity-50" />
+                Compras Suspendidas (Mantenimiento)
+              </Button>
+            ) : isOutOfStock ? (
+              <Button 
+                size="lg" 
+                disabled
+                className="w-full h-14 rounded-xl md:rounded-2xl text-base md:text-lg font-bold bg-muted/80 border border-border text-muted-foreground shadow-none cursor-not-allowed"
+              >
+                <ShoppingBag className="w-5 h-5 mr-2 opacity-50" />
+                Agotado Temporalmente
+              </Button>
+            ) : (
+              <Button 
+                size="lg" 
+                onClick={handleAddToCart}
+                className="w-full h-14 rounded-xl md:rounded-2xl text-base md:text-lg font-bold bg-primary hover:bg-brand-green-hover text-white shadow-lg shadow-primary/15 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+              >
+                <ShoppingBag className="w-5 h-5 mr-2" />
+                Añadir al Carrito
+              </Button>
+            )}
 
             <div className="grid grid-cols-2 gap-2 md:gap-4 mt-5 md:mt-6 pt-4 md:pt-5 border-t border-border/40">
               <div className="flex items-center gap-2 md:gap-3">

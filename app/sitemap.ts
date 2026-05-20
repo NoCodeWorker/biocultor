@@ -33,10 +33,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getSeoSolutionsOrtiga(),
   ]);
 
-  const dynamicPosts = await prisma.post.findMany({
-    where: { isPublished: true },
-    select: { slug: true, updatedAt: true, createdAt: true },
-  });
+  let dynamicPosts: Array<{ slug: string; updatedAt: Date; createdAt: Date }> = [];
+  try {
+    dynamicPosts = await prisma.post.findMany({
+      where: { isPublished: true },
+      select: { slug: true, updatedAt: true, createdAt: true },
+    });
+  } catch (error) {
+    console.warn("DB no disponible para obtener dynamicPosts en sitemap.ts, usando fallback vacío.");
+  }
 
   const staticRoutes = [
     '/',
