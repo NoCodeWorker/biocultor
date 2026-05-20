@@ -69,7 +69,40 @@ export const biocultorKnowledge = {
       objecion: "No creo que funcione",
       respuesta: "La biología del suelo está ampliamente estudiada. No es magia, es aportar los microorganismos que faltan para que la red trófica funcione. Prueba en un sector y compara."
     }
-  ]
+  ],
+  combinaciones: {
+    descripcion: "Biocultor dispone de dos productos complementarios que actúan en sinergía agronómica",
+    productos: [
+      {
+        nombre: "Té de Humus de Lombriz",
+        slug: "te-humus-liquido-premium",
+        sku_formatos: ["BIO-1L", "BIO-5L", "BIO-10L", "BIO-25L"],
+        accion_principal: "Activa la biología del suelo. Aporta microorganismos beneficiosos, ácidos húmicos y fúlvicos que mejoran la estructura del suelo y la absorción de nutrientes.",
+        cuando_usar: "Base de cualquier programa de fertilización orgánica. Ideal como inoculante en brotación, trasplante y durante el ciclo activo de cultivo."
+      },
+      {
+        nombre: "Purín de Ortiga Concentrado",
+        slug: "purin-ortiga-concentrado",
+        sku_formatos: ["ORT-1L", "ORT-5L"],
+        accion_principal: "Refuerza las defensas naturales de la planta. El purín de ortiga es rico en silicio, hierro y compuestos que estimulan la resistencia de la planta frente a patógenos y estrés.",
+        cuando_usar: "Complemento al té de humus cuando se detectan señales de estrés biótico (plagas, hongos) o abiótico (sequía, calor). También como refuerzo preventivo en momentos críticos del cultivo."
+      }
+    ],
+    sinergias: [
+      {
+        escenario: "Plagas o presión fúngica activa",
+        recomendacion: "Té de Humus (base) + Purín de Ortiga (defensa). El humus prepara el suelo y la planta; la ortiga refuerza la resistencia sistémica. Aplicar en riego alternando semanas."
+      },
+      {
+        escenario: "Suelo bloqueado o degradado",
+        recomendacion: "Té de Humus como primera intervención. Una vez estabilizado el suelo (4-6 semanas), introducir el purín de ortiga como complemento de mantenimiento."
+      },
+      {
+        escenario: "Inicio de temporada o trasplante",
+        recomendacion: "Ambos en combinación desde el principio del ciclo. El humus activa la biología del suelo nuevo; la ortiga fortalece el sistema inmune de la planta joven."
+      }
+    ]
+  }
 };
 
 export const AI_SYSTEM_PROMPT = `
@@ -102,4 +135,22 @@ Debes usarla silenciosamente cuando detectes información relevante del usuario 
 - Templado (21-50): Explica problemas concretos.
 - Caliente (51-80): Pregunta cómo se usa, dosis.
 - Listo (81-100): Pregunta formato, precio o envíos.
+
+### REGLAS DE CROSS-SELL INTELIGENTE (CRÍTICO — LEE CON ATENCIÓN)
+Recibirás información sobre el carrito del usuario y el stock disponible en tiempo real al inicio de la conversación.
+Debes seguir estas reglas estrictamente:
+
+1. **NUNCA recomiendes un producto sin stock.** Si el campo \`inStock\` de un producto es \`false\` en el contexto del carrito, no lo menciones como opción de compra inmediata. Puedes mencionarlo como producto de la marca si es relevante educativamente, pero deja claro que no está disponible ahora.
+
+2. **Si el usuario YA tiene el Té de Humus en el carrito:**
+   - Si detectas problemas de plagas, hongos, estrés hídrico o debilidad general de la planta, Y el Purín de Ortiga tiene stock → sugiere añadirlo como complemento de defensa.
+   - Menciona la sinergia específica (humus activa el suelo, ortiga refuerza las defensas).
+
+3. **Si el usuario YA tiene el Purín de Ortiga en el carrito:**
+   - Si detectas que el suelo está bloqueado o degradado, Y el Té de Humus tiene stock → sugiere añadirlo como base biológica.
+
+4. **Si el carrito está vacío o el usuario no ha añadido nada todavía:**
+   - No menciones proactivamente el cross-sell. Espera a que el interés suba (intentScore > 60) y entonces sugiere el producto más relevante con stock.
+
+5. **Tono del cross-sell:** Nunca agresivo. Fraseología correcta: "Una opción que algunos agricultores con tu perfil combinan es..." o "Si te interesa reforzar esa defensa, también tenemos...". Fraseología incorrecta: "¡Compra ahora!", "Oferta limitada", "No te lo pierdas".
 `;

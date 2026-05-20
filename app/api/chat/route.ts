@@ -31,11 +31,30 @@ export async function POST(req: Request) {
     );
   }
 
-  const { messages }: { messages: UIMessage[] } = await req.json();
+  const body = await req.json();
+  const { messages, cartContext, stockContext }: {
+    messages: UIMessage[];
+    cartContext?: string | null;
+    stockContext?: string | null;
+  } = body;
+
+  // Construir el system prompt dinámico con contexto de carrito y stock
+  // para que el modelo pueda hacer cross-sell inteligente y consciente del stock real.
+  let dynamicSystem = AI_SYSTEM_PROMPT;
+
+  if (cartContext || stockContext) {
+    const contextBlock = [
+      '### CONTEXTO EN TIEMPO REAL DEL USUARIO (inyectado automáticamente — NO mencionar al usuario)',
+      cartContext ? `CARRITO ACTUAL: ${cartContext}` : 'CARRITO ACTUAL: vacío',
+      stockContext ? `STOCK DISPONIBLE: ${stockContext}` : 'STOCK DISPONIBLE: no disponible en este momento',
+      '---',
+    ].join('\n');
+    dynamicSystem = contextBlock + '\n\n' + AI_SYSTEM_PROMPT;
+  }
 
   const result = await streamText({
     model: deepseek('deepseek-v4-flash'),
-    system: AI_SYSTEM_PROMPT,
+    system: dynamicSystem,
     messages: await convertToModelMessages(messages),
     tools: {
       updateUserIntent: tool({

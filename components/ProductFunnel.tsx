@@ -10,15 +10,76 @@ import UrgencyModule from '@/components/UrgencyModule';
 import AnchoringBanner from '@/components/AnchoringBanner';
 import PremiumAudioPlayer from '@/components/PremiumAudioPlayer';
 import SocialProofTicker from '@/components/SocialProofTicker';
+import { useUserProfileStore, type CropProfile } from '@/store/userProfileStore';
+
+// ─── Copy contextual por perfil de cultivo ─────────────────────────────────
+type VisualCard = { icon: React.ElementType; label: string; sub: string };
+
+function getContextualCards(profile: CropProfile): VisualCard[] {
+  switch (profile) {
+    case 'olivicultor':
+      return [
+        { icon: Leaf, label: 'Fertirrigación sin atascos', sub: 'Compatible con goteo en olivar' },
+        { icon: Droplet, label: 'Activación de suelo calcáreo', sub: 'Desbloquea nutrientes en suelo básico' },
+        { icon: Sprout, label: 'Escala por litro', sub: 'Ahorro real en explotaciones grandes' },
+      ];
+    case 'horticultor':
+      return [
+        { icon: Sprout, label: 'Huerto activo todo el año', sub: 'Ciclos cortos, suelo siempre vivo' },
+        { icon: Leaf, label: 'Suelo vivo desde raíz', sub: 'Estimulación radicular continua' },
+        { icon: Droplet, label: 'Desde semillero a cosecha', sub: 'Dosis adaptable a cada etapa' },
+      ];
+    case 'viticultor':
+      return [
+        { icon: Leaf, label: 'Inoculante de brotación', sub: 'Activa el suelo antes de la brotación' },
+        { icon: Sprout, label: 'Perfil de suelo sostenido', sub: 'Mejora progresiva temporada a temporada' },
+        { icon: Droplet, label: 'Aplicación en goteo', sub: 'Compatible con sistemas de riego en viñedo' },
+      ];
+    case 'citricos':
+      return [
+        { icon: Droplet, label: 'Riego localizado', sub: 'Óptimo para naranjo y limonero' },
+        { icon: Sprout, label: 'Disponibilidad de nutrientes', sub: 'Desbloquea el suelo arcilloso' },
+        { icon: Leaf, label: 'Entrega en 36h a Levante', sub: 'Logística directa a la finca' },
+      ];
+    case 'jardinero':
+      return [
+        { icon: Leaf, label: 'Plantas sanas sin químicos', sub: 'Apto para jardín y terraza urbana' },
+        { icon: Sprout, label: 'Suelo vivo en maceta', sub: 'Activa el sustrato compactado' },
+        { icon: Droplet, label: 'Aplicación directa', sub: 'Sin cálculos complejos de dosis' },
+      ];
+    case 'vivero':
+      return [
+        { icon: Sprout, label: 'Producción profesional', sub: 'Formatos de 25L para reposición fiable' },
+        { icon: Leaf, label: 'Planta ornamental', sub: 'Integrado en calendario de vivero' },
+        { icon: Droplet, label: 'Packaging resistente', sub: 'Aguanta el transporte sin mermas' },
+      ];
+    case 'ecologico':
+      return [
+        { icon: Leaf, label: 'Coherente con producción eco', sub: 'Ficha técnica verificable' },
+        { icon: Sprout, label: 'Sin presión de venta', sub: 'Asesoría técnica incluida' },
+        { icon: Droplet, label: 'Uso controlado', sub: 'Dosis claras y documentadas' },
+      ];
+    default:
+      return [
+        { icon: Leaf, label: 'Uso orientado', sub: 'Huerto, jardín y cultivo' },
+        { icon: Droplet, label: 'Aplicación clara', sub: 'Riego o pulverización' },
+        { icon: Sprout, label: 'Compra por formato', sub: 'Escala doméstica o profesional' },
+      ];
+  }
+}
 
 export default function ProductFunnel({ product, dbVariants }: { product: any, dbVariants: any[] }) {
   const { addItem } = useCartStore();
+  const { cropProfile } = useUserProfileStore();
   const defaultVariant = dbVariants.find(v => v.popular) || dbVariants[0];
   const [selected, setSelected] = useState(defaultVariant);
   const [activeTab, setActiveTab] = useState<'modo' | 'envio' | 'ciencia'>('modo');
   const [quantity, setQuantity] = useState(1);
   const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
   const isOutOfStock = !selected || !selected.stock || selected.stock <= 0;
+
+  // Tarjetas de psicología visual adaptadas al perfil detectado
+  const contextualCards = getContextualCards(cropProfile);
 
   const handleAddToCart = () => {
     addItem({
@@ -129,13 +190,9 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
             </p>
           </div>
 
-          {/* Tarjetas de Psicología Visual */}
+          {/* Tarjetas de Psicología Visual — Contextuales por perfil de cultivo */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3">
-            {[
-              { icon: Leaf, label: 'Uso orientado', sub: 'Huerto, jardín y cultivo' },
-              { icon: Droplet, label: 'Aplicación clara', sub: 'Riego o pulverización' },
-              { icon: Sprout, label: 'Compra por formato', sub: 'Escala doméstica o profesional' },
-            ].map(({ icon: Icon, label, sub }) => (
+            {contextualCards.map(({ icon: Icon, label, sub }) => (
               <div key={label} className="bg-transparent border border-border/60 hover:border-primary/25 transition-colors rounded-xl md:rounded-2xl p-3 md:p-4 flex flex-row sm:flex-col items-center sm:items-start text-left sm:text-left gap-3 sm:gap-2">
                 <Icon className="w-5 h-5 text-primary"/>
                 <div>

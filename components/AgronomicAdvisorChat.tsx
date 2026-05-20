@@ -2,24 +2,96 @@
 
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
-import { useState, useRef, useEffect, FormEvent } from 'react';
-import { X, Send, Leaf } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback, FormEvent } from 'react';
+import { X, Send, Leaf, ShoppingCart, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useCartStore } from '@/store/cartStore';
+import { useUserProfileStore } from '@/store/userProfileStore';
+
+// ─── Tipos de cross-sell ────────────────────────────────────────────────────
+interface CrossSellVariant {
+  id: string;
+  sku: string;
+  size: string;
+  price: number;
+  stock: number;
+  product: { name: string; slug: string };
+}
+interface CrossSellData {
+  ort5L: CrossSellVariant | null;
+  bio5L: CrossSellVariant | null;
+}
 
 export default function AgronomicAdvisorChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
+  const [crossSellData, setCrossSellData] = useState<CrossSellData | null>(null);
+
+  // Carrito y perfil de usuario
+  const cartItems = useCartStore((s) => s.items);
+  const setProfile = useUserProfileStore((s) => s.setProfile);
+
+  // Derivar si el carrito contiene Té de Humus o Purín de Ortiga
+  const cartHasTe = cartItems.some((i) => i.sku?.startsWith('BIO-'));
+  const cartHasOrtiga = cartItems.some((i) => i.sku?.startsWith('ORT-'));
+
+  // Serializar carrito para el sistema prompt del backend
+  const buildCartContext = useCallback(() => {
+    if (cartItems.length === 0) return null;
+    const lines = cartItems.map(
+      (i) => `- ${i.name} (${i.size}, SKU: ${i.sku ?? 'N/A'}) × ${i.quantity} uds = ${(i.price * i.quantity).toFixed(2)}€`
+    );
+    return `El usuario tiene en el carrito:\n${lines.join('\n')}`;
+  }, [cartItems]);
+
+  // Cargar datos de stock al abrir el chat (solo una vez por sesión)
+  useEffect(() => {
+    if (!isOpen || crossSellData !== null) return;
+    fetch('/api/cross-sell')
+      .then((r) => r.json())
+      .then((data) => setCrossSellData(data))
+      .catch(() => setCrossSellData({ ort5L: null, bio5L: null }));
+  }, [isOpen, crossSellData]);
+
+  // Serializar contexto de stock para el backend
+  const buildStockContext = useCallback(() => {
+    if (!crossSellData) return null;
+    const { ort5L, bio5L } = crossSellData;
+    return [
+      `Té de Humus 5L (BIO-5L): ${bio5L ? (bio5L.stock > 0 ? `En stock (${bio5L.stock} uds), precio ${bio5L.price}€` : 'SIN STOCK') : 'no disponible'}`,
+      `Purín de Ortiga 5L (ORT-5L): ${ort5L ? (ort5L.stock > 0 ? `En stock (${ort5L.stock} uds), precio ${ort5L.price}€` : 'SIN STOCK — no recomendar para compra inmediata') : 'no disponible'}`,
+    ].join('\n');
+  }, [crossSellData]);
+
+  // La SDK evalua `body` justo antes de enviar la petición al servidor.
+  // Al usar una ref actualizada en cada render, el transport siempre
+  // lee el contexto más reciente del carrito y el stock sin reinicializar el hook.
+  const cartContextRef = useRef<string | null>(null);
+  const stockContextRef = useRef<string | null>(null);
+
+  // Actualizar las refs antes de cada render
+  cartContextRef.current = buildCartContext();
+  stockContextRef.current = buildStockContext();
+
   const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: '/api/chat' }),
+    transport: new DefaultChatTransport({
+      api: '/api/chat',
+      // body es resuelto por la SDK en cada petición, permitiendo datos frescos
+      body: {
+        get cartContext() { return cartContextRef.current; },
+        get stockContext() { return stockContextRef.current; },
+      } as Record<string, unknown>,
+    }),
   });
   const isLoading = status === 'submitted' || status === 'streaming';
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Extraer el último intent detectado y sincronizarlo con userProfileStore
   const lastIntent = messages
     .flatMap((m) => m.parts)
     .reverse()
@@ -27,9 +99,19 @@ export default function AgronomicAdvisorChat() {
       (p) =>
         p.type === 'tool-updateUserIntent' &&
         (p as { state?: string }).state === 'output-available'
-    ) as { output?: { intentScore?: number } } | undefined;
+    ) as { output?: { intentScore?: number; crop?: string; problem?: string } } | undefined;
+
   const intentScore = Number(lastIntent?.output?.intentScore ?? 0);
   const isHot = intentScore > 70;
+
+  // Sincronizar perfil detectado → userProfileStore (con persistencia en localStorage)
+  useEffect(() => {
+    if (!lastIntent?.output) return;
+    const { crop, problem, intentScore: score } = lastIntent.output;
+    if (crop || problem || score !== undefined) {
+      setProfile({ crop, problem, intentScore: score });
+    }
+  }, [lastIntent, setProfile]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,6 +120,25 @@ export default function AgronomicAdvisorChat() {
     sendMessage({ text });
     setInput('');
   };
+
+  // ─── Lógica de cross-sell visual ─────────────────────────────────────────
+  // Mostrar cross-sell de Purín si: usuario tiene Té en carrito + problema de plagas/hongos
+  // O si el intent es alto y no tiene ningún producto de Biocultor aún
+  const hasOrtPlagueProblem = lastIntent?.output?.problem
+    ?.toLowerCase()
+    .match(/plaga|hongo|oidio|mildiu|pulgón|araña|trips|botritis|patógen|enfermedad/);
+
+  const ortigaInStock = (crossSellData?.ort5L?.stock ?? 0) > 0;
+  const teInStock = (crossSellData?.bio5L?.stock ?? 0) > 0;
+
+  // Cross-sell de Purín: usuario tiene Té y tiene problema de plagas y hay stock de Ortiga
+  const showOrtigaCrossSell = isHot && cartHasTe && hasOrtPlagueProblem && ortigaInStock;
+
+  // Cross-sell de Té: usuario tiene Purín y hay stock de Té
+  const showTeCrossSell = isHot && cartHasOrtiga && !cartHasTe && teInStock;
+
+  // Recomendación principal (sin carrito): sólo si hay stock
+  const showMainReco = isHot && !cartHasTe && !cartHasOrtiga && teInStock;
 
   return (
     <>
@@ -48,17 +149,23 @@ export default function AgronomicAdvisorChat() {
         />
       )}
 
-      {/* Botón Flotante Independiente */}
+      {/* Botón Flotante */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`fixed bottom-[4.5rem] md:bottom-6 right-5 flex items-center justify-center w-14 h-14 bg-brand-brown-dark rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:scale-105 border border-brand-green/20 transition-all duration-300 z-50 group ${
           isOpen ? 'opacity-0 pointer-events-none scale-90 translate-x-10' : 'opacity-100 scale-100 translate-x-0'
         }`}
-        aria-label="Abrir asesor"
+        aria-label="Abrir asesor agronómico"
       >
         <div className="relative w-8 h-8">
           <Image src="/Favicon.svg" alt="Asesor Biocultor" fill className="object-contain brightness-0 invert opacity-90" />
         </div>
+        {/* Badge: indicador de carrito activo */}
+        {cartItems.length > 0 && (
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-brand-green rounded-full flex items-center justify-center">
+            <ShoppingCart className="w-2.5 h-2.5 text-white" />
+          </span>
+        )}
       </button>
 
       <div
@@ -66,7 +173,7 @@ export default function AgronomicAdvisorChat() {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-
+        {/* Header */}
         <div className="flex items-center justify-between p-5 bg-brand-brown-dark text-cream shrink-0 border-b border-white/10">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10 overflow-hidden shrink-0">
@@ -93,6 +200,17 @@ export default function AgronomicAdvisorChat() {
           </button>
         </div>
 
+        {/* Indicador contextual del carrito — visible solo si hay ítems */}
+        {cartItems.length > 0 && (
+          <div className="flex items-center gap-2 px-5 py-2.5 bg-brand-green/8 border-b border-brand-green/15 shrink-0">
+            <ShoppingCart className="w-3.5 h-3.5 text-brand-green shrink-0" />
+            <p className="text-[11px] text-brand-brown-dark/70 font-medium">
+              El asesor conoce tu carrito y puede sugerirte combinaciones
+            </p>
+          </div>
+        )}
+
+        {/* Mensajes */}
         <div className="flex-1 overflow-y-auto p-5 space-y-5 bg-[#FAFAF9]">
           {messages.length === 0 && (
             <div className="text-center mt-12 space-y-5">
@@ -150,7 +268,72 @@ export default function AgronomicAdvisorChat() {
           <div ref={messagesEndRef} />
         </div>
 
-        {isHot && (
+        {/* ─── Tarjeta de Cross-Sell: Purín de Ortiga ─────────────────────── */}
+        {showOrtigaCrossSell && crossSellData?.ort5L && (
+          <div className="px-5 py-4 bg-amber-50 border-t border-amber-200/60 flex flex-col gap-3 shrink-0 animate-in fade-in slide-in-from-bottom-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex flex-col">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700/80 mb-1">
+                  Complemento Detectado
+                </span>
+                <span className="text-base font-heading font-extrabold text-brand-brown-dark leading-tight">
+                  Purín de Ortiga 5L
+                </span>
+                <p className="text-[13px] text-brand-brown-dark/70 mt-1.5 leading-snug">
+                  Refuerza las defensas frente a plagas. Combinado con el Té de Humus actúa como escudo biológico.
+                </p>
+                <span className="text-xs font-bold text-amber-700 mt-1">
+                  {crossSellData.ort5L.price.toFixed(2)}€ · En stock
+                </span>
+              </div>
+              <div className="w-16 h-16 relative shrink-0 bg-white rounded-xl border border-amber-200/60 overflow-hidden shadow-sm">
+                <Image src="/purin-ortiga-5l.jpg" alt="Purín de Ortiga 5L" fill className="object-cover" />
+              </div>
+            </div>
+            <Link
+              href={`/producto/${crossSellData.ort5L.product.slug}`}
+              className="flex items-center justify-center gap-2 w-full text-sm font-bold bg-amber-600 text-white px-4 py-3 rounded-xl hover:bg-amber-700 transition-colors shadow-md"
+            >
+              Ver Purín de Ortiga
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        )}
+
+        {/* ─── Tarjeta de Cross-Sell: Té de Humus ────────────────────────── */}
+        {showTeCrossSell && crossSellData?.bio5L && (
+          <div className="px-5 py-4 bg-brand-green-light border-t border-brand-green/20 flex flex-col gap-3 shrink-0 animate-in fade-in slide-in-from-bottom-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex flex-col">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-green-dark/80 mb-1">
+                  Base Biológica Recomendada
+                </span>
+                <span className="text-base font-heading font-extrabold text-brand-brown-dark leading-tight">
+                  Té de Humus 5L
+                </span>
+                <p className="text-[13px] text-brand-brown-dark/70 mt-1.5 leading-snug">
+                  Activa la biología del suelo. La base que hace más efectivo tu Purín de Ortiga.
+                </p>
+                <span className="text-xs font-bold text-brand-green-dark mt-1">
+                  {crossSellData.bio5L.price.toFixed(2)}€ · En stock
+                </span>
+              </div>
+              <div className="w-16 h-16 relative shrink-0 bg-white rounded-xl border border-brand-green/30 overflow-hidden shadow-sm">
+                <Image src="/5 litros.jpg" alt="Té de Humus 5L" fill className="object-cover" />
+              </div>
+            </div>
+            <Link
+              href={`/producto/${crossSellData.bio5L.product.slug}`}
+              className="flex items-center justify-center gap-2 w-full text-sm font-bold bg-brand-green text-white px-4 py-3 rounded-xl hover:bg-brand-green-dark transition-colors shadow-md"
+            >
+              Ver Té de Humus
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        )}
+
+        {/* ─── Tarjeta de Recomendación Principal (sin carrito) ───────────── */}
+        {showMainReco && crossSellData?.bio5L && (
           <div className="px-5 py-4 bg-brand-green-light border-t border-brand-green/20 flex flex-col gap-3 shrink-0 animate-in fade-in slide-in-from-bottom-4">
             <div className="flex items-start justify-between gap-3">
               <div className="flex flex-col">
@@ -168,15 +351,17 @@ export default function AgronomicAdvisorChat() {
                 <Image src="/10 litros.jpg" alt="Té de humus 5L" fill className="object-cover" />
               </div>
             </div>
-            <a
+            <Link
               href="/producto/te-humus-liquido-premium"
-              className="flex items-center justify-center w-full text-sm font-bold bg-brand-green text-white px-4 py-3 rounded-xl hover:bg-brand-green-dark transition-colors shadow-md mt-1"
+              className="flex items-center justify-center gap-2 w-full text-sm font-bold bg-brand-green text-white px-4 py-3 rounded-xl hover:bg-brand-green-dark transition-colors shadow-md"
             >
               Ver formato recomendado
-            </a>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         )}
 
+        {/* Input */}
         <form onSubmit={handleSubmit} className="p-4 bg-white border-t border-brand-brown/10 shrink-0 pb-6 sm:pb-4">
           <div className="relative flex items-center">
             <input
