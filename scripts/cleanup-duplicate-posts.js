@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('=== TRATANDO DUPLICADOS EN TABLA POST ===');
   
-  // Obtener slugs de las Landings Especiales en SeoPage
   const landings = await prisma.seoPage.findMany({
     where: { kind: 'LANDING' },
     select: { slug: true, title: true }
@@ -23,7 +22,6 @@ async function main() {
     return;
   }
 
-  // Buscar posts duplicados en la tabla Post
   const duplicatePosts = await prisma.post.findMany({
     where: {
       slug: { in: landingSlugs }
@@ -37,7 +35,6 @@ async function main() {
   }
 
   if (duplicatePosts.length > 0) {
-    // Eliminar posts duplicados de la tabla Post
     const deleteResult = await prisma.post.deleteMany({
       where: {
         slug: { in: landingSlugs }
