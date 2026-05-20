@@ -4,6 +4,7 @@ import prisma from "@/lib/db"
 import { alertCritical } from "@/lib/alert"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
+import { testimonials } from "@/lib/testimonials"
 
 export async function generateStaticParams() {
   try {
@@ -97,26 +98,23 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.8',
-      reviewCount: '124',
+      reviewCount: testimonials.length.toString(),
       bestRating: '5',
       worstRating: '1',
     },
-    review: [
-      {
-        '@type': 'Review',
-        author: { '@type': 'Person', name: 'Carlos M.' },
-        datePublished: '2026-01-14',
-        reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5', worstRating: '1' },
-        reviewBody: 'Excelente producto. Lo uso en mis cítricos y se nota la evolución del cultivo. La aplicación es muy limpia.',
+    review: testimonials.map((t) => ({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: t.name },
+      datePublished: t.date,
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: t.rating.toString(),
+        bestRating: '5',
+        worstRating: '1',
       },
-      {
-        '@type': 'Review',
-        author: { '@type': 'Person', name: 'Ana Gómez' },
-        datePublished: '2026-03-05',
-        reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5', worstRating: '1' },
-        reviewBody: 'Perfecto para mi huerto urbano. Llevo un par de campañas aplicándolo y el suelo responde mucho mejor.',
-      },
-    ],
+      reviewBody: t.text,
+      name: t.highlight,
+    })),
     // Ofertas individuales por variante — clave para Google Shopping
     offers: product.variants.map(v => ({
       '@type': 'Offer',
