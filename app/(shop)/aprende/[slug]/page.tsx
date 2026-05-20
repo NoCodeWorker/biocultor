@@ -2,7 +2,7 @@ export const revalidate = 3600
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
@@ -54,6 +54,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
+  // Redirigir a /solucion-humus/[slug] si es una landing page de tipo LANDING, cumpliendo el roadmap oficial
+  try {
+    const isLanding = await prisma.seoPage.findFirst({
+      where: { slug, kind: 'LANDING', isPublished: true },
+      select: { id: true },
+    });
+    if (isLanding) {
+      redirect(`/solucion-humus/${slug}`);
+    }
+  } catch (err) {
+    // Silencioso
+  }
+
   let dbPost = null;
   try {
     dbPost = await prisma.post.findUnique({ where: { slug } });
@@ -100,6 +113,20 @@ export default async function AprendeArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+
+  // Redirigir a /solucion-humus/[slug] si es una landing page de tipo LANDING, cumpliendo el roadmap oficial
+  try {
+    const isLanding = await prisma.seoPage.findFirst({
+      where: { slug, kind: 'LANDING', isPublished: true },
+      select: { id: true },
+    });
+    if (isLanding) {
+      redirect(`/solucion-humus/${slug}`);
+    }
+  } catch (err) {
+    // Silencioso
+  }
+
   // ── A) Post de base de datos (CRUD desde el admin) ───────────────────────
   let dbPost = null;
   try {

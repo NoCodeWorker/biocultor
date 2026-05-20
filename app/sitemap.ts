@@ -34,13 +34,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   let dynamicPosts: Array<{ slug: string; updatedAt: Date; createdAt: Date }> = [];
+  let dynamicLandings: Array<{ slug: string; updatedAt: Date; createdAt: Date }> = [];
   try {
-    dynamicPosts = await prisma.post.findMany({
-      where: { isPublished: true },
-      select: { slug: true, updatedAt: true, createdAt: true },
-    });
+    const [posts, landings] = await Promise.all([
+      prisma.post.findMany({
+        where: { isPublished: true },
+        select: { slug: true, updatedAt: true, createdAt: true },
+      }),
+      prisma.seoPage.findMany({
+        where: { kind: 'LANDING', isPublished: true },
+        select: { slug: true, updatedAt: true, createdAt: true },
+      })
+    ]);
+    dynamicPosts = posts;
+    dynamicLandings = landings;
   } catch (error) {
-    console.warn("DB no disponible para obtener dynamicPosts en sitemap.ts, usando fallback vacío.");
+    console.warn("DB no disponible para obtener dynamicPages en sitemap.ts, usando fallback vacío.");
   }
 
   const staticRoutes = [
@@ -115,6 +124,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: post.updatedAt || post.createdAt || now,
       changeFrequency: 'monthly' as const,
       priority: 0.75,
+    })),
+    ...dynamicLandings.map((landing) => ({
+      url: absoluteUrl(`/solucion-humus/${landing.slug}`),
+      lastModified: landing.updatedAt || landing.createdAt || now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
     })),
   ];
 }

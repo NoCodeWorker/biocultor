@@ -249,7 +249,7 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                             : item.kind === 'GEO'
                             ? `/espana/${item.slug}`
                             : item.kind === 'LANDING'
-                            ? `/aprende/${item.slug}`
+                            ? `/solucion-humus/${item.slug}`
                             : `/aprende/${item.slug}`
                         }
                         target="_blank"
@@ -531,7 +531,7 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                           : item.kind === 'GEO'
                           ? `/espana/${item.slug}`
                           : item.kind === 'LANDING'
-                          ? `/aprende/${item.slug}`
+                          ? `/solucion-humus/${item.slug}`
                           : `/aprende/${item.slug}`
                       }
                       target="_blank"

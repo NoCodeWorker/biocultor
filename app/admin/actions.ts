@@ -10,9 +10,15 @@ function revalidateSeoPaths(kind: string, slug: string) {
   revalidatePath('/admin/seo');
   revalidatePath('/sitemap.xml');
 
-  if (kind === 'ARTICLE' || kind === 'LANDING') {
+  if (kind === 'ARTICLE') {
     revalidatePath('/aprende');
     revalidatePath(`/aprende/${slug}`);
+    return;
+  }
+
+  if (kind === 'LANDING') {
+    revalidatePath('/solucion-humus');
+    revalidatePath(`/solucion-humus/${slug}`);
     return;
   }
 
