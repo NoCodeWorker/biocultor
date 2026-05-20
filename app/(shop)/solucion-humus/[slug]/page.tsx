@@ -585,8 +585,8 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
                 <div className="lg:col-span-5 order-2 lg:order-1">
                   <div className="bg-brand-brown-dark text-cream p-8 rounded-3xl border border-white/10 shadow-2xl flex flex-col justify-between min-h-[340px] relative overflow-hidden texture-grain">
                     <div>
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 text-white font-bold text-xs uppercase mb-6 border border-white/10">
-                        <Clock className="w-3.5 h-3.5 text-primary" /> Ficha Técnica de Fertilidad
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-green/20 text-cream font-bold text-xs uppercase mb-6 border border-white/10">
+                        <Clock className="w-3.5 h-3.5 text-brand-green-light" /> Ficha Técnica de Fertilidad
                       </div>
                       <h4 className="text-xl font-heading font-bold text-cream mb-6">Especificaciones de Uso</h4>
                       <div className="space-y-4">
@@ -598,7 +598,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
                             </div>
                             <div className="flex justify-between items-center py-2.5 border-b border-white/10 text-sm">
                               <span className="text-cream-warm/75 font-semibold">Dosificación</span>
-                              <span className="font-bold text-primary">5% al 10% en riego</span>
+                              <span className="font-bold text-brand-green-light">5% al 10% en riego</span>
                             </div>
                             <div className="flex justify-between items-center py-2.5 border-b border-white/10 text-sm">
                               <span className="text-cream-warm/75 font-semibold">Época recomendada</span>
@@ -613,7 +613,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
                             </div>
                             <div className="flex justify-between items-center py-2.5 border-b border-white/10 text-sm">
                               <span className="text-cream-warm/75 font-semibold">Dosificación</span>
-                              <span className="font-bold text-primary">Foliar 5% | Riego 10-20L/Ha</span>
+                              <span className="font-bold text-brand-green-light">Foliar 5% | Riego 10-20L/Ha</span>
                             </div>
                             <div className="flex justify-between items-center py-2.5 border-b border-white/10 text-sm">
                               <span className="text-cream-warm/75 font-semibold">Época recomendada</span>
@@ -628,7 +628,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
                             </div>
                             <div className="flex justify-between items-center py-2.5 border-b border-white/10 text-sm">
                               <span className="text-cream-warm/75 font-semibold">Dosificación</span>
-                              <span className="font-bold text-primary">5% al 10% diluido</span>
+                              <span className="font-bold text-brand-green-light">5% al 10% diluido</span>
                             </div>
                             <div className="flex justify-between items-center py-2.5 border-b border-white/10 text-sm">
                               <span className="text-cream-warm/75 font-semibold">Frecuencia</span>
@@ -638,7 +638,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
                         )}
                         <div className="flex justify-between items-center py-2.5 text-sm">
                           <span className="text-cream-warm/75 font-semibold">Sustentabilidad</span>
-                          <span className="font-bold text-emerald-400">100% Ecológico (Residuo Cero)</span>
+                          <span className="font-bold text-brand-green-light">✓ 100% Ecológico (Residuo Cero)</span>
                         </div>
                       </div>
                     </div>
