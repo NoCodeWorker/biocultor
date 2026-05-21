@@ -19,7 +19,8 @@ import {
   Sparkles,
   Award,
   Clock,
-  Coins
+  Coins,
+  ChevronDown
 } from "lucide-react";
 
 // Forzar revalidación de las landings
@@ -76,17 +77,64 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
       section3: payload.section3Image || '/10 litros.jpg'
     };
 
+    let faqList: Array<{ question: string; answer: string }> = [];
+    try {
+      faqList = JSON.parse(page.faqJson || '[]');
+    } catch (e) {}
+
     return (
       <main className="flex flex-col w-full antialiased bg-background min-h-screen relative z-10">
         <StructuredData
           id="protocolo-schema"
           data={{
             "@context": "https://schema.org",
-            "@type": "TechArticle",
-            "headline": page.title,
-            "description": page.excerpt || "Protocolo de cultivo ecológico profesional paso a paso.",
-            "image": images.hero,
-            "author": { "@type": "Organization", "name": "Biocultor" }
+            "@graph": [
+              {
+                "@type": "WebPage",
+                "@id": `https://biocultor.com/solucion-humus/${page.slug}`,
+                "url": `https://biocultor.com/solucion-humus/${page.slug}`,
+                "name": page.metaTitle || page.title,
+                "description": page.metaDescription || page.excerpt || '',
+                "image": images.hero,
+                "inLanguage": "es-ES",
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "Biocultor",
+                  "url": "https://biocultor.com"
+                }
+              },
+              {
+                "@type": "TechArticle",
+                "@id": `https://biocultor.com/solucion-humus/${page.slug}#article`,
+                "isPartOf": `https://biocultor.com/solucion-humus/${page.slug}`,
+                "headline": page.title,
+                "description": page.metaDescription || page.excerpt || "Protocolo de cultivo ecológico profesional paso a paso.",
+                "image": images.hero,
+                "author": { "@type": "Organization", "name": "Biocultor" },
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "Biocultor",
+                  "url": "https://biocultor.com"
+                }
+              },
+              ...((() => {
+                try {
+                  const faq = JSON.parse(page.faqJson || '[]');
+                  if (!Array.isArray(faq) || faq.length === 0) return [];
+                  return [{
+                    "@type": "FAQPage",
+                    "mainEntity": faq.map((item: { question: string; answer: string }) => ({
+                      "@type": "Question",
+                      "name": item.question,
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.answer
+                      }
+                    }))
+                  }];
+                } catch { return []; }
+              })())
+            ]
           }}
         />
 
@@ -342,6 +390,42 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
             </div>
           </div>
         </section>
+
+        {/* ── Preguntas Frecuentes (FAQs) de la Landing ── */}
+        {faqList.length > 0 && (
+          <section className="w-full py-20 bg-background border-t border-border/20 relative z-10">
+            <div className="w-[92%] lg:w-[80%] xl:w-[70%] mx-auto px-4 max-w-4xl">
+              <div className="text-center mb-12">
+                <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary/80 mb-2 block">Resolución de Dudas</span>
+                <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground tracking-tight">
+                  Preguntas Frecuentes
+                </h2>
+                <p className="text-muted-foreground text-sm md:text-base mt-2 max-w-lg mx-auto">
+                  Respuestas técnicas para cultivadores profesionales sobre el protocolo.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                {faqList.map((faq, index) => (
+                  <details 
+                    key={index} 
+                    className="group border border-border/50 rounded-2xl bg-background overflow-hidden transition-all duration-300 open:shadow-lg open:shadow-primary/5 open:border-primary/25"
+                  >
+                    <summary className="flex items-center justify-between font-heading font-bold text-base md:text-lg px-6 py-5 md:py-6 cursor-pointer list-none select-none text-foreground hover:text-primary transition-colors">
+                      <span>{faq.question}</span>
+                      <div className="p-2 rounded-full bg-muted/60 text-muted-foreground group-open:rotate-180 group-open:bg-primary/10 group-open:text-primary transition-all duration-300 shrink-0 ml-4">
+                        <ChevronDown className="w-5 h-5" />
+                      </div>
+                    </summary>
+                    <div className="px-6 pb-6 text-muted-foreground leading-relaxed text-sm md:text-base border-t border-border/10 pt-4 bg-muted/10">
+                      {faq.answer}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ── Footer / CTA Final ── */}
         <section className="w-full py-24 bg-background text-center relative z-10 border-t border-border/30">
@@ -717,6 +801,46 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
         })}
 
       </div>
+
+    {/* ── Preguntas Frecuentes (FAQs) de la Landing GEO ── */}
+    {(() => {
+      try {
+        const faqList = JSON.parse(page.faqJson || '[]');
+        if (!Array.isArray(faqList) || faqList.length === 0) return null;
+        return (
+          <section className="w-[92%] lg:w-[80%] xl:w-[70%] mx-auto px-4 pb-16 max-w-4xl relative z-10">
+            <div className="text-center mb-12">
+              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary/80 mb-2 block">Dudas Frecuentes</span>
+              <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground tracking-tight">
+                Preguntas y Respuestas Técnicas
+              </h2>
+              <p className="text-muted-foreground text-sm md:text-base mt-2 max-w-lg mx-auto">
+                Información clave sobre la aplicación, dosis y compatibilidad en tu región.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {faqList.map((faq: { question: string; answer: string }, index: number) => (
+                <details 
+                  key={index} 
+                  className="group border border-border/50 rounded-2xl bg-background overflow-hidden transition-all duration-300 open:shadow-lg open:shadow-primary/5 open:border-primary/25"
+                >
+                  <summary className="flex items-center justify-between font-heading font-bold text-base md:text-lg px-6 py-5 md:py-6 cursor-pointer list-none select-none text-foreground hover:text-primary transition-colors">
+                    <span>{faq.question}</span>
+                    <div className="p-2 rounded-full bg-muted/60 text-muted-foreground group-open:rotate-180 group-open:bg-primary/10 group-open:text-primary transition-all duration-300 shrink-0 ml-4">
+                      <ChevronDown className="w-5 h-5" />
+                    </div>
+                  </summary>
+                  <div className="px-6 pb-6 text-muted-foreground leading-relaxed text-sm md:text-base border-t border-border/10 pt-4 bg-muted/10">
+                    {faq.answer}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+        );
+      } catch { return null; }
+    })()}
 
       {/* ── CTA Final de Compra Directa ── */}
       <section className="w-[92%] lg:w-[80%] xl:w-[70%] mx-auto px-4 py-16 bg-cream-warm rounded-[2.5rem] border border-border text-center relative z-10 overflow-hidden texture-grain">
