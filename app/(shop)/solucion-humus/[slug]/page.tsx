@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   try { payload = JSON.parse(page.payloadJson || '{}'); } catch (e) {}
 
   return buildMetadata({
-    title: `${page.title} | Biocultor`,
-    description: page.excerpt || page.metaDescription || '',
+    title: page.metaTitle || `${page.title} | Biocultor`,
+    description: page.metaDescription || page.excerpt || '',
     path: `/solucion-humus/${page.slug}`,
     image: payload.heroImage || page.image || '/product-showcase.png'
   });
@@ -400,15 +400,44 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
 
   return (
     <article className="w-full bg-background relative z-10 antialiased pb-20 flex flex-col min-h-screen">
+      {/* ─── Schema.org: WebPage + FAQPage Graph ─── */}
       <StructuredData
         id="geo-schema"
         data={{
           "@context": "https://schema.org",
-          "@type": "WebPage",
-          "name": page.title,
-          "description": page.excerpt || page.metaDescription,
-          "image": heroImage,
-          "provider": { "@type": "Organization", "name": "Biocultor" }
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": `https://biocultor.com/solucion-humus/${page.slug}`,
+              "url": `https://biocultor.com/solucion-humus/${page.slug}`,
+              "name": page.metaTitle || page.title,
+              "description": page.metaDescription || page.excerpt || '',
+              "image": heroImage,
+              "inLanguage": "es-ES",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Biocultor",
+                "url": "https://biocultor.com"
+              }
+            },
+            ...((() => {
+              try {
+                const faq = JSON.parse(page.faqJson || '[]');
+                if (!Array.isArray(faq) || faq.length === 0) return [];
+                return [{
+                  "@type": "FAQPage",
+                  "mainEntity": faq.map((item: { question: string; answer: string }) => ({
+                    "@type": "Question",
+                    "name": item.question,
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": item.answer
+                    }
+                  }))
+                }];
+              } catch { return []; }
+            })())
+          ]
         }}
       />
 
