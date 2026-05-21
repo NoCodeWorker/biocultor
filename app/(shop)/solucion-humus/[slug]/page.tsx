@@ -484,7 +484,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
 
   return (
     <article className="w-full bg-background relative z-10 antialiased pb-20 flex flex-col min-h-screen">
-      {/* ─── Schema.org: WebPage + FAQPage Graph ─── */}
+      {/* ─── Schema.org: WebPage + TechArticle + FAQPage Graph ─── */}
       <StructuredData
         id="geo-schema"
         data={{
@@ -498,6 +498,20 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
               "description": page.metaDescription || page.excerpt || '',
               "image": heroImage,
               "inLanguage": "es-ES",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Biocultor",
+                "url": "https://biocultor.com"
+              }
+            },
+            {
+              "@type": "TechArticle",
+              "@id": `https://biocultor.com/solucion-humus/${page.slug}#article`,
+              "isPartOf": `https://biocultor.com/solucion-humus/${page.slug}`,
+              "headline": page.title,
+              "description": page.metaDescription || page.excerpt || "Solución agronómica y protocolo biológico profesional.",
+              "image": heroImage,
+              "author": { "@type": "Organization", "name": "Biocultor" },
               "publisher": {
                 "@type": "Organization",
                 "name": "Biocultor",
