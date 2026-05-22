@@ -160,8 +160,8 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
                      src={format.image}
                      alt={`Formato ${format.size} — Té de Humus Biocultor`}
                      fill
-                     sizes="(max-width: 480px) 280px, (max-width: 768px) 500px, (max-width: 1280px) 300px, 280px"
-                     quality={60}
+                     sizes="(max-width: 480px) 380px, (max-width: 768px) 600px, (max-width: 1280px) 400px, 480px"
+                     quality={80}
                      className="object-contain drop-shadow-xl transition-transform duration-500 ease-out group-hover/img:scale-105"
                    />
                    <div className="absolute inset-0 bg-primary/0 group-hover/img:bg-primary/5 transition-colors duration-300 flex items-end justify-center pb-3 opacity-0 group-hover/img:opacity-100">

@@ -173,8 +173,8 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
                     src={format.image}
                     alt={`Purín de Ortiga Concentrado ${format.size} — Biocultor`}
                     fill
-                    sizes="(max-width: 480px) 280px, (max-width: 768px) 500px, (max-width: 1280px) 300px, 280px"
-                    quality={60}
+                    sizes="(max-width: 480px) 380px, (max-width: 768px) 600px, (max-width: 1280px) 400px, 480px"
+                    quality={80}
                     className="object-contain drop-shadow-xl transition-transform duration-500 ease-out group-hover/img:scale-105"
                   />
                   {/* Hover overlay to signal clickability */}
