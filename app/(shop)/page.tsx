@@ -9,14 +9,16 @@ import OrtIgaFormatSelector from "@/components/OrtIgaFormatSelector"
 import nextDynamic from "next/dynamic"
 import { alertCritical } from "@/lib/alert"
 
-const ScienceProof = nextDynamic(() => import("@/components/ScienceProof"))
+import {
+  BuyerPersonaSelector,
+  ScienceProof,
+  SocialProof,
+  CostCalculator,
+  ResultsTimeline,
+  RiskReversal,
+  NewsletterCapture
+} from "@/components/HomeDynamicSections";
 const FaqAioSeo = nextDynamic(() => import("@/components/FaqAioSeo"))
-const BuyerPersonaSelector = nextDynamic(() => import("@/components/BuyerPersonaSelector"))
-const ResultsTimeline = nextDynamic(() => import("@/components/ResultsTimeline"))
-const CostCalculator = nextDynamic(() => import("@/components/CostCalculator"))
-const RiskReversal = nextDynamic(() => import("@/components/RiskReversal"))
-const SocialProof = nextDynamic(() => import("@/components/SocialProof"))
-const NewsletterCapture = nextDynamic(() => import("@/components/NewsletterCapture"))
 
 import prisma from "@/lib/db"
 import { MapPin } from "lucide-react"
@@ -115,7 +117,7 @@ export default async function Page() {
             priority
             fetchPriority="high"
             quality={50}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px"
+            sizes="100vw"
           />
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-brand-brown-dark/75 via-brand-brown-dark/55 to-brand-brown-dark/92" />
