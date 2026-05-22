@@ -60,11 +60,13 @@ services:
       - "traefik.http.routers.biocultor.tls=true"
       - "traefik.http.routers.biocultor.tls.certresolver=letsencrypt"
       - "traefik.http.services.biocultor.loadbalancer.server.port=3000"
-      # www → apex (301 permanente)
-      - "traefik.http.routers.biocultor.middlewares=biocultor-wwwredirect"
+      # Middlewares: www-redirect y compresión (gzip)
+      - "traefik.http.routers.biocultor.middlewares=biocultor-wwwredirect,biocultor-compress"
       - "traefik.http.middlewares.biocultor-wwwredirect.redirectregex.regex=^https://www\\.biocultor\\.com/(.*)"
       - "traefik.http.middlewares.biocultor-wwwredirect.redirectregex.replacement=https://biocultor.com/$${1}"
       - "traefik.http.middlewares.biocultor-wwwredirect.redirectregex.permanent=true"
+      - "traefik.http.middlewares.biocultor-compress.compress=true"
+
 
   db:
     image: postgres:16-alpine
