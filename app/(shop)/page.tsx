@@ -116,7 +116,7 @@ export default async function Page() {
             className="object-cover object-center"
             priority
             fetchPriority="high"
-            quality={50}
+            quality={35}
             sizes="100vw"
           />
           {/* Dark overlay for text readability */}
