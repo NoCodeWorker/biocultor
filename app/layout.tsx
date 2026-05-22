@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
+import GoogleAnalyticsLazy from '@/components/GoogleAnalyticsLazy';
 import { DM_Sans, Quicksand } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -63,24 +63,7 @@ export default function RootLayout({
         )}
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary font-sans">
-        {gaId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="lazyOnload"
-            />
-            <Script id="google-analytics" strategy="lazyOnload">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}', {
-                  page_path: window.location.pathname,
-                });
-              `}
-            </Script>
-          </>
-        )}
+        {gaId && <GoogleAnalyticsLazy gaId={gaId} />}
         <StructuredData id="organization-schema" data={organizationSchema()} />
         <StructuredData id="website-schema" data={websiteSchema()} />
         <ThemeProvider>
