@@ -23,12 +23,22 @@ export default function ShippingAndReturnsPolicyPage() {
           <li><strong>Seguimiento:</strong> Una vez procesado, te enviaremos un correo electrónico con un enlace seguro para que puedas seguir la trayectoria de tu pedido en tiempo real.</li>
         </ul>
 
-        <h2 className="text-2xl font-bold text-brand-brown-dark mt-10">2. Devoluciones</h2>
+        <h2 className="text-2xl font-bold text-brand-brown-dark mt-10">2. Devoluciones y Derecho de Desistimiento</h2>
         <p>
-          Debido a la naturaleza biológica activa de nuestros extractos y productos (como el té de humus de lombriz), <strong>no aceptamos devoluciones de envases abiertos o manipulados</strong> por razones de calidad y seguridad.
+          Conforme a la legislación de consumo de la Unión Europea y de España, dispones de un plazo de <strong>14 días naturales</strong> desde la recepción de tu pedido para ejercer tu derecho de desistimiento y solicitar la devolución del producto.
         </p>
         <p>
-          Sin embargo, si tu pedido llega dañado, roto o el producto es defectuoso desde origen, contáctanos en un plazo máximo de <strong>48 horas</strong> tras la recepción del paquete a través de nuestro formulario de contacto o en <strong>contacto@biocultor.com</strong>, adjuntando fotografías del estado del paquete y del producto. Procederemos a reemplazártelo sin coste adicional.
+          <strong>Condiciones de devolución:</strong>
+        </p>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>Por razones de protección de la salud, higiene y seguridad (al tratarse de abonos orgánicos y extractos biológicamente activos), <strong>solo se aceptará la devolución de productos que estén completamente precintados, sin abrir y en su embalaje original intacto</strong>. No se admiten devoluciones de botellas o bidones abiertos, manipulados o parcialmente consumidos.</li>
+          <li><strong>Gastos de envío de la devolución:</strong> Los costes asociados al envío del producto devuelto hasta nuestras instalaciones correrán <strong>íntegramente a cargo del cliente</strong> (comprador), salvo que la devolución se deba a un error de envío o a un producto defectuoso.</li>
+        </ul>
+        <p>
+          <strong>Incidencias de transporte y productos dañados:</strong>
+        </p>
+        <p>
+          Si tu pedido llega dañado, roto, con pérdidas de líquido o el producto es defectuoso desde origen, procederemos a reemplazártelo sin coste adicional. Para gestionarlo, debes notificárnoslo en un plazo máximo de <strong>48 horas</strong> tras la recepción del paquete escribiéndonos a <strong>contacto@biocultor.com</strong> o mediante nuestro formulario de contacto, adjuntando fotografías del paquete externo y del producto afectado.
         </p>
 
         <h2 className="text-2xl font-bold text-brand-brown-dark mt-10">3. Cancelaciones</h2>
