@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2026-03-25.dahlia',
+    apiVersion: '2026-04-22.dahlia',
   });
 
   let raw: unknown;
@@ -189,7 +189,7 @@ export async function POST(req: Request) {
     });
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'paypal'],
+      payment_method_types: ['card', 'paypal', 'bizum'] as Stripe.Checkout.SessionCreateParams['payment_method_types'],
       line_items,
       mode: 'payment',
       shipping_options,

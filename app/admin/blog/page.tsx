@@ -1,7 +1,8 @@
 import prisma from '@/lib/db';
 import Link from 'next/link';
-import { PenSquare, Plus, Eye, EyeOff, ArrowRight, FileText, BookOpen, RefreshCw } from 'lucide-react';
+import { PenSquare, Plus, Eye, EyeOff, ArrowRight, FileText, BookOpen } from 'lucide-react';
 import { seoArticles, seoArticlesOrtiga } from '@/lib/seo-content';
+import { articleToMarkdown, mapCategory } from '@/lib/article-to-md';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,30 +14,35 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export default async function AdminBlogPage() {
-  // --- SYNC LOGIC: Asegura que los artículos estáticos existan en la DB ---
+  // --- SYNC: Crea en BD los artículos de seo-content.ts que falten ---
+  // Solo INSERT (skip si el slug ya existe). Las ediciones del Dashboard no se tocan.
   const allStatic = [...seoArticles, ...seoArticlesOrtiga];
-  
-  const existingInDb = await prisma.post.findMany({
-    select: { slug: true }
-  });
-  const dbSlugs = new Set(existingInDb.map(p => p.slug));
 
-  const missing = allStatic.filter(s => !dbSlugs.has(s.slug));
+  const existingInDb = await prisma.post.findMany({ select: { slug: true } });
+  const dbSlugs = new Set(existingInDb.map((p) => p.slug));
+
+  const missing = allStatic.filter((a) => !dbSlugs.has(a.slug));
 
   if (missing.length > 0) {
-    await Promise.all(missing.map(art => 
-      prisma.post.create({
-        data: {
-          title: art.title,
-          slug: art.slug,
-          excerpt: art.excerpt || '',
-          content: 'Artículo sincronizado automáticamente desde el sistema SEO. Edita aquí para gestionar su imagen y metadatos.',
-          category: art.category === 'Evidencia' ? 'EVIDENCE' : 'KNOWLEDGE',
-          isPublished: true,
-          keywords: art.slug.replace(/-/g, ' '),
-        }
-      })
-    ));
+    await Promise.all(
+      missing.map((art) =>
+        prisma.post.create({
+          data: {
+            title:       art.title,
+            slug:        art.slug,
+            excerpt:     art.excerpt ?? '',
+            content:     articleToMarkdown(art),
+            category:    mapCategory(art.category),
+            metaTitle:   art.metaTitle,
+            metaDesc:    art.metaDescription,
+            keywords:    [art.title, art.category, 'biocultor'].join(', '),
+            coverImage:  art.image ?? null,
+            isPublished: true,
+            author:      'Equipo Biocultor',
+          },
+        })
+      )
+    );
   }
   // -----------------------------------------------------------------------
 

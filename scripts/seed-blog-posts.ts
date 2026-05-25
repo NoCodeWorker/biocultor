@@ -1,129 +1,77 @@
 /**
  * seed-blog-posts.ts
- * Migra todos los artículos estáticos de seo-content.ts a la tabla Post de Prisma.
- * Ejecutar en el servidor: npx tsx scripts/seed-blog-posts.ts
+ * Crea en la tabla Post los artículos estáticos de seo-content.ts que aún no existan.
+ * 
+ * POLÍTICA: Solo INSERT (skip si el slug ya existe en BD).
+ * Las ediciones manuales del Dashboard nunca se sobreescriben.
  *
- * - Si el slug ya existe en BD → lo actualiza (upsert).
- * - Convierte sections[], summary[], faq[], references[] a Markdown limpio.
- * - El markdown generado es compatible con react-markdown + MarkdownContent.tsx
+ * Ejecutado automáticamente en cada deploy (docker-compose command).
+ * También ejecutable a mano: npx tsx scripts/seed-blog-posts.ts
  */
 
 import { PrismaClient } from '../generated/prisma';
-import { seoArticles, seoArticlesOrtiga, type SeoArticle } from '../lib/seo-content';
+import { seoArticles, seoArticlesOrtiga } from '../lib/seo-content';
+import { articleToMarkdown, mapCategory } from '../lib/article-to-md';
 
 const prisma = new PrismaClient();
 
-// ---------------------------------------------------------------------------
-// Mapeo de categoría
-// ---------------------------------------------------------------------------
-
-function mapCategory(cat: string): string {
-  const c = cat.toLowerCase();
-  if (c.includes('evidencia') || c.includes('evidence')) return 'EVIDENCE';
-  if (c.includes('técnico') || c.includes('technical')) return 'TECHNICAL';
-  if (c.includes('editorial')) return 'EDITORIAL';
-  return 'KNOWLEDGE';
-}
-
-// ---------------------------------------------------------------------------
-// Conversión a Markdown limpio
-// ---------------------------------------------------------------------------
-
-function articleToMarkdown(article: SeoArticle): string {
-  const parts: string[] = [];
-
-  // Fuente base (con icono claro)
-  if (article.sourceNote) {
-    parts.push(`> 📚 **Fuente base:** ${article.sourceNote}`);
-  }
-
-  // Resumen rápido como lista
-  if (article.summary?.length) {
-    parts.push(`## Resumen rápido\n\n${article.summary.map((s) => `- ${s}`).join('\n')}`);
-  }
-
-  // Secciones principales
-  for (const section of article.sections ?? []) {
-    const body = section.body.join('\n\n');
-    parts.push(`## ${section.heading}\n\n${body}`);
-  }
-
-  // FAQ
-  if (article.faq?.length) {
-    parts.push('## Preguntas frecuentes');
-    for (const f of article.faq) {
-      parts.push(`### ${f.question}\n\n${f.answer}`);
-    }
-  }
-
-  // Referencias
-  if (article.references?.length) {
-    parts.push('## Referencias científicas');
-    for (const r of article.references) {
-      parts.push(
-        `- **${r.title}** — _${r.authority}_ (${r.year})  \n  [Ver fuente →](${r.url})`
-      );
-    }
-  }
-
-  return parts.join('\n\n');
-}
-
-// ---------------------------------------------------------------------------
-// Main
-// ---------------------------------------------------------------------------
-
 async function main() {
-  const all: SeoArticle[] = [...seoArticles, ...seoArticlesOrtiga];
+  const all = [...seoArticles, ...seoArticlesOrtiga];
 
-  console.log(`\n📦 Total artículos a procesar: ${all.length}\n`);
+  console.log(`\n📦 Verificando ${all.length} artículos en BD...\n`);
+
+  // Cargamos todos los slugs existentes de una sola query (eficiente)
+  const existing = await prisma.post.findMany({ select: { slug: true } });
+  const existingSlugs = new Set(existing.map((p) => p.slug));
+
+  const toCreate = all.filter((a) => !existingSlugs.has(a.slug));
+
+  if (toCreate.length === 0) {
+    console.log('✅ Todos los artículos ya están en BD. Nada que crear.\n');
+    return;
+  }
+
+  console.log(`➕ Creando ${toCreate.length} artículos nuevos...\n`);
 
   let created = 0;
-  let updated = 0;
   let errors = 0;
 
-  for (const article of all) {
+  for (const article of toCreate) {
     try {
       const content = articleToMarkdown(article);
-      const data = {
-        title:       article.title,
-        excerpt:     article.excerpt,
-        content,
-        category:    mapCategory(article.category),
-        metaTitle:   article.metaTitle,
-        metaDesc:    article.metaDescription,
-        keywords:    [article.title, article.category, 'biocultor'].join(', '),
-        coverImage:  article.image ?? null,
-        isPublished: true,
-        author:      'Equipo Biocultor',
-      };
-
-      const existing = await prisma.post.findUnique({ where: { slug: article.slug } });
-
-      if (existing) {
-        await prisma.post.update({ where: { slug: article.slug }, data });
-        console.log(`  🔄 Actualizado: ${article.slug}`);
-        updated++;
-      } else {
-        await prisma.post.create({ data: { ...data, slug: article.slug } });
-        console.log(`  ✅ Creado: ${article.slug}`);
-        created++;
-      }
-    } catch (err: any) {
-      console.error(`  ❌ Error en ${article.slug}: ${err.message}`);
+      await prisma.post.create({
+        data: {
+          title:       article.title,
+          slug:        article.slug,
+          excerpt:     article.excerpt,
+          content,
+          category:    mapCategory(article.category),
+          metaTitle:   article.metaTitle,
+          metaDesc:    article.metaDescription,
+          keywords:    [article.title, article.category, 'biocultor'].join(', '),
+          coverImage:  article.image ?? null,
+          isPublished: true,
+          author:      'Equipo Biocultor',
+        },
+      });
+      console.log(`  ✅ Creado: ${article.slug}`);
+      created++;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`  ❌ Error en ${article.slug}: ${msg}`);
       errors++;
     }
   }
 
-  console.log(`\n🎉 Proceso terminado:`);
-  console.log(`   ✅ Creados:     ${created}`);
-  console.log(`   🔄 Actualizados: ${updated}`);
-  console.log(`   ❌ Errores:     ${errors}\n`);
+  console.log(`\n🎉 Seed terminado:`);
+  console.log(`   ✅ Creados: ${created}`);
+  if (errors > 0) console.log(`   ❌ Errores: ${errors}`);
+  console.log();
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error fatal:', e);
+    console.error('❌ Error fatal en seed:', e);
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());

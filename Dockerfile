@@ -29,6 +29,14 @@ RUN test -n "$DATABASE_URL" || (echo "ERROR: DATABASE_URL requerido en build-tim
 ENV DATABASE_URL=$DATABASE_URL
 RUN npm run build
 
+# Compilar el seed de posts a JS standalone (esbuild viene con Next.js)
+# Así el runner puede ejecutarlo con `node` puro, sin tsx ni TypeScript
+RUN node_modules/.bin/esbuild scripts/seed-blog-posts.ts \
+      --bundle \
+      --platform=node \
+      --packages=external \
+      --outfile=seed-blog-posts.cjs
+
 # ─── 3. Runtime ─────────────────────────────────────────────────────────
 FROM node:20-alpine AS runner
 RUN apk add --no-cache openssl
@@ -53,6 +61,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/generated ./generated
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+
+# Seed de blog posts compilado (solo JS, no necesita tsx en runtime)
+COPY --from=builder --chown=nextjs:nodejs /app/seed-blog-posts.cjs ./seed-blog-posts.cjs
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 
 # Aseguramos que la carpeta de uploads exista (aunque luego se monte el volumen encima)

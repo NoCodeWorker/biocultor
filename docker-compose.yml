@@ -45,7 +45,9 @@ services:
     # Para el primer arranque tras este cambio hay que hacer un baseline en
     # el VPS (ver DEPLOY.md sección "Baseline tras switch a migrate deploy").
     command: >
-      sh -c "node node_modules/prisma/build/index.js migrate deploy && node server.js"
+      sh -c "node node_modules/prisma/build/index.js migrate deploy &&
+             node seed-blog-posts.cjs &&
+             node server.js"
     labels:
       - "traefik.enable=true"
       # Apex + www por HTTP → redirige a HTTPS

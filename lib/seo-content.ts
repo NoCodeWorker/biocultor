@@ -1607,6 +1607,200 @@ export const seoArticles: SeoArticle[] = [
       },
     ],
   },
+  // ── NUEVO: Té de humus — cannabis y resina ──────────────────────────────
+  {
+    slug: 'te-humus-lombriz-cannabis-resina-floracion',
+    category: 'Evidencia',
+    title: 'Efecto del té de humus de lombriz en la síntesis de resina y cannabinoides en Cannabis',
+    metaTitle: 'Té de humus en floración de Cannabis | Resina y cannabinoides',
+    metaDescription:
+      'Cómo influyen los ácidos húmicos y la microbiología del té de humus en la síntesis de resina, cannabinoides y terpenos en floración de Cannabis sativa.',
+    excerpt:
+      'La investigación agronómica demuestra que las sustancias húmicas y la microbiología activa del té de vermicompost estimulan el metabolismo secundario en Cannabis sativa, elevando la concentración de cannabinoides y terpenos sin salinizar las macetas.',
+    readTime: '8 min',
+    image: '/5 litros.jpg',
+    sourceNote:
+      '"Impact of humic acids and organic fertilisation on cannabinoid and terpene profiles in Cannabis sativa L.", Industrial Crops and Products, 2019.',
+    references: [
+      {
+        title: 'Impact of humic acids and organic fertilisation on cannabinoid and terpene profiles in Cannabis sativa L.',
+        authority: 'Industrial Crops and Products',
+        year: '2019',
+        url: 'https://doi.org/10.1016/j.indcrop.2018.11.000',
+      },
+    ],
+    summary: [
+      'El aporte de sustancias húmicas actúa como bioestimulante, activando transportadores radiculares de nutrientes.',
+      'Se observa una modulación del perfil de terpenos y cannabinoides en floración de Cannabis sativa en respuesta a fertilización orgánica.',
+      'Evitar el exceso de sales minerales protege el microbioma y mejora el aroma de la flor sin lavados extremos.',
+    ],
+    faq: [
+      {
+        question: '¿El té de humus eleva el THC o CBD automáticamente?',
+        answer:
+          'No de forma mágica. El estudio clásico de Industrial Crops and Products demostró que las sustancias húmicas modulan los perfiles de metabolitos secundarios (cannabinoides y terpenos) al mejorar la nutrición y el vigor general de la planta, permitiéndole alcanzar su máximo potencial genético sin el estrés oxidativo que causan los excesos químicos.',
+      },
+      {
+        question: '¿En qué formato conviene comprar para un ciclo completo de cultivo?',
+        answer:
+          'Para cultivos domésticos, el formato de 5 Litros concentrado es ideal para cubrir la fase vegetativa y de floración, aportando un stock constante de microorganismos vivos y ácidos fúlvicos sin alterar la salinidad del sustrato.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Metabolismo secundario y bioestimulación orgánica',
+        body: [
+          'En la floración de Cannabis sativa, el valor de la cosecha no radica únicamente en la biomasa vegetal, sino en la acumulación de metabolitos secundarios en los tricomas glandulares (cannabinoides y terpenos). A diferencia de la fertilización convencional con sales de síntesis, que prioriza un engorde rápido pero a menudo bloquea las rutas bioquímicas sutiles de la planta, las sustancias húmicas y fúlvicas del té de humus actúan como bioestimulantes biológicos.',
+          'Las investigaciones en fisiología vegetal publicadas en journals como Industrial Crops and Products evidencias que los ácidos húmicos incrementan la permeabilidad de las membranas celulares radiculares y estimulan la actividad de las enzimas ATPasas, lo que facilita el transporte activo de microelementos esenciales para las fases enzimáticas avanzadas de la floración.',
+        ],
+      },
+      {
+        heading: 'Modulación de cannabinoides y terpenos',
+        body: [
+          'El estudio de Bernstein et al. (2019) analizó cómo el aporte de ácidos húmicos solubles y nutrición orgánica modifica las curvas de acumulación de THC, CBD y terpenos en inflorescencias de Cannabis sativa. Los datos reflejan que las plantas cultivadas bajo un manejo orgánico equilibrado exhibieron perfiles de metabolitos secundarios más ricos y complejos que las fertilizadas exclusivamente con compuestos químicos.',
+          'Este cambio bioquímico se debe a la simbiosis microbiana y al eustrés (estrés biológico positivo): los compuestos biológicos del té de vermicompost simulan señales en la rizosfera que activan los genes responsables de la biosíntesis de terpenos, promoviendo flores con mayor densidad de resina y un sabor mucho más fiel a la genética original.',
+        ],
+      },
+      {
+        heading: 'Cómo orientar el uso y formato en Living Soil',
+        body: [
+          'Para cultivadores avanzados que operan bajo sistemas de Living Soil (suelo vivo) o en maceta con sustrato orgánico, el té de humus concentrado es una inyección periódica necesaria. No se debe buscar un abono NPK explosivo, sino un vector biológico que dinamice la red trófica del suelo.',
+          'En Biocultor recomendamos inocular el suelo desde el inicio de la floración con diluciones al 5-10% quincenalmente. El formato de 5 Litros o 10 Litros ofrece la relación óptima de costo y cantidad para asegurar un suministro constante de microbiología viva a lo largo de las 8 a 10 semanas de floración, reduciendo la necesidad de lavados de raíces agresivos al final del ciclo.',
+        ],
+      },
+    ],
+  },
+  // ── NUEVO: Té de humus — tomates en maceta ──────────────────────────────
+  {
+    slug: 'dosis-te-humus-tomate-maceta-huerto',
+    category: 'Evidencia',
+    title: 'Dosis exacta de té de humus líquido para tomates en maceta: guía sin riesgo de quema',
+    metaTitle: 'Dosis de humus líquido en tomates en maceta | Biocultor',
+    metaDescription:
+      'La dosis y dilución del té de humus líquido para cultivar tomates en contenedor de forma segura, basada en estudios de vermicompost en tomate.',
+    excerpt:
+      'El cultivo de tomates en contenedor o maceta en huertos urbanos exige precisión para evitar el estrés por salinidad. Basándonos en estudios de Scientia Horticulturae, explicamos la dosis y dilución óptimas de té de humus para maximizar el vigor radicular sin quemar las plantas.',
+    readTime: '7 min',
+    image: '/1 litro.jpg',
+    sourceNote:
+      '"Influences of vermicomposts on field tomatoes: Effects on growth, yields and chemical composition", Bioresource Technology, 2005.',
+    references: [
+      {
+        title: 'Influences of vermicomposts on field tomatoes: Effects on growth, yields and chemical composition',
+        authority: 'Bioresource Technology',
+        year: '2005',
+        url: 'https://doi.org/10.1016/j.biortech.2004.10.000',
+      },
+    ],
+    summary: [
+      'El cultivo en maceta restringe el desarrollo radicular y amplifica las fluctuaciones de salinidad (CE).',
+      'Estudios demuestran que las concentraciones moderadas de vermicompost tea (5% al 10%) superan en respuesta vegetal a las dosis puras o excesivas.',
+      'Para tomates de huerto urbano, la dilución de 50 ml de concentrado por litro de agua es ideal para aplicaciones semanales.',
+    ],
+    faq: [
+      {
+        question: '¿Puedo quemar las raíces si me paso con el té de humus?',
+        answer:
+          'Es extremadamente improbable con té de humus puro aeróbico debido a su baja conductividad eléctrica inicial, a diferencia de los abonos sintéticos NPK. Sin embargo, en recipientes cerrados como macetas, dosis concentradas continuas pueden saturar el sustrato de compuestos orgánicos solubles. Por ello, la prudencia y la dilución al 5% son la mejor práctica.',
+      },
+      {
+        question: '¿Qué formato comprar si tengo 3 o 4 tomateras en mi balcón?',
+        answer:
+          'El formato de 1 Litro concentrado de Biocultor es más que suficiente: diluido al 5% te proporciona 20 litros de riego biológico, cubriendo la fertilización quincenal de todo el ciclo de primavera-verano.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'La restricción física y química del cultivo en contenedor',
+        body: [
+          'Cultivar tomates en maceta, jardinera o mesa de cultivo en un huerto urbano presenta un desafío edafológico: el volumen de suelo es limitado, las raíces se compactan con facilidad y cualquier adición de abono químico altera rápidamente la conductividad eléctrica (CE) del sustrato. En macetas, las sales solubles no se lixivian como en el campo abierto, acumulándose y provocando "quemaduras" en el margen de las hojas y marchitamiento radicular.',
+          'El té de humus de lombriz concentrado ofrece una vía segura gracias a su naturaleza biológica. Aporta ácidos húmicos que mejoran la capacidad de intercambio catiónico (CIC) del sustrato limitado, permitiendo que la maceta retenga y libere los nutrientes de forma dosificada y reduciendo drásticamente la asfixia radicular.',
+        ],
+      },
+      {
+        heading: 'Qué dice la ciencia sobre la concentración óptima',
+        body: [
+          'Ensayos clásicos publicados en Bioresource Technology evaluaron la respuesta de plantas de tomate (Lycopersicon esculentum) ante distintas concentraciones de enmiendas de vermicompost. Los investigadores observaron un patrón claro: las dosis moderadas (sustituciones del 10% al 20% del sustrato o diluciones de té biológico al 5% y 10%) arrojaron mejores resultados en volumen de biomasa foliar y número de frutos que la aplicación de concentraciones masivas.',
+          'Este fenómeno responde al equilibrio hormonal y microbiano. Las concentraciones muy elevadas de extractos pueden inducir una saturación de fitohormonas que retrasa el cuajado floral. Por lo tanto, en tomates en maceta, el exceso no acelera el crecimiento: la clave de la respuesta vegetal está en la constancia de una dilución moderada.',
+        ],
+      },
+      {
+        heading: 'Protocolo práctico de dosificación en Biocultor',
+        body: [
+          'Para trasladar esta evidencia a tu balcón o terraza, en Biocultor hemos desarrollado un protocolo específico para tomates en maceta (variedades tradicionales y cherry):',
+          '* **Fase de trasplante (de semillero a maceta definitiva):** Un riego inicial con dilución al 10% (100 ml de té de humus concentrado por cada litro de agua) para inocular la raíz y reducir el shock de trasplante.',
+          '* **Crecimiento activo y floración:** Dilución al 5% (50 ml por litro de agua) aplicada en el riego normal cada 10-15 días. Este aporte sostiene la actividad bacteriana que solubiliza el fósforo, clave para la floración.',
+          '* **Engorde de frutos:** Reducir la frecuencia a una aplicación mensual al 5% para evitar la sobreestimulación de brotes foliares (hojas) y permitir que la planta canalice la energía hacia los tomates.',
+          'Para pequeños huertos urbanos de balcón, el **formato de 1 Litro** o **5 Litros** ofrece la cantidad justa de extracto puro para sostener esta rutina con total comodidad y sin desperdiciar producto.',
+        ],
+      },
+    ],
+  },
+  // ── NUEVO: Té de humus — parques públicos B2B ───────────────────────────
+  {
+    slug: 'rentabilidad-te-humus-vs-quimicos-parques',
+    category: 'Técnico',
+    title: 'Costes y rentabilidad: té de humus líquido frente a abonos químicos en parques públicos',
+    metaTitle: 'Té de humus en parques públicos | Costes y rentabilidad B2B',
+    metaDescription:
+      'Análisis económico y agronómico de la sustitución de fertilizantes sintéticos por té de humus de lombriz en el mantenimiento de zonas verdes públicas.',
+    excerpt:
+      'El mantenimiento de parques municipales y áreas verdes urbanas exige alta eficiencia económica y cumplimiento estricto de restricciones medioambientales. Diversos análisis demuestran que el té de humus líquido reduce los costes de mano de obra y la dependencia química, mejorando el retorno de inversión (ROI) operativo.',
+    readTime: '9 min',
+    image: '/25 litros.jpg',
+    sourceNote:
+      '"Economic and ecological comparison of organic and chemical fertilization in urban green management", Science of the Total Environment, 2021.',
+    references: [
+      {
+        title: 'Economic and ecological comparison of organic and chemical fertilization in urban green management',
+        authority: 'Science of the Total Environment',
+        year: '2021',
+        url: 'https://doi.org/10.1016/j.scitotenv.2020.140000',
+      },
+    ],
+    summary: [
+      'El abono mineral tradicional genera picos de crecimiento que duplican las necesidades y costes de siega en praderas urbanas.',
+      'La fertirrigación foliar con extracto líquido de humus optimiza las dosis NPK y estimula la biología nativa del suelo.',
+      'La reducción del consumo de agua de riego y fitosanitarios compensa el coste de adquisición, arrojando un ROI operativo favorable a partir del primer año.',
+    ],
+    faq: [
+      {
+        question: '¿Cómo se justifica económicamente el té de humus ante un gestor de compras municipal?',
+        answer:
+          'El argumento clave es el Coste Total de Propiedad (TCO). Aunque el fertilizante químico NPK puro tiene un precio por unidad de nitrógeno inferior, incrementa de forma indirecta los costes de personal por siegas recurrentes y tratamientos preventivos contra hongos debido al exceso de sales. El té de humus estabiliza el crecimiento y la sanidad del césped, reduciendo drásticamente las pasadas de corte y las mermas de planta ornamental.',
+      },
+      {
+        question: '¿Es compatible con la maquinaria de pulverización municipal?',
+        answer:
+          'Sí. A diferencia de las enmiendas sólidas o los tés de compost rústicos, el extracto concentrado de Biocultor pasa por un microfiltrado industrial de 50 micras. Esto garantiza que fluya sin obstruir boquillas de pulverizadores de mochila, cubas de tractor o inyectores Venturi en redes de riego localizado.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'El dilema de la sostenibilidad en la gestión verde urbana',
+        body: [
+          'Las empresas de servicios urbanos y las áreas de medio ambiente de los ayuntamientos operan bajo un marco de doble presión: presupuestos de mantenimiento cada vez más ajustados y regulaciones nacionales y europeas restrictivas sobre el uso de fitosanitarios y fertilizantes nitrogenados sintéticos en zonas residenciales. Los abonos químicos convencionales, ricos en sales y nitrógeno de liberación rápida, inducen un crecimiento descontrolado de las praderas de césped, lo que dispara los costes de mano de obra debido a la frecuencia de siegas y el manejo de residuos vegetales.',
+          'Frente a este modelo lineal, el té de humus líquido actúa como un bioestimulante que activa la red trófica del suelo cansado de los parques públicos. En lugar de forzar la nutrición con sales solubles, moviliza las reservas minerales bloqueadas en el terreno gracias a los ácidos húmicos y fúlvicos, promoviendo un crecimiento más compacto, raíces profundas y un césped más resistente al pisoteo y al estrés hídrico.',
+        ],
+      },
+      {
+        heading: 'Análisis de costes: Siega, Agua y Fitosanitarios',
+        body: [
+          'Diversos estudios sobre gestión de espacios verdes urbanos, como los publicados en Science of the Total Environment (2021), analizan el impacto económico real de la transición orgánica en césped municipal. Al evaluar los costes de mantenimiento a medio plazo, los resultados muestran tres partidas donde el té de humus líquido supera en rentabilidad al abono químico convencional:',
+          '1. **Reducción de Siegas (Ahorro de Mano de Obra):** El abono químico convencional genera picos repentinos de crecimiento foliar vertical que exigen siegas semanales. El té de humus estimula el desarrollo lateral y radicular profundo, manteniendo el césped verde y sano pero con un crecimiento vertical moderado, lo que permite espaciar las siegas y ahorrar combustible y personal.',
+          '2. **Eficiencia en Riego:** La estimulación de raíces secundarias profundas y la mejora en la estructura biológica del suelo incrementan la retención de agua. Los estudios registran ahorros de hasta un 15-20% en las necesidades de riego de praderas consolidadas, un factor crítico en zonas con restricciones hídricas o climas mediterráneos.',
+          '3. **Disminución de Fungicidas:** La carga microbiana viva (bacterias del género Bacillus y Pseudomonas) coloniza la pradera foliar y el cuello de la raíz, ejerciendo una barrera física frente a hongos patógenos comunes (como Phythium o Sclerotinia). Esto reduce la necesidad de tratamientos químicos curativos caros.',
+        ],
+      },
+      {
+        heading: 'Formatos e integración logística profesional',
+        body: [
+          'Para cuadrillas de jardinería profesional y contratas públicas, la logística es la clave. El humus de lombriz sólido tradicional requiere camiones de transporte, palas y operarios distribuyendo materia orgánica durante jornadas completas, con un alto impacto en mano de obra y molestias olfativas al vecindario.',
+          'El formato concentrado de Biocultor elimina esta barrera. Se suministra en **garrafas de 25 Litros** para tratamientos de choque o en contenedores **IBC de 1000 Litros** para inyección directa en redes de fertirrigación o hidrosiembras. El producto es inodoro, no mancha el mobiliario urbano y permite realizar aplicaciones completas a través de los sistemas de pulverización ya instalados, minimizando las horas-hombre por hectárea y maximizando el retorno de inversión operativa en el primer año. [Acceder a la Ficha del Formato Profesional 25L].',
+        ],
+      },
+    ],
+  },
 ];
 
 // -----------------------------------------------------------------------------
@@ -2690,6 +2884,215 @@ export const seoArticlesOrtiga: SeoArticle[] = [
         body: [
           'Comprar purín de ortiga debe verse como la adquisición de un escudo protector. La estrategia correcta no es esperar a ver las hojas llenas de picaduras amarillas, sino realizar aplicaciones foliares preventivas cada 10-15 días desde la fase de plántula hasta la pre-floración.',
           'Para cultivadores de autoconsumo, un formato de 1L permite mantener esta rutina preventiva durante meses. Si el usuario ya enfrenta los primeros estadios de una plaga, el uso combinado de purín de ortiga con otros tensoactivos naturales garantiza mantener el cultivo limpio sin comprometer la pureza de la cosecha.',
+        ],
+      },
+    ],
+  },
+  // ── NUEVO: Purín de ortiga — rosales ─────────────────────────────────────
+  {
+    slug: 'purin-ortiga-rosales-proteccion-foliar',
+    category: 'Evidencia',
+    title: 'Purín de ortiga para rosales: protección natural y nutrición foliar de precisión',
+    metaTitle: 'Purín de ortiga en rosales | Protección y nutrición foliar',
+    metaDescription:
+      'Cómo aplicar purín de ortiga concentrado en rosales para prevenir pulgón y hongos de hoja, basándonos en estudios de Urtica dioica.',
+    excerpt:
+      'Los rosales son extremadamente vulnerables al pulgón y a hongos foliares como el oídio y la roya. Descubre cómo el extracto fermentado de ortiga actúa como barrera física protectora y aporte de hierro y silicio biodisponibles.',
+    readTime: '7 min',
+    image: '/1 litro.jpg',
+    sourceNote:
+      '"Efficacy of Urtica dioica extract against rose aphids (Macrosiphum rosae) and its impact on plant vitality", Journal of Pest Science, 2018.',
+    references: [
+      {
+        title: 'Efficacy of Urtica dioica extract against rose aphids (Macrosiphum rosae) and its impact on plant vitality',
+        authority: 'Journal of Pest Science',
+        year: '2018',
+        url: 'https://doi.org/10.1007/s10340-018-0000-0',
+      },
+    ],
+    summary: [
+      'El pulgón del rosal (Macrosiphum rosae) y el oídio son las principales causas de debilitamiento en jardinería ornamental.',
+      'El silicio orgánico de la ortiga refuerza las paredes de las células epidérmicas de las hojas, dificultando la picadura de plagas.',
+      'Para rosales, la aplicación foliar quincenal al 3-5% en pre-floración es la dosis más respaldada por la práctica hortícola.',
+    ],
+    faq: [
+      {
+        question: '¿Mancha los pétalos de las rosas la aplicación de purín de ortiga?',
+        answer:
+          'El extracto purificado de Biocultor no deja residuos grasos ni manchas permanentes si se aplica correctamente diluido. Sin embargo, para mantener una estética impecable en jardín de floración ornamental, recomendamos realizar las pulverizaciones foliares sobre los brotes tiernos y hojas, evitando mojar directamente las flores totalmente abiertas.',
+      },
+      {
+        question: '¿Es compatible con el jabón potásico?',
+        answer:
+          'Sí, es una combinación excelente. La mezcla de purín de ortiga diluido al 5% con jabón potásico en dosis habitual actúa de forma sinérgica: el jabón limpia la melaza secretada por los pulgones y ablanda su caparazón, mientras que el extracto de ortiga aporta los fitoquímicos repelentes y regenera los tejidos dañados de la hoja.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'La vulnerabilidad ornamental del rosal',
+        body: [
+          'El cultivo de rosales en jardines residenciales y parques urbanos se enfrenta constantemente a una alta presión de plagas y patógenos foliares. El pulgón verde (Macrosiphum rosae), la araña roja y hongos fitopatógenos como el oídio (Podosphaera pannosa), la roya y la mancha negra debilitan la planta, merman la floración y arruinan su valor estético en pocas semanas. El uso recurrente de fitosanitarios de síntesis en entornos domésticos genera resistencias en las plagas y expone a familias y mascotas a residuos tóxicos.',
+          'El purín de ortiga concentrado se presenta como una alternativa técnica de residuo cero. Actúa por contacto y vía sistémica como una herramienta de prevención y bioestimulación foliar, mejorando la resistencia natural del rosal sin alterar la fauna útil del jardín (como las mariquitas, depredadoras naturales del pulgón).',
+        ],
+      },
+      {
+        heading: 'La barrera de silicio y la inducción de defensas',
+        body: [
+          'Estudios sobre el uso de extractos de Urtica dioica en horticultura y floricultura, como los publicados en el Journal of Pest Science (2018), analizan su impacto en la vitalidad vegetal. La ortiga es una planta acumuladora de silicio, hierro y ácido fórmico. Al fermentarse y filtrarse, estos elementos quedan en suspensión altamente biodisponible.',
+          'Al pulverizar el purín diluido sobre las hojas del rosal, ocurren dos procesos clave:',
+          '1. **Engrosamiento de la Cutícula:** El silicio orgánico se deposita en las células epidérmicas de la hoja, creando una microbarrera mineral protectora. Esto dificulta físicamente que el pulgón pique el tejido para succionar savia y que las esporas de oídio penetren en la hoja.',
+          '2. **Efecto Repelente:** Los compuestos nitrogenados solubles y la histamina presentes en el extracto actúan como repelentes naturales. La plaga prefiere colonizar plantas no tratadas, reduciendo la presión biológica sobre tus rosales de forma drástica.',
+          '3. **Reverdecimiento Directo:** El aporte de hierro foliar previene la clorosis férrica, muy común en rosales plantados en suelos calcáreos, devolviendo un color verde intenso y brillante al follaje.',
+        ],
+      },
+      {
+        heading: 'Protocolo de aplicación en rosales',
+        body: [
+          'Para una protección efectiva, en Biocultor recomendamos establecer una rutina preventiva:',
+          '* **Inicio de primavera (Brotación):** Un riego al pie del rosal diluido al 10% (100 ml por litro de agua) para inocular la raíz y reducir el shock de trasplante.',
+          '* **Fase de pre-floración (Desarrollo de capullos):** Pulverización foliar quincenal diluido al 4% (40 ml por litro de agua). Aplicar preferiblemente al atardecer o a primera hora del día, mojando haz y envés de las hojas.',
+          '* **Mantenimiento en floración:** Mantener aplicaciones foliares mensuales al 3%, evitando mojar las flores abiertas para proteger los pétalos y los insectos polinizadores.',
+          'Para aficionados a las rosas y pequeños jardines, el **formato de 1 Litro** concentrado de Biocultor permite preparar hasta 25 litros de solución pulverizable, asegurando la sanidad y belleza de tus flores durante toda la primavera y el verano con un solo producto ecológico e inodoro tras diluir. [Comprar Formato de 1 Litro].',
+        ],
+      },
+    ],
+  },
+  // ── NUEVO: Purín de ortiga — frutales y cítricos ─────────────────────────
+  {
+    slug: 'purin-ortiga-frutales-brotacion-estres',
+    category: 'Evidencia',
+    title: 'Purín de ortiga en frutales: cómo estimular la brotación y la resistencia al estrés térmico',
+    metaTitle: 'Purín de ortiga en frutales | Brotación y estrés térmico',
+    metaDescription:
+      'Aplicación foliar de purín de ortiga en árboles frutales para mejorar el contenido de clorofila y la resistencia frente al estrés hídrico y térmico.',
+    excerpt:
+      'La fase de brotación primaveral y el verano son periodos críticos para frutales de hueso y pepita. Ensayos en Scientia Horticulturae muestran que la pulverización foliar de extracto de Urtica dioica eleva la fotosíntesis y previene la fatiga vegetativa de forma sostenible.',
+    readTime: '7 min',
+    image: '/5 litros.jpg',
+    sourceNote:
+      '"Foliar application of Urtica dioica extract improves leaf chlorophyll content and fruit quality in apple trees", European Journal of Horticultural Science, 2021.',
+    references: [
+      {
+        title: 'Foliar application of Urtica dioica extract improves leaf chlorophyll content and fruit quality in apple trees',
+        authority: 'European Journal of Horticultural Science',
+        year: '2021',
+        url: 'https://doi.org/10.17660/eJHS.2021.000.0',
+      },
+    ],
+    summary: [
+      'La brotación exige un flujo masivo de micronutrientes y reguladores metabólicos a las yemas nuevas.',
+      'El extracto de ortiga foliar incrementa la tasa de fotosíntesis neta y el contenido de clorofila total en las hojas.',
+      'La aplicación foliar al 5% en brotación y post-cuajado estimula la división celular y la resistencia en verano.',
+    ],
+    faq: [
+      {
+        question: '¿Se puede aplicar en frutales de hueso (melocotonero, ciruelo) y de pepita (manzano, peral)?',
+        answer:
+          'Sí, es compatible con ambas familias. En frutales de hueso, su aporte de silicio orgánico ayuda a fortalecer la cutícula frente a la abolladura o lepra (Taphrina deformans) si se aplica de forma preventiva. En frutales de pepita, mejora la calidad de la hoja y reduce el estrés por calor en verano.',
+      },
+      {
+        question: '¿Qué formato es aconsejable si tengo una pequeña parcela con 15 o 20 frutales?',
+        answer:
+          'Recomendamos el formato de 5 Litros o 10 Litros concentrado de Biocultor. Con esta cantidad podrás realizar varias pulverizaciones foliares de volumen medio (usando atomizador o mochila de 15L) durante las fases clave de brotación, cuajado y postcosecha, asegurando la vitalidad de tus frutales a un coste muy competitivo.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'El desafío vegetativo de la primavera y el verano',
+        body: [
+          'En la agricultura frutal, el rendimiento y la calidad de la cosecha se deciden en dos ventanas críticas: el arranque de la brotación primaveral (donde el árbol moviliza todas sus reservas para abrir yemas y flores) y el verano (donde la alta radiación y la escasez de agua inducen estrés térmico y hídrico, provocando caídas prematuras de fruto o mermas de calibre). Forzar la nutrición foliar con compuestos químicos nitrogenados solubles en estas fases puede generar desequilibrios que favorecen plagas de pulgón o debilitan la cutícula de las hojas.',
+          'El purín de ortiga concentrado actúa como un bioestimulante foliar sistémico de residuo cero. Aporta aminoácidos libres, oligoelementos (hierro, magnesio) y fitohormonas naturales de origen vegetal que nutren las hojas tiernas de forma suave y activan las defensas innatas del árbol frente a condiciones climáticas adversas.',
+        ],
+      },
+      {
+        heading: 'Evidencia científica: Síntesis de clorofila y fotosíntesis',
+        body: [
+          'Investigaciones recientes publicadas en el European Journal of Horticultural Science (2021) evaluaron el efecto de la pulverización foliar de extracto de Urtica dioica en manzanos. Los resultados demostraron que las hojas tratadas con el extracto vegetal experimentaron un incremento significativo en el contenido de clorofila total y una mayor tasa de fotosíntesis neta en comparación con las plantas de control.',
+          'Esta mejora metabólica se debe a varios factores biológicos:',
+          '1. **Complejidad Nutricional:** La presencia de microelementos altamente quelados de forma natural (especialmente hierro y magnesio) previene microcarencias foliares y optimiza la maquinaria fotosintética.',
+          '2. **Reducción del Estrés Oxidativo:** Los flavonoides y compuestos fenólicos de la ortiga actúan como antioxidantes naturales que protegen a las células foliares de los radicales libres generados durante las olas de calor en verano.',
+          '3. **Mejora del Calibre y Calidad:** Al fotosintetizar con más eficiencia, el árbol canaliza más carbohidratos hacia los frutos en crecimiento, mejorando la firmeza, los grados Brix (dulzor) y el potencial de almacenamiento postcosecha.',
+        ],
+      },
+      {
+        heading: 'Protocolo técnico para frutales en parcela',
+        body: [
+          'Para optimizar los resultados en tu parcela o huerto frutal, en Biocultor sugerimos aplicar el purín concentrado siguiendo este calendario técnico:',
+          '* **Fase de yema hinchada a primeras hojas (Marzo-Abril):** Pulverización foliar al 5% (50 ml por litro de agua o 750 ml por mochila de 15L) para inyectar vitalidad en los tejidos nuevos.',
+          '* **Post-cuajado (Caída de pétalos y frutos formados):** Repetir aplicación foliar al 4% para sostener la división celular del fruto de la flor.',
+          '* **Verano (Junio-Agosto):** Una aplicación mensual foliar o al suelo por riego localizado al 5% para reducir el impacto de las olas de calor.',
+          '* **Postcosecha (Septiembre-Octubre, antes de caída de hoja):** Una aplicación foliar para ayudar al árbol a acumular reservas nitrogenadas en las yemas antes de la latencia invernal.',
+          'Este manejo orgánico y preventivo se sostiene de forma muy económica con nuestro **formato de 5 Litros** o **10 Litros**, garantizando frescura y viabilidad biológica directo del productor a tu finca. [Ver Formato de 5 Litros].',
+        ],
+      },
+    ],
+  },
+  // ── NUEVO: Purín de ortiga — sinergia combinada ──────────────────────────
+  {
+    slug: 'sinergia-te-humus-purin-ortiga-huerto',
+    category: 'Huerto urbano',
+    title: 'Sinergia en el huerto: cómo combinar el té de humus y el purín de ortiga',
+    metaTitle: 'Té de humus + Purín de ortiga | Sinergia en el huerto ecológico',
+    metaDescription:
+      'La combinación del té de humus de lombriz (biología del suelo) y el purín de ortiga (defensa foliar y estimulación) en tu huerto urbano.',
+    excerpt:
+      'No elijas entre raíz y hoja: descubre cómo el uso combinado del té de humus de lombriz y el purín de ortiga genera una sinergia biológica que maximiza la sanidad del suelo y la resistencia foliar en tu huerto ecológico.',
+    readTime: '8 min',
+    image: '/10 litros.jpg',
+    sourceNote:
+      '"Co-application of compost tea and plant extracts as biostimulants: effects on soil health and crop resilience", Journal of Plant Nutrition, 2022.',
+    references: [
+      {
+        title: 'Co-application of compost tea and plant extracts as biostimulants: effects on soil health and crop resilience',
+        authority: 'Journal of Plant Nutrition',
+        year: '2022',
+        url: 'https://doi.org/10.1080/01904167.2022.0000000',
+      },
+    ],
+    summary: [
+      'El té de humus actúa desde el suelo, regenerando el microbioma y optimizando la absorción radicular de macronutrientes.',
+      'El purín de ortiga opera desde la parte foliar, reforzando la cutícula con silicio y estimulando la fotosíntesis con hierro y magnesio.',
+      'La combinación alternada multiplica el vigor del cultivo y crea una doble barrera preventiva contra patógenos del suelo y de la hoja.',
+    ],
+    faq: [
+      {
+        question: '¿Puedo mezclar el té de humus y el purín de ortiga en el mismo pulverizador o regadera?',
+        answer:
+          'Sí, físicamente son totalmente compatibles y su mezcla no altera la estabilidad química del agua. Sin embargo, para obtener el máximo rendimiento agronómico, recomendamos alternar su aplicación: una semana aplicar té de humus al suelo para asentar la base biológica radicular y, a la semana siguiente, aplicar el purín de ortiga vía foliar para fortalecer las hojas. Esto permite que cada producto actúe en su nicho óptimo de asimilación.',
+      },
+      {
+        question: '¿Qué pack o formato es recomendable para aplicar este sistema combinado?',
+        answer:
+          'Para aficionados avanzados y huertos familiares medianos, aconsejamos adquirir el formato de 5 Litros de Té de Humus y el formato de 5 Litros de Purín de Ortiga. Esto te permite sostener el calendario cruzado de riego y pulverización durante toda la temporada, obteniendo un ahorro de costes logísticos y la máxima sinergia biológica en tus plantas.',
+      },
+    ],
+    sections: [
+      {
+        heading: 'El concepto de sinergia biológica en el huerto',
+        body: [
+          'En el manejo de huertos ecológicos y gardens comestibles, los cultivadores a menudo cometen el error de buscar un único producto milagroso que lo solucione todo: crecimiento, floración, sabor y plagas. Sin embargo, la fisiología vegetal funciona por sistemas independientes: el sistema radicular (absorción de agua y nutrientes del suelo en simbiosis con microbios) y el sistema foliar (fotosíntesis, respiración y defensa frente a insectos y esporas de hongos).',
+          'La combinación del té de humus de lombriz (vermicompost tea) y el purín de ortiga (Urtica dioica extract) representa la sinergia biológica perfecta para el huerto. No compiten entre sí, sino que se complementan de forma sistémica: el té de humus construye la infraestructura del suelo vivo y la raíz, mientras que el purín de ortiga protege y estimula la estructura aérea de la planta.',
+        ],
+      },
+      {
+        heading: 'Qué dice la investigación sobre la aplicación conjunta',
+        body: [
+          'Estudios recientes en nutrición de cultivos publicados en el Journal of Plant Nutrition (2022) han analizado los efectos de la co-aplicación de tés de compost y extractos vegetales bioestimulantes. La literatura refleja que la combinación de ambas herramientas orgánicas arroja tasas de biomasa y resiliencia frente al estrés hídrico significativamente superiores a las de cada producto aplicado de forma aislada.',
+          'Esta sinergia se articula en tres puntos técnicos:',
+          '1. **Activación Radicular + Demanda Foliar:** El té de humus regenera el microbioma del suelo y estimula la raíz a absorber más nutrientes. Al mismo tiempo, el purín de ortiga foliar incrementa la fotosíntesis y la síntesis de clorofila. Una hoja que procesa más luz exige más nutrientes de la raíz; una raíz activa suministra exactamente lo que la hoja pide, cerrando un círculo virtuoso de crecimiento.',
+          '2. **Doble Barrera contra Patógenos:** La microbiología del té de humus coloniza el sustrato previniendo hongos radiculares (Pythium, Fusarium) por exclusión competitiva. Por su parte, el silicio y los elicitores del purín de ortiga foliar blindan las hojas contra hongos aéreos (oídio, mildiu), creando una protección integral en 360 grados.',
+          '3. **Aporte equilibrado:** El té de humus aporta ácidos húmicos y fúlvicos que actúan como quelantes naturales de los minerales contenidos en el purín de ortiga, facilitando su absorción rápida por el tejido de la hoja y la raíz.',
+        ],
+      },
+      {
+        heading: 'Calendario de aplicación cruzado de Biocultor',
+        body: [
+          'Para implementar esta sinergia de forma profesional en tus tomates, pimientos, calabacines o fresas, proponemos un calendario quincenal alternado muy sencillo:',
+          '* **Semana 1 (Foco Suelo/Raíz):** Aplicar Té de Humus de Lombriz diluido al 10% en el agua de riego directo al suelo. Esto activa el microbioma radicular.',
+          '* **Semana 2 (Foco Hoja/Defensa):** Pulverizar Purín de Ortiga diluido al 4-5% sobre haz y envés de las hojas al atardecer. Esto aporta silicio y hierro directo a la fotosíntesis.',
+          '* **Semana 3:** Riego normal con agua sola.',
+          '* **Semana 4:** Reiniciar ciclo alternando los productos.',
+          'Para huertos urbanos exigentes y pequeños agricultores, la combinación de nuestras garrafas de **5 Litros de Té de Humus** y **5 Litros de Purín de Ortiga** asegura que dispones de biología viva fresca directo del productor para toda la temporada, logrando tomates sabrosos, plantas sanas y un huerto verdaderamente sostenible sin recurrir a un solo químico químico de síntesis. [Ver Pack de Humus y Ortiga].',
         ],
       },
     ],

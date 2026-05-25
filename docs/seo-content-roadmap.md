@@ -15,13 +15,13 @@
 - [x] Té de Humus Líquido en Mantenimiento de Zonas Verdes: Reducción de Costes y Tiempos
 - [x] Cómo Mitigar el Shock de Trasplante en Proyectos de Paisajismo con Té de Humus
 - [x] Uso Profesional del Té de Humus Líquido: Preguntas Técnicas y Compatibilidad
-- [ ] Post: Costes y Rentabilidad: Té de Humus Líquido vs Abonos Químicos en Parques Públicos
+- [x] Post: Costes y Rentabilidad: Té de Humus Líquido vs Abonos Químicos en Parques Públicos
 - [ ] Post: Recuperación de Césped Deportivo y Campos de Golf con Microbiología Activa
 - [ ] Post/GEO: Protocolo de Riego con Té de Humus para Árboles Ornamentales en Clima Mediterráneo
 
 ## 2. Cultivadores de Cannabis (Alto Valor LTV)
 *Audiencia muy técnica, enfocada en la calidad (resina, terpenos), producción y agricultura viva (Living Soil).*
-- [ ] Post: Cómo Incrementar la Producción de Resina en Cannabis usando Té de Humus en Floración
+- [x] Post: Cómo Incrementar la Producción de Resina en Cannabis usando Té de Humus en Floración
 - [ ] Post: Té de Humus de Lombriz en Cultivo Autofloreciente: Dosis y Calendario de Aplicación Exacto
 - [ ] Post: Living Soil en Cultivo Indoor: El Papel del Té de Humus Líquido para la Red Trófica
 - [ ] Post: Prevención Biológica de Bloqueos de Nutrientes en Cannabis con Extracto de Humus
@@ -37,7 +37,7 @@
 *Audiencia que busca seguridad (sin tóxicos), facilidad de uso (no mancha/no huele) y resultados en hortalizas.*
 - [x] Comprar Té de Humus para el Jardín: Dosis, Aplicación y Dónde Encontrar Calidad Profesional
 - [x] Guía Definitiva del Té de Humus Líquido en Jardinería: Preguntas Frecuentes
-- [ ] Post: Dosis Exacta de Té de Humus Líquido para Tomates en Maceta (Sin Riesgo de Quema)
+- [x] Post: Dosis Exacta de Té de Humus Líquido para Tomates en Maceta (Sin Riesgo de Quema)
 - [ ] Post: Abono Líquido 100% Seguro para Huertos con Mascotas y Niños: La Ventaja del Humus
 - [ ] Post: Calendario de Aplicación de Té de Humus para Huertos Urbanos (Primavera-Verano)
 
@@ -70,3 +70,19 @@
 - [ ] Post: Abono Seguro para Césped en Chalets: Sin Tóxicos, Sin Quemaduras y Seguro para Mascotas
 - [ ] Post: Cómo Abonar Árboles Frutales en tu Parcela sin Cavar Zanjas (Aplicación por Goteo o Regadera)
 - [ ] Post: Mantenimiento Sostenible del Jardín de tu Chalet: Un Solo Abono Líquido para Todo el Terreno
+
+---
+
+## 10. Purín Concentrado de Ortiga (Clúster Defensivo y Bioestimulación)
+*Audiencia que busca bioestimulación foliar, repelencia de plagas y prevención de patógenos en agricultura ecológica.*
+- [x] Post: Qué se sabe sobre el extracto de ortiga en aplicaciones agrícolas (`evidencia-extracto-ortiga-aplicaciones-agricolas`)
+- [x] Post: Qué aportan las revisiones institucionales sobre extractos vegetales en manejo orgánico (`extracto-ortiga-manejo-organico-revisiones`)
+- [x] Post: Cómo leer un estudio sobre extractos de ortiga y defensa de la planta (`extracto-ortiga-defensa-planta-estudio`)
+- [x] Post: Purín de ortiga para plantas: qué observa la investigación y qué no puede prometerse (`purin-de-ortiga-para-plantas-evidencia`)
+- [x] Post: Purín de ortiga casero frente a concentrado: qué dice la investigación y cuándo comprar (`purin-de-ortiga-casero-vs-concentrado-compra`)
+- [x] Post: Purín de ortiga para tomates y hortalizas: contexto de uso con base en evidencia (`purin-de-ortiga-para-tomates-y-hortalizas`)
+- [x] Post: Purín de ortiga: dosis, frecuencia y dilución correcta según el cultivo (`purin-ortiga-dosis-frecuencia-aplicacion`)
+- [x] Post: Purín de ortiga para rosales: protección natural y nutrición foliar de precisión (`purin-ortiga-rosales-proteccion-foliar`)
+- [x] Post: Purín de ortiga en frutales: cómo estimular la brotación y la resistencia al estrés térmico (`purin-ortiga-frutales-brotacion-estres`)
+- [x] Post: Sinergia en el huerto: cómo combinar el té de humus y el purín de ortiga (`sinergia-te-humus-purin-ortiga-huerto`)
+
