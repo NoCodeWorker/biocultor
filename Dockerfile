@@ -29,7 +29,7 @@ RUN test -n "$DATABASE_URL" || (echo "ERROR: DATABASE_URL requerido en build-tim
 ENV DATABASE_URL=$DATABASE_URL
 RUN npm run build
 
-# Compilar el seed de posts a JS standalone (esbuild viene con Next.js)
+# Compilar el seed de posts a JS standalone (esbuild en devDependencies)
 # Así el runner puede ejecutarlo con `node` puro, sin tsx ni TypeScript
 RUN node_modules/.bin/esbuild scripts/seed-blog-posts.ts \
       --bundle \
