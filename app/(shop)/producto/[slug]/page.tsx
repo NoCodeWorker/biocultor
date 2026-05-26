@@ -16,7 +16,7 @@ export async function generateStaticParams() {
   }
 }
 import ProductFunnel from "@/components/ProductFunnel"
-import ProductImageGallery, { type ProductImage } from "@/components/ProductImageGallery"
+import { type ProductImage } from "@/components/ProductImageGallery"
 import ScienceProof from "@/components/ScienceProof"
 import FaqAioSeo from "@/components/FaqAioSeo"
 import StickyCartBar from "@/components/StickyCartBar"
@@ -412,23 +412,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       {/* ② BREADCRUMB ─────────────────────────────── */}
       <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 pt-6 pb-2">
         <Breadcrumbs items={[{ label: 'Inicio', href: '/' }, { label: product.name }]} className="mb-0" />
-      </div>
-
-
-
-      {/* ③ GALERÍA DE PRODUCTO — <picture> WebP + JPG fallback ──────────── */}
-      {/* BLOQUE 3: Galería física con señales HTML para el carrusel de Google */}
-      {/* ProductImageGallery usa <picture> con <source type="image/webp"> y   */}
-      {/* <img src=".jpg"> fallback. La primera imagen carga eager (LCP).       */}
-      {/* Las thumbnails usan lazy. Cada imagen coincide con un nodo ImageObject */}
-      {/* del JSON-LD @graph para dar la señal de congruencia URL que Google    */}
-      {/* necesita para el carrusel visual.                                     */}
-      <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 py-4">
-        <ProductImageGallery
-          images={productImages}
-          productName={product.name}
-          className="mb-2"
-        />
       </div>
 
       {/* ④ FUNNEL PRINCIPAL — Selector + Precio + CTA */}
