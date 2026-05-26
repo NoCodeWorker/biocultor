@@ -35,13 +35,20 @@ import {
 import { ShieldCheck, Truck, RefreshCw, Leaf } from 'lucide-react'
 import Link from 'next/link'
 
-// ── URLs canónicas de imágenes de producto ───────────────────────────────────
-// Las imágenes WebP son la fuente de verdad para JSON-LD, OG tags y la galería.
-// Los JPG son los fallbacks servidos a bots legacy y navegadores sin soporte WebP.
-// NOTA: Las imágenes .webp deben existir en /public. Generarlas con:
-//   npx sharp-cli <input.jpg> -o public/media/te-humus-<size>.webp --webp --quality 85
-// O bien subiendo directamente al panel de Admin en /admin/uploads.
-const PRODUCT_IMAGES: ProductImage[] = [
+// ── URLs canónicas de imágenes por producto ──────────────────────────────────
+// Fuente de verdad para JSON-LD @graph, OG tags y la galería <picture>.
+// Cada clave es el slug del producto tal como aparece en la base de datos.
+//
+// ⚠️  Las imágenes .webp deben existir en /public/media/.
+//     Regenerarlas con: npm run generate:webp
+//
+// Por qué URLs distintas por producto aunque las fotos sean las mismas:
+//   Google indexa las imágenes por URL. Si humus y ortiga compartieran URLs,
+//   Google agruparía ambos productos bajo las mismas imágenes en su índice,
+//   lo que reduce la visibilidad individual en Google Imágenes y Shopping.
+const PRODUCT_IMAGES_MAP: Record<string, ProductImage[]> = {
+  // ── Té de Humus de Lombriz ──────────────────────────────────────────────
+  'te-humus-liquido-premium': [
   {
     webpSrc: 'https://biocultor.com/media/te-humus-5l.webp',
     jpgFallbackSrc: 'https://biocultor.com/5%20litros.jpg',
@@ -70,7 +77,47 @@ const PRODUCT_IMAGES: ProductImage[] = [
     width: 1200,
     height: 1200,
   },
-];
+  ],
+
+  // ── Purín Concentrado de Ortiga ─────────────────────────────────────────
+  // URLs /media/purin-ortiga-*.webp → Google las indexa como imágenes
+  // independientes del humus, activando un carrusel de producto separado.
+  'purin-ortiga-concentrado': [
+    {
+      webpSrc: 'https://biocultor.com/media/purin-ortiga-5l.webp',
+      jpgFallbackSrc: 'https://biocultor.com/5%20litros.jpg',
+      alt: 'Purín Concentrado de Ortiga Biocultor — Formato 5 Litros',
+      width: 1200,
+      height: 1200,
+    },
+    {
+      webpSrc: 'https://biocultor.com/media/purin-ortiga-1l.webp',
+      jpgFallbackSrc: 'https://biocultor.com/1%20litro.jpg',
+      alt: 'Purín Concentrado de Ortiga Biocultor — Formato 1 Litro',
+      width: 1200,
+      height: 1200,
+    },
+    {
+      webpSrc: 'https://biocultor.com/media/purin-ortiga-10l.webp',
+      jpgFallbackSrc: 'https://biocultor.com/10%20litros.jpg',
+      alt: 'Purín Concentrado de Ortiga Biocultor — Formato 10 Litros',
+      width: 1200,
+      height: 1200,
+    },
+    {
+      webpSrc: 'https://biocultor.com/media/purin-ortiga-25l.webp',
+      jpgFallbackSrc: 'https://biocultor.com/25%20litros.jpg',
+      alt: 'Purín Concentrado de Ortiga Biocultor — Formato 25 Litros',
+      width: 1200,
+      height: 1200,
+    },
+  ],
+};
+
+/** Devuelve las imágenes para el slug dado. Fallback al humus si el slug es desconocido. */
+function getProductImages(slug: string): ProductImage[] {
+  return PRODUCT_IMAGES_MAP[slug] ?? PRODUCT_IMAGES_MAP['te-humus-liquido-premium'];
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -97,20 +144,34 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   //   • og:image=1200×1200     → miniatura cuadrada en SERPs
   //   • og:price:amount/currency → precio en parsers de shopping
   //   • og:availability         → stock en tiempo real
-  return buildProductOgMetadata({
-    title: `${product.name} | Comprar online en España`,
-    description: product.description,
-    path: `/producto/${product.slug}`,
-    keywords: [
+  const productImages = getProductImages(resolvedParams.slug);
+
+  // Keywords dinámicas por producto
+  const keywordsMap: Record<string, string[]> = {
+    'te-humus-liquido-premium': [
       product.name,
       'comprar té de humus de lombriz',
       'humus líquido españa',
       'abono orgánico líquido premium',
     ],
-    // Imagen principal: la variante 5L (más vendida), fallback a la primera variante
-    primaryWebpImage: PRODUCT_IMAGES[0].webpSrc,
+    'purin-ortiga-concentrado': [
+      product.name,
+      'comprar purín de ortiga',
+      'purín ortiga concentrado españa',
+      'extracto ortiga plántas orgánico',
+    ],
+  };
+  const keywords = keywordsMap[resolvedParams.slug] ?? [product.name];
+
+  return buildProductOgMetadata({
+    title: `${product.name} | Comprar online en España`,
+    description: product.description,
+    path: `/producto/${product.slug}`,
+    keywords,
+    // Imagen principal: la variante 5L (más vendida), primera del array
+    primaryWebpImage: productImages[0].webpSrc,
     // Imágenes adicionales para el carrusel de producto en Google
-    extraWebpImages: PRODUCT_IMAGES.slice(1).map(img => img.webpSrc),
+    extraWebpImages: productImages.slice(1).map(img => img.webpSrc),
     price: lowestPrice.toFixed(2),
     currency: 'EUR',
     availability: hasStock ? 'instock' : 'outofstock',
@@ -149,9 +210,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   //   2. Cada ImageObject debe tener contentUrl, encodingFormat, width y height
   //   3. Las URLs deben coincidir con las del <picture> en el HTML (señal de congruencia)
 
+  // Imágenes dinámicas según el slug del producto
+  const productImages = getProductImages(resolvedParams.slug);
+
   // URLs WebP e JPG fallback para coherencia entre JSON-LD, OG y HTML
-  const webpImageUrls = PRODUCT_IMAGES.map(img => img.webpSrc);
-  const jpgFallbackUrls = PRODUCT_IMAGES.map(img => img.jpgFallbackSrc);
+  const webpImageUrls = productImages.map(img => img.webpSrc);
+  const jpgFallbackUrls = productImages.map(img => img.jpgFallbackSrc);
 
   // Construye los nodos ImageObject con @id para el @id-linking del @graph
   const imageObjects = productImageSchema({
@@ -361,7 +425,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       {/* necesita para el carrusel visual.                                     */}
       <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4 py-4">
         <ProductImageGallery
-          images={PRODUCT_IMAGES}
+          images={productImages}
           productName={product.name}
           className="mb-2"
         />
