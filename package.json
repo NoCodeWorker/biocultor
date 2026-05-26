@@ -10,7 +10,8 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "seed:seo": "node --experimental-strip-types scripts/seed-seo.mts"
+    "seed:seo": "node --experimental-strip-types scripts/seed-seo.mts",
+    "generate:webp": "node scripts/generate-product-webp.mjs"
   },
   "dependencies": {
     "@ai-sdk/deepseek": "^2.0.29",
