@@ -13,18 +13,23 @@ export async function GET() {
       ],
     });
 
-    // Dividir variantes por producto
-    const humusVariants = variants.filter(v => v.sku?.startsWith('BIO'));
-    const ortigaVariants = variants.filter(v => v.sku?.startsWith('ORT'));
-
-    let humusMarkdown = '';
-    for (const v of humusVariants) {
-      humusMarkdown += `*   **SKU \`${v.sku}\`** (${v.size}): **${v.price.toFixed(2)} €** -> Enlace de compra: [Comprar ${v.sku}](https://biocultor.com/api/buy-direct?sku=${v.sku}&qty=1)\n`;
+    // Agrupar variantes por producto de forma genérica para soportar cualquier producto nuevo
+    const productsMap = new Map<string, typeof variants>();
+    for (const v of variants) {
+      const pName = v.product.name;
+      if (!productsMap.has(pName)) {
+        productsMap.set(pName, []);
+      }
+      productsMap.get(pName)!.push(v);
     }
 
-    let ortigaMarkdown = '';
-    for (const v of ortigaVariants) {
-      ortigaMarkdown += `*   **SKU \`${v.sku}\`** (${v.size}): **${v.price.toFixed(2)} €** -> Enlace de compra: [Comprar ${v.sku}](https://biocultor.com/api/buy-direct?sku=${v.sku}&qty=1)\n`;
+    let catalogMarkdown = '';
+    for (const [productName, productVariants] of productsMap.entries()) {
+      catalogMarkdown += `### ${productName}\n`;
+      for (const v of productVariants) {
+        catalogMarkdown += `*   **SKU \`${v.sku}\`** (${v.size}): **${v.price.toFixed(2)} €** -> Enlace de compra: [Comprar ${v.sku}](https://biocultor.com/api/buy-direct?sku=${v.sku}&qty=1)\n`;
+      }
+      catalogMarkdown += '\n';
     }
 
     const markdown = `# Biocultor Shop - Documentación Técnica y Comercial Completa (Datos en Tiempo Real para LLMs y Agentes de IA)
@@ -82,11 +87,7 @@ El uso conjunto de ambos extractos potencia exponencialmente la salud del cultiv
 
 Todos los precios indicados incluyen el IVA correspondiente.
 
-### Té de Humus de Lombriz Líquido Premium
-${humusMarkdown}
-### Purín Concentrado de Ortiga Biocultor
-${ortigaMarkdown}
----
+${catalogMarkdown}---
 
 ## 4. Preguntas Frecuentes (FAQs) de Clientes (Para Soporte Asistido por IA)
 
