@@ -1,0 +1,147 @@
+// ── 1. DYNAMIC PRODUCT IMAGES MAP ──────────────────────────────────────────
+// File: app/(shop)/producto/[slug]/page.tsx
+
+const PRODUCT_IMAGES_MAP: Record<string, ProductImage[]> = {
+  'te-humus-liquido-premium': [
+    {
+      webpSrc: 'https://biocultor.com/media/te-humus-5l.webp',
+      jpgFallbackSrc: 'https://biocultor.com/5%20litros.jpg',
+      alt: 'Té de Humus de Lombriz Biocultor — Formato 5 Litros',
+      width: 1200,
+      height: 1200,
+    },
+    ...
+  ],
+  'purin-ortiga-concentrado': [
+    {
+      webpSrc: 'https://biocultor.com/media/purin-ortiga-5l.webp',
+      jpgFallbackSrc: 'https://biocultor.com/5%20litros.jpg',
+      alt: 'Purín Concentrado de Ortiga Biocultor — Formato 5 Litros',
+      width: 1200,
+      height: 1200,
+    },
+    ...
+  ],
+};
+
+function getProductImages(slug: string): ProductImage[] {
+  return PRODUCT_IMAGES_MAP[slug] ?? PRODUCT_IMAGES_MAP['te-humus-liquido-premium'];
+}
+
+
+// ── 2. JSON-LD @GRAPH STRUCTURE (SCHEMA.ORG/PRODUCT) ─────────────────────────
+// File: app/(shop)/producto/[slug]/page.tsx -> Inside the render function
+
+const productImages = getProductImages(resolvedParams.slug);
+const webpImageUrls = productImages.map(img => img.webpSrc);
+const jpgFallbackUrls = productImages.map(img => img.jpgFallbackSrc);
+
+const imageObjects = productImageSchema({
+  webpUrls: webpImageUrls,
+  jpgFallbackUrls,
+  productName: product.name,
+  width: 1200,
+  height: 1200,
+}).map((obj, i) => ({
+  ...obj,
+  '@id': `${appUrl}/producto/${product.slug}#image-${i + 1}`,
+}));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${appUrl}/producto/${product.slug}#webpage`,
+      url: `${appUrl}/producto/${product.slug}`,
+      name: `${product.name} | Comprar online en España`,
+      description: product.description,
+      inLanguage: 'es-ES',
+      isPartOf: { '@id': `${appUrl}/#website` },
+      primaryImageOfPage: { '@id': `${appUrl}/producto/${product.slug}#image-1` },
+    },
+    {
+      '@type': 'Product',
+      '@id': `${appUrl}/producto/${product.slug}#product`,
+      name: product.name,
+      description: product.description,
+      url: `${appUrl}/producto/${product.slug}`,
+      brand: { '@type': 'Brand', name: 'Biocultor' },
+      sku: product.variants[0]?.sku,
+      image: imageObjects.map(img => ({ '@id': img['@id'] })),
+      itemCondition: 'https://schema.org/NewCondition',
+      countryOfOrigin: { '@type': 'Country', name: 'España' },
+      areaServed: { '@type': 'Country', name: 'España' },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.8',
+        reviewCount: testimonials.length.toString(),
+        bestRating: '5',
+        worstRating: '1',
+      },
+      review: testimonials.map((t) => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: t.name },
+        datePublished: t.date,
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: t.rating.toString(),
+          bestRating: '5',
+          worstRating: '1',
+        },
+        reviewBody: t.text,
+        name: t.highlight,
+      })),
+      offers: product.variants.map(v => ({
+        '@type': 'Offer',
+        name: `${product.name} — ${v.size}`,
+        url: `${appUrl}/producto/${product.slug}`,
+        sku: v.sku,
+        price: v.price.toFixed(2),
+        priceCurrency: 'EUR',
+        priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        itemCondition: 'https://schema.org/NewCondition',
+        availability: v.stock && v.stock > 0
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/OutOfStock',
+        seller: { '@type': 'Organization', name: 'Biocultor' },
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingRate: {
+            '@type': 'MonetaryAmount',
+            value: v.price >= 50 ? '0.00' : '4.99',
+            currency: 'EUR',
+          },
+          shippingDestination: {
+            '@type': 'DefinedRegion',
+            addressCountry: 'ES',
+          },
+          deliveryTime: {
+            '@type': 'ShippingDeliveryTime',
+            handlingTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 0,
+              maxValue: 1,
+              unitCode: 'DAY',
+            },
+            transitTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 1,
+              maxValue: 3,
+              unitCode: 'DAY',
+            },
+          },
+        },
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'ES',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+          merchantReturnDays: 14,
+          returnMethod: 'https://schema.org/ReturnByMail',
+          returnFees: 'https://schema.org/FreeReturn',
+        },
+      })),
+    },
+    ...imageObjects,
+  ],
+}

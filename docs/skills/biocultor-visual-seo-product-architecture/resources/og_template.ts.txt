@@ -1,0 +1,51 @@
+// ── OPEN GRAPH & METADATA CONFIGURATION ──────────────────────────────────────
+// File: app/(shop)/producto/[slug]/page.tsx -> generateMetadata()
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  let product = null;
+  try {
+    product = await prisma.product.findUnique({
+      where: { slug: resolvedParams.slug },
+      include: { variants: { orderBy: { price: 'asc' } } },
+    })
+  } catch (error) {
+    alertCritical('ProductPage.generateMetadata', error, { extra: { slug: resolvedParams.slug } });
+  }
+
+  if (!product) return { title: 'Producto Biocultor' }
+
+  const lowestPrice = Math.min(...product.variants.map(v => v.price));
+  const hasStock = product.variants.some(v => (v.stock ?? 0) > 0);
+  const productImages = getProductImages(resolvedParams.slug);
+
+  const keywordsMap: Record<string, string[]> = {
+    'te-humus-liquido-premium': [
+      product.name,
+      'comprar té de humus de lombriz',
+      'humus líquido españa',
+      'abono orgánico líquido premium',
+    ],
+    'purin-ortiga-concentrado': [
+      product.name,
+      'comprar purín de ortiga',
+      'purín ortiga concentrado españa',
+      'extracto ortiga plántas orgánico',
+    ],
+  };
+  const keywords = keywordsMap[resolvedParams.slug] ?? [product.name];
+
+  return buildProductOgMetadata({
+    title: `${product.name} | Comprar online en España`,
+    description: product.description,
+    path: `/producto/${product.slug}`,
+    keywords,
+    // Primary WebP image (usually format 5L) - 1:1 square ratio
+    primaryWebpImage: productImages[0].webpSrc,
+    // Extra WebP images for the product carousel
+    extraWebpImages: productImages.slice(1).map(img => img.webpSrc),
+    price: lowestPrice.toFixed(2),
+    currency: 'EUR',
+    availability: hasStock ? 'instock' : 'outofstock',
+  })
+}
