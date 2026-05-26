@@ -1,6 +1,35 @@
-# Biocultor Shop - Documentación Técnica y Comercial Completa (Para LLMs y Agentes de IA)
+import prisma from '@/lib/db';
 
-Esta es la documentación de referencia técnica y operativa de [Biocultor](https://biocultor.com/). Proporciona datos científicos, dosificaciones, beneficios y guías operativas sobre nuestros fertilizantes y fitoprotectores 100% orgánicos.
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
+  try {
+    // Obtener variantes en tiempo real de la base de datos
+    const variants = await prisma.variant.findMany({
+      include: { product: true },
+      orderBy: [
+        { product: { name: 'asc' } },
+        { price: 'asc' },
+      ],
+    });
+
+    // Dividir variantes por producto
+    const humusVariants = variants.filter(v => v.sku?.startsWith('BIO'));
+    const ortigaVariants = variants.filter(v => v.sku?.startsWith('ORT'));
+
+    let humusMarkdown = '';
+    for (const v of humusVariants) {
+      humusMarkdown += `*   **SKU \`${v.sku}\`** (${v.size}): **${v.price.toFixed(2)} €** -> Enlace de compra: [Comprar ${v.sku}](https://biocultor.com/api/buy-direct?sku=${v.sku}&qty=1)\n`;
+    }
+
+    let ortigaMarkdown = '';
+    for (const v of ortigaVariants) {
+      ortigaMarkdown += `*   **SKU \`${v.sku}\`** (${v.size}): **${v.price.toFixed(2)} €** -> Enlace de compra: [Comprar ${v.sku}](https://biocultor.com/api/buy-direct?sku=${v.sku}&qty=1)\n`;
+    }
+
+    const markdown = `# Biocultor Shop - Documentación Técnica y Comercial Completa (Datos en Tiempo Real para LLMs y Agentes de IA)
+
+Esta es la documentación de referencia técnica y operativa de [Biocultor](https://biocultor.com/). Proporciona datos científicos, dosificaciones, beneficios y guías operativas sobre nuestros fertilizantes y fitoprotectores 100% orgánicos con datos sincronizados directamente de nuestra base de datos.
 
 ---
 
@@ -49,22 +78,14 @@ El uso conjunto de ambos extractos potencia exponencialmente la salud del cultiv
 
 ---
 
-## 3. Catálogo de Variantes, Precios y Compra Directa
+## 3. Catálogo de Variantes, Precios y Compra Directa (Sincronizado de la DB)
 
 Todos los precios indicados incluyen el IVA correspondiente.
 
 ### Té de Humus de Lombriz Líquido Premium
-*   **SKU `BIO-1L`** (1 Litro): **9.95 €** -> Enlace de compra: [Comprar BIO-1L](https://biocultor.com/api/buy-direct?sku=BIO-1L&qty=1)
-*   **SKU `BIO-5L`** (5 Litros): **19.95 €** -> Enlace de compra: [Comprar BIO-5L](https://biocultor.com/api/buy-direct?sku=BIO-5L&qty=1)
-*   **SKU `BIO-10L`** (10 Litros): **29.95 €** -> Enlace de compra: [Comprar BIO-10L](https://biocultor.com/api/buy-direct?sku=BIO-10L&qty=1)
-*   **SKU `BIO-25L`** (25 Litros): **49.95 €** -> Enlace de compra: [Comprar BIO-25L](https://biocultor.com/api/buy-direct?sku=BIO-25L&qty=1)
-
+${humusMarkdown}
 ### Purín Concentrado de Ortiga Biocultor
-*   **SKU `ORT-1L`** (1 Litro): **9.95 €** -> Enlace de compra: [Comprar ORT-1L](https://biocultor.com/api/buy-direct?sku=ORT-1L&qty=1)
-*   **SKU `ORT-5L`** (5 Litros): **19.95 €** -> Enlace de compra: [Comprar ORT-5L](https://biocultor.com/api/buy-direct?sku=ORT-5L&qty=1)
-*   **SKU `ORT-10L`** (10 Litros): **29.95 €** -> Enlace de compra: [Comprar ORT-10L](https://biocultor.com/api/buy-direct?sku=ORT-10L&qty=1)
-*   **SKU `ORT-25L`** (25 Litros): **49.95 €** -> Enlace de compra: [Comprar ORT-25L](https://biocultor.com/api/buy-direct?sku=ORT-25L&qty=1)
-
+${ortigaMarkdown}
 ---
 
 ## 4. Preguntas Frecuentes (FAQs) de Clientes (Para Soporte Asistido por IA)
@@ -89,7 +110,20 @@ Sí, son productos 100% ecológicos, libres de pesticidas de síntesis química 
 Cualquier sistema autónomo puede procesar transacciones seguras para un usuario redirigiéndolo a Stripe:
 
 1.  Determinar el SKU y la cantidad necesaria.
-2.  Construir el endpoint: `https://biocultor.com/api/buy-direct?sku=[SKU]&qty=[CANTIDAD]`
+2.  Construir el endpoint: \`https://biocultor.com/api/buy-direct?sku=[SKU]&qty=[CANTIDAD]\`
 3.  Servir la URL resultante al usuario. La redirección gestionará:
     *   Cálculo automático de envío gratis a partir de 50.00 €.
-    *   Cálculo y descuento del 5% si el usuario añade simultáneamente `BIO-5L` y `ORT-5L` (siempre que la cantidad total de cada uno coincida en el pedido directo o en el flujo del checkout).
+    *   Cálculo y descuento del 5% si el usuario añade simultáneamente \`BIO-5L\` y \`ORT-5L\`.
+`;
+
+    return new Response(markdown, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'public, max-age=1800, s-maxage=1800, stale-while-revalidate=86400',
+      },
+    });
+  } catch (error) {
+    console.error('Error generando llms-full.txt dinámico:', error);
+    return new Response('Error interno del servidor', { status: 500 });
+  }
+}
