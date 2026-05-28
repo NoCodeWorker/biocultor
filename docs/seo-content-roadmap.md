@@ -16,13 +16,13 @@
 - [x] Cómo Mitigar el Shock de Trasplante en Proyectos de Paisajismo con Té de Humus
 - [x] Uso Profesional del Té de Humus Líquido: Preguntas Técnicas y Compatibilidad
 - [x] Post: Costes y Rentabilidad: Té de Humus Líquido vs Abonos Químicos en Parques Públicos
-- [ ] Post: Recuperación de Césped Deportivo y Campos de Golf con Microbiología Activa
+- [x] Post: Recuperación de Césped Deportivo y Campos de Golf con Microbiología Activa
 - [ ] Post/GEO: Protocolo de Riego con Té de Humus para Árboles Ornamentales en Clima Mediterráneo
 
 ## 2. Cultivadores de Cannabis (Alto Valor LTV)
 *Audiencia muy técnica, enfocada en la calidad (resina, terpenos), producción y agricultura viva (Living Soil).*
 - [x] Post: Cómo Incrementar la Producción de Resina en Cannabis usando Té de Humus en Floración
-- [ ] Post: Té de Humus de Lombriz en Cultivo Autofloreciente: Dosis y Calendario de Aplicación Exacto
+- [x] Post: Té de Humus de Lombriz en Cultivo Autofloreciente: Dosis y Calendario de Aplicación Exacto
 - [ ] Post: Living Soil en Cultivo Indoor: El Papel del Té de Humus Líquido para la Red Trófica
 - [ ] Post: Prevención Biológica de Bloqueos de Nutrientes en Cannabis con Extracto de Humus
 
@@ -31,25 +31,25 @@
 - [ ] Landing/GEO: Té de Humus Líquido en Olivar de Secano (Andalucía): Aumento de Resistencia al Estrés Hídrico
 - [ ] Landing/GEO: Fertirrigación con Té de Humus en Cítricos (Comunidad Valenciana): Prevención de Clorosis
 - [ ] Post: Regeneración de Suelos en Viñedos Agotados: Inyección de Microbiología por Goteo
-- [ ] Post: Compatibilidad del Té de Humus Líquido con Tratamientos Fitosanitarios Convencionales
+- [x] Post: Compatibilidad del Té de Humus Líquido con Tratamientos Fitosanitarios Convencionales
 
 ## 4. Huerto Urbano y Aficionados Domésticos (B2C)
 *Audiencia que busca seguridad (sin tóxicos), facilidad de uso (no mancha/no huele) y resultados en hortalizas.*
 - [x] Comprar Té de Humus para el Jardín: Dosis, Aplicación y Dónde Encontrar Calidad Profesional
 - [x] Guía Definitiva del Té de Humus Líquido en Jardinería: Preguntas Frecuentes
 - [x] Post: Dosis Exacta de Té de Humus Líquido para Tomates en Maceta (Sin Riesgo de Quema)
-- [ ] Post: Abono Líquido 100% Seguro para Huertos con Mascotas y Niños: La Ventaja del Humus
+- [x] Post: Abono Líquido 100% Seguro para Huertos con Mascotas y Niños: La Ventaja del Humus
 - [ ] Post: Calendario de Aplicación de Té de Humus para Huertos Urbanos (Primavera-Verano)
 
 ## 5. Coleccionistas y Plantas de Interior Exóticas (Nicho Premium)
 *Audiencia dispuesta a pagar premium, preocupada por quemar raíces frágiles (Bonsáis, Orquídeas, Aráceas).*
 - [ ] Post: Por qué el Té de Humus Líquido es el Mejor Abono Orgánico para Bonsáis de Interior
-- [ ] Post: Recuperación de Monsteras y Plantas Tropicales con Amarilleo usando Humus Líquido
+- [x] Post: Recuperación de Monsteras y Plantas Tropicales con Amarilleo usando Humus Líquido
 - [ ] Post: Abonado Orgánico Suave para Orquídeas: Dilución Perfecta de Té de Humus Líquido
 
 ## 6. Sostenibilidad, Suelo y Agricultura Regenerativa (Educacional / Top of Funnel)
 *Atrae a entidades, administraciones o agricultores en transición a ecológico.*
-- [ ] Post: Diferencia Científica entre Lixiviado de Lombriz y Té de Humus Líquido (Aireado)
+- [x] Post: Diferencia Científica entre Lixiviado de Lombriz y Té de Humus Líquido (Aireado)
 - [ ] Post: Cómo Medir la Actividad Microbiana en el Suelo Tras la Aplicación de Té de Humus
 - [ ] Post: El Rol del Té de Humus en la Captura de Carbono y Agricultura Regenerativa
 
