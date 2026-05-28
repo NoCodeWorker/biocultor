@@ -103,7 +103,7 @@ async function migrateArticles() {
         const commonWords = keywordsList.filter(word => epKeywords.includes(word));
         const similarityRatio = commonWords.length / Math.max(keywordsList.length, epKeywords.length);
 
-        if (similarityRatio >= 0.65) {
+        if (similarityRatio >= 0.85) {
           console.log(`⚠️ Detectada alta similitud semántica (ratio: ${(similarityRatio * 100).toFixed(0)}%):`);
           console.log(`   - Nuevo Artículo:  "${art.title}" (slug: ${art.slug})`);
           console.log(`   - Post Existente:  "${ep.title}" (slug: ${ep.slug})`);
