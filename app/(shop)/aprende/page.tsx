@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { buildMetadata, breadcrumbSchema, collectionPageSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
-import { getSeoArticles, getSeoArticlesOrtiga } from '@/lib/seo-store';
 import prisma from '@/lib/db';
 
 
@@ -24,22 +23,37 @@ export const metadata = buildMetadata({
 });
 
 export default async function AprendePage() {
-  const [baseArticles, ortigaArticles, dbPosts] = await Promise.all([
-    getSeoArticles(),
-    getSeoArticlesOrtiga(),
-    prisma.post.findMany({
-      where: { isPublished: true },
-      select: { slug: true, coverImage: true },
-    }).catch(() => [] as { slug: string; coverImage: string | null }[]),
-  ]);
+  const dbPosts = await prisma.post.findMany({
+    where: { isPublished: true },
+    orderBy: { createdAt: 'desc' },
+  }).catch(() => []);
 
-  // Mapa slug → coverImage actualizada desde el admin
-  const dbCoverMap = new Map(dbPosts.map((p) => [p.slug, p.coverImage]));
+  const seoArticles = dbPosts.map((post) => {
+    // Estimación dinámica de lectura basada en palabras (aprox. 200 palabras por minuto)
+    const wordsCount = post.content ? post.content.split(/\s+/).length : 0;
+    const readTimeMin = Math.max(2, Math.ceil(wordsCount / 200));
+    const readTime = `${readTimeMin} min`;
 
-  const seoArticles = [...baseArticles, ...ortigaArticles].map((a) => ({
-    ...a,
-    image: dbCoverMap.has(a.slug) ? (dbCoverMap.get(a.slug) ?? a.image) : a.image,
-  }));
+    // Normalización de categoría para visualización estética
+    let category = 'Guía';
+    const catUpper = post.category.toUpperCase();
+    if (catUpper === 'EVIDENCIA') {
+      category = 'Evidencia';
+    } else if (catUpper === 'CULTIVO' || catUpper === 'KNOWLEDGE') {
+      category = 'Cultivo';
+    } else {
+      category = post.category.charAt(0).toUpperCase() + post.category.slice(1).toLowerCase();
+    }
+
+    return {
+      slug: post.slug,
+      title: post.title,
+      excerpt: post.excerpt,
+      category,
+      readTime,
+      image: post.coverImage || '/1 litro.jpg',
+    };
+  });
 
   const evidenceArticles = seoArticles.filter((article) => article.category === 'Evidencia');
   const editorialArticles = seoArticles.filter((article) => article.category !== 'Evidencia');

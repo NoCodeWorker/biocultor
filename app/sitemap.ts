@@ -3,8 +3,6 @@ export const revalidate = 3600
 import type { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/seo';
 import {
-  getSeoArticles,
-  getSeoArticlesOrtiga,
   getSeoCommercialPages,
   getSeoCommercialPagesOrtiga,
   getSeoGeoPages,
@@ -16,16 +14,12 @@ import prisma from '@/lib/db';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const [
-    seoArticles,
-    seoArticlesOrtiga,
     seoCommercialPages,
     seoCommercialPagesOrtiga,
     seoGeoPages,
     seoSolutions,
     seoSolutionsOrtiga,
   ] = await Promise.all([
-    getSeoArticles(),
-    getSeoArticlesOrtiga(),
     getSeoCommercialPages(),
     getSeoCommercialPagesOrtiga(),
     getSeoGeoPages(),
@@ -77,18 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: (path === '/' ? 'weekly' : 'monthly') as 'weekly' | 'monthly',
       priority: path === '/' ? 1 : 0.7,
     })),
-    ...seoArticles.map((article) => ({
-      url: absoluteUrl(`/aprende/${article.slug}`),
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.75,
-    })),
-    ...seoArticlesOrtiga.map((article) => ({
-      url: absoluteUrl(`/aprende/${article.slug}`),
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.75,
-    })),
+
     ...seoCommercialPages.map((page) => ({
       url: absoluteUrl(`/comprar-te-de-humus-de-lombriz/${page.slug}`),
       lastModified: now,

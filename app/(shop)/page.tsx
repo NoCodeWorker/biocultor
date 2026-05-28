@@ -24,7 +24,7 @@ import prisma from "@/lib/db"
 import { MapPin } from "lucide-react"
 import { buildMetadata, breadcrumbSchema, collectionPageSchema } from '@/lib/seo'
 import StructuredData from '@/components/StructuredData'
-import { getSeoArticles, getSeoCommercialPages, getSeoGeoPages, getSeoSolutions } from '@/lib/seo-store'
+import { getSeoCommercialPages, getSeoGeoPages, getSeoSolutions } from '@/lib/seo-store'
 
 export const metadata = buildMetadata({
   title: 'Comprar té de humus de lombriz en España | Biocultor',
@@ -61,14 +61,36 @@ export default async function Page() {
 
   const dbVariants = dbProduct?.variants || [];
   const dbOrtigaVariants = dbOrtiga?.variants || [];
-  const [seoSolutions, seoArticles, seoCommercialPages, seoGeoPages] = await Promise.all([
+  const [seoSolutions, dbPosts, seoCommercialPages, seoGeoPages] = await Promise.all([
     getSeoSolutions(),
-    getSeoArticles(),
+    prisma.post.findMany({
+      where: { isPublished: true },
+      take: 3,
+      orderBy: { createdAt: 'desc' },
+    }).catch(() => []),
     getSeoCommercialPages(),
     getSeoGeoPages(),
   ]);
   const featuredSolutions = seoSolutions.slice(0, 4);
-  const featuredArticles = seoArticles.slice(0, 3);
+  
+  const featuredArticles = dbPosts.map((post) => {
+    let category = 'Guía';
+    const catUpper = post.category.toUpperCase();
+    if (catUpper === 'EVIDENCIA') {
+      category = 'Evidencia';
+    } else if (catUpper === 'CULTIVO' || catUpper === 'KNOWLEDGE') {
+      category = 'Cultivo';
+    } else {
+      category = post.category.charAt(0).toUpperCase() + post.category.slice(1).toLowerCase();
+    }
+    return {
+      slug: post.slug,
+      title: post.title,
+      excerpt: post.excerpt,
+      category,
+    };
+  });
+
   const featuredCommercial = seoCommercialPages.slice(0, 3);
   const featuredGeo = seoGeoPages.slice(0, 6);
 
