@@ -312,7 +312,7 @@ Regenera las raíces de tus Monsteras y plantas exóticas con la suavidad y nutr
   },
   {
     title: 'Diferencia Científica entre Lixiviado de Lombriz y Té de Humus Líquido (Aireado)',
-    slug: 'diferencia-cientifica-lixiviado-lombriz-te-humus-aireado',
+    slug: 'diferencia-cientifica-lixiviado-lombriz-vs-te-humus-liquido-aireado',
     excerpt: '¿Son lo mismo el lixiviado que drena de tu vermicompostera y el Té de Humus? Analizamos por qué el proceso de aireación marca la frontera entre un abono vivo y un caldo de patógenos anaerobios.',
     category: 'DIVULGACIÓN CIENTÍFICA',
     metaTitle: 'Lixiviado de Lombriz vs Té de Humus Aireado | Biocultor',
