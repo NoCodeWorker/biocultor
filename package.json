@@ -13,7 +13,8 @@
     "seed:seo": "node --experimental-strip-types scripts/seed-seo.mts",
     "generate:webp": "node scripts/generate-product-webp.mjs",
     "generate:favicons": "node scripts/generate-favicons.mjs",
-    "seed:posts": "node scripts/seed-6-posts.mjs"
+    "seed:posts": "node scripts/seed-6-posts.mjs",
+    "migrate:articles": "node --experimental-strip-types scripts/migrate-static-articles.ts"
   },
   "dependencies": {
     "@ai-sdk/deepseek": "^2.0.29",
