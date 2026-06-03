@@ -72,8 +72,8 @@ export function buildMetadata({
     category: 'ecommerce',
     icons: {
       icon: [
+        { url: '/favicon.svg', type: 'image/svg+xml' },
         { url: '/favicon.ico', sizes: 'any' },
-        { url: '/Favicon.svg', type: 'image/svg+xml' },
         { url: '/media/favicon-48.png', sizes: '48x48', type: 'image/png' },
         { url: '/media/favicon-96.png', sizes: '96x96', type: 'image/png' },
         { url: '/media/favicon-192.png', sizes: '192x192', type: 'image/png' },
@@ -279,10 +279,6 @@ export function buildProductOgMetadata({
       'product:condition': 'new',
     },
     category: 'ecommerce',
-    icons: {
-      icon: '/Favicon.svg',
-      apple: '/Favicon.svg',
-    },
   };
 }
 

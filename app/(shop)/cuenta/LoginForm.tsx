@@ -29,7 +29,7 @@ export default function LoginForm() {
   const Logo = () => (
     <div className="flex flex-col items-center mb-8">
       <div className="w-16 h-16 bg-brand-brown-dark rounded-2xl flex items-center justify-center mb-4 shadow-xl shadow-brand-brown-dark/20 relative">
-        <Image src="/Favicon.svg" alt="Biocultor" width={32} height={32} className="brightness-0 invert opacity-90" />
+        <Image src="/favicon.svg" alt="Biocultor" width={32} height={32} className="brightness-0 invert opacity-90" />
       </div>
       <h2 className="text-2xl font-heading font-black text-foreground tracking-tight">Acceso Cliente</h2>
       <div className="h-1 w-8 bg-primary rounded-full mt-2" />

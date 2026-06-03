@@ -6,12 +6,12 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const svgPath = path.join(__dirname, '../public/Favicon.svg');
+const svgPath = path.join(__dirname, '../public/favicon.svg');
 const icoPath = path.join(__dirname, '../public/favicon.ico');
 
 async function generateFavicon() {
   try {
-    console.log('Cargando Favicon.svg...');
+    console.log('Cargando favicon.svg...');
     if (!fs.existsSync(svgPath)) {
       throw new Error(`El archivo original no existe en ${svgPath}`);
     }

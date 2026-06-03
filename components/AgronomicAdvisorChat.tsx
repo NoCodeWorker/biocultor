@@ -158,7 +158,7 @@ export default function AgronomicAdvisorChat() {
         aria-label="Abrir asesor agronómico"
       >
         <div className="relative w-8 h-8">
-          <Image src="/Favicon.svg" alt="Asesor Biocultor" fill className="object-contain brightness-0 invert opacity-90" />
+          <Image src="/favicon.svg" alt="Asesor Biocultor" fill className="object-contain brightness-0 invert opacity-90" />
         </div>
         {/* Badge: indicador de carrito activo */}
         {cartItems.length > 0 && (
@@ -178,7 +178,7 @@ export default function AgronomicAdvisorChat() {
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10 overflow-hidden shrink-0">
               <div className="relative w-7 h-7">
-                <Image src="/Favicon.svg" alt="Asesor" fill className="object-contain brightness-0 invert opacity-90" />
+                <Image src="/favicon.svg" alt="Asesor" fill className="object-contain brightness-0 invert opacity-90" />
               </div>
             </div>
             <div>
@@ -216,7 +216,7 @@ export default function AgronomicAdvisorChat() {
             <div className="text-center mt-12 space-y-5">
               <div className="w-24 h-24 mx-auto rounded-full bg-brand-green/10 flex items-center justify-center p-5 border border-brand-green/20">
                 <div className="relative w-full h-full">
-                  <Image src="/Favicon.svg" alt="Biocultor" fill className="object-contain opacity-60" />
+                  <Image src="/favicon.svg" alt="Biocultor" fill className="object-contain opacity-60" />
                 </div>
               </div>
               <div className="max-w-[280px] mx-auto">

@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 
-const SVG_SOURCE = 'public/Favicon.svg';
+const SVG_SOURCE = 'public/favicon.svg';
 const OUTPUT_DIR = 'public/media';
 
 const SIZES = [
