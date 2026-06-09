@@ -69,6 +69,7 @@ export default async function AdminSeoPage() {
       afterImage: '/servicios-cesped-despues.webp',
       price: '195',
       areaLimit: '500',
+      additionalRate: '0.2',
       trustBadge1_title: 'Biología Activa y Fresca',
       trustBadge1_desc: 'El té de humus se extrae y oxigena pocas horas antes de la aplicación, asegurando millones de microorganismos vivos.',
       trustBadge2_title: 'Avalado por la Ciencia',
@@ -90,6 +91,64 @@ export default async function AdminSeoPage() {
         metaDescription: 'Servicio profesional de inoculación biológica in-situ para recuperar la salud y el verde de tu césped. Tratamiento 100% ecológico desde 195€.',
         payloadJson: JSON.stringify(defaultPayload),
         faqJson: JSON.stringify(defaultFaqs),
+        isPublished: true,
+      }
+    });
+  }
+
+  // --- SYNC LANDSCAPER SERVICE ---
+  const landscaperServiceSlug = 'te-humus-paisajistas-jardineros';
+  const existingLandscaperService = await prisma.seoPage.findUnique({
+    where: { slug: landscaperServiceSlug }
+  });
+
+  if (!existingLandscaperService) {
+    const defaultLandscaperFaqs = [
+      {
+        question: '¿Qué caducidad tiene el Té de Humus de Lombriz?',
+        answer: 'Dado que es un extracto biológico vivo y altamente oxigenado, su efectividad máxima se encuentra dentro de las primeras 24-48 horas tras su recolección. Por ello, coordinamos la entrega fresca directamente en tu obra o jardín en Madrid y Castilla-La Mancha.'
+      },
+      {
+        question: '¿Es compatible con mi equipo de pulverización o cuba de riego?',
+        answer: 'Absolutamente. El Té de Humus Biocultor se somete a un doble filtrado de 100 micras que retira cualquier micropartícula sólida. Es perfectamente compatible con sistemas de riego por goteo, inyectores Venturi, pulverizadores de mochila y cubas de aplicación hidromecánica, sin obstruir boquillas.'
+      },
+      {
+        question: '¿Se puede mezclar con tratamientos fitosanitarios?',
+        answer: 'Se recomienda no mezclarlo directamente con fungicidas o bactericidas en el mismo tanque, ya que neutralizarían los microorganismos benéficos del té. Para otros tratamientos o abonos foliares, consúltanos compatibilidades específicas.'
+      },
+      {
+        question: '¿Qué certificaciones tiene el producto?',
+        answer: 'El humus de lombriz base utilizado está certificado para agricultura ecológica por el CAAE. El té resultante cumple estrictamente con la normativa europea para insumos en agricultura y jardinería ecológica, aportando total residuo cero.'
+      }
+    ];
+
+    const defaultLandscaperPayload = {
+      beforeImage: '/servicios-cesped-antes.webp',
+      afterImage: '/servicios-cesped-despues.webp',
+      price: '195',
+      areaLimit: '500',
+      additionalRate: '0.2',
+      trustBadge1_title: 'Microbiología Profesional Activa',
+      trustBadge1_desc: 'Extraído en frío y entregado en menos de 24 horas para garantizar la viabilidad biológica.',
+      trustBadge2_title: 'Suelos de la Meseta Optimizados',
+      trustBadge2_desc: 'Formulación que rompe las arcillas compactadas y reactiva la nutrición en suelos calizos secos.',
+      trustBadge3_title: 'Garantía Ecológica CAAE',
+      trustBadge3_desc: 'Insumo 100% certificado, idóneo para proyectos de paisajismo sostenible y residuo cero.'
+    };
+
+    await prisma.seoPage.create({
+      data: {
+        kind: 'SERVICIO',
+        slug: landscaperServiceSlug,
+        title: 'Té de Humus para Paisajistas y Jardineros',
+        targetKeyword: 'te de humus paisajistas jardineros',
+        workflowStatus: 'READY',
+        priorityScore: 95,
+        label: 'Servicios',
+        metaTitle: 'Té de Humus de Lombriz para Paisajistas y Jardineros | Biocultor',
+        metaDescription: 'Suministro y aplicación profesional de té de humus fresco en Madrid y Castilla-La Mancha. Optimiza suelos arcillosos y calizos con residuo cero.',
+        payloadJson: JSON.stringify(defaultLandscaperPayload),
+        faqJson: JSON.stringify(defaultLandscaperFaqs),
         isPublished: true,
       }
     });

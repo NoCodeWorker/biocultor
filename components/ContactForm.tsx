@@ -26,8 +26,21 @@ export default function ContactForm() {
       } else {
         setMensaje('Hola, estoy interesado en el servicio de regeneración de césped y jardines con té de humus de lombriz para mi jardín de aprox. ______ m².');
       }
+    } else if (servicioParam === 'paisajistas') {
+      setMotivo('Servicio Profesional (Jardineros/Paisajistas)');
+      const tipoParam = searchParams.get('tipo');
+      const litrosParam = searchParams.get('litros');
+      const serviceLabel = tipoParam === 'suministro'
+        ? `solo suministro de té de humus (${litrosParam} litros recomendados)`
+        : `suministro y aplicación técnica de té de humus`;
+
+      if (m2Param && precioParam) {
+        setMensaje(`Hola, soy profesional (jardinero/paisajista) y estoy interesado en el servicio de ${serviceLabel} para una superficie de ${m2Param} m² en Madrid / Castilla-La Mancha. El presupuesto estimado en la web es de ${precioParam} €.`);
+      } else {
+        setMensaje('Hola, soy profesional (jardinero/paisajista) y estoy interesado en el servicio de suministro y aplicación de Té de Humus de Lombriz para mi proyecto.');
+      }
     }
-  }, [servicioParam, m2Param, precioParam]);
+  }, [servicioParam, m2Param, precioParam, searchParams]);
 
   async function action(formData: FormData) {
     setIsPending(true);
@@ -81,6 +94,7 @@ export default function ContactForm() {
         >
           <option>Dudas sobre aplicación y dosis</option>
           <option>Servicio de Regeneración de Césped</option>
+          <option>Servicio Profesional (Jardineros/Paisajistas)</option>
           <option>Estado de mi envío</option>
           <option>Distribución y venta al por mayor (&gt; 1000L)</option>
           <option>Otros motivos técnicos</option>

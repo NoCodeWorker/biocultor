@@ -46,6 +46,7 @@ export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
     afterImage: '/servicios-cesped-despues.webp',
     price: '195',
     areaLimit: '500',
+    additionalRate: '0.2',
     trustBadge1_title: 'Biología Activa y Fresca',
     trustBadge1_desc: 'El té de humus se extrae y oxigena pocas horas antes de la aplicación, asegurando millones de microorganismos vivos.',
     trustBadge2_title: 'Avalado por la Ciencia',
@@ -140,12 +141,12 @@ export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
             Gestión de Servicios
           </h1>
           <p className="text-sm text-muted-foreground mt-1.5">
-            Configura el copy, precios, preguntas frecuentes e imágenes del servicio de regeneración de césped.
+            Configura el copy, precios, preguntas frecuentes e imágenes del servicio de {title}.
           </p>
         </div>
         <div className="flex items-center gap-3">
           <a
-            href="/servicios/regeneracion-cesped-y-jardines"
+            href={page.slug === 'regeneracion-cesped-y-jardines' ? '/servicios/regeneracion-cesped-y-jardines' : '/servicios/te-humus-paisajistas-jardineros'}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-xs font-bold border border-border bg-card hover:bg-muted px-4 py-2 rounded-xl transition-all"
@@ -167,6 +168,32 @@ export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
             {saving ? 'Guardando...' : 'Guardar Cambios'}
           </button>
         </div>
+      </div>
+      
+      {/* Service Selector Tabs */}
+      <div className="flex border-b border-border/60 bg-muted/20 p-1.5 rounded-2xl max-w-xl self-start gap-1">
+        <button
+          onClick={() => window.location.href = '/admin/servicios?slug=regeneracion-cesped-y-jardines'}
+          className={cn(
+            "flex-1 text-center py-2.5 px-4 rounded-xl text-xs font-bold transition-all truncate",
+            page.slug === 'regeneracion-cesped-y-jardines'
+              ? "bg-card text-foreground shadow-sm border border-border/50"
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          Regeneración Césped y Jardines
+        </button>
+        <button
+          onClick={() => window.location.href = '/admin/servicios?slug=te-humus-paisajistas-jardineros'}
+          className={cn(
+            "flex-1 text-center py-2.5 px-4 rounded-xl text-xs font-bold transition-all truncate",
+            page.slug === 'te-humus-paisajistas-jardineros'
+              ? "bg-card text-foreground shadow-sm border border-border/50"
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          Té de Humus (Paisajistas/Jardineros)
+        </button>
       </div>
 
       {message && (
@@ -386,7 +413,7 @@ export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
               </div>
             </label>
 
-            <label className="flex flex-col gap-2">
+             <label className="flex flex-col gap-2">
               <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Superficie Incluida (m²)</span>
               <div className="relative">
                 <input
@@ -399,10 +426,24 @@ export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
               </div>
             </label>
 
+            <label className="flex flex-col gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Precio m² Adicional (€)</span>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-muted-foreground">€</span>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={payload.additionalRate || '0.2'}
+                  onChange={(e) => updatePayloadField('additionalRate', e.target.value)}
+                  className="h-11 pl-8 pr-4 w-full bg-background border border-border/60 rounded-xl focus:border-primary focus:outline-none text-sm font-bold"
+                />
+              </div>
+            </label>
+
             <div className="p-4 bg-muted/30 border border-border/40 rounded-2xl flex flex-col gap-1.5 text-xs text-muted-foreground">
               <span className="font-semibold text-foreground">Cómo se calcula en la web:</span>
-              <p>Se mostrará como <strong className="text-foreground">{payload.price} € / {payload.areaLimit} m²</strong>.</p>
-              <p>Esta combinación es la base del funnel de conversión para el servicio presencial.</p>
+              <p>Se calculará el precio de la aplicación basándose en <strong className="text-foreground">{payload.price} €</strong> hasta <strong className="text-foreground">{payload.areaLimit} m²</strong>, sumando <strong className="text-foreground">{payload.additionalRate} €</strong> por cada m² adicional.</p>
+              <p>Esta fórmula se comparte dinámicamente con la calculadora del frontend.</p>
             </div>
           </div>
 

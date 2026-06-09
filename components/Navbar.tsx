@@ -43,6 +43,11 @@ const navLinks: NavLink[] = [
         label: 'Regeneración de césped y jardines',
         sub: 'Inoculación biológica profesional · 195 €/500 m²',
       },
+      {
+        href: '/servicios/te-humus-paisajistas-jardineros',
+        label: 'Té de humus para paisajistas',
+        sub: 'Suministro y aplicación biológica para profesionales',
+      },
     ],
   },
   { kind: 'link', href: '/espana', label: 'España' },
