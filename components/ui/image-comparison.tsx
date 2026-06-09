@@ -29,7 +29,7 @@ export function ImageComparison({
             <ReactCompareSliderImage
               src={beforeSrc}
               alt={beforeAlt}
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
             />
             {/* Label ANTES */}
             <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-black/60 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-white/20 shadow-md">
@@ -43,7 +43,7 @@ export function ImageComparison({
             <ReactCompareSliderImage
               src={afterSrc}
               alt={afterAlt}
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
             />
             {/* Label DESPUÉS */}
             <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-primary/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-white/20 shadow-md">
@@ -52,7 +52,7 @@ export function ImageComparison({
             </div>
           </div>
         }
-        style={{ height: '100%', width: '100%' }}
+        style={{ height: '100%', width: '100%', touchAction: 'none' }}
         handle={
           <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-xl border-2 border-primary cursor-ew-resize">
             <svg
