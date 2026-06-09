@@ -49,6 +49,30 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/politica-de-cookies',
+        destination: '/cookies',
+        permanent: true,
+      },
+      {
+        source: '/politica-de-privacidad',
+        destination: '/privacidad',
+        permanent: true,
+      },
+      {
+        source: '/terminos-y-condiciones',
+        destination: '/terminos',
+        permanent: true,
+      },
+      {
+        source: '/politica-de-envios-y-devoluciones',
+        destination: '/envios',
+        permanent: true,
+      },
+    ];
+  },
 }
 
 export default nextConfig

@@ -32,7 +32,7 @@ export function buildMetadata({
   description,
   path = '/',
   keywords = [],
-  image = '/Logo.svg',
+  image = siteConfig.defaultOgImage,
 }: MetadataInput): Metadata {
   const canonical = absoluteUrl(path);
 
@@ -51,7 +51,7 @@ export function buildMetadata({
       title,
       description,
       url: canonical,
-      siteName: siteConfig.legalName,
+      siteName: siteConfig.name,
       locale: 'es_ES',
       type: 'website',
       images: [
@@ -72,8 +72,8 @@ export function buildMetadata({
     category: 'ecommerce',
     icons: {
       icon: [
-        { url: '/favicon.svg', type: 'image/svg+xml' },
         { url: '/favicon.ico', sizes: 'any' },
+        { url: '/media/favicon-32.png', sizes: '32x32', type: 'image/png' },
         { url: '/media/favicon-48.png', sizes: '48x48', type: 'image/png' },
         { url: '/media/favicon-96.png', sizes: '96x96', type: 'image/png' },
         { url: '/media/favicon-192.png', sizes: '192x192', type: 'image/png' },
@@ -81,18 +81,38 @@ export function buildMetadata({
       apple: [
         { url: '/media/favicon-180.png', sizes: '180x180', type: 'image/png' },
       ],
+      shortcut: '/favicon.ico',
     },
   };
 }
 
 export function organizationSchema() {
+  const baseUrl = getBaseUrl();
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: siteConfig.legalName,
-    brand: siteConfig.name,
-    url: getBaseUrl(),
-    logo: absoluteUrl('/Logo.svg'),
+    // @id canónico: permite a otros nodos del @graph referenciar esta entidad
+    // y es la señal principal para que Google construya el Knowledge Panel de marca
+    '@id': `${baseUrl}/#organization`,
+    name: siteConfig.name,
+    legalName: siteConfig.legalName,
+    alternateName: siteConfig.alternateName,
+    brand: {
+      '@type': 'Brand',
+      name: siteConfig.name,
+    },
+    url: baseUrl,
+    // Logo declarado como ImageObject para cumplir los requisitos de Google Knowledge Panel
+    logo: {
+      '@type': 'ImageObject',
+      '@id': `${baseUrl}/#logo`,
+      url: absoluteUrl(siteConfig.brandLogoPng),
+      contentUrl: absoluteUrl(siteConfig.brandLogoPng),
+      width: 1200,
+      height: 1200,
+      caption: siteConfig.name,
+    },
+    image: { '@id': `${baseUrl}/#logo` },
     email: siteConfig.supportEmail,
     telephone: siteConfig.supportPhone,
     sameAs: siteConfig.socials,
@@ -106,20 +126,37 @@ export function organizationSchema() {
       '@type': 'Country',
       name: 'España',
     },
+    // foundingDate y numberOfEmployees mejoran E-E-A-T y el Knowledge Panel
+    foundingDate: '2024',
+    numberOfEmployees: {
+      '@type': 'QuantitativeValue',
+      minValue: 1,
+      maxValue: 10,
+    },
   };
 }
 
 export function websiteSchema() {
+  const baseUrl = getBaseUrl();
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: siteConfig.legalName,
-    url: getBaseUrl(),
+    // @id canónico requerido para que WebPage.isPartOf apunte aquí correctamente
+    '@id': `${baseUrl}/#website`,
+    name: siteConfig.name,
+    alternateName: siteConfig.alternateName,
+    url: baseUrl,
     inLanguage: siteConfig.locale,
+    publisher: { '@id': `${baseUrl}/#organization` },
+    // potentialAction activa el SiteLinks SearchBox en Google cuando
+    // el usuario busca directamente la marca "Biocultor"
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${getBaseUrl()}/te-de-humus-de-lombriz/{query}`,
-      'query-input': 'required name=query',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${baseUrl}/aprende?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
     },
   };
 }
@@ -235,12 +272,10 @@ export function buildProductOgMetadata({
       title,
       description,
       url: canonical,
-      siteName: siteConfig.legalName,
+      siteName: siteConfig.name,
       locale: 'es_ES',
-      // og:type=product activa el rich snippet de producto en Facebook/WhatsApp
-      // y es leído por algunos parsers de Google Shopping
-      type: 'website', // Next.js Metadata solo acepta tipos estándar aquí; el
-      // og:type=product real se inyecta vía "other" más abajo
+      // Next.js no soporta og:type=product nativamente; se sobreescribe en "other"
+      type: 'website',
       images: ogImages,
     },
     twitter: {
@@ -251,14 +286,13 @@ export function buildProductOgMetadata({
       images: [primaryAbsolute],
     },
     // "other" → meta tags arbitrarios que Next.js serializa directamente en <head>
-    // Esto es lo que activa:
-    //   • og:type=product (sobrescribe el og:type=website de openGraph arriba)
-    //   • og:image:type=image/webp → fuerza procesamiento WebP en crawlers legacy
-    //   • og:price:amount + og:price:currency → Rich Snippet de precio
-    //   • og:availability → estado de stock en parsers de shopping
-    //   • product:price:amount + product:price:currency → formato Open Graph Commerce
+    // IMPORTANTE: og:type=product se declara aquí porque Next.js Metadata API no
+    // incluye 'product' en su union type. Al estar en "other", se emite DESPUÉS
+    // del bloque openGraph, por lo que los parsers que lean el último og:type
+    // (como Google Shopping y Merchant Center) usarán el valor correcto.
     other: {
-      // Tipo semántico de página: activa el rich card de producto
+      // Sobreescribe el og:type=website emitido por openGraph → activa Product Rich Snippets
+      // y la clasificación correcta en Google Merchant Center
       'og:type': 'product',
       // MIME type explícito — imprescindible para Googlebot Image y bots legacy
       // que no infieren el tipo por extensión (.webp aún no es universal)
@@ -335,4 +369,3 @@ export function productImageSchema({
       : {}),
   }));
 }
-

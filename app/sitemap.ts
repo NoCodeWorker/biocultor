@@ -46,30 +46,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.warn("DB no disponible para obtener dynamicPages en sitemap.ts, usando fallback vacío.");
   }
 
-  const staticRoutes = [
-    '/',
-    '/aprende',
-    '/comprar-te-de-humus-de-lombriz',
-    '/comprar-purin-de-ortiga',
-    '/contacto',
-    '/cookies',
-    '/espana',
-    '/envios',
-    '/privacidad',
-    '/producto/te-humus-liquido-premium',
-    '/producto/purin-ortiga-concentrado',
-    '/te-de-humus-de-lombriz',
-    '/purin-de-ortiga',
-    '/terminos',
-    '/aprende/protocolo-cultivo-biologico-profesional',
+  // Fechas de última modificación real por ruta estática.
+  // IMPORTANTE: No usar new Date() para rutas estáticas — Google ignora sitemaps
+  // donde todos los lastmod son idénticos, interpretándolo como una señal falsa.
+  const staticRoutesMeta: Array<{ path: string; lastmod: string; priority: number; changeFrequency: 'weekly' | 'monthly' }> = [
+    { path: '/',                                              lastmod: '2026-06-09', priority: 1,    changeFrequency: 'weekly'  },
+    { path: '/producto/te-humus-liquido-premium',             lastmod: '2026-06-09', priority: 0.95, changeFrequency: 'weekly'  },
+    { path: '/producto/purin-ortiga-concentrado',             lastmod: '2026-06-09', priority: 0.95, changeFrequency: 'weekly'  },
+    { path: '/comprar-te-de-humus-de-lombriz',                lastmod: '2026-06-01', priority: 0.85, changeFrequency: 'weekly'  },
+    { path: '/comprar-purin-de-ortiga',                       lastmod: '2026-06-01', priority: 0.85, changeFrequency: 'weekly'  },
+    { path: '/te-de-humus-de-lombriz',                        lastmod: '2026-06-01', priority: 0.82, changeFrequency: 'weekly'  },
+    { path: '/purin-de-ortiga',                               lastmod: '2026-06-01', priority: 0.82, changeFrequency: 'weekly'  },
+    { path: '/espana',                                        lastmod: '2026-06-01', priority: 0.8,  changeFrequency: 'weekly'  },
+    { path: '/aprende',                                       lastmod: '2026-06-01', priority: 0.78, changeFrequency: 'weekly'  },
+    { path: '/aprende/protocolo-cultivo-biologico-profesional', lastmod: '2026-05-28', priority: 0.75, changeFrequency: 'monthly' },
+    { path: '/servicios/regeneracion-cesped',                  lastmod: '2026-06-09', priority: 0.9,  changeFrequency: 'monthly' },
+    { path: '/contacto',                                      lastmod: '2026-05-01', priority: 0.6,  changeFrequency: 'monthly' },
+    { path: '/envios',                                        lastmod: '2026-05-01', priority: 0.5,  changeFrequency: 'monthly' },
+    { path: '/privacidad',                                    lastmod: '2026-05-01', priority: 0.3,  changeFrequency: 'monthly' },
+    { path: '/terminos',                                      lastmod: '2026-05-01', priority: 0.3,  changeFrequency: 'monthly' },
+    { path: '/cookies',                                       lastmod: '2026-05-01', priority: 0.3,  changeFrequency: 'monthly' },
   ];
 
   return [
-    ...staticRoutes.map((path) => ({
+    ...staticRoutesMeta.map(({ path, lastmod, priority, changeFrequency }) => ({
       url: absoluteUrl(path),
-      lastModified: now,
-      changeFrequency: (path === '/' ? 'weekly' : 'monthly') as 'weekly' | 'monthly',
-      priority: path === '/' ? 1 : 0.7,
+      lastModified: new Date(lastmod),
+      changeFrequency,
+      priority,
     })),
 
     ...seoCommercialPages.map((page) => ({

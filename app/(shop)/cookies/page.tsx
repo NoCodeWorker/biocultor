@@ -1,9 +1,11 @@
+import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
 import { breadcrumbSchema } from '@/lib/seo';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Política de Cookies | Biocultor',
+  description: 'Política de Cookies de Biocultor. Aprende qué son las cookies, cómo las usamos para el carrito de compra y cómo puedes gestionarlas.',
 };
 
 export default function CookiesPage() {

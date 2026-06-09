@@ -87,8 +87,8 @@ export default function Footer() {
               <ul className="flex flex-col gap-3.5 text-sm">
                 {[
                   { href: '/contacto', label: 'Centro de Ayuda' },
-                  { href: '/politica-de-envios-y-devoluciones', label: 'Envíos y Entregas' },
-                  { href: '/politica-de-envios-y-devoluciones', label: 'Cambios y Devoluciones' },
+                  { href: '/envios', label: 'Envíos y Entregas' },
+                  { href: '/envios', label: 'Cambios y Devoluciones' },
                   { href: '/contacto', label: 'Consultar ficha técnica' },
                 ].map(link => (
                   <li key={link.label}>
@@ -105,8 +105,8 @@ export default function Footer() {
               <h4 className="font-heading font-bold text-cream/90 mb-6 text-xs uppercase tracking-[0.15em]">Legal</h4>
               <ul className="flex flex-col gap-3.5 text-sm">
                 {[
-                  { href: '/politica-de-privacidad', label: 'Política de Privacidad' },
-                  { href: '/terminos-y-condiciones', label: 'Términos de Servicio' },
+                  { href: '/privacidad', label: 'Política de Privacidad' },
+                  { href: '/terminos', label: 'Términos de Servicio' },
                   { href: '/cookies', label: 'Política de Cookies' },
                 ].map(link => (
                   <li key={link.href}>

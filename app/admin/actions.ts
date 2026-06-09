@@ -22,6 +22,12 @@ function revalidateSeoPaths(kind: string, slug: string) {
     return;
   }
 
+  if (kind === 'SERVICIO') {
+    revalidatePath('/servicios');
+    revalidatePath(`/servicios/${slug}`);
+    return;
+  }
+
   if (kind === 'COMMERCIAL') {
     revalidatePath('/comprar-te-de-humus-de-lombriz');
     revalidatePath(`/comprar-te-de-humus-de-lombriz/${slug}`);

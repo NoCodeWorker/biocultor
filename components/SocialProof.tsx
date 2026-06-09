@@ -2,37 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { Star, Quote, MapPin, Sprout, ChevronLeft, ChevronRight } from 'lucide-react'
-import StructuredData from '@/components/StructuredData'
 import { testimonials } from '@/lib/testimonials'
-
-
-// ─── Schema Review (Google Rich Results) ────────────────────────────────────
-const reviewSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Product',
-  name: 'Té de Humus de Lombriz Biocultor',
-  description: 'Té de humus de lombriz elaborado en España para huerto, jardín y cultivo profesional.',
-  brand: { '@type': 'Brand', name: 'Biocultor' },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.8',
-    reviewCount: testimonials.length.toString(),
-    bestRating: '5',
-    worstRating: '1',
-  },
-  review: testimonials.map((t) => ({
-    '@type': 'Review',
-    author: { '@type': 'Person', name: t.name },
-    datePublished: t.date,
-    reviewRating: {
-      '@type': 'Rating',
-      ratingValue: t.rating.toString(),
-      bestRating: '5',
-    },
-    reviewBody: t.text,
-    name: t.highlight,
-  })),
-}
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -83,9 +53,6 @@ export default function SocialProof() {
       className="w-full py-20 md:py-28 bg-background relative overflow-hidden border-t border-border/40"
       aria-label="Testimonios de clientes en España"
     >
-      {/* Schema Markup invisible */}
-      <StructuredData id="social-proof-review-schema" data={reviewSchema} />
-
       {/* Fondo decorativo sutil */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/4 rounded-full blur-[120px]" />

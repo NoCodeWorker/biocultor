@@ -4,7 +4,6 @@ import prisma from "@/lib/db"
 import { alertCritical } from "@/lib/alert"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
-import { testimonials } from "@/lib/testimonials"
 
 export async function generateStaticParams() {
   try {
@@ -26,10 +25,12 @@ import RiskReversal from "@/components/RiskReversal"
 import Breadcrumbs from '@/components/Breadcrumbs'
 import StructuredData from '@/components/StructuredData'
 import {
+  absoluteUrl,
   breadcrumbSchema,
   buildProductOgMetadata,
   faqSchema,
 } from '@/lib/seo'
+import { siteConfig } from '@/lib/site-config'
 import { ShieldCheck, Truck, RefreshCw, Leaf } from 'lucide-react'
 import Link from 'next/link'
 
@@ -191,28 +192,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         itemCondition: 'https://schema.org/NewCondition',
         countryOfOrigin: { '@type': 'Country', name: 'España' },
         areaServed: { '@type': 'Country', name: 'España' },
-        // ── Rich Snippet: estrellas (aggregateRating) ──────────────────────
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.8',
-          reviewCount: testimonials.length.toString(),
-          bestRating: '5',
-          worstRating: '1',
-        },
-        // ── Rich Snippet: reseñas individuales ────────────────────────────
-        review: testimonials.map((t) => ({
-          '@type': 'Review',
-          author: { '@type': 'Person', name: t.name },
-          datePublished: t.date,
-          reviewRating: {
-            '@type': 'Rating',
-            ratingValue: t.rating.toString(),
-            bestRating: '5',
-            worstRating: '1',
-          },
-          reviewBody: t.text,
-          name: t.highlight,
-        })),
         // ── Ofertas por variante: clave para Google Shopping ──────────────
         // Google Shopping indexa cada Offer por separado si tiene sku único
         offers: product.variants.map(v => ({
@@ -228,7 +207,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           availability: v.stock && v.stock > 0
             ? 'https://schema.org/InStock'
             : 'https://schema.org/OutOfStock',
-          seller: { '@type': 'Organization', name: 'Biocultor' },
+          seller: {
+            '@type': 'Organization',
+            name: siteConfig.name,
+            url: appUrl,
+            logo: absoluteUrl(siteConfig.brandLogoPng),
+          },
           // ── Shipping: gratis ≥50€, sino 4.99€ ──────────────────────────
           shippingDetails: {
             '@type': 'OfferShippingDetails',

@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: page.metaTitle || `${page.title} | Biocultor`,
     description: page.metaDescription || page.excerpt || '',
     path: `/solucion-humus/${page.slug}`,
-    image: payload.heroImage || page.image || '/product-showcase.png'
+    image: payload.heroImage || page.image || '/product-showcase.webp'
   });
 }
 
@@ -465,7 +465,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
       ? '/10 litros.jpg' 
       : slug === 'estres-hidrico-olivar-andalucia'
       ? '/5 litros.jpg'
-      : '/hero-bg.png'
+      : '/hero-bg.webp'
   );
 
   const markdownContent = payload.markdownContent || '';

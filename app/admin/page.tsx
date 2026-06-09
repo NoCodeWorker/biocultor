@@ -274,6 +274,7 @@ export default async function AdminOverviewPage() {
           </p>
           <div className="flex flex-col gap-2 mt-2">
             <QuickLink href="/admin/seo" label="Editor SEO Editorial" external={false} />
+            <QuickLink href="/admin/servicios" label="Gestión de Servicios" external={false} />
             <QuickLink href="/admin/analytics" label="Inteligencia detallada" external={false} />
             <QuickLink href="/" label="Ver tienda pública" external />
             <QuickLink
