@@ -1,4 +1,5 @@
 import { Phone, MapPin, MessageCircle } from 'lucide-react';
+import { Suspense } from 'react';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
 import { Button } from '@/components/ui/button';
@@ -38,7 +39,9 @@ export default function ContactoPage() {
           
           {/* Formulario */}
           <div className="lg:col-span-3 bg-card border border-border/50 rounded-[2rem] p-8 shadow-xl shadow-black/5">
-            <ContactForm />
+            <Suspense fallback={<div className="h-[300px] flex items-center justify-center text-muted-foreground">Cargando formulario...</div>}>
+              <ContactForm />
+            </Suspense>
           </div>
 
           {/* Información Lateral */}

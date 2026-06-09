@@ -1,13 +1,25 @@
-'use client';
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Send, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { submitContactForm } from '@/app/(shop)/contacto/actions';
+import { useSearchParams } from 'next/navigation';
 
 export default function ContactForm() {
+  const searchParams = useSearchParams();
+  const servicioParam = searchParams.get('servicio');
+
   const [isPending, setIsPending] = useState(false);
   const [status, setStatus] = useState<{ success?: boolean; error?: string } | null>(null);
+
+  const [motivo, setMotivo] = useState('Dudas sobre aplicación y dosis');
+  const [mensaje, setMensaje] = useState('');
+
+  useEffect(() => {
+    if (servicioParam === 'cesped') {
+      setMotivo('Servicio de Regeneración de Césped');
+      setMensaje('Hola, estoy interesado en el servicio de regeneración de césped con té de humus de lombriz para mi jardín de aprox. ______ m².');
+    }
+  }, [servicioParam]);
 
   async function action(formData: FormData) {
     setIsPending(true);
@@ -51,8 +63,16 @@ export default function ContactForm() {
 
       <div className="flex flex-col gap-2">
         <label htmlFor="motivo" className="text-sm font-semibold text-foreground">Motivo de la consulta</label>
-        <select required name="motivo" id="motivo" className="w-full h-12 bg-background border border-border/50 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow text-muted-foreground">
+        <select
+          required
+          name="motivo"
+          id="motivo"
+          value={motivo}
+          onChange={(e) => setMotivo(e.target.value)}
+          className="w-full h-12 bg-background border border-border/50 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow text-muted-foreground"
+        >
           <option>Dudas sobre aplicación y dosis</option>
+          <option>Servicio de Regeneración de Césped</option>
           <option>Estado de mi envío</option>
           <option>Distribución y venta al por mayor (&gt; 1000L)</option>
           <option>Otros motivos técnicos</option>
@@ -61,7 +81,16 @@ export default function ContactForm() {
 
       <div className="flex flex-col gap-2">
         <label htmlFor="mensaje" className="text-sm font-semibold text-foreground">Tu Mensaje</label>
-        <textarea required name="mensaje" id="mensaje" rows={5} className="w-full bg-background border border-border/50 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow resize-none" placeholder="Cuéntanos más sobre tus necesidades..."></textarea>
+        <textarea
+          required
+          name="mensaje"
+          id="mensaje"
+          value={mensaje}
+          onChange={(e) => setMensaje(e.target.value)}
+          rows={5}
+          className="w-full bg-background border border-border/50 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow resize-none"
+          placeholder="Cuéntanos más sobre tus necesidades..."
+        />
       </div>
 
       <Button disabled={isPending} type="submit" size="lg" className="h-14 mt-4 w-full sm:w-auto self-start rounded-xl font-bold bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all">
