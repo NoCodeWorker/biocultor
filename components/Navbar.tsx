@@ -32,7 +32,6 @@ const navLinks: NavLink[] = [
       },
     ],
   },
-  { kind: 'link', href: '/aprende', label: 'Aprende' },
   {
     kind: 'group',
     label: 'Servicios',
@@ -50,6 +49,7 @@ const navLinks: NavLink[] = [
       },
     ],
   },
+  { kind: 'link', href: '/aprende', label: 'Aprende' },
   { kind: 'link', href: '/espana', label: 'España' },
   { kind: 'link', href: '/contacto', label: 'Contacto' },
 ];
