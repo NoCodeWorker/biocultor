@@ -60,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/espana',                                        lastmod: '2026-06-01', priority: 0.8,  changeFrequency: 'weekly'  },
     { path: '/aprende',                                       lastmod: '2026-06-01', priority: 0.78, changeFrequency: 'weekly'  },
     { path: '/aprende/protocolo-cultivo-biologico-profesional', lastmod: '2026-05-28', priority: 0.75, changeFrequency: 'monthly' },
-    { path: '/servicios/regeneracion-cesped',                  lastmod: '2026-06-09', priority: 0.9,  changeFrequency: 'monthly' },
+    { path: '/servicios/regeneracion-cesped-y-jardines',        lastmod: '2026-06-09', priority: 0.9,  changeFrequency: 'monthly' },
     { path: '/contacto',                                      lastmod: '2026-05-01', priority: 0.6,  changeFrequency: 'monthly' },
     { path: '/envios',                                        lastmod: '2026-05-01', priority: 0.5,  changeFrequency: 'monthly' },
     { path: '/privacidad',                                    lastmod: '2026-05-01', priority: 0.3,  changeFrequency: 'monthly' },

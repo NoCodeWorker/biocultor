@@ -56,16 +56,16 @@ export async function generateMetadata(): Promise<Metadata> {
   let page = null;
   try {
     page = await prisma.seoPage.findUnique({
-      where: { slug: 'regeneracion-cesped' },
+      where: { slug: 'regeneracion-cesped-y-jardines' },
     });
   } catch (e) {
-    console.warn("Error querying DB for metadata on servicios/regeneracion-cesped page, using defaults.");
+    console.warn("Error querying DB for metadata on servicios/regeneracion-cesped-y-jardines page, using defaults.");
   }
 
   return buildMetadata({
-    title: page?.metaTitle || 'Regeneración de Césped con Té de Humus | Biocultor',
+    title: page?.metaTitle || 'Regeneración de Césped y Jardines con Té de Humus | Biocultor',
     description: page?.metaDescription || 'Servicio profesional de inoculación biológica in-situ para recuperar la salud y el verde de tu césped. Tratamiento 100% ecológico desde 195€.',
-    path: '/servicios/regeneracion-cesped',
+    path: '/servicios/regeneracion-cesped-y-jardines',
     keywords: [
       'regeneracion de cesped',
       'te de humus cesped',
@@ -81,16 +81,16 @@ export default async function Page() {
   const breadcrumbs = [
     { label: 'Inicio', href: '/' },
     { label: 'Servicios', href: '#' },
-    { label: 'Regeneración de Césped' }
+    { label: 'Regeneración de Césped y Jardines' }
   ];
 
   let page = null;
   try {
     page = await prisma.seoPage.findUnique({
-      where: { slug: 'regeneracion-cesped' },
+      where: { slug: 'regeneracion-cesped-y-jardines' },
     });
   } catch (e) {
-    console.warn("Error querying DB for servicios/regeneracion-cesped page, using defaults.");
+    console.warn("Error querying DB for servicios/regeneracion-cesped-y-jardines page, using defaults.");
   }
 
   if (page && !page.isPublished) {
@@ -103,7 +103,7 @@ export default async function Page() {
       payload = { ...defaultPayload, ...JSON.parse(page.payloadJson) };
     }
   } catch (e) {
-    console.error("Error parsing payloadJson for servicios/regeneracion-cesped", e);
+    console.error("Error parsing payloadJson for servicios/regeneracion-cesped-y-jardines", e);
   }
 
   let faqs = defaultFaqs;
@@ -112,7 +112,7 @@ export default async function Page() {
       faqs = JSON.parse(page.faqJson);
     }
   } catch (e) {
-    console.error("Error parsing faqJson for servicios/regeneracion-cesped", e);
+    console.error("Error parsing faqJson for servicios/regeneracion-cesped-y-jardines", e);
   }
 
   const title = page?.title || 'Regenera tu césped desde la biología del suelo.';
@@ -125,12 +125,12 @@ export default async function Page() {
       websiteSchema(),
       breadcrumbSchema([
         { name: 'Inicio', path: '/' },
-        { name: 'Servicios', path: '/servicios/regeneracion-cesped' }
+        { name: 'Servicios', path: '/servicios/regeneracion-cesped-y-jardines' }
       ]),
       faqSchema(faqs),
       {
         '@type': 'Service',
-        '@id': 'https://biocultor.com/servicios/regeneracion-cesped#service',
+        '@id': 'https://biocultor.com/servicios/regeneracion-cesped-y-jardines#service',
         'name': 'Servicio de Inoculación y Regeneración de Césped',
         'serviceType': 'Lawn Care and Soil Regeneration',
         'provider': {

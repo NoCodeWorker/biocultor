@@ -145,7 +145,7 @@ export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
         </div>
         <div className="flex items-center gap-3">
           <a
-            href="/servicios/regeneracion-cesped"
+            href="/servicios/regeneracion-cesped-y-jardines"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-xs font-bold border border-border bg-card hover:bg-muted px-4 py-2 rounded-xl transition-all"

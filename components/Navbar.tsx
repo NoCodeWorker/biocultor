@@ -39,8 +39,8 @@ const navLinks: NavLink[] = [
     matchPaths: ['/servicios/'],
     items: [
       {
-        href: '/servicios/regeneracion-cesped',
-        label: 'Regeneración de césped',
+        href: '/servicios/regeneracion-cesped-y-jardines',
+        label: 'Regeneración de césped y jardines',
         sub: 'Inoculación biológica profesional · 195 €/500 m²',
       },
     ],

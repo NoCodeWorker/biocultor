@@ -4,7 +4,7 @@ import ServicePageEditor from './ServicePageEditor';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminServiciosPage() {
-  const serviceSlug = 'regeneracion-cesped';
+  const serviceSlug = 'regeneracion-cesped-y-jardines';
 
   // Buscar si ya existe la página de servicio en la BD
   let servicePage = await prisma.seoPage.findUnique({
@@ -57,12 +57,12 @@ export default async function AdminServiciosPage() {
       data: {
         kind: 'SERVICIO',
         slug: serviceSlug,
-        title: 'Regeneración de Césped',
-        targetKeyword: 'regeneracion cesped',
+        title: 'Regeneración de Césped y Jardines',
+        targetKeyword: 'regeneracion cesped y jardines',
         workflowStatus: 'READY',
         priorityScore: 90,
         label: 'Servicios',
-        metaTitle: 'Regeneración de Césped con Té de Humus | Biocultor',
+        metaTitle: 'Regeneración de Césped y Jardines con Té de Humus | Biocultor',
         metaDescription: 'Servicio profesional de inoculación biológica in-situ para recuperar la salud y el verde de tu césped. Tratamiento 100% ecológico desde 195€.',
         payloadJson: JSON.stringify(defaultPayload),
         faqJson: JSON.stringify(defaultFaqs),
