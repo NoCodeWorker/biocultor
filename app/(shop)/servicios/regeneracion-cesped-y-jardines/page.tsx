@@ -9,6 +9,7 @@ import StructuredData from '@/components/StructuredData';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { ImageComparison } from '@/components/ui/image-comparison';
 import { Button } from '@/components/ui/button';
+import ServicePriceCalculator from '@/components/ServicePriceCalculator';
 
 export const revalidate = 1800;
 
@@ -190,11 +191,11 @@ export default async function Page() {
                   <span className="text-3xl font-extrabold text-foreground">{payload.price} €</span>
                   <span className="text-muted-foreground text-sm">/ hasta {payload.areaLimit} m²</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">Para jardines más amplios, consúltanos.</p>
+                <p className="text-xs text-muted-foreground mt-1">Para jardines más amplios, calcula tu presupuesto abajo.</p>
               </div>
               <Button asChild size="lg" className="w-full sm:w-auto rounded-full bg-primary hover:bg-brand-green-hover text-white shadow-lg shadow-primary/15 transition-all">
-                <Link href="/contacto?servicio=cesped">
-                  Solicitar Tratamiento
+                <Link href="#presupuesto">
+                  Calcular Presupuesto
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Button>
@@ -357,31 +358,19 @@ export default async function Page() {
         </section>
 
         {/* 6. TRANSPARENT PRICING & CONVERSION */}
-        <section className="bg-gradient-to-br from-brand-brown-dark/5 to-primary/5 border border-primary/10 rounded-3xl p-8 md:p-12 mb-20 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <section id="presupuesto" className="bg-gradient-to-br from-brand-brown-dark/5 to-primary/5 border border-primary/10 rounded-3xl p-8 md:p-12 mb-20 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="max-w-xl flex flex-col gap-4">
             <h2 className="font-heading text-3xl font-extrabold text-foreground">¿Listo para devolverle la vida a tu césped?</h2>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              El tratamiento base cubre hasta {payload.areaLimit} m² de terreno por {payload.price} €. Incluye desplazamiento, diagnóstico, inoculado con té de humus premium y plan de pautas post-tratamiento. Para jardines más grandes de {payload.areaLimit} m², consúltanos tarifas reducidas por metro cuadrado adicional.
+              El tratamiento tiene un mínimo de {payload.price} € para superficies de hasta {payload.areaLimit} m². Incluye desplazamiento, diagnóstico técnico inicial, la inoculación con té de humus de lombriz premium y un plan personalizado de pautas post-tratamiento. Para jardines más grandes, el presupuesto se calcula de manera proporcional a los metros adicionales.
             </p>
             <div className="flex flex-wrap gap-3 mt-2">
               <span className="bg-background border border-border px-3 py-1 rounded-full text-xs font-semibold text-muted-foreground">✓ Sin contratos de permanencia</span>
               <span className="bg-background border border-border px-3 py-1 rounded-full text-xs font-semibold text-muted-foreground">✓ Asesoramiento profesional</span>
             </div>
           </div>
-          <div className="bg-card border border-border/60 p-8 rounded-3xl w-full lg:w-auto min-w-[280px] shadow-lg shadow-foreground/5 flex flex-col gap-6 text-center">
-            <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Tarifa Plana</p>
-              <div className="text-4xl font-extrabold text-foreground mt-2">{payload.price} €</div>
-              <p className="text-xs text-muted-foreground mt-1">Superficie hasta {payload.areaLimit} m²</p>
-            </div>
-            <Button asChild size="lg" className="rounded-full w-full bg-primary hover:bg-brand-green-hover text-white py-6 shadow-md shadow-primary/15 transition-all">
-              <Link href="/contacto?servicio=cesped">
-                Contratar Servicio
-              </Link>
-            </Button>
-            <p className="text-[11px] text-muted-foreground max-w-[220px] mx-auto">
-              Tratamiento ecológico seguro. Plazas limitadas según época del año.
-            </p>
+          <div className="w-full lg:w-[420px] shrink-0">
+            <ServicePriceCalculator />
           </div>
         </section>
 

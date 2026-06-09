@@ -9,6 +9,8 @@ import { useSearchParams } from 'next/navigation';
 export default function ContactForm() {
   const searchParams = useSearchParams();
   const servicioParam = searchParams.get('servicio');
+  const m2Param = searchParams.get('m2');
+  const precioParam = searchParams.get('precio');
 
   const [isPending, setIsPending] = useState(false);
   const [status, setStatus] = useState<{ success?: boolean; error?: string } | null>(null);
@@ -19,9 +21,13 @@ export default function ContactForm() {
   useEffect(() => {
     if (servicioParam === 'cesped') {
       setMotivo('Servicio de Regeneración de Césped');
-      setMensaje('Hola, estoy interesado en el servicio de regeneración de césped con té de humus de lombriz para mi jardín de aprox. ______ m².');
+      if (m2Param && precioParam) {
+        setMensaje(`Hola, estoy interesado en el servicio de regeneración de césped y jardines con té de humus de lombriz para mi jardín de ${m2Param} m². El presupuesto estimado calculado en la web es de ${precioParam} €.`);
+      } else {
+        setMensaje('Hola, estoy interesado en el servicio de regeneración de césped y jardines con té de humus de lombriz para mi jardín de aprox. ______ m².');
+      }
     }
-  }, [servicioParam]);
+  }, [servicioParam, m2Param, precioParam]);
 
   async function action(formData: FormData) {
     setIsPending(true);
