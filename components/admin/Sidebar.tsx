@@ -17,6 +17,7 @@ import {
   Mail,
   Truck,
   Calculator,
+  Leaf,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -68,6 +69,7 @@ const NAV: NavSection[] = [
     label: 'Contenido',
     items: [
       { href: '/admin/seo', label: 'Landings & SEO', icon: Search },
+      { href: '/admin/servicios', label: 'Servicios', icon: Leaf },
       { href: '/admin/blog', label: 'Blog', icon: PenSquare },
     ],
   },

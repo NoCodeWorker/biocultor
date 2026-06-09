@@ -35,6 +35,7 @@ const kindLabels: Record<string, string> = {
   GEO: 'GEO/IA',
   SOLUTION: 'Aplicación',
   LANDING: 'Landing Especial',
+  SERVICIO: 'Servicio',
 };
 
 const workflowLabels: Record<string, string> = {
@@ -164,6 +165,7 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
               <option value="GEO">GEO/IA</option>
               <option value="SOLUTION">Aplicaciones</option>
               <option value="LANDING">Landings</option>
+              <option value="SERVICIO">Servicios</option>
             </select>
           </div>
         </div>
@@ -250,6 +252,8 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                             ? `/espana/${item.slug}`
                             : item.kind === 'LANDING'
                             ? `/solucion-humus/${item.slug}`
+                            : item.kind === 'SERVICIO'
+                            ? `/servicios/${item.slug}`
                             : `/aprende/${item.slug}`
                         }
                         target="_blank"
@@ -400,6 +404,15 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                       />
                     </label>
                   </div>
+
+                  {item.kind === 'SERVICIO' && (
+                    <div className="p-6 rounded-[1.5rem] bg-primary/5 border border-primary/20 space-y-3">
+                      <h4 className="font-heading font-bold text-foreground">💡 Editor de Servicios Disponible</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Este registro es un servicio. Puedes editar su meta title y meta description aquí, pero para gestionar el precio, imágenes antes/después, trust badges y preguntas frecuentes de forma visual, te recomendamos usar el <a href="/admin/servicios" className="text-primary font-bold underline">Gestor de Servicios Especializado</a>.
+                      </p>
+                    </div>
+                  )}
 
                   {item.kind === 'LANDING' && (
                     <div className="p-8 rounded-[2rem] bg-primary/5 border border-primary/20 space-y-8">
@@ -570,6 +583,8 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                           ? `/espana/${item.slug}`
                           : item.kind === 'LANDING'
                           ? `/solucion-humus/${item.slug}`
+                          : item.kind === 'SERVICIO'
+                          ? `/servicios/${item.slug}`
                           : `/aprende/${item.slug}`
                       }
                       target="_blank"

@@ -20,6 +20,7 @@ const LABELS: Record<string, string> = {
   marketing: 'Marketing',
   inventory: 'Inventario',
   settings: 'Ajustes',
+  servicios: 'Servicios',
 };
 
 function humanize(seg: string) {
