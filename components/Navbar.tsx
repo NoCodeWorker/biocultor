@@ -40,7 +40,7 @@ const navLinks: NavLink[] = [
       {
         href: '/servicios/regeneracion-cesped-y-jardines',
         label: 'Regeneración de césped y jardines',
-        sub: 'Inoculación biológica profesional · 195 €/500 m²',
+        sub: 'Tratamiento profesional de inoculación biológica in-situ',
       },
       {
         href: '/servicios/te-humus-paisajistas-jardineros',

@@ -367,7 +367,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* ⑨ FAQ — Responde las dudas finales */}
       {/* ⑨ FAQ — suppressSchema=true porque el schema ya está unificado arriba */}
-      <FaqAioSeo suppressSchema={true} />
+      <FaqAioSeo suppressSchema={true} variants={dbVariants.map(v => ({ size: v.size, price: v.price }))} />
 
       {/* ⑩ CROSS-SELL / EXPERTOS — Captura los indecisos*/}
       <section className="w-full py-16 bg-cream-warm border-t border-border/40">

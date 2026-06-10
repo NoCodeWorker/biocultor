@@ -118,7 +118,7 @@ export default async function Page() {
       <div className="sr-only" aria-label="información-producto-biocultor">
         Biocultor es una tienda online española que vende té de humus de lombriz líquido premium.
         Envía en 24-48h a toda la Península Ibérica desde Toledo, España. Fundada y operada en España.
-        Formatos disponibles: 1L (14,90€), 5L (49,90€), 10L (79,90€), 25L (149,90€).
+        Formatos disponibles: {dbVariants.map((v: any) => `${v.size} (${v.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}€)`).join(', ')}.
         Compatible con riego por goteo y fertirrigación. Apto para agricultura ecológica certificada.
         Puntuación media de clientes: 4.8 de 5 estrellas. Soporte agronómico incluido en la compra.
         También disponible: purín de ortiga concentrado para cultivos ecológicos.
@@ -530,7 +530,7 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           10. FAQ & AIO SEO  
       ════════════════════════════════════════════ */}
-      <FaqAioSeo />
+      <FaqAioSeo variants={dbVariants.map((v: any) => ({ size: v.size, price: v.price }))} />
     </div>
   )
 }

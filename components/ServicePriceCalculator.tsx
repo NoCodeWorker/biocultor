@@ -5,17 +5,24 @@ import Link from 'next/link';
 import { Calculator, Ruler, ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export default function ServicePriceCalculator() {
-  const [area, setArea] = useState<number>(500);
+interface ServicePriceCalculatorProps {
+  /** Precio base del servicio leído de la BD (SeoPage.payloadJson). */
+  basePrice?: number;
+  /** Área cubierta por la tarifa base, en m². */
+  baseArea?: number;
+  /** Incremento por m² adicional. */
+  ratePerAdditionalM2?: number;
+}
 
-  // Calcula el precio dinámicamente
-  // Base 195 € por 500 m2
-  // Adicional: 0.2 € por cada m2 de más.
+export default function ServicePriceCalculator({
+  basePrice = 195,
+  baseArea = 500,
+  ratePerAdditionalM2 = 0.2,
+}: ServicePriceCalculatorProps) {
+  const [area, setArea] = useState<number>(baseArea);
+
+  // Calcula el precio dinámicamente usando los valores que vienen de la BD
   const calculatePrice = (m2: number) => {
-    const basePrice = 195;
-    const baseArea = 500;
-    const ratePerAdditionalM2 = 0.2;
-
     if (m2 <= baseArea) {
       return basePrice;
     }
@@ -89,9 +96,9 @@ export default function ServicePriceCalculator() {
           {totalPrice.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })} €
         </div>
         <p className="text-[11px] text-muted-foreground leading-snug">
-          {area <= 500
-            ? 'Tarifa mínima aplicable (cubre hasta 500 m²).'
-            : `Tarifa mínima de 195 € más suplemento por los metros adicionales.`}
+          {area <= baseArea
+            ? `Tarifa mínima aplicable (cubre hasta ${baseArea.toLocaleString('es-ES')} m²).`
+            : `Tarifa mínima de ${basePrice.toLocaleString('es-ES')} € más suplemento por los metros adicionales.`}
         </p>
       </div>
 

@@ -9,13 +9,12 @@ import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
 import PremiumAudioPlayer from '@/components/PremiumAudioPlayer';
 
+// Metadatos de UI únicamente — sin precios. Los precios SIEMPRE vienen de dbVariants (base de datos).
 const formats = [
   {
     id: 'ORT-1L',
     size: '1 Litro',
     target: 'Jardinero Urbano',
-    price: 9.95,
-    pricePerLiter: 9.95,
     icon: Leaf,
     popular: false,
     features: ['Para 100L de riego', 'Aplicación foliar y radicular', 'Perfecto para probar'],
@@ -25,8 +24,6 @@ const formats = [
     id: 'ORT-5L',
     size: '5 Litros',
     target: 'Huerto Familiar',
-    price: 19.95,
-    pricePerLiter: 3.99,
     icon: Droplet,
     popular: true,
     features: ['Para 500L de riego', 'Tratamiento de choque', '40% más barato por litro vs 1 L'],
@@ -36,8 +33,6 @@ const formats = [
     id: 'ORT-10L',
     size: '10 Litros',
     target: 'Cultivador PRO',
-    price: 34.95,
-    pricePerLiter: 3.50,
     icon: Sprout,
     popular: false,
     features: ['Para 1000L de riego', 'Formato de uso continuado', '52% más barato por litro vs 1 L'],
@@ -47,8 +42,6 @@ const formats = [
     id: 'ORT-25L',
     size: '25 Litros',
     target: 'Finca Ecológica',
-    price: 69.95,
-    pricePerLiter: 2.80,
     icon: Tractor,
     popular: false,
     features: ['Para 2500L de riego', 'Uso agrícola a gran escala', '64% más barato por litro vs 1 L'],
@@ -67,18 +60,23 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
         ...f,
         id: dbMatch.id,
         target: dbMatch.target,
-        price: dbMatch.price,
+        price: dbMatch.price as number,        // precio de la DB — única fuente de verdad
         pricePerLiter: dbMatch.price / literCount,
         popular: dbMatch.popular,
         features: Array.isArray(dbMatch.features) ? dbMatch.features : dbMatch.features?.split(',') || [],
         image: dbMatch.imagePath || dbMatch.image || f.image,
         sku: dbMatch.sku,
         stock: dbMatch.stock ?? 12,
+        hasDbData: true,
       };
     }
+    // Sin match en DB: el formato se muestra pero sin precio
     return {
       ...f,
-      stock: 12, // fallback
+      price: null as number | null,
+      pricePerLiter: null as number | null,
+      stock: 0, // sin datos de DB = sin stock
+      hasDbData: false,
     };
   });
 
@@ -202,12 +200,20 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
                     </div>
                   </div>
 
-                  {/* Price */}
+                  {/* Price — siempre desde la DB */}
                   <div className="mt-2 mb-5">
-                    <div className="flex items-end gap-1">
-                      <span className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tighter">€{format.price.toFixed(2)}</span>
-                    </div>
-                    <p className="text-sm font-medium text-primary mt-1">{format.pricePerLiter.toFixed(2)}€ / litro</p>
+                    {format.price != null ? (
+                      <>
+                        <div className="flex items-end gap-1">
+                          <span className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tighter">€{format.price.toFixed(2)}</span>
+                        </div>
+                        {format.pricePerLiter != null && (
+                          <p className="text-sm font-medium text-primary mt-1">{format.pricePerLiter.toFixed(2)}€ / litro</p>
+                        )}
+                      </>
+                    ) : (
+                      <div className="h-10 w-28 bg-muted/60 rounded-lg animate-pulse" aria-label="Cargando precio" />
+                    )}
                   </div>
 
                   {/* Features */}

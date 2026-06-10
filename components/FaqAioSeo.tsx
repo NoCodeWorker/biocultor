@@ -5,14 +5,25 @@ import { ChevronDown, Leaf } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import StructuredData from './StructuredData';
 
-const faqs = [
+interface ProductVariantLite {
+  size: string;
+  price: number;
+}
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+// FAQs estáticas — sin ningún precio en su contenido
+const staticFaqs: FaqItem[] = [
   {
     question: '¿Qué es el té de humus de lombriz y para qué sirve?',
     answer: 'El té de humus de lombriz es un extracto líquido obtenido del vermicompost. Se usa como bioestimulante radicular y foliar para mejorar la actividad microbiana del suelo, la disponibilidad de nutrientes y la tolerancia de la planta al estrés. Es compatible con agricultura ecológica y fertirrigación. El resultado depende del cultivo, el suelo y la forma de aplicación.'
   },
   {
     question: '¿Cuánto cuesta el té de humus de lombriz en España?',
-    answer: 'En Biocultor los precios son: 1 Litro — 14,90€ · 5 Litros — 49,90€ · 10 Litros — 79,90€ · 25 Litros — 149,90€ (todos con IVA incluido). El envío es gratuito para pedidos superiores a 50€ a toda la Península. La entrega estimada es de 24 a 48 horas en días laborables.'
+    answer: '', // Se construye dinámicamente con precios de la DB — ver buildPriceFaqAnswer()
   },
   {
     question: '¿Cuál es la diferencia entre té de humus líquido y humus sólido?',
@@ -48,8 +59,45 @@ const faqs = [
   },
 ];
 
-export default function FaqAioSeo({ suppressSchema = false }: { suppressSchema?: boolean }) {
+/**
+ * Construye la respuesta de la pregunta de precio usando los datos reales de la DB.
+ * Si no hay variantes disponibles, devuelve un texto genérico que invita a ver la PDP.
+ */
+function buildPriceFaqAnswer(variants: ProductVariantLite[]): string {
+  if (!variants || variants.length === 0) {
+    return 'Puedes consultar los precios actualizados directamente en nuestra página de producto en biocultor.com/producto/te-humus-liquido-premium (todos con IVA incluido). El envío es gratuito para pedidos superiores a 50€ a toda la Península. La entrega estimada es de 24 a 48 horas en días laborables.';
+  }
+
+  // Ordena por volumen (extrae el número del size como "1 Litro" → 1)
+  const sorted = [...variants].sort((a, b) => {
+    const numA = parseFloat(a.size.split(' ')[0]) || 0;
+    const numB = parseFloat(b.size.split(' ')[0]) || 0;
+    return numA - numB;
+  });
+
+  const priceList = sorted
+    .map(v => `${v.size} — ${v.price.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€`)
+    .join(' · ');
+
+  return `En Biocultor los precios son: ${priceList} (todos con IVA incluido). El envío es gratuito para pedidos superiores a 50€ a toda la Península. La entrega estimada es de 24 a 48 horas en días laborables.`;
+}
+
+export default function FaqAioSeo({
+  suppressSchema = false,
+  variants = [],
+}: {
+  suppressSchema?: boolean;
+  variants?: ProductVariantLite[];
+}) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  // Construimos las FAQs combinando las estáticas con la respuesta de precio dinámica
+  const faqs: FaqItem[] = staticFaqs.map(faq => {
+    if (faq.question === '¿Cuánto cuesta el té de humus de lombriz en España?') {
+      return { ...faq, answer: buildPriceFaqAnswer(variants) };
+    }
+    return faq;
+  });
 
   // Generamos el JSON-LD para Google (Programa de "Rich Snippets" de FAQ)
   const faqSchema = {
@@ -140,4 +188,3 @@ export default function FaqAioSeo({ suppressSchema = false }: { suppressSchema?:
     </section>
   );
 }
-

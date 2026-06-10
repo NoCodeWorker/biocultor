@@ -45,6 +45,7 @@ const defaultPayload = {
   afterImage: '/servicios-cesped-despues.webp',
   price: '195',
   areaLimit: '500',
+  additionalRate: '0.2',
   trustBadge1_title: 'Biología Activa y Fresca',
   trustBadge1_desc: 'El té de humus se extrae y oxigena pocas horas antes de la aplicación, asegurando millones de microorganismos vivos.',
   trustBadge2_title: 'Avalado por la Ciencia',
@@ -370,7 +371,11 @@ export default async function Page() {
             </div>
           </div>
           <div className="w-full lg:w-[420px] shrink-0">
-            <ServicePriceCalculator />
+            <ServicePriceCalculator
+              basePrice={parseFloat(payload.price || '195')}
+              baseArea={parseInt(payload.areaLimit || '500')}
+              ratePerAdditionalM2={parseFloat(payload.additionalRate || '0.2')}
+            />
           </div>
         </section>
 

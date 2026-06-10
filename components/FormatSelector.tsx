@@ -9,13 +9,12 @@ import Image from 'next/image';
 import { useCartStore } from '@/store/cartStore';
 import PremiumAudioPlayer from '@/components/PremiumAudioPlayer';
 
+// Metadatos de UI únicamente — sin precios. Los precios SIEMPRE vienen de dbVariants (base de datos).
 const formats = [
   {
     id: '1L',
     size: '1 Litro',
     target: 'Jardinero Urbano',
-    price: 14.90,
-    pricePerLiter: 14.90,
     icon: Leaf,
     popular: false,
     features: ['Para 100 litros de riego', 'Aplicación foliar y radicular', 'Perfecto para probar'],
@@ -25,8 +24,6 @@ const formats = [
     id: '5L',
     size: '5 Litros',
     target: 'Huerto Familiar',
-    price: 49.90,
-    pricePerLiter: 9.98,
     icon: Droplet,
     popular: true,
     features: ['Para 500 litros de riego', 'Tratamiento de choque', '33% más barato por litro vs formato 1 L'],
@@ -36,8 +33,6 @@ const formats = [
     id: '10L',
     size: '10 Litros',
     target: 'Cultivador PRO',
-    price: 79.90,
-    pricePerLiter: 7.99,
     icon: Sprout,
     popular: false,
     features: ['Para 1000 litros de riego', 'Formato de uso continuado', '46% más barato por litro vs formato 1 L'],
@@ -47,8 +42,6 @@ const formats = [
     id: '25L',
     size: '25 Litros',
     target: 'Finca Ecológica',
-    price: 149.90,
-    pricePerLiter: 5.99,
     icon: Tractor,
     popular: false,
     features: ['Para 2500 litros de riego', 'Uso agrícola a gran escala', '60% más barato por litro vs formato 1 L'],
@@ -57,7 +50,8 @@ const formats = [
 ];
 
 export default function FormatSelector({ dbVariants = [], productSlug = 'te-humus-liquido-premium' }: { dbVariants?: any[], productSlug?: string }) {
-  // Fusionamos datos dinámicos de SQLite con los iconos locales
+  // Los precios y datos de negocio vienen EXCLUSIVAMENTE de dbVariants (base de datos).
+  // Los metadatos de UI (iconos, imagen fallback, features base) vienen del array estático.
   const mergedFormats = formats.map(f => {
      const dbMatch = dbVariants.find(dbF => dbF.size === f.size);
      if (dbMatch) {
@@ -66,18 +60,23 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
          ...f,
          id: dbMatch.id,
          target: dbMatch.target,
-         price: dbMatch.price,
+         price: dbMatch.price as number,        // precio de la DB — única fuente de verdad
          pricePerLiter: dbMatch.price / literCount,
          popular: dbMatch.popular,
          features: Array.isArray(dbMatch.features) ? dbMatch.features : dbMatch.features?.split(',') || [],
          image: dbMatch.imagePath || dbMatch.image || f.image,
          stock: dbMatch.stock ?? 12,
          sku: dbMatch.sku,
-       }
+         hasDbData: true,
+       };
      }
+     // Sin match en DB: el formato se muestra pero sin precio
      return {
        ...f,
-       stock: 12, // fallback
+       price: null as number | null,
+       pricePerLiter: null as number | null,
+       stock: 0, // sin datos de DB = sin stock seguro
+       hasDbData: false,
      };
   });
 
@@ -185,12 +184,20 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
                   </div>
                 </div>
 
-                {/* Price */}
+                {/* Price — siempre desde la DB */}
                 <div className="mt-2 mb-5">
-                  <div className="flex items-end gap-1">
-                    <span className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tighter">€{format.price.toFixed(2)}</span>
-                  </div>
-                  <p className="text-sm font-medium text-primary mt-1">{format.pricePerLiter.toFixed(2)}€ / litro</p>
+                  {format.price != null ? (
+                    <>
+                      <div className="flex items-end gap-1">
+                        <span className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tighter">€{format.price.toFixed(2)}</span>
+                      </div>
+                      {format.pricePerLiter != null && (
+                        <p className="text-sm font-medium text-primary mt-1">{format.pricePerLiter.toFixed(2)}€ / litro</p>
+                      )}
+                    </>
+                  ) : (
+                    <div className="h-10 w-28 bg-muted/60 rounded-lg animate-pulse" aria-label="Cargando precio" />
+                  )}
                 </div>
 
                 {/* Features */}
