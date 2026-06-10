@@ -3,28 +3,25 @@
 import { useState, useTransition } from 'react';
 import {
   Search,
-  Filter,
   Plus,
   Edit2,
   Trash2,
   Mail,
   Phone,
   Building,
-  MapPin,
-  ExternalLink,
   ChevronRight,
   User,
   Activity,
-  FileText,
 } from 'lucide-react';
 import { createCrmContact, updateCrmContact, deleteCrmContact } from '@/app/admin/crm/actions';
 import Panel from '../Panel';
 import StatusBadge from '../StatusBadge';
 import { cn } from '@/lib/utils';
+import { CrmContactWithRelations } from '@/types/crm';
 
 interface ContactsTabProps {
-  contacts: any[];
-  storeCustomers: any[];
+  contacts: CrmContactWithRelations[];
+  storeCustomers: { id: string; name: string; email: string | null }[];
 }
 
 export default function ContactsTab({ contacts, storeCustomers }: ContactsTabProps) {
@@ -34,7 +31,7 @@ export default function ContactsTab({ contacts, storeCustomers }: ContactsTabPro
   const [isPending, startTransition] = useTransition();
 
   // Selected contact detail sidebar
-  const [selectedContact, setSelectedContact] = useState<any | null>(null);
+  const [selectedContact, setSelectedContact] = useState<CrmContactWithRelations | null>(null);
 
   // Modals state
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -104,7 +101,7 @@ export default function ContactsTab({ contacts, storeCustomers }: ContactsTabPro
     });
   };
 
-  const handleOpenEdit = (c: any) => {
+  const handleOpenEdit = (c: CrmContactWithRelations) => {
     setContactName(c.name);
     setContactEmail(c.email || '');
     setContactPhone(c.phone || '');
@@ -404,7 +401,7 @@ export default function ContactsTab({ contacts, storeCustomers }: ContactsTabPro
                 </span>
                 {selectedContact.deals?.length > 0 ? (
                   <ul className="flex flex-col gap-2">
-                    {selectedContact.deals.map((deal: any) => (
+                    {selectedContact.deals.map((deal) => (
                       <li
                         key={deal.id}
                         className="bg-muted/15 border border-border/40 p-2.5 rounded-xl flex items-center justify-between text-xs"

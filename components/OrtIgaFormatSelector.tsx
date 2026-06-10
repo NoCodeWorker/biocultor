@@ -49,10 +49,27 @@ const formats = [
   }
 ];
 
+import type { Variant } from '@/generated/prisma';
+
 const PRODUCT_SLUG = 'purin-ortiga-concentrado';
 
-export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?: any[] }) {
-  const mergedFormats = formats.map(f => {
+interface MergedFormat {
+  id: string;
+  size: string;
+  target: string;
+  price: number | null;
+  pricePerLiter: number | null;
+  popular: boolean;
+  features: string[];
+  image: string;
+  sku?: string;
+  stock: number;
+  hasDbData: boolean;
+  icon: React.ComponentType<any>;
+}
+
+export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?: Variant[] }) {
+  const mergedFormats: MergedFormat[] = formats.map(f => {
     const dbMatch = dbVariants.find(dbF => dbF.size === f.size);
     if (dbMatch) {
       const literCount = parseInt(f.size.split(' ')[0]) || 1;
@@ -64,7 +81,7 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
         pricePerLiter: dbMatch.price / literCount,
         popular: dbMatch.popular,
         features: Array.isArray(dbMatch.features) ? dbMatch.features : dbMatch.features?.split(',') || [],
-        image: dbMatch.imagePath || dbMatch.image || f.image,
+        image: dbMatch.imagePath || f.image,
         sku: dbMatch.sku,
         stock: dbMatch.stock ?? 12,
         hasDbData: true,
@@ -73,8 +90,8 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
     // Sin match en DB: el formato se muestra pero sin precio
     return {
       ...f,
-      price: null as number | null,
-      pricePerLiter: null as number | null,
+      price: null,
+      pricePerLiter: null,
       stock: 0, // sin datos de DB = sin stock
       hasDbData: false,
     };
@@ -83,14 +100,14 @@ export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?:
   const [selectedFormat, setSelectedFormat] = useState(mergedFormats.length > 1 ? mergedFormats[1].id : formats[0].id);
   const { addItem } = useCartStore();
 
-  const handleAddToCart = (e: React.MouseEvent, format: any) => {
+  const handleAddToCart = (e: React.MouseEvent, format: MergedFormat) => {
     e.preventDefault();
     e.stopPropagation();
     addItem({
       id: format.id,
       name: 'Purín de Ortiga Concentrado',
       size: format.size,
-      price: format.price,
+      price: format.price ?? 0,
       image: format.image,
       sku: format.sku,
     });

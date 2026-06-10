@@ -55,6 +55,28 @@ export type TrackingStatus =
   | 'INCIDENT'
   | 'UNKNOWN';
 
+interface PacklinkRawEvent {
+  timestamp?: string;
+  date?: string;
+  event_date?: string;
+  status?: string | number;
+  code?: string | number;
+  event_code?: string | number;
+  description?: string;
+  message?: string;
+  event?: string;
+  location?: string | { city?: string } | null;
+  place?: string;
+}
+
+interface PacklinkService {
+  id: string | number;
+  delivery_type: string;
+  carrier_name?: string;
+  carrier?: string;
+  name?: string;
+}
+
 export function normalizeStatus(raw: string | null | undefined): TrackingStatus {
   if (!raw) return 'UNKNOWN';
   const s = raw.toLowerCase();
@@ -82,16 +104,18 @@ export async function fetchShipmentSnapshot(reference: string): Promise<Shipment
     const details = detailsRes.ok ? await detailsRes.json() : null;
     const tracking = trackingRes.ok ? await trackingRes.json() : null;
 
-    const rawEvents: any[] = Array.isArray(tracking)
+    const rawEvents: PacklinkRawEvent[] = Array.isArray(tracking)
       ? tracking
       : tracking?.events ?? tracking?.tracking ?? [];
 
     const events: TrackingEvent[] = rawEvents
-      .map((e: any) => ({
+      .map((e: PacklinkRawEvent) => ({
         timestamp: e.timestamp ?? e.date ?? e.event_date ?? new Date().toISOString(),
         status: String(e.status ?? e.code ?? e.event_code ?? 'UNKNOWN'),
         description: String(e.description ?? e.message ?? e.event ?? e.status ?? ''),
-        location: e.location?.city ?? e.location ?? e.place ?? null,
+        location: (e.location && typeof e.location === 'object')
+          ? e.location.city ?? null
+          : (e.location as string | null) ?? e.place ?? null,
       }))
       .sort((a: TrackingEvent, b: TrackingEvent) =>
         new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
@@ -180,8 +204,8 @@ export async function createPacklinkShipment(
     if (!ratesRes.ok) {
       return { error: `Packlink rates failed (${ratesRes.status}): ${await ratesRes.text()}` };
     }
-    const services = await ratesRes.json();
-    const bestService = services.find((s: any) => s.delivery_type === 'door_to_door') || services[0];
+    const services = (await ratesRes.json()) as PacklinkService[];
+    const bestService = services.find((s: PacklinkService) => s.delivery_type === 'door_to_door') || services[0];
     if (!bestService) return { error: 'Sin servicios Packlink disponibles para este destino.' };
 
     const [first, ...rest] = (params.customerName || 'Cliente').trim().split(/\s+/);
@@ -228,8 +252,9 @@ export async function createPacklinkShipment(
       serviceName: bestService.name ?? null,
       rawStatus: 'CREATED',
     };
-  } catch (err: any) {
-    return { error: `Packlink exception: ${err?.message ?? 'desconocido'}` };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return { error: `Packlink exception: ${message}` };
   }
 }
 

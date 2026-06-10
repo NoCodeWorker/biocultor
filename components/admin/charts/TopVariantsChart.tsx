@@ -74,7 +74,7 @@ export default function TopVariantsChart({ data }: { data: Item[] }) {
               borderRadius: '12px',
               fontSize: '12px',
             }}
-            formatter={(value, name, item: any) => {
+            formatter={(value, name, item: { payload?: { qty?: number } }) => {
               if (name === 'revenue') {
                 return [
                   `€${Number(value ?? 0).toFixed(2)} (${item?.payload?.qty ?? 0} ud)`,

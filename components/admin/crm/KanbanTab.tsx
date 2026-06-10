@@ -8,15 +8,13 @@ import {
   Euro,
   User,
   Trash2,
-  ChevronRight,
-  TrendingUp,
 } from 'lucide-react';
 import { createCrmDeal, updateCrmDeal, deleteCrmDeal } from '@/app/admin/crm/actions';
-import Panel from '../Panel';
+import { CrmContactWithRelations, CrmDealWithRelations } from '@/types/crm';
 
 interface KanbanTabProps {
-  contacts: any[];
-  deals: any[];
+  contacts: CrmContactWithRelations[];
+  deals: CrmDealWithRelations[];
 }
 
 type Stage = 'NUEVO' | 'PROPUESTA' | 'NEGOCIACION' | 'GANADO' | 'PERDIDO';

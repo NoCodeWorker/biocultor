@@ -39,7 +39,7 @@ export function alertCritical(
 
   const timestamp = new Date().toISOString();
   const errorMessage = error instanceof Error ? error.message : String(error);
-  const errorCode = (error as any)?.code ?? 'UNKNOWN';
+  const errorCode = String((error as { code?: unknown })?.code ?? 'UNKNOWN');
 
   // Structured log — legible en cualquier sistema de logs (PM2, Docker, Railway)
   console.error(

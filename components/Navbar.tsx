@@ -72,8 +72,11 @@ export default function Navbar() {
 
   // Close mobile menu and dropdowns on route change
   useEffect(() => {
-    setMobileOpen(false);
-    setOpenGroup(null);
+    const timer = setTimeout(() => {
+      setMobileOpen(false);
+      setOpenGroup(null);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [pathname]);
 
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);

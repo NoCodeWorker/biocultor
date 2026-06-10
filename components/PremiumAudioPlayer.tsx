@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, Headphones } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 export default function PremiumAudioPlayer({ 
   src, 
@@ -50,8 +49,6 @@ export default function PremiumAudioPlayer({
       setProgress(0);
       if (wasPlaying) {
         audioRef.current.play().catch(e => console.error("Error playing audio:", e));
-      } else {
-        setIsPlaying(false);
       }
     }
   }, [src, audioLoaded, isPlaying]);

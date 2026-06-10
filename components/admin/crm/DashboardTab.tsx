@@ -13,19 +13,24 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import Panel from '../Panel';
-import StatusBadge from '../StatusBadge';
 import { cn } from '@/lib/utils';
+import {
+  CrmContactWithRelations,
+  CrmDealWithRelations,
+  CrmTaskWithRelations,
+  CrmEventWithRelations,
+} from '@/types/crm';
 
 interface DashboardTabProps {
-  contacts: any[];
-  deals: any[];
-  tasks: any[];
-  events: any[];
+  contacts: CrmContactWithRelations[];
+  deals: CrmDealWithRelations[];
+  tasks: CrmTaskWithRelations[];
+  events: CrmEventWithRelations[];
   onNavigate: (tab: 'dashboard' | 'pipeline' | 'calendar' | 'contacts' | 'tasks') => void;
 }
 
 export default function DashboardTab({
-  contacts,
+  contacts: _contacts,
   deals,
   tasks,
   events,

@@ -9,16 +9,16 @@ import {
   Calendar,
   User,
   AlertCircle,
-  Clock,
   CheckCircle2,
 } from 'lucide-react';
 import { createCrmTask, updateCrmTask, deleteCrmTask } from '@/app/admin/crm/actions';
 import Panel from '../Panel';
 import { cn } from '@/lib/utils';
+import { CrmContactWithRelations, CrmTaskWithRelations } from '@/types/crm';
 
 interface TasksTabProps {
-  contacts: any[];
-  tasks: any[];
+  contacts: CrmContactWithRelations[];
+  tasks: CrmTaskWithRelations[];
 }
 
 export default function TasksTab({ contacts, tasks }: TasksTabProps) {
@@ -41,7 +41,7 @@ export default function TasksTab({ contacts, tasks }: TasksTabProps) {
     return matchesStatus && matchesPriority;
   });
 
-  const handleToggleTask = (task: any) => {
+  const handleToggleTask = (task: CrmTaskWithRelations) => {
     const nextStatus = task.status === 'PENDIENTE' ? 'COMPLETADA' : 'PENDIENTE';
     startTransition(async () => {
       try {

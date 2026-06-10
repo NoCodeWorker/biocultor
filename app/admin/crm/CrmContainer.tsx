@@ -16,15 +16,21 @@ import CalendarTab from '@/components/admin/crm/CalendarTab';
 import ContactsTab from '@/components/admin/crm/ContactsTab';
 import TasksTab from '@/components/admin/crm/TasksTab';
 import { cn } from '@/lib/utils';
+import {
+  CrmContactWithRelations,
+  CrmDealWithRelations,
+  CrmTaskWithRelations,
+  CrmEventWithRelations,
+} from '@/types/crm';
 
 type TabId = 'dashboard' | 'pipeline' | 'calendar' | 'contacts' | 'tasks';
 
 interface CrmContainerProps {
-  initialContacts: any[];
-  initialDeals: any[];
-  initialTasks: any[];
-  initialEvents: any[];
-  storeCustomers: any[];
+  initialContacts: CrmContactWithRelations[];
+  initialDeals: CrmDealWithRelations[];
+  initialTasks: CrmTaskWithRelations[];
+  initialEvents: CrmEventWithRelations[];
+  storeCustomers: { id: string; name: string; email: string | null }[];
 }
 
 export default function CrmContainer({

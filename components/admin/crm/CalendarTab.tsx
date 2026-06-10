@@ -9,18 +9,17 @@ import {
   Clock,
   MapPin,
   ExternalLink,
-  User,
   Trash2,
-  AlertCircle,
   FileText,
 } from 'lucide-react';
 import { createCrmEvent, deleteCrmEvent } from '@/app/admin/crm/actions';
 import Panel from '../Panel';
 import { cn } from '@/lib/utils';
+import { CrmContactWithRelations, CrmEventWithRelations } from '@/types/crm';
 
 interface CalendarTabProps {
-  contacts: any[];
-  events: any[];
+  contacts: CrmContactWithRelations[];
+  events: CrmEventWithRelations[];
 }
 
 export default function CalendarTab({ contacts, events }: CalendarTabProps) {
@@ -39,7 +38,7 @@ export default function CalendarTab({ contacts, events }: CalendarTabProps) {
   const [eventEndHour, setEventEndHour] = useState('10:00');
 
   // Selected event details state (for view modal)
-  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<CrmEventWithRelations | null>(null);
 
   // Month navigation helpers
   const year = currentDate.getFullYear();
@@ -151,7 +150,7 @@ export default function CalendarTab({ contacts, events }: CalendarTabProps) {
   };
 
   // Google Calendar URL Generator helper
-  const getGoogleCalendarUrl = (event: any) => {
+  const getGoogleCalendarUrl = (event: CrmEventWithRelations) => {
     const startStr = new Date(event.startAt).toISOString().replace(/-|:|\.\d\d\d/g, '');
     const endStr = new Date(event.endAt).toISOString().replace(/-|:|\.\d\d\d/g, '');
 

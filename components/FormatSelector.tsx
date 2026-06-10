@@ -49,10 +49,27 @@ const formats = [
   }
 ];
 
-export default function FormatSelector({ dbVariants = [], productSlug = 'te-humus-liquido-premium' }: { dbVariants?: any[], productSlug?: string }) {
+import type { Variant } from '@/generated/prisma';
+
+interface MergedFormat {
+  id: string;
+  size: string;
+  target: string;
+  price: number | null;
+  pricePerLiter: number | null;
+  popular: boolean;
+  features: string[];
+  image: string;
+  sku?: string;
+  stock: number;
+  hasDbData: boolean;
+  icon: React.ComponentType<any>;
+}
+
+export default function FormatSelector({ dbVariants = [], productSlug = 'te-humus-liquido-premium' }: { dbVariants?: Variant[], productSlug?: string }) {
   // Los precios y datos de negocio vienen EXCLUSIVAMENTE de dbVariants (base de datos).
   // Los metadatos de UI (iconos, imagen fallback, features base) vienen del array estático.
-  const mergedFormats = formats.map(f => {
+  const mergedFormats: MergedFormat[] = formats.map(f => {
      const dbMatch = dbVariants.find(dbF => dbF.size === f.size);
      if (dbMatch) {
        const literCount = parseInt(f.size.split(' ')[0]) || 1;
@@ -61,35 +78,35 @@ export default function FormatSelector({ dbVariants = [], productSlug = 'te-humu
          id: dbMatch.id,
          target: dbMatch.target,
          price: dbMatch.price as number,        // precio de la DB — única fuente de verdad
-         pricePerLiter: dbMatch.price / literCount,
+         pricePerLiter: (dbMatch.price as number) / literCount,
          popular: dbMatch.popular,
-         features: Array.isArray(dbMatch.features) ? dbMatch.features : dbMatch.features?.split(',') || [],
-         image: dbMatch.imagePath || dbMatch.image || f.image,
+         features: Array.isArray(dbMatch.features) ? dbMatch.features : (dbMatch.features as string)?.split(',') || [],
+         image: dbMatch.imagePath || f.image,
          stock: dbMatch.stock ?? 12,
-         sku: dbMatch.sku,
+         sku: dbMatch.sku || undefined,
          hasDbData: true,
        };
      }
      // Sin match en DB: el formato se muestra pero sin precio
      return {
        ...f,
-       price: null as number | null,
-       pricePerLiter: null as number | null,
+       price: null,
+       pricePerLiter: null,
        stock: 0, // sin datos de DB = sin stock seguro
        hasDbData: false,
      };
   });
 
-  const [selectedFormat, setSelectedFormat] = useState(mergedFormats.length > 1 ? mergedFormats[1].id : '1L');
+  const [selectedFormat, setSelectedFormat] = useState(mergedFormats.length > 1 ? mergedFormats[1].id : formats[0].id);
   const { addItem } = useCartStore();
 
-  const handleAction = (format: any) => {
+  const handleAction = (format: MergedFormat) => {
     if (selectedFormat === format.id) {
        addItem({
          id: format.id,
          name: "Té de Humus Biocultor",
          size: format.size,
-         price: format.price,
+         price: format.price ?? 0,
          image: format.image,
        });
     } else {

@@ -42,16 +42,15 @@ function getSeasonContext() {
 
 export default function UrgencyModule({ stock = 12 }: { stock?: number }) {
   const [mounted, setMounted] = useState(false);
-  const [stockDisplay, setStockDisplay] = useState(stock);
   const seasonCtx = getSeasonContext();
 
   useEffect(() => {
-    setMounted(true);
-    setStockDisplay(stock);
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
-  const stockPercent = Math.min((stockDisplay / 20) * 100, 100);
-  const isLow = stockDisplay <= 5;
+  const stockPercent = Math.min((stock / 20) * 100, 100);
+  const isLow = stock <= 5;
 
   return (
     <div className="flex flex-col gap-3 my-4">
@@ -80,7 +79,7 @@ export default function UrgencyModule({ stock = 12 }: { stock?: number }) {
           </div>
           {mounted && (
             <span className={`text-sm font-black ${isLow ? 'text-red-700' : 'text-amber-800'}`}>
-              {stockDisplay} unidades
+              {stock} unidades
             </span>
           )}
         </div>
