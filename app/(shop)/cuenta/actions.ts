@@ -111,6 +111,38 @@ export async function verifyLoginCode(prevState: ActionState, formData: FormData
     create: { email: normalizedEmail, name: 'Cliente' },
   });
 
+  // Sincronización automática con el CRM
+  try {
+    const crmContact = await prisma.crmContact.findFirst({
+      where: {
+        OR: [
+          { email: normalizedEmail },
+          { customerId: customer.id }
+        ]
+      }
+    });
+    if (!crmContact) {
+      await prisma.crmContact.create({
+        data: {
+          name: customer.name || 'Cliente',
+          email: normalizedEmail,
+          phone: customer.phone || null,
+          source: 'Registro Web',
+          type: 'B2C',
+          stage: 'CONTACTADO',
+          customerId: customer.id
+        }
+      });
+    } else if (!crmContact.customerId) {
+      await prisma.crmContact.update({
+        where: { id: crmContact.id },
+        data: { customerId: customer.id }
+      });
+    }
+  } catch (crmError) {
+    console.error('Error al sincronizar registro con CRM:', crmError);
+  }
+
   // Reset de buckets: el usuario ya entró, no queremos que mañana le bloqueen
   // por intentos fallidos de hoy.
   await resetRateLimit(`otp-verify:email:${normalizedEmail}`);

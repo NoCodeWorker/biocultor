@@ -8,7 +8,7 @@ type Props = {
   icon?: LucideIcon;
   hint?: string;
   /** Acción opcional en la esquina superior derecha. */
-  action?: { href: string; label: string };
+  action?: { href?: string; onClick?: () => void; label: string };
   className?: string;
   bodyClassName?: string;
   children: React.ReactNode;
@@ -43,12 +43,21 @@ export default function Panel({
           </div>
         </div>
         {action && (
-          <Link
-            href={action.href}
-            className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline shrink-0"
-          >
-            {action.label} <ArrowRight className="w-3 h-3" />
-          </Link>
+          action.href ? (
+            <Link
+              href={action.href}
+              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline shrink-0"
+            >
+              {action.label} <ArrowRight className="w-3 h-3" />
+            </Link>
+          ) : (
+            <button
+              onClick={action.onClick}
+              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline shrink-0 cursor-pointer select-none bg-transparent border-none p-0"
+            >
+              {action.label} <ArrowRight className="w-3 h-3" />
+            </button>
+          )
         )}
       </header>
       <div className={cn('px-5 pb-5', bodyClassName)}>{children}</div>

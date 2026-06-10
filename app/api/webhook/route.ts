@@ -147,6 +147,55 @@ export async function POST(req: Request) {
           throw e;
         }
 
+        // Sincronización automática con el CRM
+        try {
+          let crmContact = await prisma.crmContact.findFirst({
+            where: {
+              OR: [
+                { email: customerEmail },
+                { customerId: customer.id }
+              ]
+            }
+          });
+
+          if (!crmContact) {
+            crmContact = await prisma.crmContact.create({
+              data: {
+                name: customerName,
+                email: customerEmail,
+                phone: phone || null,
+                source: 'Tienda Online',
+                type: 'B2C',
+                stage: 'CLIENTE',
+                customerId: customer.id
+              }
+            });
+          } else {
+            crmContact = await prisma.crmContact.update({
+              where: { id: crmContact.id },
+              data: {
+                stage: 'CLIENTE',
+                customerId: customer.id
+              }
+            });
+          }
+
+          // Crear trato cerrado ganado en el CRM para este pedido
+          await prisma.crmDeal.create({
+            data: {
+              title: `Pedido ${createdOrder.orderNumber}`,
+              amount: createdOrder.totalAmount,
+              type: 'PRODUCTO',
+              stage: 'GANADO',
+              status: 'GANADO',
+              contactId: crmContact.id,
+              orderId: createdOrder.id
+            }
+          });
+        } catch (crmSyncError) {
+          console.error('Error al sincronizar pedido con CRM:', crmSyncError);
+        }
+
         // PendingCart consumido — borramos para no acumular filas. Si falla
         // (otro delivery lo borró), no es crítico: el Order ya está creado.
         if (pendingCartId) {

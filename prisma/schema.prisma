@@ -234,3 +234,87 @@ model SeoPage {
 
   @@index([kind, isPublished])
 }
+
+// -----------------------------------------------------------------------------
+// CRM INTEGRAL (CONTACTOS, PIPELINES, TAREAS Y CALENDARIO)
+// -----------------------------------------------------------------------------
+
+model CrmContact {
+  id          String    @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  company     String?
+  source      String    @default("Directo") // "Web", "Llamada", "Email", "Recomendado"
+  type        String    @default("B2C")     // "B2C", "B2B"
+  stage       String    @default("LEAD")    // "LEAD", "CONTACTADO", "OPORTUNIDAD", "CLIENTE", "INACTIVO"
+  notes       String?   
+  customerId  String?   @unique
+
+  deals       CrmDeal[]
+  tasks       CrmTask[]
+  events      CrmEvent[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([type, stage])
+}
+
+model CrmDeal {
+  id          String   @id @default(cuid())
+  title       String
+  amount      Float    @default(0.0)
+  status      String   @default("ABIERTO") // "ABIERTO", "GANADO", "PERDIDO"
+  type        String   @default("PRODUCTO") // "PRODUCTO", "SERVICIO"
+  stage       String   @default("NUEVO")    // "NUEVO", "PROPUESTA", "NEGOCIACION", "GANADO", "PERDIDO"
+  contactId   String
+  orderId     String?  // Relación con pedido online si aplica
+
+  contact     CrmContact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([contactId])
+  @@index([type, stage])
+}
+
+model CrmTask {
+  id          String   @id @default(cuid())
+  title       String
+  notes       String?
+  status      String   @default("PENDIENTE") // "PENDIENTE", "EN_PROCESO", "COMPLETADA"
+  priority    String   @default("MEDIA")     // "BAJA", "MEDIA", "ALTA"
+  dueDate     DateTime?
+  contactId   String?
+  dealId      String?
+
+  contact     CrmContact? @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([contactId])
+  @@index([status, priority])
+}
+
+model CrmEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  address     String?  // Dirección física del evento/servicio para Google Maps
+  startAt     DateTime
+  endAt       DateTime
+  type        String   @default("REUNION") // "REUNION", "APLICACION_SERVICIO", "LLAMADA", "OTRO"
+  contactId   String?
+
+  contact     CrmContact? @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([contactId])
+  @@index([startAt, endAt])
+}
+

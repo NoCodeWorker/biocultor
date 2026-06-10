@@ -18,6 +18,7 @@ import {
   Truck,
   Calculator,
   Leaf,
+  Briefcase,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -54,6 +55,7 @@ const NAV: NavSection[] = [
     items: [
       { href: '/admin/orders', label: 'Pedidos', icon: ShoppingBag },
       { href: '/admin/customers', label: 'Clientes', icon: Users },
+      { href: '/admin/crm', label: 'CRM Ventas & Servicios', icon: Briefcase },
       { href: '/admin/refunds', label: 'Devoluciones', icon: RefreshCw },
       { href: '/admin/operations', label: 'Operaciones', icon: Truck },
     ],
