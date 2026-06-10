@@ -22,7 +22,7 @@ async function checkPosts() {
       }
     }
     
-    if (count > 0 && posts.every(p => !/\(\d+\.\d+ €\)/.test(p.content))) {
+    if (count > 0 && posts.every((p: { id: string; slug: string; content: string }) => !/\(\d+\.\d+ €\)/.test(p.content))) {
       console.log('✅ Ningún post tiene precios hardcodeados en el contenido.');
     }
   } catch (err) {
