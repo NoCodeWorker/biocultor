@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Post" ADD COLUMN IF NOT EXISTS "coverImage" TEXT;
+ALTER TABLE "Post" ADD COLUMN IF NOT EXISTS "coverImageAlt" TEXT;
