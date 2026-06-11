@@ -37,6 +37,12 @@ RUN node_modules/.bin/esbuild scripts/seed-blog-posts.ts \
       --packages=external \
       --outfile=seed-blog-posts.cjs
 
+RUN node_modules/.bin/esbuild scripts/inject-6-geo-posts.ts \
+      --bundle \
+      --platform=node \
+      --packages=external \
+      --outfile=inject-6-geo-posts.cjs
+
 # ─── 3. Runtime ─────────────────────────────────────────────────────────
 FROM node:20-alpine AS runner
 RUN apk add --no-cache openssl
@@ -64,6 +70,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modul
 
 # Seed de blog posts compilado (solo JS, no necesita tsx en runtime)
 COPY --from=builder --chown=nextjs:nodejs /app/seed-blog-posts.cjs ./seed-blog-posts.cjs
+COPY --from=builder --chown=nextjs:nodejs /app/inject-6-geo-posts.cjs ./inject-6-geo-posts.cjs
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 
 # Aseguramos que la carpeta de uploads exista (aunque luego se monte el volumen encima)
