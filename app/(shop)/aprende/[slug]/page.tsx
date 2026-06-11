@@ -87,6 +87,7 @@ export default async function AprendeArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  console.log(">>> RENDERING SLUG:", slug);
 
   // Redirigir a /solucion-humus/[slug] si es una landing page de tipo LANDING, cumpliendo el roadmap oficial
   try {
