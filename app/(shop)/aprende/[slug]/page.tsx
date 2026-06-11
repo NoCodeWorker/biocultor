@@ -167,7 +167,7 @@ export default async function AprendeArticlePage({
           <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
             <img
               src={coverImage}
-              alt={dbPost.title}
+              alt={dbPost.coverImageAlt ?? dbPost.title}
               className="w-full h-full object-cover"
             />
           </div>

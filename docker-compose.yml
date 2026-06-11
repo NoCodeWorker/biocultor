@@ -48,6 +48,7 @@ services:
       sh -c "node node_modules/prisma/build/index.js migrate deploy &&
              node seed-blog-posts.cjs &&
              node inject-6-geo-posts.cjs &&
+             node inject-legacy-posts-alts.cjs &&
              node server.js"
     labels:
       - "traefik.enable=true"

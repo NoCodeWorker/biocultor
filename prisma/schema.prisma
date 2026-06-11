@@ -198,7 +198,8 @@ model Post {
   author      String   @default("Equipo Biocultor")
   
   // Imagen de cabecera
-  coverImage  String?  // URL relativa (/uploads/...) o path de /public
+  coverImage     String?  // URL relativa (/uploads/...) o path de /public
+  coverImageAlt  String?
 
   // AIO y SEO Metadata
   metaTitle   String?
