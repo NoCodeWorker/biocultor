@@ -15,6 +15,25 @@ import { useUserProfileStore, type CropProfile } from '@/store/userProfileStore'
 // ─── Copy contextual por perfil de cultivo ─────────────────────────────────
 type VisualCard = { icon: React.ElementType; label: string; sub: string };
 
+type ProductFunnelProduct = {
+  name: string;
+  description: string;
+};
+
+type ProductFunnelVariant = {
+  id: string;
+  sku?: string | null;
+  size: string;
+  target: string;
+  price: number;
+  comparePrice?: number | null;
+  popular?: boolean;
+  stock?: number | null;
+  features: string[];
+  imagePath?: string | null;
+  image?: string | null;
+};
+
 function getContextualCards(profile: CropProfile): VisualCard[] {
   switch (profile) {
     case 'olivicultor':
@@ -68,7 +87,13 @@ function getContextualCards(profile: CropProfile): VisualCard[] {
   }
 }
 
-export default function ProductFunnel({ product, dbVariants }: { product: any, dbVariants: any[] }) {
+export default function ProductFunnel({
+  product,
+  dbVariants,
+}: {
+  product: ProductFunnelProduct;
+  dbVariants: ProductFunnelVariant[];
+}) {
   const { addItem } = useCartStore();
   const { cropProfile } = useUserProfileStore();
   const defaultVariant = dbVariants.find(v => v.popular) || dbVariants[0];
@@ -87,9 +112,9 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
       name: product.name,
       size: selected.size,
       price: selected.price,
-      image: selected.imagePath || selected.image,
+      image: selected.imagePath || selected.image || '',
       quantity,
-      sku: selected.sku,
+      sku: selected.sku || undefined,
     });
   };
 
@@ -137,6 +162,7 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
               src={selected.imagePath || selected.image || "/5 litros.jpg"} 
               alt={selected.size} 
               fill 
+              sizes="(max-width: 1023px) calc(100vw - 48px), (max-width: 1279px) 40vw, (max-width: 1535px) 36vw, 560px"
               className="object-contain transition-transform duration-700 ease-out md:hover:scale-105" 
               priority
             />
@@ -153,7 +179,13 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
                     : "border-border/40 opacity-50 hover:opacity-100 hover:border-border"
                 )}
               >
-                <Image src={v.imagePath || v.image || "/1 litro.jpg"} alt={v.size} fill className="object-contain" />
+                <Image
+                  src={v.imagePath || v.image || "/1 litro.jpg"}
+                  alt={v.size}
+                  fill
+                  sizes="(max-width: 1023px) calc((100vw - 72px) / 4), 120px"
+                  className="object-contain"
+                />
               </div>
             ))}
           </div>
@@ -441,4 +473,3 @@ export default function ProductFunnel({ product, dbVariants }: { product: any, d
     </div>
   );
 }
-
