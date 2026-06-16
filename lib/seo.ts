@@ -145,7 +145,7 @@ export function websiteSchema() {
     '@id': `${baseUrl}/#website`,
     name: siteConfig.name,
     alternateName: siteConfig.alternateName,
-    url: baseUrl,
+    url: absoluteUrl('/'),
     inLanguage: siteConfig.locale,
     publisher: { '@id': `${baseUrl}/#organization` },
     // potentialAction activa el SiteLinks SearchBox en Google cuando

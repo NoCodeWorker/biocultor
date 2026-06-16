@@ -17,6 +17,7 @@ export async function generateStaticParams() {
 import ProductFunnel from "@/components/ProductFunnel"
 
 import ScienceProof from "@/components/ScienceProof"
+import SocialProof from "@/components/SocialProof"
 import FaqAioSeo from "@/components/FaqAioSeo"
 import StickyCartBar from "@/components/StickyCartBar"
 
@@ -31,8 +32,13 @@ import {
   faqSchema,
 } from '@/lib/seo'
 import { siteConfig } from '@/lib/site-config'
+import { testimonials } from '@/lib/testimonials'
 import { ShieldCheck, Truck, RefreshCw, Leaf } from 'lucide-react'
 import Link from 'next/link'
+
+const PRODUCT_PRICE_VALID_UNTIL = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+  .toISOString()
+  .split('T')[0];
 
 // ── Construye el array de imágenes SEO directamente desde las variantes de BD ──
 // Las fotos del admin ya se suben en WebP y su URL vive en variant.imagePath.
@@ -50,6 +56,39 @@ function buildProductImagesFromVariants(
       url: `${appUrl}${v.imagePath}`,
       alt: `${productName} — Formato ${v.size}`,
     }));
+}
+
+function buildProductReviewData() {
+  const reviewCount = testimonials.length;
+  const ratingValue = Number(
+    (testimonials.reduce((sum, item) => sum + item.rating, 0) / reviewCount).toFixed(1),
+  );
+
+  return {
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue,
+      bestRating: 5,
+      worstRating: 1,
+      reviewCount,
+    },
+    review: testimonials.map((item) => ({
+      '@type': 'Review',
+      name: item.highlight,
+      reviewBody: item.text,
+      datePublished: item.date,
+      author: {
+        '@type': 'Person',
+        name: item.name,
+      },
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: item.rating,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    })),
+  };
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -127,9 +166,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   if (!product) notFound();
 
-  const lowestPrice = Math.min(...product.variants.map(v => v.price));
-  const highestPrice = Math.max(...product.variants.map(v => v.price));
-
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://biocultor.com';
 
   // ── BLOQUE 1: JSON-LD con @graph — Product + ImageObject (carrusel Google) ─
@@ -147,6 +183,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   // Imágenes dinámicas desde la BD — se sincronizan automáticamente con el admin
   const productImages = buildProductImagesFromVariants(product.variants, product.name, appUrl);
+  const productReviewData = buildProductReviewData();
 
   // Construye los nodos ImageObject con @id para el @id-linking del @graph
   // Usamos la URL de uploads directamente (ya es WebP) para máxima coherencia
@@ -192,6 +229,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         itemCondition: 'https://schema.org/NewCondition',
         countryOfOrigin: { '@type': 'Country', name: 'España' },
         areaServed: { '@type': 'Country', name: 'España' },
+        aggregateRating: productReviewData.aggregateRating,
+        review: productReviewData.review,
         // ── Ofertas por variante: clave para Google Shopping ──────────────
         // Google Shopping indexa cada Offer por separado si tiene sku único
         offers: product.variants.map(v => ({
@@ -202,7 +241,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           price: v.price.toFixed(2),
           priceCurrency: 'EUR',
           // priceValidUntil: 30 días desde el deploy — actualiza con cada build
-          priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          priceValidUntil: PRODUCT_PRICE_VALID_UNTIL,
           itemCondition: 'https://schema.org/NewCondition',
           availability: v.stock && v.stock > 0
             ? 'https://schema.org/InStock'
@@ -361,6 +400,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {/* ⑦ PRUEBA SOCIAL — Ciencia + Testimonios */}
       <ScienceProof />
+      <SocialProof />
 
       {/* ⑧ RISK REVERSAL — Destruye objeciones de compra */}
       <RiskReversal />

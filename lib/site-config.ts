@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'Biocultor',
   legalName: 'Biocultor Shop',
-  alternateName: 'Biocultor Shop',
+  alternateName: 'BIOCULTOR',
   description:
     'Té de humus de lombriz elaborado en España para huerto urbano, olivar, cítricos y jardinería profesional.',
   locale: 'es-ES',
