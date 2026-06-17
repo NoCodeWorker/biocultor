@@ -73,7 +73,18 @@
 
 ---
 
-## 10. Purín Concentrado de Ortiga (Clúster Defensivo y Bioestimulación)
+## 10. Servicios de Aplicación Profesional (CRO / GEO / AIO)
+*Audiencia con alta intención de servicio: propietarios de jardines amplios, comunidades, paisajistas, jardineros y mantenedores que necesitan diagnóstico, cálculo de superficie, suministro y aplicación.*
+- [x] Post: Servicio de aplicación de té de humus: cuándo contratarlo y cuándo comprar el producto (`servicio-aplicacion-te-humus-cuando-contratar`)
+- [x] Post: Regeneración de césped degradado con servicio profesional de humus de lombriz (`regeneracion-cesped-servicio-aplicacion-humus`)
+- [x] Post: Cómo calcular litros y coste por metro cuadrado en servicios de aplicación de humus (`calcular-litros-coste-m2-te-humus-paisajistas`)
+- [x] Post/GEO: Aplicación de humus de lombriz en comunidades de vecinos y jardines residenciales (`aplicacion-humus-comunidades-jardines-madrid-toledo`)
+- [x] Post: Mantenimiento de zonas verdes con aplicación profesional de humus líquido (`servicio-aplicacion-humus-zonas-verdes-mantenimiento`)
+- [x] Post/GEO: Servicio de aplicación de humus en Madrid, Toledo y Castilla-La Mancha (`servicio-aplicacion-humus-madrid-toledo-castilla-la-mancha`)
+
+---
+
+## 11. Purín Concentrado de Ortiga (Clúster Defensivo y Bioestimulación)
 *Audiencia que busca bioestimulación foliar, repelencia de plagas y prevención de patógenos en agricultura ecológica.*
 - [x] Post: Qué se sabe sobre el extracto de ortiga en aplicaciones agrícolas (`evidencia-extracto-ortiga-aplicaciones-agricolas`)
 - [x] Post: Qué aportan las revisiones institucionales sobre extractos vegetales en manejo orgánico (`extracto-ortiga-manejo-organico-revisiones`)
@@ -85,4 +96,3 @@
 - [x] Post: Purín de ortiga para rosales: protección natural y nutrición foliar de precisión (`purin-ortiga-rosales-proteccion-foliar`)
 - [x] Post: Purín de ortiga en frutales: cómo estimular la brotación y la resistencia al estrés térmico (`purin-ortiga-frutales-brotacion-estres`)
 - [x] Post: Sinergia en el huerto: cómo combinar el té de humus y el purín de ortiga (`sinergia-te-humus-purin-ortiga-huerto`)
-
