@@ -67,6 +67,8 @@ export default function Footer() {
                   { href: '/producto/purin-ortiga-concentrado', label: 'Purín concentrado de ortiga' },
                   { href: '/comprar-te-de-humus-de-lombriz', label: 'Comprar té de humus' },
                   { href: '/comprar-purin-de-ortiga', label: 'Comprar purín de ortiga' },
+                  { href: '/servicios/regeneracion-cesped-y-jardines', label: 'Servicio regeneración de césped' },
+                  { href: '/servicios/te-humus-paisajistas-jardineros', label: 'Servicios para paisajistas' },
                   { href: '/te-de-humus-de-lombriz', label: 'Té por cultivo' },
                   { href: '/purin-de-ortiga', label: 'Ortiga por cultivo' },
                   { href: '/aprende', label: 'Guías de cultivo' },
