@@ -11,6 +11,37 @@ import {
 } from '@/lib/seo-store';
 import prisma from '@/lib/db';
 
+const serviceApplicationArticleRoutes = [
+  {
+    path: '/aprende/servicio-aplicacion-te-humus-cuando-contratar',
+    lastmod: '2026-06-18',
+  },
+  {
+    path: '/aprende/regeneracion-cesped-servicio-aplicacion-humus',
+    lastmod: '2026-06-18',
+  },
+  {
+    path: '/aprende/calcular-litros-coste-m2-te-humus-paisajistas',
+    lastmod: '2026-06-18',
+  },
+  {
+    path: '/aprende/aplicacion-humus-comunidades-jardines-madrid-toledo',
+    lastmod: '2026-06-18',
+  },
+  {
+    path: '/aprende/servicio-aplicacion-humus-zonas-verdes-mantenimiento',
+    lastmod: '2026-06-18',
+  },
+  {
+    path: '/aprende/servicio-aplicacion-humus-madrid-toledo-castilla-la-mancha',
+    lastmod: '2026-06-18',
+  },
+];
+
+const serviceApplicationArticleSlugs = new Set(
+  serviceApplicationArticleRoutes.map((route) => route.path.split('/').at(-1))
+);
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const [
@@ -40,9 +71,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         select: { slug: true, updatedAt: true, createdAt: true },
       })
     ]);
-    dynamicPosts = posts;
+    dynamicPosts = posts.filter((post) => !serviceApplicationArticleSlugs.has(post.slug));
     dynamicLandings = landings;
-  } catch (error) {
+  } catch {
     console.warn("DB no disponible para obtener dynamicPages en sitemap.ts, usando fallback vacío.");
   }
 
@@ -106,6 +137,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.8,
+    })),
+    ...serviceApplicationArticleRoutes.map((route) => ({
+      url: absoluteUrl(route.path),
+      lastModified: new Date(route.lastmod),
+      changeFrequency: 'monthly' as const,
+      priority: 0.76,
     })),
     ...dynamicPosts.map((post) => ({
       url: absoluteUrl(`/aprende/${post.slug}`),

@@ -8,6 +8,52 @@ import { buildMetadata, breadcrumbSchema, collectionPageSchema } from '@/lib/seo
 import StructuredData from '@/components/StructuredData';
 import prisma from '@/lib/db';
 
+const serviceApplicationArticles = [
+  {
+    slug: 'servicio-aplicacion-te-humus-cuando-contratar',
+    title: 'Servicio de aplicación de té de humus: cuándo contratarlo',
+    excerpt: 'Decide cuándo comprar producto y cuándo conviene contratar diagnóstico, dosificación y aplicación profesional.',
+    category: 'Servicios',
+    readTime: '5 min',
+  },
+  {
+    slug: 'regeneracion-cesped-servicio-aplicacion-humus',
+    title: 'Regeneración de césped con servicio profesional de humus',
+    excerpt: 'Cómo plantear recuperación de césped degradado sin vender promesas milagrosas.',
+    category: 'Servicios',
+    readTime: '5 min',
+  },
+  {
+    slug: 'calcular-litros-coste-m2-te-humus-paisajistas',
+    title: 'Calcular litros y coste por m2 para paisajistas',
+    excerpt: 'Criterios de superficie, volumen y logística para servicios de aplicación en zonas verdes.',
+    category: 'Técnico',
+    readTime: '5 min',
+  },
+  {
+    slug: 'aplicacion-humus-comunidades-jardines-madrid-toledo',
+    title: 'Aplicación de humus en comunidades y jardines residenciales',
+    excerpt: 'Enfoque GEO para comunidades, chalets y jardines de Madrid, Toledo y Castilla-La Mancha.',
+    category: 'GEO',
+    readTime: '5 min',
+  },
+  {
+    slug: 'servicio-aplicacion-humus-zonas-verdes-mantenimiento',
+    title: 'Mantenimiento de zonas verdes con humus líquido',
+    excerpt: 'Ventajas operativas para parques empresariales, jardines corporativos y mantenimientos recurrentes.',
+    category: 'Técnico',
+    readTime: '5 min',
+  },
+  {
+    slug: 'servicio-aplicacion-humus-madrid-toledo-castilla-la-mancha',
+    title: 'Servicio de aplicación de humus en Madrid, Toledo y Castilla-La Mancha',
+    excerpt: 'Cuándo tiene sentido contratar aplicación profesional en clima mediterráneo y cuándo basta la compra online.',
+    category: 'GEO',
+    readTime: '5 min',
+  },
+];
+
+const serviceApplicationArticleSlugs = new Set(serviceApplicationArticles.map((article) => article.slug));
 
 export const metadata = buildMetadata({
   title: 'Guías de té de humus de lombriz | Biocultor',
@@ -28,7 +74,7 @@ export default async function AprendePage() {
     orderBy: { createdAt: 'desc' },
   }).catch(() => []);
 
-  const seoArticles = dbPosts.map((post) => {
+  const seoArticles = dbPosts.filter((post) => !serviceApplicationArticleSlugs.has(post.slug)).map((post) => {
     // Estimación dinámica de lectura basada en palabras (aprox. 200 palabras por minuto)
     const wordsCount = post.content ? post.content.split(/\s+/).length : 0;
     const readTimeMin = Math.max(2, Math.ceil(wordsCount / 200));
@@ -95,7 +141,10 @@ export default async function AprendePage() {
           items: seoArticles.map((article) => ({
             name: article.title,
             path: `/aprende/${article.slug}`,
-          })),
+          })).concat(serviceApplicationArticles.map((article) => ({
+            name: article.title,
+            path: `/aprende/${article.slug}`,
+          }))),
         })}
       />
 
@@ -189,6 +238,55 @@ export default async function AprendePage() {
               Ver Protocolo Completo
               <ArrowRight className="w-4 h-4" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Service Application Articles ─────── */}
+      <section className="w-full py-16 md:py-20 bg-background border-b border-border/40">
+        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
+          <div className="max-w-3xl mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 text-primary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/15">
+              <Leaf className="w-3.5 h-3.5" />
+              Servicios de aplicación
+            </div>
+            <h2 className="text-2xl md:text-4xl font-heading font-bold tracking-tight text-foreground">
+              Guías para contratar aplicación profesional con criterio.
+            </h2>
+            <p className="mt-4 max-w-2xl text-muted-foreground leading-relaxed">
+              Contenido orientado a jardines amplios, comunidades, paisajistas y mantenedores que necesitan
+              diagnóstico, cálculo de superficie, suministro y aplicación de humus de lombriz.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {serviceApplicationArticles.map((article) => (
+              <Link
+                href={`/aprende/${article.slug}`}
+                key={article.slug}
+                className="group flex flex-col bg-card border border-border/50 rounded-2xl overflow-hidden card-lift"
+              >
+                <div className="flex flex-col flex-1 p-6 md:p-7">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium mb-3">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Lectura: {article.readTime}</span>
+                  </div>
+                  <div className="inline-flex self-start rounded-full border border-primary/20 bg-primary/8 px-3 py-1 text-xs font-bold text-primary">
+                    {article.category}
+                  </div>
+                  <h3 className="mt-4 font-heading font-bold text-xl text-foreground leading-snug group-hover:text-primary transition-colors">
+                    {article.title}
+                  </h3>
+                  <p className="mt-3 text-muted-foreground text-sm leading-relaxed flex-1">
+                    {article.excerpt}
+                  </p>
+                  <div className="flex items-center text-primary font-bold text-sm mt-6 pt-4 border-t border-border/30">
+                    Leer guía de servicios
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1.5 transition-transform" />
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -367,4 +465,3 @@ export default async function AprendePage() {
     </div>
   );
 }
-
