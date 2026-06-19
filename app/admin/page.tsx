@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import prisma from '@/lib/db';
 import {
   Euro,
   ShoppingBag,
@@ -12,6 +13,8 @@ import {
   Clock,
   ArrowRight,
   ExternalLink,
+  FileText,
+  Layers,
 } from 'lucide-react';
 import {
   getDashboardKpis,
@@ -26,19 +29,24 @@ import Panel from '@/components/admin/Panel';
 import StatusBadge from '@/components/admin/StatusBadge';
 import RevenueChart from '@/components/admin/charts/RevenueChart';
 import TopVariantsChart from '@/components/admin/charts/TopVariantsChart';
+import {
+  syncDashboardBlogPosts,
+  syncDashboardSeoPages,
+} from '@/lib/admin/editorial-dashboard-sync';
 
 export const dynamic = 'force-dynamic';
 
 const PERIOD_DAYS = 30;
 
 export default async function AdminOverviewPage() {
-  const [kpis, revenueSeries, topVariants, latest, lowStock, geo] = await Promise.all([
+  const [kpis, revenueSeries, topVariants, latest, lowStock, geo, editorial] = await Promise.all([
     getDashboardKpis(PERIOD_DAYS),
     getRevenueSeries(PERIOD_DAYS),
     getTopVariants(PERIOD_DAYS, 6),
     getLatestOrders(8),
     getStockAlerts(10),
     getGeoDistribution(90, 8),
+    getEditorialInventory(),
   ]);
 
   return (
@@ -113,6 +121,56 @@ export default async function AdminOverviewPage() {
           icon={Boxes}
           hint={kpis.lowStockCount > 0 ? '<10 unidades' : 'Todo OK'}
         />
+      </div>
+
+      {/* Inventario editorial */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Panel
+          title="Inventario editorial"
+          icon={FileText}
+          hint="Contenido editable sincronizado con el dashboard"
+          action={{ href: '/admin/seo', label: 'Landings & SEO' }}
+          className="lg:col-span-2"
+        >
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-border/50 bg-background p-5">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                Artículos
+              </p>
+              <p className="mt-2 text-3xl font-heading font-black">{editorial.posts}</p>
+              <p className="mt-1 text-xs text-muted-foreground">Se editan en Blog.</p>
+            </div>
+            <div className="rounded-2xl border border-border/50 bg-background p-5">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                Landings / servicios
+              </p>
+              <p className="mt-2 text-3xl font-heading font-black">{editorial.editableSeoPages}</p>
+              <p className="mt-1 text-xs text-muted-foreground">Se editan en Landings & SEO.</p>
+            </div>
+            <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50 p-5">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-800/70">
+                Total editable
+              </p>
+              <p className="mt-2 text-3xl font-heading font-black text-emerald-700">
+                {editorial.totalEditable}
+              </p>
+              <p className="mt-1 text-xs text-emerald-800/70">Inventario editorial real.</p>
+            </div>
+          </div>
+        </Panel>
+
+        <Panel
+          title="Acceso editorial"
+          icon={Layers}
+          hint="Cada tipo en su editor"
+          bodyClassName="p-5"
+        >
+          <div className="flex flex-col gap-2">
+            <QuickLink href="/admin/blog" label="Editar artículos" external={false} />
+            <QuickLink href="/admin/seo?kind=LANDING" label="Editar landings" external={false} />
+            <QuickLink href="/admin/servicios" label="Editar servicios" external={false} />
+          </div>
+        </Panel>
       </div>
 
       {/* Fila principal: chart grande + top productos */}
@@ -294,6 +352,21 @@ export default async function AdminOverviewPage() {
   );
 }
 
+async function getEditorialInventory() {
+  await Promise.all([syncDashboardBlogPosts(), syncDashboardSeoPages()]);
+
+  const [posts, editableSeoPages] = await Promise.all([
+    prisma.post.count(),
+    prisma.seoPage.count({ where: { kind: { in: ['LANDING', 'SERVICIO'] } } }),
+  ]);
+
+  return {
+    posts,
+    editableSeoPages,
+    totalEditable: posts + editableSeoPages,
+  };
+}
+
 function QuickLink({
   href,
   label,
@@ -303,18 +376,27 @@ function QuickLink({
   label: string;
   external: boolean;
 }) {
-  const Component: any = external ? 'a' : Link;
-  const extras = external
-    ? { target: '_blank', rel: 'noopener noreferrer' as const }
-    : {};
+  if (external) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center justify-between gap-2 text-sm font-semibold text-foreground bg-muted/40 hover:bg-muted px-3 py-2 rounded-lg transition-colors"
+      >
+        <span>{label}</span>
+        <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
+      </a>
+    );
+  }
+
   return (
-    <Component
+    <Link
       href={href}
-      {...extras}
       className="inline-flex items-center justify-between gap-2 text-sm font-semibold text-foreground bg-muted/40 hover:bg-muted px-3 py-2 rounded-lg transition-colors"
     >
       <span>{label}</span>
-      {external ? <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" /> : <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />}
-    </Component>
+      <ArrowRight className="w-3.5 h-3.5 text-muted-foreground" />
+    </Link>
   );
 }

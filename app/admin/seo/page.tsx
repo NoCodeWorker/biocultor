@@ -32,13 +32,12 @@ export default async function AdminSeoPage({
 
   const priorityCount = enrichedPages.filter((page) => page.workflowStatus === 'PRIORITY').length;
   const readyCount = enrichedPages.filter((page) => page.workflowStatus === 'READY').length;
-  const avgPriority =
-    enrichedPages.length > 0
-      ? Math.round(
-          enrichedPages.reduce((acc, page) => acc + page.priorityScore, 0) / enrichedPages.length
-        )
-      : 0;
-
+  const landingAndServiceCount = enrichedPages.filter((page) =>
+    ['LANDING', 'SERVICIO'].includes(page.kind)
+  ).length;
+  const missingImageCount = enrichedPages.filter((page) =>
+    ['LANDING', 'SERVICIO'].includes(page.kind) && !page.image
+  ).length;
   return (
     <div className="flex flex-col gap-10 max-w-6xl mx-auto relative z-10 antialiased">
       <div className="flex flex-col gap-4">
@@ -53,7 +52,17 @@ export default async function AdminSeoPage({
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <div className="rounded-2xl border border-border/50 bg-card p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary/80">Total SEO</p>
+          <p className="mt-3 text-4xl font-heading font-black tracking-tight">{enrichedPages.length}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Inventario editorial persistente.</p>
+        </div>
+        <div className="rounded-2xl border border-border/50 bg-card p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary/80">Landings</p>
+          <p className="mt-3 text-4xl font-heading font-black tracking-tight">{landingAndServiceCount}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Landings y servicios con edición visual.</p>
+        </div>
         <div className="rounded-2xl border border-border/50 bg-card p-6">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary/80">Prioridad</p>
           <p className="mt-3 text-4xl font-heading font-black tracking-tight">{priorityCount}</p>
@@ -65,9 +74,9 @@ export default async function AdminSeoPage({
           <p className="mt-2 text-sm text-muted-foreground">URLs publicadas listas para refino.</p>
         </div>
         <div className="rounded-2xl border border-border/50 bg-card p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary/80">Media</p>
-          <p className="mt-3 text-4xl font-heading font-black tracking-tight">{avgPriority}</p>
-          <p className="mt-2 text-sm text-muted-foreground">Prioridad media del inventario SEO.</p>
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary/80">Sin imagen</p>
+          <p className="mt-3 text-4xl font-heading font-black tracking-tight">{missingImageCount}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Landings/servicios pendientes de visual.</p>
         </div>
       </div>
 
