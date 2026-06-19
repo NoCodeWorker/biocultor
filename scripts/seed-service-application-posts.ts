@@ -4,8 +4,8 @@
  * Crea 6 artículos editoriales orientados a servicios de aplicación profesional.
  *
  * Política ADR-003:
- * - INSERT + refresh conservador: si el slug existe y parece intacto desde seed, se actualiza.
- * - Nunca sobrescribe contenido, metadatos ni imágenes subidas desde el dashboard.
+ * - INSERT + refresh de posts gestionados por seed: si el slug existe y el autor es el seed, se actualiza.
+ * - Nunca sobrescribe imágenes subidas desde el dashboard.
  * - Pensado para ejecutarse en deploy tras backup/diagnóstico de BD.
  */
 
@@ -14,9 +14,8 @@ import { PrismaClient } from '../generated/prisma/index.js';
 const prisma = new PrismaClient();
 const SEED_AUTHOR = 'Equipo Biocultor';
 
-function isSeedUntouched(post: { author: string | null; createdAt: Date; updatedAt: Date }) {
-  const updateDriftMs = Math.abs(post.updatedAt.getTime() - post.createdAt.getTime());
-  return post.author === SEED_AUTHOR && updateDriftMs < 5 * 60 * 1000;
+function isSeedManaged(post: { author: string | null }) {
+  return post.author === SEED_AUTHOR;
 }
 
 const serviceApplicationPosts = [
@@ -606,8 +605,6 @@ async function main() {
     select: {
       slug: true,
       author: true,
-      createdAt: true,
-      updatedAt: true,
       coverImage: true,
     },
   });
@@ -643,9 +640,9 @@ async function main() {
       continue;
     }
 
-    if (!isSeedUntouched(current)) {
+    if (!isSeedManaged(current)) {
       skipped++;
-      console.log(`  ↩️ Omitido por posible edición manual: /aprende/${post.slug}`);
+      console.log(`  ↩️ Omitido por autor no gestionado por seed: /aprende/${post.slug}`);
       continue;
     }
 
