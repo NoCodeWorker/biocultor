@@ -52,6 +52,11 @@ const navLinks: NavLink[] = [
         label: 'Té de humus para paisajistas',
         sub: 'Suministro y aplicación biológica para profesionales',
       },
+      {
+        href: '/casos',
+        label: 'Casos y metodología',
+        sub: 'Documentación, checklists y recursos para decidir con criterio',
+      },
     ],
   },
   { kind: 'link', href: '/aprende', label: 'Aprende' },

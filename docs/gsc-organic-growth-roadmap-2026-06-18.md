@@ -483,6 +483,25 @@ KPIs:
 - 200-500 clics/28 días.
 - Leads orgánicos regulares para servicios.
 
+### Ejecución Fase 4 - 2026-06-19
+
+Estado preparado localmente para iniciar autoridad externa y prueba sin fabricar casos reales:
+
+| Acción | Estado | Evidencia |
+| --- | --- | --- |
+| Crear hub de casos y metodología | Preparado | Ruta `/casos` con colección de casos documentables, recursos operativos y CTA para proponer un jardín real |
+| Crear 3 fichas de caso | Preparado honesto | `/casos/chalet-premium-cesped-compactado`, `/casos/comunidad-zonas-comunes-documentadas` y `/casos/empresa-jardin-representativo-bajo-residuo` no prometen resultados; declaran evidencia a recoger, límites y estado documentable/captación |
+| Crear descargables operativos | Preparado | `/recursos/checklist-mantenimiento-cesped-premium`, `/recursos/protocolo-aplicacion-paisajistas` y `/recursos/guia-administradores-comunidades-zonas-verdes` |
+| Reforzar enlazado interno | Preparado | Navbar, footer, hub `/servicios` y sitemap enlazan `/casos` y recursos |
+| Respetar ADR-002 | Preparado | Cada ficha y recurso incluye referencia externa identificable y límites honestos; no se publican "casos reales" sin fotos, fecha, intervención y seguimiento |
+
+Pendiente para convertir la fase en autoridad real:
+
+1. Capturar al menos 3 proyectos reales con permiso de uso de imágenes.
+2. Registrar fecha, superficie, litros aplicados, condiciones de riego/siega y evolución a 14/30/60 días.
+3. Sustituir el estado "captación/documentable" por resultados observacionales solo cuando exista evidencia verificable.
+4. Crear outreach externo hacia asociaciones, blogs de jardinería, paisajistas y directorios locales usando los casos ya completados.
+
 ### Fase 5: Liderazgo sectorial, 12 meses
 
 Objetivo: ser el sitio más completo y confiable del nicho en España.

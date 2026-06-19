@@ -2,6 +2,7 @@ export const revalidate = 3600
 
 import type { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/seo';
+import { caseStudies, downloadResources } from '@/lib/authority-assets';
 import { premiumServicePages } from '@/lib/premium-service-pages';
 import {
   getSeoCommercialPages,
@@ -87,6 +88,20 @@ const premiumServiceRoutes = premiumServicePages.map((page) => ({
   path: `/servicios/${page.slug}`,
   lastmod: '2026-06-19',
 }));
+
+const authorityRoutes = [
+  { path: '/casos', lastmod: '2026-06-19', priority: 0.78 },
+  ...caseStudies.map((item) => ({
+    path: `/casos/${item.slug}`,
+    lastmod: '2026-06-19',
+    priority: 0.74,
+  })),
+  ...downloadResources.map((item) => ({
+    path: `/recursos/${item.slug}`,
+    lastmod: '2026-06-19',
+    priority: 0.72,
+  })),
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -202,6 +217,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(route.lastmod),
       changeFrequency: 'monthly' as const,
       priority: 0.84,
+    })),
+    ...authorityRoutes.map((route) => ({
+      url: absoluteUrl(route.path),
+      lastModified: new Date(route.lastmod),
+      changeFrequency: 'monthly' as const,
+      priority: route.priority,
     })),
     ...dynamicPosts.map((post) => ({
       url: absoluteUrl(`/aprende/${post.slug}`),

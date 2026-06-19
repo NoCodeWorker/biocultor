@@ -32,6 +32,11 @@ const servicePages = [
 
 const supportLinks = [
   {
+    title: 'Casos y metodología documentada',
+    href: '/casos',
+    description: 'Fichas de caso, checklists y criterios de seguimiento sin promesas infladas.',
+  },
+  {
     title: 'Comprar té de humus líquido premium',
     href: '/producto/te-humus-liquido-premium',
     description: 'Para clientes que prefieren aplicar el producto por cuenta propia.',
@@ -301,6 +306,29 @@ export default function ServiciosPage() {
                 <p className="text-sm text-muted-foreground leading-relaxed">{step}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="py-10 md:py-14 border-t border-border/60">
+          <div className="rounded-3xl border border-primary/20 bg-primary/5 p-6 md:p-8">
+            <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-8">
+                <h2 className="font-heading text-3xl font-bold text-foreground">
+                  Prueba documentada antes que promesas.
+                </h2>
+                <p className="mt-3 max-w-3xl text-muted-foreground">
+                  Fase 4 del sistema de autoridad: casos documentables, recursos para administradores y protocolos para paisajistas. Si no hay fotos, fechas y seguimiento, no lo tratamos como prueba cerrada.
+                </p>
+              </div>
+              <div className="lg:col-span-4 lg:text-right">
+                <Button asChild className="rounded-full bg-primary text-white hover:bg-brand-green-hover">
+                  <Link href="/casos">
+                    Ver casos y metodología
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </div>
         </section>
 

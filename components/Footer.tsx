@@ -69,6 +69,8 @@ export default function Footer() {
                   { href: '/comprar-purin-de-ortiga', label: 'Comprar purín de ortiga' },
                   { href: '/te-de-humus-de-lombriz', label: 'Té por cultivo' },
                   { href: '/purin-de-ortiga', label: 'Ortiga por cultivo' },
+                  { href: '/servicios', label: 'Servicios profesionales' },
+                  { href: '/casos', label: 'Casos y metodología' },
                   { href: '/aprende', label: 'Guías de cultivo' },
                   { href: '/espana', label: 'Biocultor en España' },
                 ].map(link => (
