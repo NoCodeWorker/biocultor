@@ -41,6 +41,7 @@ export default async function AdminBlogPage() {
 
   const published = posts.filter((p) => p.isPublished).length;
   const drafts = posts.filter((p) => !p.isPublished).length;
+  const editablePublished = posts.length + editableSeoPages.length;
 
   return (
     <div className="flex flex-col gap-8">
@@ -69,14 +70,21 @@ export default async function AdminBlogPage() {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <div className="bg-card border border-border/60 rounded-2xl p-5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Total</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Artículos</p>
           <p className="text-2xl font-heading font-black text-foreground mt-1.5">{posts.length}</p>
+          <p className="mt-1 text-xs text-muted-foreground">Entradas publicables en /aprende.</p>
+        </div>
+        <div className="bg-card border border-border/60 rounded-2xl p-5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Landings / servicios</p>
+          <p className="text-2xl font-heading font-black text-foreground mt-1.5">{editableSeoPages.length}</p>
+          <p className="mt-1 text-xs text-muted-foreground">Páginas SEO con edición visual.</p>
         </div>
         <div className="bg-emerald-50 border border-emerald-200/60 rounded-2xl p-5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Publicados</p>
-          <p className="text-2xl font-heading font-black text-emerald-700 mt-1.5">{published}</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Total editable</p>
+          <p className="text-2xl font-heading font-black text-emerald-700 mt-1.5">{editablePublished}</p>
+          <p className="mt-1 text-xs text-emerald-800/70">{published} artículos + {editableSeoPages.length} landings.</p>
         </div>
         <div className="bg-amber-50 border border-amber-200/60 rounded-2xl p-5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Borradores</p>
