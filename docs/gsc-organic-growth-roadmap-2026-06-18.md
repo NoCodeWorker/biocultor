@@ -437,6 +437,18 @@ KPIs:
 - 20 leads orgánicos/mes.
 - Top 10 en long-tail local.
 
+### Ejecución Fase 3 - 2026-06-19
+
+Estado preparado localmente para ampliar servicios premium hacia búsquedas locales de alto valor:
+
+| Acción | Estado | Evidencia |
+| --- | --- | --- |
+| Crear 8 landings GEO premium | Preparado | `premiumGeoServicePages` añade Pozuelo, La Moraleja, Las Rozas, Boadilla, Majadahonda, Aravaca, Toledo e Illescas/Seseña |
+| Evitar plantillas clonadas | Preparado | Cada landing incluye `localJustification` con razones propias de zona, tipo de jardín, uso, logística o clima |
+| Mantener foco en lead de servicio | Preparado | Las rutas viven en `/servicios/[slug]`, con CTA a presupuesto y compra secundaria de producto |
+| Reforzar sitemap y enlazado interno | Preparado | `app/sitemap.ts` hereda las nuevas rutas y `/servicios` añade sección "Servicios por zona premium" |
+| Respetar sesgo de autoridad | Preparado | Cada página conserva referencia técnica externa y límites honestos sobre riego, resiembra, compactación o calor |
+
 ### Fase 4: Autoridad externa y prueba, 6-12 meses
 
 Objetivo: pasar de "sitio que publica" a "marca citada".

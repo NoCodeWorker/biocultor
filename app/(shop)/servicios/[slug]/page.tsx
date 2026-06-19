@@ -139,7 +139,7 @@ export default async function PremiumServicePage({
           <div className="lg:col-span-6 flex flex-col gap-6">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider self-start border border-primary/20">
               <Leaf className="w-3.5 h-3.5" />
-              Servicio premium por segmento
+              {page.kind === 'geo' ? 'Servicio premium local' : 'Servicio premium por segmento'}
             </div>
 
             <div className="space-y-4">
@@ -222,6 +222,30 @@ export default async function PremiumServicePage({
             </article>
           </div>
         </section>
+
+        {page.localJustification && (
+          <section className="py-10 md:py-14 border-t border-border/60">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              <div className="lg:col-span-5">
+                <div className="inline-flex items-center gap-2 text-primary font-semibold text-sm">
+                  <MapPin className="w-4 h-4" />
+                  Señal local
+                </div>
+                <h2 className="font-heading text-3xl font-bold text-foreground mt-3">
+                  {page.localJustification.title}
+                </h2>
+              </div>
+              <div className="lg:col-span-7 grid grid-cols-1 gap-4">
+                {page.localJustification.points.map((point) => (
+                  <div key={point} className="flex items-start gap-3 border border-border/60 bg-card rounded-2xl p-5">
+                    <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                    <p className="text-sm text-muted-foreground leading-relaxed">{point}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="py-10 md:py-14 border-t border-border/60">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">

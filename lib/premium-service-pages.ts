@@ -1,4 +1,5 @@
 export type PremiumServicePage = {
+  kind?: 'segment' | 'geo';
   slug: string;
   title: string;
   metaTitle: string;
@@ -22,10 +23,14 @@ export type PremiumServicePage = {
     url: string;
     takeaway: string;
   };
+  localJustification?: {
+    title: string;
+    points: string[];
+  };
   faqs: Array<{ question: string; answer: string }>;
 };
 
-export const premiumServicePages: PremiumServicePage[] = [
+export const premiumSegmentServicePages: PremiumServicePage[] = [
   {
     slug: 'regeneracion-cesped-chalets',
     title: 'Servicio de regeneración de césped para chalets',
@@ -466,6 +471,526 @@ export const premiumServicePages: PremiumServicePage[] = [
       },
     ],
   },
+];
+
+export const premiumGeoServicePages: PremiumServicePage[] = [
+  {
+    kind: 'geo',
+    slug: 'regeneracion-cesped-pozuelo',
+    title: 'Regeneración de césped en Pozuelo',
+    metaTitle: 'Regeneración de césped en Pozuelo | Biocultor',
+    metaDescription:
+      'Servicio de regeneración biológica de césped en Pozuelo: diagnóstico de riego, suelo y aplicación de té de humus para jardines residenciales.',
+    targetKeyword: 'regeneración de césped en Pozuelo',
+    segment: 'Chalets, urbanizaciones y jardines privados de Pozuelo de Alarcón',
+    zone: 'Pozuelo de Alarcón y entorno oeste de Madrid',
+    intent: 'Recuperar césped de jardines residenciales con una intervención local, discreta y medible.',
+    problem:
+      'En Pozuelo conviven jardines de alto uso, zonas de sombra, riego por sectores y exigencia estética elevada. El fallo no suele resolverse aplicando más producto sin revisar riego, tránsito y compactación.',
+    serviceRecommended:
+      'Diagnóstico por sectores, aplicación de té de humus líquido y pauta de continuidad para mantener el césped sin depender de correcciones de choque.',
+    methodology: [
+      'Separar zonas soleadas, sombra, tránsito familiar y bordes de piscina o terraza.',
+      'Revisar uniformidad de riego antes de recomendar dosis o frecuencia.',
+      'Aplicar té de humus por sectores para priorizar zonas visibles del chalet.',
+      'Entregar pauta posterior de riego, siega y compra directa si el mantenimiento queda en manos del propietario o jardinero.',
+    ],
+    honestLimits: [
+      'No corrige un sistema de riego mal sectorizado.',
+      'No evita resiembra si ya falta densidad vegetal.',
+      'No debe prometer verde inmediato en céspedes quemados o con raíz agotada.',
+    ],
+    localJustification: {
+      title: 'Por qué Pozuelo requiere una página propia',
+      points: [
+        'Alta presencia de jardines privados donde la estética del césped pesa en la decisión de compra.',
+        'Parcelas con zonas de sombra, piscinas, tránsito familiar y riego sectorizado que obligan a diagnosticar por áreas.',
+        'Cliente con capacidad de contratar servicio si se explica la intervención con límites y trazabilidad.',
+      ],
+    },
+    visualProof: {
+      before: '/servicios-cesped-antes.webp',
+      after: '/servicios-cesped-despues.webp',
+      caption: 'La prueba visual es orientativa; en Pozuelo debe acompañarse de lectura de riego y uso real del jardín.',
+    },
+    reference: {
+      title: 'Soil Health',
+      authority: 'USDA Natural Resources Conservation Service',
+      url: 'https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health',
+      takeaway:
+        'La salud del suelo integra agua, aire, raíces y actividad biológica; por eso el diagnóstico local importa antes de aplicar.',
+    },
+    faqs: [
+      {
+        question: '¿Atendéis chalets en Pozuelo?',
+        answer:
+          'Sí. La intervención se valora por superficie, acceso, estado del césped y coordinación con el riego existente.',
+      },
+      {
+        question: '¿Se puede hacer por zonas del jardín?',
+        answer:
+          'Sí. En jardines grandes suele ser mejor priorizar zonas visibles o más degradadas antes que tratar todo sin criterio.',
+      },
+      {
+        question: '¿Puedo continuar después con producto comprado?',
+        answer:
+          'Sí. El servicio inicial puede ordenar el problema y la compra directa mantener la rutina.',
+      },
+    ],
+  },
+  {
+    kind: 'geo',
+    slug: 'jardineria-biologica-la-moraleja',
+    title: 'Jardinería biológica en La Moraleja',
+    metaTitle: 'Jardinería biológica en La Moraleja | Biocultor',
+    metaDescription:
+      'Servicio de jardinería biológica en La Moraleja para jardines de alto valor: humus líquido, bajo residuo visible y protocolo técnico.',
+    targetKeyword: 'jardinería biológica en La Moraleja',
+    segment: 'Viviendas premium, jardines privados y mantenimiento residencial',
+    zone: 'La Moraleja, Alcobendas y entorno norte de Madrid',
+    intent: 'Mantener jardines premium con una intervención limpia, técnica y fácil de coordinar.',
+    problem:
+      'En jardines de alto valor la intervención debe ser discreta, compatible con uso residencial y explicable al personal de mantenimiento. El reto no es solo aplicar, sino no generar molestias ni claims exagerados.',
+    serviceRecommended:
+      'Aplicación programada de té de humus líquido, revisión de zonas sensibles y pauta para mantenimiento biológico recurrente.',
+    methodology: [
+      'Identificar zonas ornamentales, césped, setos, sombra y áreas de paso.',
+      'Programar la aplicación fuera de momentos de uso familiar o visitas.',
+      'Aplicar con bajo residuo visible y coordinación con riego posterior.',
+      'Definir si conviene servicio recurrente o suministro para el jardinero habitual.',
+    ],
+    honestLimits: [
+      'No sustituye diseño paisajístico, poda ni reposición ornamental.',
+      'No corrige problemas de drenaje o riego sin intervención adicional.',
+      'No debe presentarse como tratamiento cosmético instantáneo.',
+    ],
+    localJustification: {
+      title: 'Por qué La Moraleja requiere una página propia',
+      points: [
+        'La decisión combina estética, privacidad, coordinación operativa y bajo residuo visible.',
+        'Los jardines suelen tener mezcla de césped, setos, arbolado y zonas ornamentales que no admiten una pauta única.',
+        'El cliente valora el servicio si reduce carga operativa y evita intervenciones agresivas.',
+      ],
+    },
+    visualProof: {
+      before: '/servicios-cesped-antes.webp',
+      after: '/servicios-cesped-despues.webp',
+      caption: 'La mejora visual debe entenderse dentro de una rutina de mantenimiento y riego.',
+    },
+    reference: {
+      title: 'Soil Organic Carbon: the hidden potential',
+      authority: 'FAO',
+      url: 'https://www.fao.org/3/i6937e/i6937e.pdf',
+      takeaway:
+        'La materia orgánica se relaciona con estructura, agua, biodiversidad y fertilidad; en jardines premium importa la continuidad, no solo el efecto inmediato.',
+    },
+    faqs: [
+      {
+        question: '¿El servicio deja residuos visibles?',
+        answer:
+          'La aplicación líquida está pensada para bajo residuo visible y debe coordinarse con riego y horario.',
+      },
+      {
+        question: '¿Puede trabajar con mi jardinero?',
+        answer:
+          'Sí. Puede ser una intervención puntual, un protocolo o suministro para el equipo habitual.',
+      },
+      {
+        question: '¿Sirve para jardines ornamentales además de césped?',
+        answer:
+          'Sí, siempre ajustando método, dosis y objetivo según arriates, setos, césped o zonas de sombra.',
+      },
+    ],
+  },
+  {
+    kind: 'geo',
+    slug: 'recuperacion-jardines-las-rozas',
+    title: 'Recuperación de jardines en Las Rozas',
+    metaTitle: 'Recuperación de jardines en Las Rozas | Biocultor',
+    metaDescription:
+      'Recuperación biológica de jardines en Las Rozas: césped debilitado, suelo compacto, riego irregular y aplicación profesional de humus líquido.',
+    targetKeyword: 'recuperación de jardines en Las Rozas',
+    segment: 'Chalets, comunidades y jardines residenciales',
+    zone: 'Las Rozas, Majadahonda y noroeste de Madrid',
+    intent: 'Recuperar jardines con diagnóstico previo y una intervención biológica sin prometer milagros.',
+    problem:
+      'En Las Rozas son frecuentes jardines con zonas secas, sombra, tránsito y riego desigual. Si se trata todo igual, el presupuesto se diluye y la causa real queda sin resolver.',
+    serviceRecommended:
+      'Evaluación por zonas, aplicación de té de humus donde aporta valor y pauta de recuperación conectada con riego y siega.',
+    methodology: [
+      'Clasificar zonas por síntoma: amarilleo, calvas, sombra, compactación o bordes secos.',
+      'Diferenciar recuperación posible de zonas que exigen resiembra o reparación física.',
+      'Aplicar humus líquido en sectores con raíz y suelo recuperable.',
+      'Recomendar continuidad con servicio o compra según capacidad de mantenimiento.',
+    ],
+    honestLimits: [
+      'No toda calva se recupera sin resiembra.',
+      'No corrige drenaje deficiente ni riego mal diseñado.',
+      'No garantiza una respuesta homogénea si el jardín tiene zonas muy distintas.',
+    ],
+    localJustification: {
+      title: 'Por qué Las Rozas requiere una página propia',
+      points: [
+        'Zona con urbanizaciones y jardines residenciales donde se mezclan césped, arbolado y uso familiar.',
+        'La recuperación debe diferenciar síntomas de riego, suelo y falta real de planta.',
+        'La proximidad al corredor noroeste permite plantear servicio por sectores y seguimiento.',
+      ],
+    },
+    visualProof: {
+      before: '/servicios-cesped-antes.webp',
+      after: '/servicios-cesped-despues.webp',
+      caption: 'El antes/después debe acompañarse de diagnóstico; no todas las zonas responden igual.',
+    },
+    reference: {
+      title: 'Soil Health',
+      authority: 'USDA Natural Resources Conservation Service',
+      url: 'https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health',
+      takeaway:
+        'La función del suelo condiciona la respuesta vegetal; una recuperación seria debe mirar más que el color.',
+    },
+    faqs: [
+      {
+        question: '¿Podéis recuperar jardines con calvas?',
+        answer:
+          'Depende. Si queda raíz y suelo funcional, puede haber margen. Si falta planta, se recomienda resiembra o reposición.',
+      },
+      {
+        question: '¿La intervención puede hacerse por sectores?',
+        answer:
+          'Sí. Es lo recomendable cuando el jardín tiene zonas con causas distintas.',
+      },
+      {
+        question: '¿Incluye diagnóstico de riego?',
+        answer:
+          'Incluye revisión visual y pauta práctica; reparaciones de riego se tratan como trabajo adicional o con el jardinero habitual.',
+      },
+    ],
+  },
+  {
+    kind: 'geo',
+    slug: 'mantenimiento-jardines-boadilla-del-monte',
+    title: 'Mantenimiento de jardines en Boadilla del Monte',
+    metaTitle: 'Mantenimiento de jardines en Boadilla del Monte',
+    metaDescription:
+      'Mantenimiento biológico de jardines en Boadilla del Monte: aplicación de té de humus, bajo residuo y pauta para chalets y urbanizaciones.',
+    targetKeyword: 'mantenimiento de jardines en Boadilla del Monte',
+    segment: 'Chalets, comunidades y urbanizaciones de Boadilla',
+    zone: 'Boadilla del Monte y entorno oeste de Madrid',
+    intent: 'Añadir una capa biológica al mantenimiento de jardines residenciales sin sustituir al jardinero habitual.',
+    problem:
+      'El mantenimiento recurrente puede centrarse en siega, poda y limpieza, pero dejar el suelo como una caja negra. Sin suelo funcional, el jardín depende más de correcciones puntuales.',
+    serviceRecommended:
+      'Aplicación periódica de té de humus líquido vinculada al calendario de riego, siega y mantenimiento existente.',
+    methodology: [
+      'Revisar rutina actual de siega, riego, abonado y zonas problemáticas.',
+      'Definir frecuencia de intervención según superficie y objetivo.',
+      'Aplicar humus líquido en momentos compatibles con riego y uso del jardín.',
+      'Coordinar pauta con propietario, comunidad o empresa de jardinería.',
+    ],
+    honestLimits: [
+      'No sustituye mantenimiento de siega, poda o limpieza.',
+      'No debe aplicarse sin revisar riego y calendario.',
+      'No elimina la necesidad de reposición vegetal cuando hay pérdida irreversible.',
+    ],
+    localJustification: {
+      title: 'Por qué Boadilla requiere una página propia',
+      points: [
+        'Mercado residencial con jardines y urbanizaciones donde el mantenimiento continuo pesa más que una intervención aislada.',
+        'La aplicación biológica puede integrarse con rutinas existentes sin desplazar al jardinero.',
+        'El cliente suele necesitar claridad de calendario, coste y responsabilidad operativa.',
+      ],
+    },
+    visualProof: {
+      before: '/servicios-cesped-antes.webp',
+      after: '/servicios-cesped-despues.webp',
+      caption: 'La evolución visual depende de continuidad, riego y estado inicial del suelo.',
+    },
+    reference: {
+      title: 'Soil Organic Carbon: the hidden potential',
+      authority: 'FAO',
+      url: 'https://www.fao.org/3/i6937e/i6937e.pdf',
+      takeaway:
+        'La materia orgánica participa en funciones de suelo relevantes para zonas verdes mantenidas a largo plazo.',
+    },
+    faqs: [
+      {
+        question: '¿Sustituye al jardinero habitual?',
+        answer:
+          'No. Es una intervención complementaria que puede integrarse con su calendario de mantenimiento.',
+      },
+      {
+        question: '¿Tiene sentido hacerlo de forma recurrente?',
+        answer:
+          'Sí, si el jardín tiene superficie suficiente, objetivo estético claro y una rutina de riego estable.',
+      },
+      {
+        question: '¿Se puede presupuestar para una comunidad?',
+        answer:
+          'Sí. Se priorizan zonas visibles, superficie y frecuencia para ajustar el presupuesto.',
+      },
+    ],
+  },
+  {
+    kind: 'geo',
+    slug: 'aplicacion-humus-majadahonda',
+    title: 'Aplicación de humus en Majadahonda',
+    metaTitle: 'Aplicación de humus en Majadahonda | Biocultor',
+    metaDescription:
+      'Aplicación profesional de humus líquido en Majadahonda para césped, chalets, comunidades y jardines con mantenimiento técnico.',
+    targetKeyword: 'aplicación de humus en Majadahonda',
+    segment: 'Chalets, comunidades y paisajistas de Majadahonda',
+    zone: 'Majadahonda y municipios cercanos del oeste de Madrid',
+    intent: 'Aplicar humus líquido con criterio local cuando la compra directa no basta por superficie, logística o diagnóstico.',
+    problem:
+      'En jardines amplios, el problema no es solo comprar producto: hay que calcular litros, repartir bien la aplicación y coordinar riego para no perder eficacia.',
+    serviceRecommended:
+      'Cálculo de superficie, aplicación de té de humus líquido y pauta para continuar mediante servicio o compra directa.',
+    methodology: [
+      'Calcular superficie real y separar césped, setos y arriates.',
+      'Definir volumen de aplicación y método operativo.',
+      'Aplicar sin dejar residuo sólido visible y coordinar riego posterior.',
+      'Recomendar formato de compra si el equipo puede mantener la rutina.',
+    ],
+    honestLimits: [
+      'No sustituye un cálculo correcto de superficie.',
+      'No corrige averías de riego o drenaje.',
+      'No garantiza respuesta si se aplica fuera de una rutina coherente.',
+    ],
+    localJustification: {
+      title: 'Por qué Majadahonda requiere una página propia',
+      points: [
+        'Alta concentración de jardines residenciales y comunidades con necesidad de aplicación ordenada.',
+        'La cercanía con Pozuelo, Las Rozas y Boadilla permite agrupar rutas sin perder especificidad local.',
+        'La intención de búsqueda puede alternar compra de producto y contratación de aplicación.',
+      ],
+    },
+    visualProof: {
+      before: '/servicios-cesped-antes.webp',
+      after: '/servicios-cesped-despues.webp',
+      caption: 'La imagen orienta el tipo de mejora buscada; el presupuesto depende de superficie y estado.',
+    },
+    reference: {
+      title: 'Effects of humic acids from vermicomposts on plant growth',
+      authority: 'European Journal of Soil Biology',
+      url: 'https://doi.org/10.1016/j.ejsobi.2006.06.004',
+      takeaway:
+        'Los derivados húmicos de vermicompost se estudian por respuestas en crecimiento vegetal, siempre condicionadas por dosis y contexto.',
+    },
+    faqs: [
+      {
+        question: '¿Aplicáis humus líquido en Majadahonda?',
+        answer:
+          'Sí, sujeto a superficie, acceso y calendario. Para superficies pequeñas puede ser más eficiente comprar producto.',
+      },
+      {
+        question: '¿Calculáis litros necesarios?',
+        answer:
+          'Sí. El cálculo parte de superficie útil, método de aplicación y objetivo de mantenimiento o recuperación.',
+      },
+      {
+        question: '¿Puede contratarlo una comunidad?',
+        answer:
+          'Sí. Se puede priorizar césped y zonas comunes de mayor visibilidad.',
+      },
+    ],
+  },
+  {
+    kind: 'geo',
+    slug: 'servicio-humus-jardines-aravaca',
+    title: 'Servicio de humus para jardines en Aravaca',
+    metaTitle: 'Servicio de humus para jardines en Aravaca',
+    metaDescription:
+      'Servicio de humus líquido para jardines en Aravaca: aplicación biológica para chalets, césped y zonas verdes de alto valor.',
+    targetKeyword: 'servicio de humus para jardines en Aravaca',
+    segment: 'Chalets, jardines privados y mantenimiento residencial',
+    zone: 'Aravaca, Valdemarín y entorno noroeste de Madrid',
+    intent: 'Ofrecer una intervención biológica de alta confianza para jardines residenciales exigentes.',
+    problem:
+      'En Aravaca y zonas cercanas hay jardines con exigencia estética, privacidad y coordinación con mantenimiento externo. Una aplicación sin planificación puede molestar o no integrarse con la rutina.',
+    serviceRecommended:
+      'Servicio de aplicación de humus líquido con diagnóstico, bajo residuo visible y coordinación con jardinero o propiedad.',
+    methodology: [
+      'Revisar accesos, horarios, zonas visibles y restricciones de uso.',
+      'Diferenciar césped, setos, arriates y zonas de sombra.',
+      'Aplicar en horario discreto y coordinar riego posterior.',
+      'Definir si el mantenimiento continúa con servicio o compra directa.',
+    ],
+    honestLimits: [
+      'No sustituye paisajismo ni mantenimiento ornamental.',
+      'No corrige por sí solo una mala programación de riego.',
+      'No debe prometer resultados uniformes en jardines con zonas muy distintas.',
+    ],
+    localJustification: {
+      title: 'Por qué Aravaca requiere una página propia',
+      points: [
+        'Intención local compatible con chalets, privacidad y servicio a domicilio.',
+        'Necesidad de coordinación fina con horarios, accesos y equipos de mantenimiento.',
+        'Alta afinidad con compra posterior de producto para continuidad.',
+      ],
+    },
+    visualProof: {
+      before: '/servicios-cesped-antes.webp',
+      after: '/servicios-cesped-despues.webp',
+      caption: 'El antes/después ilustra el servicio, pero la planificación local determina la viabilidad.',
+    },
+    reference: {
+      title: 'Soil Health',
+      authority: 'USDA Natural Resources Conservation Service',
+      url: 'https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health',
+      takeaway:
+        'El manejo del suelo debe considerar agua, organismos, raíces y estructura física; no solo fertilización.',
+    },
+    faqs: [
+      {
+        question: '¿El servicio se adapta a horarios discretos?',
+        answer:
+          'Sí. En jardines residenciales se coordina horario, acceso y riego para reducir molestias.',
+      },
+      {
+        question: '¿Puede aplicarse en setos y arriates?',
+        answer:
+          'Sí, ajustando método y objetivo. No se trata igual un césped que un arriate ornamental.',
+      },
+      {
+        question: '¿Hay opción de compra para mantenimiento?',
+        answer:
+          'Sí. Tras el servicio, la compra directa puede ser la opción más eficiente si hay equipo de aplicación.',
+      },
+    ],
+  },
+  {
+    kind: 'geo',
+    slug: 'regeneracion-cesped-toledo',
+    title: 'Regeneración de césped en Toledo',
+    metaTitle: 'Regeneración de césped en Toledo | Biocultor',
+    metaDescription:
+      'Regeneración biológica de césped en Toledo: intervención con té de humus para jardines afectados por calor, compactación y riego irregular.',
+    targetKeyword: 'regeneración de césped en Toledo',
+    segment: 'Chalets, cigarrales, comunidades y jardines privados',
+    zone: 'Toledo, Olías del Rey, Bargas y entorno cercano',
+    intent: 'Recuperar césped sometido a calor y estrés hídrico con un enfoque prudente de suelo y riego.',
+    problem:
+      'En Toledo el calor y los veranos exigentes hacen visible cualquier fallo de riego, suelo o raíz. Aplicar sin revisar causa puede producir una mejora corta y poco estable.',
+    serviceRecommended:
+      'Diagnóstico de estrés, aplicación de té de humus líquido y pauta de riego/siega adaptada a condiciones de calor.',
+    methodology: [
+      'Identificar zonas de estrés por sol, compactación, pendiente o riego insuficiente.',
+      'Evaluar si hay planta recuperable antes de aplicar.',
+      'Aplicar humus líquido en ventanas de menor estrés térmico.',
+      'Definir pauta de riego posterior y continuidad de mantenimiento.',
+    ],
+    honestLimits: [
+      'No resuelve estrés hídrico si el riego sigue siendo insuficiente.',
+      'No recupera zonas sin planta viva.',
+      'No conviene aplicarlo como única medida en episodios de calor extremo.',
+    ],
+    localJustification: {
+      title: 'Por qué Toledo requiere una página propia',
+      points: [
+        'Condiciones de calor y estrés hídrico que cambian la pauta frente a jardines del norte de Madrid.',
+        'Necesidad de coordinar aplicación con riego y momentos de menor temperatura.',
+        'Zona operativa natural para Biocultor por proximidad logística.',
+      ],
+    },
+    visualProof: {
+      before: '/servicios-cesped-antes.webp',
+      after: '/servicios-cesped-despues.webp',
+      caption: 'En Toledo la evolución depende especialmente del riego posterior y del estado real de la raíz.',
+    },
+    reference: {
+      title: 'Soil Organic Carbon: the hidden potential',
+      authority: 'FAO',
+      url: 'https://www.fao.org/3/i6937e/i6937e.pdf',
+      takeaway:
+        'La materia orgánica influye en estructura y agua disponible, dos factores críticos para césped sometido a estrés térmico.',
+    },
+    faqs: [
+      {
+        question: '¿Es viable aplicar en verano en Toledo?',
+        answer:
+          'Se valora caso a caso. En calor fuerte se priorizan horarios, riego y estado de la planta para no vender una intervención poco útil.',
+      },
+      {
+        question: '¿Sirve para césped muy seco?',
+        answer:
+          'Solo si queda planta recuperable. Si falta densidad, puede hacer falta resiembra.',
+      },
+      {
+        question: '¿Atendéis jardines fuera de Toledo capital?',
+        answer:
+          'Sí, en entorno cercano según superficie, acceso y calendario de ruta.',
+      },
+    ],
+  },
+  {
+    kind: 'geo',
+    slug: 'aplicacion-humus-jardines-illescas-sesena',
+    title: 'Aplicación de humus para jardines en Illescas y Seseña',
+    metaTitle: 'Aplicación de humus en Illescas y Seseña',
+    metaDescription:
+      'Aplicación profesional de humus líquido para jardines en Illescas y Seseña: césped, chalets, comunidades y zonas verdes residenciales.',
+    targetKeyword: 'aplicación de humus para jardines en Illescas Seseña',
+    segment: 'Chalets, comunidades y jardines residenciales de La Sagra',
+    zone: 'Illescas, Seseña y norte de Toledo',
+    intent: 'Dar servicio local a jardines residenciales con suelos pesados, calor y necesidad de aplicación práctica.',
+    problem:
+      'En La Sagra aparecen jardines jóvenes, suelos pesados, riegos ajustados y céspedes que sufren rápido con calor. El tratamiento debe diferenciar mantenimiento, recuperación y falta real de planta.',
+    serviceRecommended:
+      'Aplicación de té de humus líquido por zonas, con pauta de riego posterior y opción de compra para mantenimiento recurrente.',
+    methodology: [
+      'Revisar suelo, riego, orientación y edad del jardín.',
+      'Separar zonas de mantenimiento de zonas que exigen recuperación o resiembra.',
+      'Aplicar humus líquido en horario compatible con temperatura y riego.',
+      'Entregar pauta sencilla para comunidad, propietario o jardinero.',
+    ],
+    honestLimits: [
+      'No sustituye mejora física de suelo si hay compactación severa.',
+      'No corrige un riego insuficiente en verano.',
+      'No debe venderse como solución única para césped perdido.',
+    ],
+    localJustification: {
+      title: 'Por qué Illescas y Seseña requieren una página propia',
+      points: [
+        'Zona de crecimiento residencial con jardines nuevos que necesitan rutinas claras desde el inicio.',
+        'Suelos y condiciones de calor que obligan a coordinar aplicación con riego y calendario.',
+        'Cercanía logística con Toledo y Madrid sur, útil para rutas de servicio.',
+      ],
+    },
+    visualProof: {
+      before: '/servicios-cesped-antes.webp',
+      after: '/servicios-cesped-despues.webp',
+      caption: 'La comparación visual debe acompañarse de revisión de suelo, riego y densidad vegetal.',
+    },
+    reference: {
+      title: 'Soil Health',
+      authority: 'USDA Natural Resources Conservation Service',
+      url: 'https://www.nrcs.usda.gov/conservation-basics/natural-resource-concerns/soils/soil-health',
+      takeaway:
+        'El suelo sano funciona como sistema vivo; en suelos pesados conviene intervenir con diagnóstico, no solo con producto.',
+    },
+    faqs: [
+      {
+        question: '¿Trabajáis en Illescas y Seseña?',
+        answer:
+          'Sí, sujeto a superficie, acceso y calendario. Para pequeñas superficies puede convenir compra directa.',
+      },
+      {
+        question: '¿Ayuda en suelos pesados?',
+        answer:
+          'Puede ayudar dentro de una rutina biológica, pero no sustituye aireación, mejora física o correcciones de riego si son necesarias.',
+      },
+      {
+        question: '¿Se puede hacer para comunidades?',
+        answer:
+          'Sí. Se priorizan zonas comunes y se entrega pauta de continuidad para mantenimiento.',
+      },
+    ],
+  },
+];
+
+export const premiumServicePages: PremiumServicePage[] = [
+  ...premiumSegmentServicePages,
+  ...premiumGeoServicePages,
 ];
 
 export function getPremiumServicePage(slug: string) {
