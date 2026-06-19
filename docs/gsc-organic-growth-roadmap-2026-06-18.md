@@ -352,6 +352,18 @@ KPIs:
 - Posición media de "te de humus" < 12.
 - Primeras 20 impresiones para servicios.
 
+### Ejecución Fase 1 - 2026-06-19
+
+Estado preparado localmente para reforzar el clúster "té de humus" sin competir con ecommerce:
+
+| Acción | Estado | Evidencia |
+| --- | --- | --- |
+| Crear 8 artículos evidence-led de objeciones de compra | Preparado | Seed `scripts/seed-phase1-authority-posts.ts` con 8 artículos: comparativa líquido/sólido, césped, servicio profesional, compactación, mascotas/niños, bajo residuo visible, riego por goteo y coste por m2 |
+| Enlazar hacia ficha de té de humus y servicios | Preparado | Cada artículo incluye CTA a `/producto/te-humus-liquido-premium` y, según intención, a `/servicios`, `/servicios/regeneracion-cesped-y-jardines` o `/servicios/te-humus-paisajistas-jardineros` |
+| Añadir FAQ schema específico en servicios | Completado | Landings de servicios fusionan FAQ obligatorias de precio, zonas, riego y seguridad familiar |
+| Crear hub superior de servicios | Completado | `/servicios` creado con schema de colección/listado de servicios y enlazado desde navegación |
+| Forzar descubrimiento de artículos Fase 1 | Preparado | `/aprende` muestra los 8 artículos en sección "Objeciones de compra"; `sitemap.ts` contiene rutas estáticas con lastmod estable |
+
 ### Fase 2: Dominio de servicios premium, 1-3 meses
 
 Objetivo: ser visible para búsquedas de alto ticket.

@@ -53,7 +53,69 @@ const serviceApplicationArticles = [
   },
 ];
 
-const serviceApplicationArticleSlugs = new Set(serviceApplicationArticles.map((article) => article.slug));
+const phase1AuthorityArticles = [
+  {
+    slug: 'te-humus-liquido-vs-humus-solido-jardines-premium',
+    title: 'Té de humus líquido vs humus sólido en jardines premium',
+    excerpt: 'Cuándo elegir aplicación líquida, cuándo usar humus sólido y cómo combinarlos sin prometer milagros.',
+    category: 'Evidencia',
+    readTime: '5 min',
+  },
+  {
+    slug: 'aplicar-te-humus-cesped-sin-quemarlo',
+    title: 'Aplicar té de humus en césped sin quemarlo',
+    excerpt: 'Dilución, cobertura, riego posterior y errores que generan manchas o resultados irregulares.',
+    category: 'Técnico',
+    readTime: '5 min',
+  },
+  {
+    slug: 'cuando-contratar-aplicacion-profesional-te-humus-jardin',
+    title: 'Cuándo contratar aplicación profesional de té de humus',
+    excerpt: 'Criterios para decidir entre compra directa y servicio técnico en jardines de alto valor.',
+    category: 'Servicios',
+    readTime: '5 min',
+  },
+  {
+    slug: 'humus-liquido-suelos-compactados-jardines',
+    title: 'Humus líquido para suelos compactados en jardines',
+    excerpt: 'Qué puede aportar y cuándo hace falta aireación, diagnóstico o corrección física.',
+    category: 'Evidencia',
+    readTime: '5 min',
+  },
+  {
+    slug: 'humus-lombriz-jardines-mascotas-ninos',
+    title: 'Humus de lombriz en jardines con mascotas y niños',
+    excerpt: 'Enfoque de bajo residuo visible para jardines familiares sin exagerar claims de seguridad.',
+    category: 'Servicios',
+    readTime: '5 min',
+  },
+  {
+    slug: 'mantenimiento-jardines-bajo-residuo-visible',
+    title: 'Mantenimiento de jardines con bajo residuo visible',
+    excerpt: 'Por qué importa en hoteles, comunidades, empresas y jardines premium con alta exigencia estética.',
+    category: 'Servicios',
+    readTime: '5 min',
+  },
+  {
+    slug: 'riego-goteo-jardines-ornamentales-te-humus',
+    title: 'Té de humus y riego por goteo en ornamentales',
+    excerpt: 'Compatibilidad real con filtros, Venturi, sectores de riego y alternativas de aplicación.',
+    category: 'Técnico',
+    readTime: '5 min',
+  },
+  {
+    slug: 'coste-m2-aplicar-humus-liquido-jardin',
+    title: 'Coste por m2 de aplicar humus líquido en jardín',
+    excerpt: 'Cómo estimar superficie, método, mano de obra, agua y seguimiento sin usar una dosis universal.',
+    category: 'Técnico',
+    readTime: '5 min',
+  },
+];
+
+const curatedArticleSlugs = new Set([
+  ...serviceApplicationArticles.map((article) => article.slug),
+  ...phase1AuthorityArticles.map((article) => article.slug),
+]);
 
 export const metadata = buildMetadata({
   title: 'Guías de té de humus de lombriz | Biocultor',
@@ -74,7 +136,7 @@ export default async function AprendePage() {
     orderBy: { createdAt: 'desc' },
   }).catch(() => []);
 
-  const seoArticles = dbPosts.filter((post) => !serviceApplicationArticleSlugs.has(post.slug)).map((post) => {
+  const seoArticles = dbPosts.filter((post) => !curatedArticleSlugs.has(post.slug)).map((post) => {
     // Estimación dinámica de lectura basada en palabras (aprox. 200 palabras por minuto)
     const wordsCount = post.content ? post.content.split(/\s+/).length : 0;
     const readTimeMin = Math.max(2, Math.ceil(wordsCount / 200));
@@ -141,7 +203,10 @@ export default async function AprendePage() {
           items: seoArticles.map((article) => ({
             name: article.title,
             path: `/aprende/${article.slug}`,
-          })).concat(serviceApplicationArticles.map((article) => ({
+          })).concat(phase1AuthorityArticles.map((article) => ({
+            name: article.title,
+            path: `/aprende/${article.slug}`,
+          }))).concat(serviceApplicationArticles.map((article) => ({
             name: article.title,
             path: `/aprende/${article.slug}`,
           }))),
@@ -238,6 +303,55 @@ export default async function AprendePage() {
               Ver Protocolo Completo
               <ArrowRight className="w-4 h-4" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Phase 1 Authority Articles ───────── */}
+      <section className="w-full py-16 md:py-20 bg-background border-b border-border/40">
+        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
+          <div className="max-w-3xl mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-widest mb-5 border border-secondary/20">
+              <BookOpen className="w-3.5 h-3.5" />
+              Objeciones de compra
+            </div>
+            <h2 className="text-2xl md:text-4xl font-heading font-bold tracking-tight text-foreground">
+              Guías para decidir mejor antes de comprar o contratar.
+            </h2>
+            <p className="mt-4 max-w-2xl text-muted-foreground leading-relaxed">
+              Ocho piezas evidence-led para resolver dudas sobre formato, césped, compactación, mascotas,
+              riego, coste por metro cuadrado y cuándo tiene sentido pasar de ecommerce a servicio.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+            {phase1AuthorityArticles.map((article) => (
+              <Link
+                href={`/aprende/${article.slug}`}
+                key={article.slug}
+                className="group flex flex-col bg-card border border-border/50 rounded-2xl overflow-hidden card-lift"
+              >
+                <div className="flex flex-col flex-1 p-5 md:p-6">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium mb-3">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Lectura: {article.readTime}</span>
+                  </div>
+                  <div className="inline-flex self-start rounded-full border border-secondary/20 bg-secondary/10 px-3 py-1 text-xs font-bold text-secondary">
+                    {article.category}
+                  </div>
+                  <h3 className="mt-4 font-heading font-bold text-base text-foreground leading-snug group-hover:text-primary transition-colors">
+                    {article.title}
+                  </h3>
+                  <p className="mt-3 text-muted-foreground text-sm leading-relaxed flex-1">
+                    {article.excerpt}
+                  </p>
+                  <div className="flex items-center text-primary font-bold text-sm mt-6 pt-4 border-t border-border/30">
+                    Leer criterio
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1.5 transition-transform" />
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

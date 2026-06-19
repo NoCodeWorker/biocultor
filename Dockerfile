@@ -55,6 +55,12 @@ RUN node_modules/.bin/esbuild scripts/seed-service-application-posts.ts \
       --packages=external \
       --outfile=seed-service-application-posts.cjs
 
+RUN node_modules/.bin/esbuild scripts/seed-phase1-authority-posts.ts \
+      --bundle \
+      --platform=node \
+      --packages=external \
+      --outfile=seed-phase1-authority-posts.cjs
+
 # ─── 3. Runtime ─────────────────────────────────────────────────────────
 FROM node:20-alpine AS runner
 RUN apk add --no-cache openssl
@@ -85,6 +91,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/seed-blog-posts.cjs ./seed-blog-p
 COPY --from=builder --chown=nextjs:nodejs /app/inject-6-geo-posts.cjs ./inject-6-geo-posts.cjs
 COPY --from=builder --chown=nextjs:nodejs /app/inject-legacy-posts-alts.cjs ./inject-legacy-posts-alts.cjs
 COPY --from=builder --chown=nextjs:nodejs /app/seed-service-application-posts.cjs ./seed-service-application-posts.cjs
+COPY --from=builder --chown=nextjs:nodejs /app/seed-phase1-authority-posts.cjs ./seed-phase1-authority-posts.cjs
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 
 # Aseguramos que la carpeta de uploads exista (aunque luego se monte el volumen encima)

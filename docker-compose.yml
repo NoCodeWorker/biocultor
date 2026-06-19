@@ -50,6 +50,7 @@ services:
              node inject-6-geo-posts.cjs &&
              node inject-legacy-posts-alts.cjs &&
              node seed-service-application-posts.cjs &&
+             node seed-phase1-authority-posts.cjs &&
              node server.js"
     labels:
       - "traefik.enable=true"

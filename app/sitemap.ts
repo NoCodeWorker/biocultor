@@ -38,8 +38,48 @@ const serviceApplicationArticleRoutes = [
   },
 ];
 
-const serviceApplicationArticleSlugs = new Set(
-  serviceApplicationArticleRoutes.map((route) => route.path.split('/').at(-1))
+const phase1AuthorityArticleRoutes = [
+  {
+    path: '/aprende/te-humus-liquido-vs-humus-solido-jardines-premium',
+    lastmod: '2026-06-19',
+  },
+  {
+    path: '/aprende/aplicar-te-humus-cesped-sin-quemarlo',
+    lastmod: '2026-06-19',
+  },
+  {
+    path: '/aprende/cuando-contratar-aplicacion-profesional-te-humus-jardin',
+    lastmod: '2026-06-19',
+  },
+  {
+    path: '/aprende/humus-liquido-suelos-compactados-jardines',
+    lastmod: '2026-06-19',
+  },
+  {
+    path: '/aprende/humus-lombriz-jardines-mascotas-ninos',
+    lastmod: '2026-06-19',
+  },
+  {
+    path: '/aprende/mantenimiento-jardines-bajo-residuo-visible',
+    lastmod: '2026-06-19',
+  },
+  {
+    path: '/aprende/riego-goteo-jardines-ornamentales-te-humus',
+    lastmod: '2026-06-19',
+  },
+  {
+    path: '/aprende/coste-m2-aplicar-humus-liquido-jardin',
+    lastmod: '2026-06-19',
+  },
+];
+
+const curatedArticleRoutes = [
+  ...serviceApplicationArticleRoutes,
+  ...phase1AuthorityArticleRoutes,
+];
+
+const curatedArticleSlugs = new Set(
+  curatedArticleRoutes.map((route) => route.path.split('/').at(-1))
 );
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -71,7 +111,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         select: { slug: true, updatedAt: true, createdAt: true },
       })
     ]);
-    dynamicPosts = posts.filter((post) => !serviceApplicationArticleSlugs.has(post.slug));
+    dynamicPosts = posts.filter((post) => !curatedArticleSlugs.has(post.slug));
     dynamicLandings = landings;
   } catch {
     console.warn("DB no disponible para obtener dynamicPages en sitemap.ts, usando fallback vacío.");
@@ -144,6 +184,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(route.lastmod),
       changeFrequency: 'monthly' as const,
       priority: 0.76,
+    })),
+    ...phase1AuthorityArticleRoutes.map((route) => ({
+      url: absoluteUrl(route.path),
+      lastModified: new Date(route.lastmod),
+      changeFrequency: 'monthly' as const,
+      priority: 0.77,
     })),
     ...dynamicPosts.map((post) => ({
       url: absoluteUrl(`/aprende/${post.slug}`),

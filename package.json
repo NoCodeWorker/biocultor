@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit",
     "seed:seo": "node --experimental-strip-types scripts/seed-seo.mts",
     "seed:service-posts": "node --experimental-strip-types scripts/seed-service-application-posts.ts",
+    "seed:phase1-authority": "node --experimental-strip-types scripts/seed-phase1-authority-posts.ts",
     "generate:webp": "node scripts/generate-product-webp.mjs",
     "generate:favicons": "node scripts/generate-favicons.mjs",
     "seed:posts": "node scripts/seed-6-posts.mjs",
