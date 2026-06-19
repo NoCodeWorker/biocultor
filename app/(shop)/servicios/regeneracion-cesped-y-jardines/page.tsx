@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Leaf, Droplets, ShieldCheck, Check, ArrowRight, Award, Calendar, Sparkles, CheckCircle2, FlaskConical, HelpCircle } from 'lucide-react';
+import { Leaf, ShieldCheck, Check, ArrowRight, Sparkles, CheckCircle2, FlaskConical, HelpCircle } from 'lucide-react';
 import prisma from '@/lib/db';
 import { buildMetadata, breadcrumbSchema, organizationSchema, websiteSchema, faqSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
@@ -40,6 +39,33 @@ const defaultFaqs = [
   }
 ];
 
+const requiredServiceFaqs = [
+  {
+    question: '¿Cuál es el precio orientativo del servicio?',
+    answer: 'El servicio parte de 195 € para superficies de hasta 500 m². Ese mínimo incluye desplazamiento, diagnóstico inicial, aplicación de té de humus de lombriz y pautas posteriores. En superficies mayores se calcula un coste proporcional por metro adicional.'
+  },
+  {
+    question: '¿En qué zonas realizáis la aplicación?',
+    answer: 'Trabajamos principalmente en Comunidad de Madrid, Toledo y Castilla-La Mancha. Para jardines, urbanizaciones o empresas fuera de esa zona valoramos la viabilidad según superficie, logística y calendario de aplicación.'
+  },
+  {
+    question: '¿Es compatible con riego por goteo o aspersión?',
+    answer: 'Sí. La aplicación profesional se adapta al sistema de riego existente y puede combinar pulverización, apoyo con riego o pautas posteriores. En instalaciones delicadas revisamos boquillas, filtros y presión antes de recomendar el método.'
+  },
+  {
+    question: '¿Pueden pisar el jardín niños y mascotas después?',
+    answer: 'Sí. Es un tratamiento biológico sin herbicidas, fungicidas ni fertilizantes químicos de síntesis. Recomendamos seguir las pautas de riego posteriores, pero no exige plazo de seguridad para el uso normal del jardín.'
+  }
+];
+
+function mergeFaqs(faqs: Array<{ question: string; answer: string }>) {
+  const questions = new Set(faqs.map((faq) => faq.question));
+  return [
+    ...faqs,
+    ...requiredServiceFaqs.filter((faq) => !questions.has(faq.question)),
+  ];
+}
+
 const defaultPayload = {
   beforeImage: '/servicios-cesped-antes.webp',
   afterImage: '/servicios-cesped-despues.webp',
@@ -60,7 +86,7 @@ export async function generateMetadata(): Promise<Metadata> {
     page = await prisma.seoPage.findUnique({
       where: { slug: 'regeneracion-cesped-y-jardines' },
     });
-  } catch (e) {
+  } catch {
     console.warn("Error querying DB for metadata on servicios/regeneracion-cesped-y-jardines page, using defaults.");
   }
 
@@ -82,7 +108,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Page() {
   const breadcrumbs = [
     { label: 'Inicio', href: '/' },
-    { label: 'Servicios', href: '#' },
+    { label: 'Servicios', href: '/servicios' },
     { label: 'Regeneración de Césped y Jardines' }
   ];
 
@@ -91,7 +117,7 @@ export default async function Page() {
     page = await prisma.seoPage.findUnique({
       where: { slug: 'regeneracion-cesped-y-jardines' },
     });
-  } catch (e) {
+  } catch {
     console.warn("Error querying DB for servicios/regeneracion-cesped-y-jardines page, using defaults.");
   }
 
@@ -116,10 +142,9 @@ export default async function Page() {
   } catch (e) {
     console.error("Error parsing faqJson for servicios/regeneracion-cesped-y-jardines", e);
   }
+  faqs = mergeFaqs(faqs);
 
   const title = page?.title || 'Regenera tu césped desde la biología del suelo.';
-  const metaDescription = page?.metaDescription || 'Servicio profesional de inoculación biológica in-situ para recuperar la salud y el verde de tu césped. Tratamiento 100% ecológico desde 195€.';
-
   const graphSchema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -127,7 +152,8 @@ export default async function Page() {
       websiteSchema(),
       breadcrumbSchema([
         { name: 'Inicio', path: '/' },
-        { name: 'Servicios', path: '/servicios/regeneracion-cesped-y-jardines' }
+        { name: 'Servicios', path: '/servicios' },
+        { name: 'Regeneración de Césped y Jardines', path: '/servicios/regeneracion-cesped-y-jardines' }
       ]),
       faqSchema(faqs),
       {
@@ -271,7 +297,7 @@ export default async function Page() {
               ))}
             </ul>
             <p className="text-sm text-muted-foreground italic">
-              El abono químico tradicional actúa como un "estimulante artificial": aporta un verde rápido pero debilita el suelo a la larga.
+              El abono químico tradicional actúa como un &quot;estimulante artificial&quot;: aporta un verde rápido pero debilita el suelo a la larga.
             </p>
           </div>
 

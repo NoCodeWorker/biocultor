@@ -31,6 +31,33 @@ const defaultFaqs = [
   }
 ];
 
+const requiredServiceFaqs = [
+  {
+    question: '¿Cuál es el precio orientativo para profesionales?',
+    answer: 'La aplicación completa parte de 195 € para una base de hasta 500 m². También puedes comprar el producto en formatos de 1 L, 5 L, 10 L y 25 L si tu equipo realiza la aplicación. Para superficies mayores se calcula por metros, logística y frecuencia.'
+  },
+  {
+    question: '¿Qué zonas cubrís para suministro y aplicación?',
+    answer: 'La cobertura prioritaria es Comunidad de Madrid, Toledo y Castilla-La Mancha. En proyectos de mayor superficie o mantenimiento recurrente podemos valorar otras ubicaciones cercanas según planificación y volumen.'
+  },
+  {
+    question: '¿Es compatible con riego por goteo, Venturi o pulverización?',
+    answer: 'Sí. El té de humus se filtra a 100 micras para reducir riesgo de obstrucción y se puede aplicar con pulverizadores, cubas, inyectores Venturi o sistemas de goteo bien mantenidos. Si hay filtros finos o boquillas sensibles conviene revisar el equipo antes.'
+  },
+  {
+    question: '¿Es adecuado para jardines con mascotas, niños o tránsito público?',
+    answer: 'Sí. Es una aplicación biológica sin residuos químicos de síntesis. En zonas con tránsito público recomendamos coordinar horarios y riego posterior para que la intervención sea limpia, discreta y operativamente cómoda.'
+  }
+];
+
+function mergeFaqs(faqs: Array<{ question: string; answer: string }>) {
+  const questions = new Set(faqs.map((faq) => faq.question));
+  return [
+    ...faqs,
+    ...requiredServiceFaqs.filter((faq) => !questions.has(faq.question)),
+  ];
+}
+
 const defaultPayload = {
   beforeImage: '/servicios-cesped-antes.webp',
   afterImage: '/servicios-cesped-despues.webp',
@@ -51,7 +78,7 @@ export async function generateMetadata(): Promise<Metadata> {
     page = await prisma.seoPage.findUnique({
       where: { slug: 'te-humus-paisajistas-jardineros' },
     });
-  } catch (e) {
+  } catch {
     console.warn("Error querying DB for metadata on servicios/te-humus-paisajistas-jardineros page, using defaults.");
   }
 
@@ -73,7 +100,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Page() {
   const breadcrumbs = [
     { label: 'Inicio', href: '/' },
-    { label: 'Servicios', href: '#' },
+    { label: 'Servicios', href: '/servicios' },
     { label: 'Paisajistas y Jardineros' }
   ];
 
@@ -89,7 +116,7 @@ export default async function Page() {
         include: { variants: true }
       })
     ]);
-  } catch (e) {
+  } catch {
     console.warn("Error querying DB for te-humus-paisajistas-jardineros page or products, using defaults.");
   }
 
@@ -114,6 +141,7 @@ export default async function Page() {
   } catch (e) {
     console.error("Error parsing faqJson for te-humus-paisajistas-jardineros", e);
   }
+  faqs = mergeFaqs(faqs);
 
   const title = page?.title || 'Té de Humus para Paisajistas y Jardineros';
   const productVariants = product?.variants || [];
@@ -125,7 +153,8 @@ export default async function Page() {
       websiteSchema(),
       breadcrumbSchema([
         { name: 'Inicio', path: '/' },
-        { name: 'Servicios', path: '/servicios/te-humus-paisajistas-jardineros' }
+        { name: 'Servicios', path: '/servicios' },
+        { name: 'Paisajistas y Jardineros', path: '/servicios/te-humus-paisajistas-jardineros' }
       ]),
       faqSchema(faqs),
       {
@@ -265,7 +294,7 @@ export default async function Page() {
               <li className="border-l-2 border-primary/40 pl-4">
                 <strong className="text-foreground text-sm block">Suelos Arenosos y Graníticos (Sierra de Madrid)</strong>
                 <span className="text-xs text-muted-foreground leading-relaxed mt-1 block">
-                  Suelos ácidos con bajísima retención de agua y lixiviación de abonos. El aporte microbiano coloniza la arena y genera un biofilm orgánico ("materia orgánica activa") que actúa como una esponja, reteniendo la humedad y los nutrientes aplicados.
+                  Suelos ácidos con bajísima retención de agua y lixiviación de abonos. El aporte microbiano coloniza la arena y genera un biofilm orgánico (&quot;materia orgánica activa&quot;) que actúa como una esponja, reteniendo la humedad y los nutrientes aplicados.
                 </span>
               </li>
               <li className="border-l-2 border-primary/40 pl-4">

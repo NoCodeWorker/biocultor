@@ -38,6 +38,11 @@ const navLinks: NavLink[] = [
     matchPaths: ['/servicios/'],
     items: [
       {
+        href: '/servicios',
+        label: 'Servicios de jardinería biológica',
+        sub: 'Diagnóstico, suministro y aplicación profesional',
+      },
+      {
         href: '/servicios/regeneracion-cesped-y-jardines',
         label: 'Regeneración de césped y jardines',
         sub: 'Tratamiento profesional de inoculación biológica in-situ',
@@ -64,10 +69,13 @@ export default function Navbar() {
   const groupTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    setMounted(true);
+    const mountedTimer = setTimeout(() => setMounted(true), 0);
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      clearTimeout(mountedTimer);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   // Close mobile menu and dropdowns on route change

@@ -91,6 +91,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/espana',                                        lastmod: '2026-06-01', priority: 0.8,  changeFrequency: 'weekly'  },
     { path: '/aprende',                                       lastmod: '2026-06-01', priority: 0.78, changeFrequency: 'weekly'  },
     { path: '/aprende/protocolo-cultivo-biologico-profesional', lastmod: '2026-05-28', priority: 0.75, changeFrequency: 'monthly' },
+    { path: '/servicios',                                     lastmod: '2026-06-19', priority: 0.88, changeFrequency: 'weekly'  },
     { path: '/servicios/regeneracion-cesped-y-jardines',        lastmod: '2026-06-09', priority: 0.9,  changeFrequency: 'monthly' },
     { path: '/servicios/te-humus-paisajistas-jardineros',       lastmod: '2026-06-09', priority: 0.9,  changeFrequency: 'monthly' },
     { path: '/contacto',                                      lastmod: '2026-05-01', priority: 0.6,  changeFrequency: 'monthly' },
