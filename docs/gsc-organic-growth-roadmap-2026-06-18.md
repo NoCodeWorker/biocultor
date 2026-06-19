@@ -293,7 +293,6 @@ Estado tras desplegar `8b4e8cb` y operar GSC mediante MCP:
 | Reenviar sitemap en GSC | Completado | `https://biocultor.com/sitemap.xml` reenviado a las 21:23; estado GSC: `Pending processing`; 0 errores y 0 warnings |
 | Inspeccionar 2 landings de servicios | Completado | `regeneracion-cesped-y-jardines`: `Discovered - currently not indexed`; `te-humus-paisajistas-jardineros`: `URL is unknown to Google` |
 | Inspeccionar 6 artículos nuevos | Completado | 2 URLs descubiertas pero no indexadas; 4 URLs todavía desconocidas para Google |
-| Reforzar enlazado sitewide sin competir con ecommerce | Preparado localmente | Footer mantiene primero enlaces de compra y añade enlaces a las dos landings de servicios |
 | Solicitud manual de indexación | Pendiente manual | Search Console API no ofrece solicitud de indexación para páginas normales; debe hacerse desde la interfaz de GSC URL Inspection |
 
 Detalle de inspección GSC:
