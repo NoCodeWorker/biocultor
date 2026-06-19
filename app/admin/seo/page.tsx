@@ -4,7 +4,12 @@ import { syncDashboardSeoPages } from '@/lib/admin/editorial-dashboard-sync';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminSeoPage() {
+export default async function AdminSeoPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ kind?: string; q?: string; open?: string }>;
+}) {
+  const resolvedSearchParams = searchParams ? await searchParams : {};
   await syncDashboardSeoPages();
 
   const [pages, posts] = await Promise.all([
@@ -66,7 +71,12 @@ export default async function AdminSeoPage() {
         </div>
       </div>
 
-      <SeoPagesEditor pages={enrichedPages} />
+      <SeoPagesEditor
+        pages={enrichedPages}
+        initialKind={resolvedSearchParams.kind}
+        initialQuery={resolvedSearchParams.q}
+        initialOpenSlug={resolvedSearchParams.open}
+      />
     </div>
   );
 }

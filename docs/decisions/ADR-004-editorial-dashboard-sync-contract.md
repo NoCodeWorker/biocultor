@@ -27,6 +27,9 @@ Ese módulo es responsable de crear en base de datos los registros que falten an
 - `/admin/seo` sincroniza `SeoPage`.
 - `/admin/servicios` sincroniza `SeoPage` de tipo `SERVICIO`.
 
+Además, `/admin/blog` debe mostrar un bloque de acceso a landings y servicios editables aunque no sean `Post`.
+El flujo editorial real empieza muchas veces desde Blog; ocultar las `SeoPage` en otra sección vuelve a crear el fallo operativo aunque la base de datos esté sincronizada.
+
 Los scripts de seed curados deben exportar sus arrays de contenido y solo ejecutar `main()` cuando se lanzan como script, no cuando se importan desde el dashboard.
 
 ## Alternatives considered
@@ -44,5 +47,6 @@ Los scripts de seed curados deben exportar sus arrays de contenido y solo ejecut
 ## Consequences
 
 - Nuevos artículos y landings aparecen automáticamente en los dashboards de edición de imágenes si se añaden al inventario correcto.
+- El dashboard de Blog funciona como superficie unificada de descubrimiento: artículos, landings y servicios quedan localizables desde el mismo punto de trabajo.
 - Añadir una nueva fuente editorial exige actualizar `editorial-dashboard-sync.ts`.
 - La revisión de PR/commit debe comprobar que cualquier ruta nueva con imágenes editables tiene registro en `Post` o `SeoPage`.

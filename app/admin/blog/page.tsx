@@ -1,7 +1,10 @@
 import prisma from '@/lib/db';
 import Link from 'next/link';
 import { PenSquare, Plus, Eye, EyeOff, ArrowRight, FileText, BookOpen } from 'lucide-react';
-import { syncDashboardBlogPosts } from '@/lib/admin/editorial-dashboard-sync';
+import {
+  syncDashboardBlogPosts,
+  syncDashboardSeoPages,
+} from '@/lib/admin/editorial-dashboard-sync';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,11 +16,28 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export default async function AdminBlogPage() {
-  await syncDashboardBlogPosts();
+  await Promise.all([syncDashboardBlogPosts(), syncDashboardSeoPages()]);
 
-  const posts = await prisma.post.findMany({
-    orderBy: { createdAt: 'desc' },
-  });
+  const [posts, editableSeoPages] = await Promise.all([
+    prisma.post.findMany({
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.seoPage.findMany({
+      where: { kind: { in: ['LANDING', 'SERVICIO'] } },
+      select: {
+        id: true,
+        kind: true,
+        slug: true,
+        title: true,
+        label: true,
+        image: true,
+        updatedAt: true,
+        priorityScore: true,
+        isPublished: true,
+      },
+      orderBy: [{ kind: 'desc' }, { priorityScore: 'desc' }, { slug: 'asc' }],
+    }),
+  ]);
 
   const published = posts.filter((p) => p.isPublished).length;
   const drafts = posts.filter((p) => !p.isPublished).length;
@@ -69,9 +89,9 @@ export default async function AdminBlogPage() {
         <div className="flex items-start gap-3 text-sm">
           <BookOpen className="w-5 h-5 text-primary shrink-0 mt-0.5" />
           <div>
-            <p className="font-bold text-foreground">Gestión de Landings Especiales</p>
+            <p className="font-bold text-foreground">Gestión de Landings y Servicios</p>
             <p className="text-muted-foreground mt-0.5">
-              La landing &quot;Protocolo Profesional&quot; se edita desde la sección de Landings & SEO para permitir configuraciones avanzadas.
+              Los artículos viven en Blog; las landings y servicios tienen editor propio para imágenes, SEO y payload visual.
             </p>
           </div>
         </div>
@@ -81,6 +101,107 @@ export default async function AdminBlogPage() {
         >
           Ir al editor de Landings <ArrowRight className="w-4 h-4" />
         </Link>
+      </div>
+
+      {/* Editable landings and services */}
+      <div className="bg-card border border-border/60 rounded-2xl overflow-hidden">
+        <div className="flex flex-col gap-3 border-b border-border/40 px-5 py-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-primary/80">
+              Landings y servicios editables
+            </p>
+            <h2 className="mt-1 font-heading text-xl font-black tracking-tight text-foreground">
+              {editableSeoPages.length} páginas con edición de imágenes
+            </h2>
+          </div>
+          <Link
+            href="/admin/servicios"
+            className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2 text-sm font-bold transition-colors hover:bg-muted"
+          >
+            Abrir gestor de servicios <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+        {editableSeoPages.length === 0 ? (
+          <div className="px-5 py-6 text-sm text-muted-foreground">
+            No hay landings ni servicios sincronizados en la base de datos.
+          </div>
+        ) : (
+          <ul className="divide-y divide-border/30">
+            {editableSeoPages.map((page) => {
+              const editHref =
+                page.kind === 'SERVICIO'
+                  ? `/admin/servicios?slug=${page.slug}`
+                  : `/admin/seo?kind=${page.kind}&q=${page.slug}&open=${page.slug}`;
+              const publicHref =
+                page.kind === 'SERVICIO'
+                  ? `/servicios/${page.slug}`
+                  : page.slug === 'protocolo-cultivo-biologico-profesional'
+                  ? '/aprende/protocolo-cultivo-biologico-profesional'
+                  : `/solucion-humus/${page.slug}`;
+
+              return (
+                <li key={page.id}>
+                  <div className="flex items-center gap-4 px-5 py-4">
+                    <div
+                      className={`h-2 w-2 shrink-0 rounded-full ${
+                        page.isPublished ? 'bg-emerald-500' : 'bg-amber-400'
+                      }`}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="truncate text-sm font-semibold text-foreground">
+                          {page.title}
+                        </p>
+                        <span className="shrink-0 rounded bg-muted/50 px-1.5 py-0.5 text-[9px] font-bold text-muted-foreground">
+                          {page.kind === 'SERVICIO' ? 'SERVICIO' : 'LANDING'}
+                        </span>
+                        {page.image ? (
+                          <span className="shrink-0 rounded bg-emerald-50 px-1.5 py-0.5 text-[9px] font-bold text-emerald-700">
+                            IMAGEN
+                          </span>
+                        ) : (
+                          <span className="shrink-0 rounded bg-amber-50 px-1.5 py-0.5 text-[9px] font-bold text-amber-700">
+                            SIN IMAGEN
+                          </span>
+                        )}
+                      </div>
+                      <div className="mt-1 flex flex-wrap items-center gap-3">
+                        <span className="font-mono text-[10px] text-muted-foreground">
+                          /{page.slug}
+                        </span>
+                        {page.label && (
+                          <span className="rounded bg-muted/40 px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground/70">
+                            {page.label}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <span className="hidden shrink-0 text-xs text-muted-foreground md:block">
+                      {new Date(page.updatedAt).toLocaleDateString('es-ES', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                    </span>
+                    <Link
+                      href={publicHref}
+                      target="_blank"
+                      className="shrink-0 rounded-lg px-2 py-1 text-xs font-bold text-primary hover:bg-primary/10"
+                    >
+                      Ver
+                    </Link>
+                    <Link
+                      href={editHref}
+                      className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground shadow-sm shadow-primary/10 transition-colors hover:bg-brand-green-hover"
+                    >
+                      Editar imágenes <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
       {/* Posts list */}

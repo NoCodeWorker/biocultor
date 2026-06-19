@@ -45,11 +45,29 @@ const workflowLabels: Record<string, string> = {
   HOLD: 'Hold',
 };
 
-export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
+type SeoPagesEditorProps = {
+  pages: SeoPageRecord[];
+  initialKind?: string;
+  initialQuery?: string;
+  initialOpenSlug?: string;
+};
+
+export default function SeoPagesEditor({
+  pages,
+  initialKind,
+  initialQuery,
+  initialOpenSlug,
+}: SeoPagesEditorProps) {
+  const safeInitialKind =
+    initialKind && (initialKind === 'ALL' || Object.prototype.hasOwnProperty.call(kindLabels, initialKind))
+      ? initialKind
+      : 'ALL';
+  const initialOpenId =
+    (initialOpenSlug && pages.find((page) => page.slug === initialOpenSlug)?.id) || pages[0]?.id || null;
   const [items, setItems] = useState(pages);
-  const [kindFilter, setKindFilter] = useState('ALL');
-  const [query, setQuery] = useState('');
-  const [openId, setOpenId] = useState<string | null>(pages[0]?.id ?? null);
+  const [kindFilter, setKindFilter] = useState(safeInitialKind);
+  const [query, setQuery] = useState(initialQuery ?? '');
+  const [openId, setOpenId] = useState<string | null>(initialOpenId);
   const [savingId, setSavingId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
   const orderedQueue = useMemo(
