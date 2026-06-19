@@ -2,6 +2,7 @@ export const revalidate = 3600
 
 import type { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/seo';
+import { premiumServicePages } from '@/lib/premium-service-pages';
 import {
   getSeoCommercialPages,
   getSeoCommercialPagesOrtiga,
@@ -81,6 +82,11 @@ const curatedArticleRoutes = [
 const curatedArticleSlugs = new Set(
   curatedArticleRoutes.map((route) => route.path.split('/').at(-1))
 );
+
+const premiumServiceRoutes = premiumServicePages.map((page) => ({
+  path: `/servicios/${page.slug}`,
+  lastmod: '2026-06-19',
+}));
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -190,6 +196,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(route.lastmod),
       changeFrequency: 'monthly' as const,
       priority: 0.77,
+    })),
+    ...premiumServiceRoutes.map((route) => ({
+      url: absoluteUrl(route.path),
+      lastModified: new Date(route.lastmod),
+      changeFrequency: 'monthly' as const,
+      priority: 0.84,
     })),
     ...dynamicPosts.map((post) => ({
       url: absoluteUrl(`/aprende/${post.slug}`),

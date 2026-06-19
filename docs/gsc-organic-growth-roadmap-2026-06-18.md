@@ -398,6 +398,18 @@ KPIs:
 - 10 leads orgánicos/mes.
 - Servicios indexados y con primeras posiciones top 30.
 
+### Ejecución Fase 2 - 2026-06-19
+
+Estado preparado localmente para capturar búsquedas transaccionales de servicios premium sin desplazar la ecommerce:
+
+| Acción | Estado | Evidencia |
+| --- | --- | --- |
+| Crear 8 landings premium de servicios | Preparado | Contenido tipado en `lib/premium-service-pages.ts` y ruta dinámica `/servicios/[slug]` |
+| Cubrir intención, segmento, zona y metodología | Preparado | Cada landing declara `intent`, `segment`, `zone` y pasos de `methodology` específicos |
+| Añadir límites honestos y referencia técnica | Preparado | Cada landing incluye `honestLimits` y una referencia externa de autoridad para reforzar E-E-A-T/AIO |
+| Mantener doble vía de conversión | Preparado | CTA principal a presupuesto en `/contacto?servicio=...` y CTA secundario a `/producto/te-humus-liquido-premium` |
+| Reforzar descubrimiento interno y sitemap | Preparado | Hub `/servicios` enlaza las 8 landings y `app/sitemap.ts` las declara con `lastmod` estable |
+
 ### Fase 3: GEO premium, 3-6 meses
 
 Objetivo: dominar búsquedas locales de alto valor.

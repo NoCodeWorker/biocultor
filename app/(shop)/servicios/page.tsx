@@ -5,6 +5,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
 import { Button } from '@/components/ui/button';
 import { buildMetadata, breadcrumbSchema, collectionPageSchema, organizationSchema, websiteSchema } from '@/lib/seo';
+import { premiumServicePages } from '@/lib/premium-service-pages';
 
 export const revalidate = 3600;
 
@@ -47,6 +48,15 @@ const supportLinks = [
   },
 ];
 
+const premiumServiceLinks = premiumServicePages.map((page) => ({
+  title: page.title,
+  description: page.intent,
+  href: `/servicios/${page.slug}`,
+  audience: page.segment,
+  zone: page.zone,
+  keyword: page.targetKeyword,
+}));
+
 export const metadata: Metadata = buildMetadata({
   title: 'Servicios de Jardinería Biológica | Biocultor',
   description:
@@ -82,26 +92,38 @@ export default function ServiciosPage() {
         description:
           'Hub de servicios profesionales de aplicación de té de humus de lombriz para césped, jardines, paisajistas, comunidades y empresas con zonas verdes.',
         path: '/servicios',
-        items: servicePages.map((service) => ({ name: service.title, path: service.href })),
+        items: [
+          ...servicePages.map((service) => ({ name: service.title, path: service.href })),
+          ...premiumServiceLinks.map((service) => ({ name: service.title, path: service.href })),
+        ],
       }),
       {
         '@type': 'ItemList',
         '@id': 'https://biocultor.com/servicios#service-list',
         name: 'Servicios profesionales Biocultor',
-        itemListElement: servicePages.map((service, index) => ({
+        itemListElement: [
+          ...servicePages.map((service) => ({
+            name: service.title,
+            description: service.description,
+            href: service.href,
+            areaServed: 'España',
+          })),
+          ...premiumServiceLinks.map((service) => ({
+            name: service.title,
+            description: service.description,
+            href: service.href,
+            areaServed: service.zone,
+          })),
+        ].map((service, index) => ({
           '@type': 'ListItem',
           position: index + 1,
           item: {
             '@type': 'Service',
-            name: service.title,
+            name: service.name,
             description: service.description,
             url: `https://biocultor.com${service.href}`,
             provider: { '@id': 'https://biocultor.com/#organization' },
-            areaServed: [
-              { '@type': 'AdministrativeArea', name: 'Comunidad de Madrid' },
-              { '@type': 'AdministrativeArea', name: 'Castilla-La Mancha' },
-              { '@type': 'Country', name: 'España' },
-            ],
+            areaServed: { '@type': 'AdministrativeArea', name: service.areaServed },
           },
         })),
       },
@@ -158,6 +180,41 @@ export default function ServiciosPage() {
                   <p className="text-sm text-muted-foreground leading-relaxed mt-1">{item.text}</p>
                 </div>
               </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="py-10 md:py-14 border-t border-border/60">
+          <div className="max-w-3xl mb-8">
+            <h2 className="font-heading text-3xl font-bold text-foreground">Servicios premium por tipo de cliente</h2>
+            <p className="text-muted-foreground mt-3">
+              Landings específicas para búsquedas de alto valor: chalets, comunidades, empresas, hostelería, paisajistas y zonas verdes donde la intervención debe ser clara, trazable y justificable.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+            {premiumServiceLinks.map((service) => (
+              <Link
+                key={service.href}
+                href={service.href}
+                className="border border-border/60 bg-card rounded-2xl p-5 hover:border-primary/50 transition-colors flex flex-col gap-4"
+              >
+                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                  <Leaf className="w-5 h-5" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-heading font-bold text-lg text-foreground leading-tight">{service.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{service.description}</p>
+                </div>
+                <div className="mt-auto space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-primary">{service.audience}</p>
+                  <p className="text-xs text-muted-foreground">{service.zone}</p>
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                    Ver servicio
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </section>
