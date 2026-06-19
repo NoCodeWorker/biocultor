@@ -34,7 +34,19 @@ type FAQItem = {
   answer: string;
 };
 
-export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
+type ServicePageOption = {
+  slug: string;
+  title: string;
+  label: string | null;
+};
+
+export default function ServicePageEditor({
+  page,
+  servicePages,
+}: {
+  page: SeoPageRecord;
+  servicePages: ServicePageOption[];
+}) {
   const [title, setTitle] = useState(page.title);
   const [metaTitle, setMetaTitle] = useState(page.metaTitle || '');
   const [metaDescription, setMetaDescription] = useState(page.metaDescription || '');
@@ -146,7 +158,7 @@ export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
         </div>
         <div className="flex items-center gap-3">
           <a
-            href={page.slug === 'regeneracion-cesped-y-jardines' ? '/servicios/regeneracion-cesped-y-jardines' : '/servicios/te-humus-paisajistas-jardineros'}
+            href={`/servicios/${page.slug}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-xs font-bold border border-border bg-card hover:bg-muted px-4 py-2 rounded-xl transition-all"
@@ -170,30 +182,24 @@ export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
         </div>
       </div>
       
-      {/* Service Selector Tabs */}
-      <div className="flex border-b border-border/60 bg-muted/20 p-1.5 rounded-2xl max-w-xl self-start gap-1">
-        <button
-          onClick={() => window.location.href = '/admin/servicios?slug=regeneracion-cesped-y-jardines'}
-          className={cn(
-            "flex-1 text-center py-2.5 px-4 rounded-xl text-xs font-bold transition-all truncate",
-            page.slug === 'regeneracion-cesped-y-jardines'
-              ? "bg-card text-foreground shadow-sm border border-border/50"
-              : "text-muted-foreground hover:text-foreground"
-          )}
+      {/* Service Selector */}
+      <div className="flex flex-col gap-2 max-w-2xl self-start">
+        <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+          Servicio editable
+        </label>
+        <select
+          value={page.slug}
+          onChange={(event) => {
+            window.location.href = `/admin/servicios?slug=${event.target.value}`;
+          }}
+          className="h-12 rounded-2xl border border-border/60 bg-card px-4 text-sm font-semibold outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10"
         >
-          Regeneración Césped y Jardines
-        </button>
-        <button
-          onClick={() => window.location.href = '/admin/servicios?slug=te-humus-paisajistas-jardineros'}
-          className={cn(
-            "flex-1 text-center py-2.5 px-4 rounded-xl text-xs font-bold transition-all truncate",
-            page.slug === 'te-humus-paisajistas-jardineros'
-              ? "bg-card text-foreground shadow-sm border border-border/50"
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          Té de Humus (Paisajistas/Jardineros)
-        </button>
+          {servicePages.map((service) => (
+            <option key={service.slug} value={service.slug}>
+              {service.label ? `${service.label}: ` : ''}{service.title}
+            </option>
+          ))}
+        </select>
       </div>
 
       {message && (
@@ -387,7 +393,7 @@ export default function ServicePageEditor({ page }: { page: SeoPageRecord }) {
               ))}
 
               {faqs.length === 0 && (
-                <p className="text-sm text-muted-foreground text-center py-6">No hay preguntas configuradas. Pulsa en "Añadir FAQ" para crear una.</p>
+                <p className="text-sm text-muted-foreground text-center py-6">No hay preguntas configuradas. Pulsa en &quot;Añadir FAQ&quot; para crear una.</p>
               )}
             </div>
           </div>

@@ -17,6 +17,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
 import { Button } from '@/components/ui/button';
 import { ImageComparison } from '@/components/ui/image-comparison';
+import prisma from '@/lib/db';
 import { absoluteUrl, breadcrumbSchema, buildMetadata, faqSchema, organizationSchema, websiteSchema } from '@/lib/seo';
 import { getPremiumServicePage, premiumServicePages } from '@/lib/premium-service-pages';
 
@@ -33,6 +34,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const page = getPremiumServicePage(slug);
+  const seoOverride = await getServiceSeoOverride(slug);
 
   if (!page) {
     return buildMetadata({
@@ -43,10 +45,10 @@ export async function generateMetadata({
   }
 
   return buildMetadata({
-    title: page.metaTitle,
-    description: page.metaDescription,
+    title: seoOverride?.metaTitle || page.metaTitle,
+    description: seoOverride?.metaDescription || page.metaDescription,
     path: `/servicios/${page.slug}`,
-    image: page.visualProof.after,
+    image: seoOverride?.image || getVisualOverrides(page, seoOverride).after,
     keywords: [
       page.targetKeyword,
       page.segment,
@@ -65,6 +67,7 @@ export default async function PremiumServicePage({
 }) {
   const { slug } = await params;
   const page = getPremiumServicePage(slug);
+  const seoOverride = await getServiceSeoOverride(slug);
 
   if (!page) {
     notFound();
@@ -73,6 +76,7 @@ export default async function PremiumServicePage({
   const servicePath = `/servicios/${page.slug}`;
   const budgetHref = `/contacto?servicio=${page.slug}`;
   const productHref = '/producto/te-humus-liquido-premium';
+  const visualProof = getVisualOverrides(page, seoOverride);
   const breadcrumbs = [
     { label: 'Inicio', href: '/' },
     { label: 'Servicios', href: '/servicios' },
@@ -84,7 +88,7 @@ export default async function PremiumServicePage({
     '@id': `${absoluteUrl(servicePath)}#service`,
     name: page.title,
     serviceType: page.targetKeyword,
-    description: page.metaDescription,
+    description: seoOverride?.metaDescription || page.metaDescription,
     provider: { '@id': `${absoluteUrl('/')}#organization` },
     url: absoluteUrl(servicePath),
     areaServed: {
@@ -184,15 +188,15 @@ export default async function PremiumServicePage({
           <div className="lg:col-span-6">
             <div className="h-[320px] md:h-[460px] rounded-3xl overflow-hidden border border-border/50 shadow-xl shadow-foreground/5">
               <ImageComparison
-                beforeSrc={page.visualProof.before}
-                afterSrc={page.visualProof.after}
+                beforeSrc={visualProof.before}
+                afterSrc={visualProof.after}
                 beforeAlt={`Antes de ${page.title}`}
                 afterAlt={`Después orientativo de ${page.title}`}
                 className="h-full w-full"
               />
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed mt-3">
-              {page.visualProof.caption}
+              {visualProof.caption}
             </p>
           </div>
         </section>
@@ -364,4 +368,45 @@ export default async function PremiumServicePage({
       </div>
     </main>
   );
+}
+
+async function getServiceSeoOverride(slug: string) {
+  try {
+    const page = await prisma.seoPage.findUnique({
+      where: { slug },
+      select: {
+        metaTitle: true,
+        metaDescription: true,
+        image: true,
+        payloadJson: true,
+      },
+    });
+    return page;
+  } catch {
+    return null;
+  }
+}
+
+function getVisualOverrides(
+  page: NonNullable<ReturnType<typeof getPremiumServicePage>>,
+  seoOverride: Awaited<ReturnType<typeof getServiceSeoOverride>>
+) {
+  let payload: Record<string, unknown> = {};
+  try {
+    payload = seoOverride?.payloadJson ? JSON.parse(seoOverride.payloadJson) : {};
+  } catch {
+    payload = {};
+  }
+
+  const before = typeof payload.beforeImage === 'string' && payload.beforeImage.trim()
+    ? payload.beforeImage
+    : page.visualProof.before;
+  const after = typeof payload.afterImage === 'string' && payload.afterImage.trim()
+    ? payload.afterImage
+    : seoOverride?.image || page.visualProof.after;
+  const caption = typeof payload.visualCaption === 'string' && payload.visualCaption.trim()
+    ? payload.visualCaption
+    : page.visualProof.caption;
+
+  return { before, after, caption };
 }

@@ -24,6 +24,7 @@ function revalidateSeoPaths(kind: string, slug: string) {
 
   if (kind === 'SERVICIO') {
     revalidatePath('/servicios');
+    revalidatePath('/admin/servicios');
     revalidatePath(`/servicios/${slug}`);
     return;
   }

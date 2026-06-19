@@ -1,8 +1,7 @@
 import prisma from '@/lib/db';
 import Link from 'next/link';
 import { PenSquare, Plus, Eye, EyeOff, ArrowRight, FileText, BookOpen } from 'lucide-react';
-import { seoArticles, seoArticlesOrtiga } from '@/lib/seo-content';
-import { articleToMarkdown, mapCategory } from '@/lib/article-to-md';
+import { syncDashboardBlogPosts } from '@/lib/admin/editorial-dashboard-sync';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,37 +13,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export default async function AdminBlogPage() {
-  // --- SYNC: Crea en BD los artículos de seo-content.ts que falten ---
-  // Solo INSERT (skip si el slug ya existe). Las ediciones del Dashboard no se tocan.
-  const allStatic = [...seoArticles, ...seoArticlesOrtiga];
-
-  const existingInDb = await prisma.post.findMany({ select: { slug: true } });
-  const dbSlugs = new Set(existingInDb.map((p) => p.slug));
-
-  const missing = allStatic.filter((a) => !dbSlugs.has(a.slug));
-
-  if (missing.length > 0) {
-    await Promise.all(
-      missing.map((art) =>
-        prisma.post.create({
-          data: {
-            title:       art.title,
-            slug:        art.slug,
-            excerpt:     art.excerpt ?? '',
-            content:     articleToMarkdown(art),
-            category:    mapCategory(art.category),
-            metaTitle:   art.metaTitle,
-            metaDesc:    art.metaDescription,
-            keywords:    [art.title, art.category, 'biocultor'].join(', '),
-            coverImage:  art.image ?? null,
-            isPublished: true,
-            author:      'Equipo Biocultor',
-          },
-        })
-      )
-    );
-  }
-  // -----------------------------------------------------------------------
+  await syncDashboardBlogPosts();
 
   const posts = await prisma.post.findMany({
     orderBy: { createdAt: 'desc' },
@@ -102,7 +71,7 @@ export default async function AdminBlogPage() {
           <div>
             <p className="font-bold text-foreground">Gestión de Landings Especiales</p>
             <p className="text-muted-foreground mt-0.5">
-              La landing "Protocolo Profesional" se edita desde la sección de Landings & SEO para permitir configuraciones avanzadas.
+              La landing &quot;Protocolo Profesional&quot; se edita desde la sección de Landings & SEO para permitir configuraciones avanzadas.
             </p>
           </div>
         </div>

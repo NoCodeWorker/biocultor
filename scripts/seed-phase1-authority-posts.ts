@@ -10,15 +10,15 @@
  */
 
 import { PrismaClient } from '../generated/prisma/index.js';
+import { pathToFileURL } from 'node:url';
 
-const prisma = new PrismaClient();
 const SEED_AUTHOR = 'Equipo Biocultor';
 
 function isSeedManaged(post: { author: string | null }) {
   return post.author === SEED_AUTHOR;
 }
 
-const phase1AuthorityPosts = [
+export const phase1AuthorityPosts = [
   {
     title: 'Té de humus líquido vs humus sólido en jardines premium: cuándo elegir cada uno',
     slug: 'te-humus-liquido-vs-humus-solido-jardines-premium',
@@ -641,67 +641,72 @@ Cuando hay superficie, incertidumbre o necesidad de justificar la intervención.
 ];
 
 async function main() {
+  const prisma = new PrismaClient();
   const slugs = phase1AuthorityPosts.map((post) => post.slug);
-  const existing = await prisma.post.findMany({
-    where: { slug: { in: slugs } },
-    select: {
-      slug: true,
-      author: true,
-      coverImage: true,
-    },
-  });
-  const existingBySlug = new Map(existing.map((post) => [post.slug, post]));
-
-  console.log(`\n📦 Verificando ${phase1AuthorityPosts.length} artículos Fase 1 en BD...`);
-
-  let created = 0;
-  let refreshed = 0;
-  let skipped = 0;
-
-  for (const post of phase1AuthorityPosts) {
-    const current = existingBySlug.get(post.slug);
-    const payload = {
-      title: post.title,
-      slug: post.slug,
-      excerpt: post.excerpt,
-      content: post.content.trim(),
-      category: post.category,
-      isPublished: true,
-      author: SEED_AUTHOR,
-      coverImage: current?.coverImage?.startsWith('/uploads/') ? current.coverImage : post.coverImage,
-      coverImageAlt: post.coverImageAlt,
-      metaTitle: post.metaTitle,
-      metaDesc: post.metaDesc,
-      keywords: post.keywords,
-    };
-
-    if (!current) {
-      await prisma.post.create({ data: payload });
-      created++;
-      console.log(`  ✅ Creado: /aprende/${post.slug}`);
-      continue;
-    }
-
-    if (!isSeedManaged(current)) {
-      skipped++;
-      console.log(`  ↩️ Omitido por autor no gestionado por seed: /aprende/${post.slug}`);
-      continue;
-    }
-
-    await prisma.post.update({
-      where: { slug: post.slug },
-      data: payload,
+  try {
+    const existing = await prisma.post.findMany({
+      where: { slug: { in: slugs } },
+      select: {
+        slug: true,
+        author: true,
+        coverImage: true,
+      },
     });
-    refreshed++;
-    console.log(`  🔄 Actualizado desde seed curado: /aprende/${post.slug}`);
-  }
+    const existingBySlug = new Map(existing.map((post) => [post.slug, post]));
 
-  console.log(`\n🎉 Seed Fase 1 terminado. Creados: ${created}. Actualizados: ${refreshed}. Omitidos: ${skipped}.\n`);
+    console.log(`\n📦 Verificando ${phase1AuthorityPosts.length} artículos Fase 1 en BD...`);
+
+    let created = 0;
+    let refreshed = 0;
+    let skipped = 0;
+
+    for (const post of phase1AuthorityPosts) {
+      const current = existingBySlug.get(post.slug);
+      const payload = {
+        title: post.title,
+        slug: post.slug,
+        excerpt: post.excerpt,
+        content: post.content.trim(),
+        category: post.category,
+        isPublished: true,
+        author: SEED_AUTHOR,
+        coverImage: current?.coverImage?.startsWith('/uploads/') ? current.coverImage : post.coverImage,
+        coverImageAlt: post.coverImageAlt,
+        metaTitle: post.metaTitle,
+        metaDesc: post.metaDesc,
+        keywords: post.keywords,
+      };
+
+      if (!current) {
+        await prisma.post.create({ data: payload });
+        created++;
+        console.log(`  ✅ Creado: /aprende/${post.slug}`);
+        continue;
+      }
+
+      if (!isSeedManaged(current)) {
+        skipped++;
+        console.log(`  ↩️ Omitido por autor no gestionado por seed: /aprende/${post.slug}`);
+        continue;
+      }
+
+      await prisma.post.update({
+        where: { slug: post.slug },
+        data: payload,
+      });
+      refreshed++;
+      console.log(`  🔄 Actualizado desde seed curado: /aprende/${post.slug}`);
+    }
+
+    console.log(`\n🎉 Seed Fase 1 terminado. Creados: ${created}. Actualizados: ${refreshed}. Omitidos: ${skipped}.\n`);
+  } finally {
+    await prisma.$disconnect();
+  }
 }
 
-main()
-  .catch((error) => {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
     console.error('❌ Error fatal en seed-phase1-authority-posts:', error);
     process.exit(1);
-  })
-  .finally(() => prisma.$disconnect());
+  });
+}

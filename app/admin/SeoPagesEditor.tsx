@@ -86,10 +86,10 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
     setItems((current) =>
       current.map((item) => {
         if (item.id !== id) return item;
-        let payload: any = {};
+        let payload: Record<string, unknown> = {};
         try {
           payload = JSON.parse(item.payloadJson || '{}');
-        } catch (e) {
+        } catch {
           payload = {};
         }
         const newPayload = { ...payload, [key]: value };
@@ -406,11 +406,56 @@ export default function SeoPagesEditor({ pages }: { pages: SeoPageRecord[] }) {
                   </div>
 
                   {item.kind === 'SERVICIO' && (
-                    <div className="p-6 rounded-[1.5rem] bg-primary/5 border border-primary/20 space-y-3">
-                      <h4 className="font-heading font-bold text-foreground">💡 Editor de Servicios Disponible</h4>
+                    <div className="p-6 rounded-[1.5rem] bg-primary/5 border border-primary/20 space-y-6">
+                      <div className="space-y-2">
+                        <h4 className="font-heading font-bold text-foreground">Editor visual de servicio</h4>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          Las nuevas landings de servicios leen estas imágenes desde <code className="text-xs bg-background px-1 py-0.5 rounded">payloadJson.beforeImage</code> y <code className="text-xs bg-background px-1 py-0.5 rounded">payloadJson.afterImage</code>. El campo Imagen superior se usa como portada/OG y fallback de imagen final.
+                        </p>
+                      </div>
+                      <div className="grid gap-6 md:grid-cols-2">
+                        <ImageUploader
+                          label="Imagen antes"
+                          value={(() => {
+                            try { return JSON.parse(item.payloadJson).beforeImage || ''; } catch { return ''; }
+                          })()}
+                          onChange={(url) => updatePayloadField(item.id, 'beforeImage', url || '')}
+                          size="lg"
+                          allowManual
+                          hint="Imagen previa, zona degradada o estado inicial del jardín."
+                        />
+                        <ImageUploader
+                          label="Imagen después"
+                          value={(() => {
+                            try { return JSON.parse(item.payloadJson).afterImage || ''; } catch { return ''; }
+                          })()}
+                          onChange={(url) => {
+                            updatePayloadField(item.id, 'afterImage', url || '');
+                            updateField(item.id, 'image', url || '');
+                          }}
+                          size="lg"
+                          allowManual
+                          hint="Imagen principal de resultado/estado objetivo. También actualiza la portada SEO."
+                        />
+                      </div>
+                      <label className="flex flex-col gap-2">
+                        <span className="text-sm font-semibold">Leyenda visual</span>
+                        <textarea
+                          rows={3}
+                          value={(() => {
+                            try { return JSON.parse(item.payloadJson).visualCaption || ''; } catch { return ''; }
+                          })()}
+                          onChange={(event) => updatePayloadField(item.id, 'visualCaption', event.target.value)}
+                          className="rounded-xl border border-border/50 bg-background p-4 outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10"
+                          placeholder="La comparación es orientativa y depende de riego, suelo y estado inicial."
+                        />
+                      </label>
+                      <div className="space-y-2">
+                        <h4 className="font-heading font-bold text-foreground">Gestor especializado</h4>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         Este registro es un servicio. Puedes editar su meta title y meta description aquí, pero para gestionar el precio, imágenes antes/después, trust badges y preguntas frecuentes de forma visual, te recomendamos usar el <a href="/admin/servicios" className="text-primary font-bold underline">Gestor de Servicios Especializado</a>.
                       </p>
+                      </div>
                     </div>
                   )}
 
