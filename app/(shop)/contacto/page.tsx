@@ -3,14 +3,22 @@ import { Suspense } from 'react';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
 import { Button } from '@/components/ui/button';
-import { breadcrumbSchema } from '@/lib/seo';
+import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 
 import ContactForm from '@/components/ContactForm';
 
-export const metadata = {
+export const metadata = buildMetadata({
   title: 'Contacto | Soporte Biocultor',
-  description: 'Háblanos sobre tu finca, tus cultivos o resuelve dudas de envío. El equipo técnico de Biocultor te asesorará en menos de 24 horas.',
-};
+  description:
+    'Habla con Biocultor sobre compra de te de humus, purin de ortiga o servicios de aplicacion profesional para jardines, fincas y empresas.',
+  path: '/contacto',
+  keywords: [
+    'contacto Biocultor',
+    'presupuesto aplicacion humus jardin',
+    'asesoramiento te de humus',
+    'servicio aplicacion humus liquido',
+  ],
+});
 
 export default function ContactoPage() {
   return (
