@@ -72,7 +72,7 @@ export default function GoogleAnalyticsLazy({ gaId }: GoogleAnalyticsLazyProps) 
       window.addEventListener('keydown', loadGA, { passive: true });
 
       // Fallback after the critical render path; preserves non-interactive visits.
-      timeoutId = setTimeout(loadGA, 8000);
+      timeoutId ??= setTimeout(loadGA, 8000);
     }
 
     scheduleGA();

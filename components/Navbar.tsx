@@ -76,10 +76,25 @@ export default function Navbar() {
 
   useEffect(() => {
     const mountedTimer = setTimeout(() => setMounted(true), 0);
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    let ticking = false;
+    let rafId: number | null = null;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      rafId = window.requestAnimationFrame(() => {
+        setScrolled((current) => {
+          const next = window.scrollY > 20;
+          return current === next ? current : next;
+        });
+        ticking = false;
+        rafId = null;
+      });
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => {
       clearTimeout(mountedTimer);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);

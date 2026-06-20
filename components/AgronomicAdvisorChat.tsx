@@ -2,7 +2,7 @@
 
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
-import { useState, useRef, useEffect, useCallback, FormEvent } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo, FormEvent } from 'react';
 import { X, Send, Leaf, ShoppingCart, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,8 +23,12 @@ interface CrossSellData {
   bio5L: CrossSellVariant | null;
 }
 
-export default function AgronomicAdvisorChat() {
-  const [isOpen, setIsOpen] = useState(false);
+interface AgronomicAdvisorChatProps {
+  initialOpen?: boolean;
+}
+
+export default function AgronomicAdvisorChat({ initialOpen = false }: AgronomicAdvisorChatProps) {
+  const [isOpen, setIsOpen] = useState(initialOpen);
   const [input, setInput] = useState('');
   const [crossSellData, setCrossSellData] = useState<CrossSellData | null>(null);
 
@@ -69,10 +73,13 @@ export default function AgronomicAdvisorChat() {
   // lee el contexto más reciente del carrito y el stock sin reinicializar el hook.
   const cartContextRef = useRef<string | null>(null);
   const stockContextRef = useRef<string | null>(null);
+  const cartContext = useMemo(() => buildCartContext(), [buildCartContext]);
+  const stockContext = useMemo(() => buildStockContext(), [buildStockContext]);
 
-  // Actualizar las refs antes de cada render
-  cartContextRef.current = buildCartContext();
-  stockContextRef.current = buildStockContext();
+  useEffect(() => {
+    cartContextRef.current = cartContext;
+    stockContextRef.current = stockContext;
+  }, [cartContext, stockContext]);
 
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({

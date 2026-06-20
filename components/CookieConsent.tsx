@@ -25,8 +25,12 @@ export default function CookieConsent() {
   useEffect(() => {
     // Retrasar un poco la aparición para que no sea tan brusco al cargar
     const timer = setTimeout(() => {
-      const consent = localStorage.getItem(CONSENT_KEY);
-      if (!consent) {
+      try {
+        const consent = localStorage.getItem(CONSENT_KEY);
+        if (!consent) {
+          setShow(true);
+        }
+      } catch {
         setShow(true);
       }
     }, 1500);
@@ -34,19 +38,31 @@ export default function CookieConsent() {
   }, []);
 
   const acceptAll = () => {
-    localStorage.setItem(CONSENT_KEY, 'all');
+    try {
+      localStorage.setItem(CONSENT_KEY, 'all');
+    } catch {
+      // Consent remains session-only when storage is unavailable.
+    }
     notifyConsentChange();
     setShow(false);
   };
 
   const acceptSelected = () => {
-    localStorage.setItem(CONSENT_KEY, JSON.stringify(preferences));
+    try {
+      localStorage.setItem(CONSENT_KEY, JSON.stringify(preferences));
+    } catch {
+      // Consent remains session-only when storage is unavailable.
+    }
     notifyConsentChange();
     setShow(false);
   };
 
   const declineAll = () => {
-    localStorage.setItem(CONSENT_KEY, 'necessary-only');
+    try {
+      localStorage.setItem(CONSENT_KEY, 'necessary-only');
+    } catch {
+      // Consent remains session-only when storage is unavailable.
+    }
     notifyConsentChange();
     setShow(false);
   };

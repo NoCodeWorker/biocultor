@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import GoogleAnalyticsLazy from '@/components/GoogleAnalyticsLazy';
 import { DM_Sans, Quicksand } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import { buildMetadata, organizationSchema, websiteSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
@@ -58,9 +57,7 @@ export default function RootLayout({
         {gaId && <GoogleAnalyticsLazy gaId={gaId} />}
         <StructuredData id="organization-schema" data={organizationSchema()} />
         <StructuredData id="website-schema" data={websiteSchema()} />
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        {children}
         <CookieConsentLazy />
       </body>
     </html>

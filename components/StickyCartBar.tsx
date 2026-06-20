@@ -1,12 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ShoppingBag, Star, Truck, ShieldCheck, Flame } from 'lucide-react';
+import { ShoppingBag, Star, Truck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
 
+type StickyCartVariant = {
+  id: string;
+  size: string;
+  price: number;
+  stock?: number | null;
+  popular?: boolean | null;
+  imagePath?: string | null;
+  image?: string | null;
+};
+
 interface StickyCartBarProps {
-  variants: any[];
+  variants: StickyCartVariant[];
   productName: string;
 }
 
@@ -18,12 +28,27 @@ export default function StickyCartBar({ variants, productName }: StickyCartBarPr
   const isOutOfStock = !selectedVariant || !selectedVariant.stock || selectedVariant.stock <= 0;
 
   useEffect(() => {
+    let ticking = false;
+    let rafId: number | null = null;
     const handleScroll = () => {
-      // Show after scrolling past 600px (after the main CTA)
-      setVisible(window.scrollY > 600);
+      if (ticking) return;
+      ticking = true;
+      rafId = window.requestAnimationFrame(() => {
+        // Show after scrolling past 600px (after the main CTA)
+        setVisible((current) => {
+          const next = window.scrollY > 600;
+          return current === next ? current : next;
+        });
+        ticking = false;
+        rafId = null;
+      });
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleAddToCart = () => {
