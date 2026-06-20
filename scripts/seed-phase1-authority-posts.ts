@@ -30,8 +30,8 @@ export const phase1AuthorityPosts = [
       'Guía evidence-led para elegir entre té de humus líquido y humus sólido en césped, arriates y jardines premium. Criterios de compra y servicio.',
     keywords:
       'té de humus líquido vs humus sólido, humus de lombriz jardín premium, comprar té de humus, servicio aplicación humus',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt: 'Jardín premium mantenido con manejo biológico de suelo',
+    coverImage: '/media/editorial/aprende-te-humus-liquido-vs-humus-solido-jardines-premium.webp',
+    coverImageAlt: 'Infografía realista de té de humus líquido y humus sólido para elegir formato en jardines premium',
     content: `## Qué pregunta responde
 
 En un jardín premium, el dilema no es si el humus de lombriz es "bueno". La pregunta útil es qué formato encaja mejor con el problema: humus sólido para mejorar estructura y aporte orgánico visible, o [té de humus líquido](https://biocultor.com/producto/te-humus-liquido-premium) cuando necesitas una aplicación limpia, rápida de repartir y compatible con riego o pulverización.
@@ -97,8 +97,8 @@ Conviene valorar una intervención combinada. El líquido puede apoyar, pero qui
       'Aplicación de té de humus en césped sin quemaduras ni manchas: criterios de dilución, riego, cobertura y cuándo contratar servicio.',
     keywords:
       'aplicar té de humus césped, humus líquido césped sin quemar, té de humus para jardín, servicio regeneración césped',
-    coverImage: '/servicios-cesped-antes.webp',
-    coverImageAlt: 'Césped antes de una aplicación técnica de té de humus',
+    coverImage: '/media/editorial/aprende-aplicar-te-humus-cesped-sin-quemarlo.webp',
+    coverImageAlt: 'Infografía de aplicación segura de té de humus en césped con dilución, cobertura y riego posterior',
     content: `## Qué pregunta responde
 
 La palabra "quemar" suele asociarse a fertilizantes con sales o dosis de nitrógeno mal ajustadas. El [té de humus de lombriz](https://biocultor.com/producto/te-humus-liquido-premium) no debe comunicarse como un abono agresivo, pero una mala aplicación puede crear manchas por cobertura irregular, riego deficiente o expectativas equivocadas.
@@ -170,8 +170,8 @@ Depende del estado de suelo, riego y continuidad. No debe venderse como cambio i
       'Guía para decidir entre comprar té de humus o contratar aplicación profesional en césped, comunidades, chalets y jardines premium.',
     keywords:
       'contratar aplicación té de humus, servicio humus jardín, aplicación profesional humus lombriz, jardín premium',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt: 'Aplicación profesional de té de humus en jardín amplio',
+    coverImage: '/media/editorial/aprende-cuando-contratar-aplicacion-profesional-te-humus-jardin.webp',
+    coverImageAlt: 'Servicio profesional de aplicación de té de humus en jardín amplio con diagnóstico y seguimiento',
     content: `## Qué pregunta responde
 
 Comprar producto es eficiente cuando sabes aplicarlo. Contratar aplicación profesional tiene sentido cuando la superficie, la incertidumbre o el coste de equivocarse son altos. En jardines premium, la decisión no es solo agronómica: también es logística, estética y de responsabilidad.
@@ -247,8 +247,8 @@ Superficie, objetivo, método de aplicación, producto usado, limitaciones y pau
       'Guía evidence-led sobre humus líquido, compactación, césped y jardines. Qué puede aportar y cuándo hace falta aireación o servicio profesional.',
     keywords:
       'humus líquido suelos compactados, té de humus suelo compacto, césped compactado, regeneración jardín',
-    coverImage: '/servicios-cesped-antes.webp',
-    coverImageAlt: 'Césped debilitado por posible compactación y estrés del suelo',
+    coverImage: '/media/editorial/aprende-humus-liquido-suelos-compactados-jardines.webp',
+    coverImageAlt: 'Diagnóstico de suelo compactado en jardín y uso prudente de humus líquido con enfoque biológico',
     content: `## Qué pregunta responde
 
 Muchos jardines se degradan aunque se abonen. El problema puede estar bajo el césped: compactación, mala infiltración, raíces superficiales y suelo con poca actividad. El [humus líquido](https://biocultor.com/producto/te-humus-liquido-premium) puede formar parte del manejo, pero no debe venderse como sustituto de la corrección física.
@@ -329,8 +329,8 @@ Señales: agua que escurre, raíz superficial, dureza al pisar y manchas que rea
       'Guía para jardines familiares: humus de lombriz, bajo residuo visible, mascotas, niños, riego y cuándo contratar aplicación profesional.',
     keywords:
       'humus de lombriz mascotas niños, abono seguro jardín mascotas, té de humus jardín familiar, bajo residuo visible',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt: 'Jardín familiar con césped mantenido mediante aplicación biológica',
+    coverImage: '/media/editorial/aprende-humus-lombriz-jardines-mascotas-ninos.webp',
+    coverImageAlt: 'Jardín familiar con mascotas y niños tratado con humus de lombriz de bajo residuo visible',
     content: `## Qué pregunta responde
 
 En chalets y comunidades, la objeción no es solo "funciona". Muchas familias preguntan si el jardín quedará limpio, si habrá olor, si se podrá pisar y si conviene evitar abonos químicos agresivos. La respuesta debe ser honesta: el humus de lombriz no debe presentarse como garantía absoluta, sino como una opción de bajo residuo visible dentro de un manejo responsable.
@@ -406,8 +406,8 @@ Sí como enfoque de bajo residuo, siempre coordinando horarios, riego y comunica
       'Cómo mantener jardines premium con aplicación líquida de humus: bajo residuo visible, trazabilidad y servicio profesional para zonas verdes.',
     keywords:
       'mantenimiento jardines bajo residuo, humus líquido jardines premium, servicio zonas verdes, jardinería biológica empresas',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt: 'Zona verde premium con mantenimiento de bajo residuo visible',
+    coverImage: '/media/editorial/aprende-mantenimiento-jardines-bajo-residuo-visible.webp',
+    coverImageAlt: 'Mantenimiento biológico de jardín premium con aplicación limpia y bajo residuo visible',
     content: `## Qué pregunta responde
 
 En un hotel, una comunidad premium o una empresa con jardín, el mantenimiento no puede parecer una obra. Importan la limpieza, el olor, la ausencia de residuos visibles y la capacidad de programar la intervención sin molestar.
@@ -485,8 +485,8 @@ Sí, como intervención puntual o rutina de suministro y aplicación.
       'Guía técnica sobre té de humus y riego por goteo en jardines ornamentales: filtrado, equipos, riesgos y cuándo pedir servicio.',
     keywords:
       'té de humus riego por goteo jardín, humus líquido goteo ornamental, té de humus Venturi, aplicación humus paisajistas',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt: 'Jardín ornamental con riego localizado y mantenimiento biológico',
+    coverImage: '/media/editorial/aprende-riego-goteo-jardines-ornamentales-te-humus.webp',
+    coverImageAlt: 'Té de humus en jardín ornamental con riego por goteo, filtrado, dilución y prueba de emisor',
     content: `## Qué pregunta responde
 
 Muchos jardineros quieren aplicar [té de humus](https://biocultor.com/producto/te-humus-liquido-premium) por riego por goteo o Venturi. La pregunta correcta no es solo si se puede, sino si el equipo lo permite: filtros, boquillas, presión, mantenimiento y calidad del producto.
@@ -567,8 +567,8 @@ Sí como parte de una rutina de suelo, sin sustituir riego correcto ni diagnóst
       'Guía para estimar coste por m2 de humus líquido en jardines, comunidades y zonas verdes. Compra directa vs servicio profesional.',
     keywords:
       'coste m2 humus líquido jardín, precio aplicar té de humus, presupuesto humus césped, servicio aplicación humus',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt: 'Jardín amplio para cálculo de coste por metro cuadrado',
+    coverImage: '/media/editorial/aprende-coste-m2-aplicar-humus-liquido-jardin.webp',
+    coverImageAlt: 'Estimación de coste por metro cuadrado para aplicar humus líquido en un jardín con medición de superficie',
     content: `## Qué pregunta responde
 
 El coste por metro cuadrado no depende solo del producto. Depende de superficie real, método de aplicación, mano de obra, agua, desplazamiento, estado del jardín y seguimiento. Por eso una cifra aislada puede ser engañosa.

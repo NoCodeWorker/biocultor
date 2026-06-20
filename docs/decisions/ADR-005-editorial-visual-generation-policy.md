@@ -44,6 +44,7 @@ Editorial images must preserve these brand cues:
 - realistic Spanish garden, huerto, chalet, community garden or professional landscaping setting;
 - dark green Biocultor accents;
 - cream infographic panels;
+- Quicksand typography for infographic titles, labels and CTA strips, matching the website visual identity;
 - simple agronomic line icons;
 - readable hierarchy with large title, short benefit blocks and one practical takeaway;
 - no generic stock-photo look;

@@ -57,9 +57,9 @@ export const premiumSegmentServicePages: PremiumServicePage[] = [
       'No debe venderse como verde instantáneo; la respuesta depende del estado inicial.',
     ],
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La comparación antes/después ilustra el tipo de mejora buscada, no una garantía universal.',
+      before: '/media/editorial/servicios-regeneracion-cesped-chalets.webp',
+      after: '/media/editorial/servicios-regeneracion-cesped-chalets.webp',
+      caption: 'Visual de diagnóstico y aplicación para chalets; representa la metodología de trabajo, no una garantía universal de resultado.',
     },
     reference: {
       title: 'Soil Health',
@@ -112,9 +112,9 @@ export const premiumSegmentServicePages: PremiumServicePage[] = [
       'No debe presentarse como garantía estética inmediata ante vecinos.',
     ],
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La prueba visual debe acompañarse de explicación técnica y límites de la intervención.',
+      before: '/media/editorial/servicios-aplicacion-humus-comunidades-vecinos.webp',
+      after: '/media/editorial/servicios-aplicacion-humus-comunidades-vecinos.webp',
+      caption: 'Visual de intervención limpia en comunidades; la trazabilidad y la pauta posterior son parte del servicio.',
     },
     reference: {
       title: 'Soil Organic Carbon: the hidden potential',
@@ -167,9 +167,9 @@ export const premiumSegmentServicePages: PremiumServicePage[] = [
       'Debe medirse por continuidad y trazabilidad, no por un cambio inmediato aislado.',
     ],
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'El antes/después ayuda a explicar la intervención, pero debe documentarse con contexto.',
+      before: '/media/editorial/servicios-mantenimiento-biologico-jardines-empresas.webp',
+      after: '/media/editorial/servicios-mantenimiento-biologico-jardines-empresas.webp',
+      caption: 'Visual de mantenimiento biológico para jardines corporativos y zonas verdes representativas.',
     },
     reference: {
       title: 'Soil Health',
@@ -222,9 +222,9 @@ export const premiumSegmentServicePages: PremiumServicePage[] = [
       'No es una solución estética instantánea si el jardín ya está degradado.',
     ],
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La mejora visual debe interpretarse junto al calendario de riego y mantenimiento.',
+      before: '/media/editorial/servicios-aplicacion-humus-hoteles-restaurantes-jardin.webp',
+      after: '/media/editorial/servicios-aplicacion-humus-hoteles-restaurantes-jardin.webp',
+      caption: 'Visual de aplicación discreta en jardines visibles al cliente, con enfoque de bajo residuo.',
     },
     reference: {
       title: 'Soil Organic Carbon: the hidden potential',
@@ -277,9 +277,9 @@ export const premiumSegmentServicePages: PremiumServicePage[] = [
       'Si el riego falla, el producto no corregirá la causa.',
     ],
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'El antes/después debe leerse como ejemplo de intervención, no como promesa.',
+      before: '/media/editorial/servicios-tratamiento-biologico-cesped-amarillo.webp',
+      after: '/media/editorial/servicios-tratamiento-biologico-cesped-amarillo.webp',
+      caption: 'Visual de diagnóstico de césped amarillo; la causa debe leerse antes de aplicar cualquier tratamiento.',
     },
     reference: {
       title: 'Soil Health',
@@ -332,9 +332,9 @@ export const premiumSegmentServicePages: PremiumServicePage[] = [
       'No debe mezclarse con productos incompatibles sin revisión previa.',
     ],
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La prueba visual puede acompañar propuestas profesionales si se explica el contexto.',
+      before: '/media/editorial/servicios-servicio-paisajistas-madrid-toledo.webp',
+      after: '/media/editorial/servicios-servicio-paisajistas-madrid-toledo.webp',
+      caption: 'Visual B2B para paisajistas: cálculo de litros, suministro fresco y aplicación técnica cuando procede.',
     },
     reference: {
       title: 'Effects of humic acids from vermicomposts on plant growth',
@@ -387,9 +387,9 @@ export const premiumSegmentServicePages: PremiumServicePage[] = [
       'No debe prometer uniformidad si el parque tiene zonas muy distintas.',
     ],
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La prueba visual debe segmentarse por zonas para no ocultar diferencias de riego o uso.',
+      before: '/media/editorial/servicios-aplicacion-humus-parques-empresariales.webp',
+      after: '/media/editorial/servicios-aplicacion-humus-parques-empresariales.webp',
+      caption: 'Visual de aplicación en parques empresariales y complejos comerciales con planificación operativa.',
     },
     reference: {
       title: 'Soil Organic Carbon: the hidden potential',
@@ -442,9 +442,9 @@ export const premiumSegmentServicePages: PremiumServicePage[] = [
       'No debe prometer cero problemas; reduce incertidumbre dentro de una rutina.',
     ],
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La comparación visual debe acompañarse de una explicación de manejo, no de claims absolutos.',
+      before: '/media/editorial/servicios-zonas-verdes-sin-abonos-quimicos-agresivos.webp',
+      after: '/media/editorial/servicios-zonas-verdes-sin-abonos-quimicos-agresivos.webp',
+      caption: 'Visual de mantenimiento biológico de zonas verdes con enfoque prudente y bajo residuo visible.',
     },
     reference: {
       title: 'Soil Health',
@@ -509,9 +509,9 @@ export const premiumGeoServicePages: PremiumServicePage[] = [
       ],
     },
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La prueba visual es orientativa; en Pozuelo debe acompañarse de lectura de riego y uso real del jardín.',
+      before: '/media/editorial/servicios-regeneracion-cesped-pozuelo.webp',
+      after: '/media/editorial/servicios-regeneracion-cesped-pozuelo.webp',
+      caption: 'Visual local para jardines privados en Pozuelo: diagnóstico, aplicación biológica y pauta posterior.',
     },
     reference: {
       title: 'Soil Health',
@@ -573,9 +573,9 @@ export const premiumGeoServicePages: PremiumServicePage[] = [
       ],
     },
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La mejora visual debe entenderse dentro de una rutina de mantenimiento y riego.',
+      before: '/media/editorial/servicios-jardineria-biologica-la-moraleja.webp',
+      after: '/media/editorial/servicios-jardineria-biologica-la-moraleja.webp',
+      caption: 'Visual local para jardines premium en La Moraleja con intervención discreta y bajo residuo.',
     },
     reference: {
       title: 'Soil Organic Carbon: the hidden potential',
@@ -637,9 +637,9 @@ export const premiumGeoServicePages: PremiumServicePage[] = [
       ],
     },
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'El antes/después debe acompañarse de diagnóstico; no todas las zonas responden igual.',
+      before: '/media/editorial/servicios-recuperacion-jardines-las-rozas.webp',
+      after: '/media/editorial/servicios-recuperacion-jardines-las-rozas.webp',
+      caption: 'Visual local para recuperación de jardines en Las Rozas basada en diagnóstico, riego y seguimiento.',
     },
     reference: {
       title: 'Soil Health',
@@ -701,9 +701,9 @@ export const premiumGeoServicePages: PremiumServicePage[] = [
       ],
     },
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La evolución visual depende de continuidad, riego y estado inicial del suelo.',
+      before: '/media/editorial/servicios-mantenimiento-jardines-boadilla-del-monte.webp',
+      after: '/media/editorial/servicios-mantenimiento-jardines-boadilla-del-monte.webp',
+      caption: 'Visual local para mantenimiento de jardines en Boadilla del Monte con continuidad y bajo residuo.',
     },
     reference: {
       title: 'Soil Organic Carbon: the hidden potential',
@@ -765,9 +765,9 @@ export const premiumGeoServicePages: PremiumServicePage[] = [
       ],
     },
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La imagen orienta el tipo de mejora buscada; el presupuesto depende de superficie y estado.',
+      before: '/media/editorial/servicios-aplicacion-humus-majadahonda.webp',
+      after: '/media/editorial/servicios-aplicacion-humus-majadahonda.webp',
+      caption: 'Visual local para aplicación de humus líquido en jardines de Majadahonda con pauta técnica.',
     },
     reference: {
       title: 'Effects of humic acids from vermicomposts on plant growth',
@@ -829,9 +829,9 @@ export const premiumGeoServicePages: PremiumServicePage[] = [
       ],
     },
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'El antes/después ilustra el servicio, pero la planificación local determina la viabilidad.',
+      before: '/media/editorial/servicios-servicio-humus-jardines-aravaca.webp',
+      after: '/media/editorial/servicios-servicio-humus-jardines-aravaca.webp',
+      caption: 'Visual local para jardines en Aravaca con diagnóstico, aplicación limpia y bajo residuo.',
     },
     reference: {
       title: 'Soil Health',
@@ -893,9 +893,9 @@ export const premiumGeoServicePages: PremiumServicePage[] = [
       ],
     },
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'En Toledo la evolución depende especialmente del riego posterior y del estado real de la raíz.',
+      before: '/media/editorial/servicios-regeneracion-cesped-toledo.webp',
+      after: '/media/editorial/servicios-regeneracion-cesped-toledo.webp',
+      caption: 'Visual local para regeneración de césped en Toledo, con atención a calor, riego y suelo calizo.',
     },
     reference: {
       title: 'Soil Organic Carbon: the hidden potential',
@@ -957,9 +957,9 @@ export const premiumGeoServicePages: PremiumServicePage[] = [
       ],
     },
     visualProof: {
-      before: '/servicios-cesped-antes.webp',
-      after: '/servicios-cesped-despues.webp',
-      caption: 'La comparación visual debe acompañarse de revisión de suelo, riego y densidad vegetal.',
+      before: '/media/editorial/servicios-aplicacion-humus-jardines-illescas-sesena.webp',
+      after: '/media/editorial/servicios-aplicacion-humus-jardines-illescas-sesena.webp',
+      caption: 'Visual local para aplicación de humus en jardines residenciales del eje Illescas-Seseña.',
     },
     reference: {
       title: 'Soil Health',

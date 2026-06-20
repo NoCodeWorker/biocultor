@@ -212,64 +212,144 @@ export async function syncDashboardSeoPages() {
   const seeds = [protocolLandingSeed, ...legacyServiceSeoSeeds, ...buildPremiumServiceSeoSeeds()];
   const existing = await prisma.seoPage.findMany({
     where: { slug: { in: seeds.map((seed) => seed.slug) } },
-    select: { slug: true },
+    select: { id: true, slug: true, image: true, payloadJson: true },
   });
+  const existingBySlug = new Map(existing.map((item) => [item.slug, item]));
   const existingSlugs = new Set(existing.map((item) => item.slug));
   const missing = seeds.filter((seed) => !existingSlugs.has(seed.slug));
 
-  if (missing.length === 0) return { created: 0 };
+  if (missing.length > 0) {
+    await prisma.seoPage.createMany({
+      data: missing.map((seed) => ({
+        kind: seed.kind,
+        slug: seed.slug,
+        title: seed.title,
+        targetKeyword: seed.targetKeyword ?? null,
+        workflowStatus: seed.workflowStatus ?? 'READY',
+        priorityScore: seed.priorityScore ?? 50,
+        label: seed.label ?? null,
+        metaTitle: seed.metaTitle ?? null,
+        metaDescription: seed.metaDescription ?? null,
+        intro: seed.intro ?? null,
+        excerpt: seed.excerpt ?? null,
+        image: seed.image ?? null,
+        payloadJson: seed.payloadJson ?? '{}',
+        faqJson: seed.faqJson ?? '[]',
+        summaryJson: seed.summaryJson ?? '[]',
+        isPublished: seed.isPublished ?? true,
+      })),
+    });
+  }
 
-  await prisma.seoPage.createMany({
-    data: missing.map((seed) => ({
-      kind: seed.kind,
-      slug: seed.slug,
-      title: seed.title,
-      targetKeyword: seed.targetKeyword ?? null,
-      workflowStatus: seed.workflowStatus ?? 'READY',
-      priorityScore: seed.priorityScore ?? 50,
-      label: seed.label ?? null,
-      metaTitle: seed.metaTitle ?? null,
-      metaDescription: seed.metaDescription ?? null,
-      intro: seed.intro ?? null,
-      excerpt: seed.excerpt ?? null,
-      image: seed.image ?? null,
-      payloadJson: seed.payloadJson ?? '{}',
-      faqJson: seed.faqJson ?? '[]',
-      summaryJson: seed.summaryJson ?? '[]',
-      isPublished: seed.isPublished ?? true,
-    })),
-  });
+  let refreshedImages = 0;
+  for (const seed of seeds) {
+    const current = existingBySlug.get(seed.slug);
+    if (!current || !seed.image) continue;
 
-  return { created: missing.length };
+    const hasManualImage = current.image?.startsWith('/uploads/');
+    const nextPayloadJson = mergeVisualPayload(current.payloadJson, seed.payloadJson);
+    const shouldUpdateImage = !hasManualImage && current.image !== seed.image;
+    const shouldUpdatePayload = nextPayloadJson !== current.payloadJson;
+
+    if (!shouldUpdateImage && !shouldUpdatePayload) continue;
+
+    await prisma.seoPage.update({
+      where: { id: current.id },
+      data: {
+        ...(shouldUpdateImage ? { image: seed.image } : {}),
+        ...(shouldUpdatePayload ? { payloadJson: nextPayloadJson } : {}),
+      },
+    });
+    refreshedImages++;
+  }
+
+  return { created: missing.length, refreshedImages };
 }
 
 export async function syncDashboardBlogPosts() {
   const seeds = buildStaticArticleSeeds();
   const existing = await prisma.post.findMany({
     where: { slug: { in: seeds.map((seed) => seed.slug) } },
-    select: { slug: true },
+    select: { id: true, slug: true, author: true, coverImage: true, coverImageAlt: true },
   });
+  const existingBySlug = new Map(existing.map((item) => [item.slug, item]));
   const existingSlugs = new Set(existing.map((item) => item.slug));
   const missing = seeds.filter((seed) => !existingSlugs.has(seed.slug));
 
-  if (missing.length === 0) return { created: 0 };
+  if (missing.length > 0) {
+    await prisma.post.createMany({
+      data: missing.map((seed) => ({
+        title: seed.title,
+        slug: seed.slug,
+        excerpt: seed.excerpt,
+        content: seed.content,
+        category: seed.category,
+        metaTitle: seed.metaTitle,
+        metaDesc: seed.metaDesc,
+        keywords: seed.keywords,
+        coverImage: seed.coverImage || null,
+        coverImageAlt: seed.coverImageAlt ?? seed.title,
+        isPublished: true,
+        author: SEED_AUTHOR,
+      })),
+    });
+  }
 
-  await prisma.post.createMany({
-    data: missing.map((seed) => ({
-      title: seed.title,
-      slug: seed.slug,
-      excerpt: seed.excerpt,
-      content: seed.content,
-      category: seed.category,
-      metaTitle: seed.metaTitle,
-      metaDesc: seed.metaDesc,
-      keywords: seed.keywords,
-      coverImage: seed.coverImage || null,
-      coverImageAlt: seed.coverImageAlt ?? seed.title,
-      isPublished: true,
-      author: SEED_AUTHOR,
-    })),
-  });
+  let refreshedImages = 0;
+  for (const seed of seeds) {
+    const current = existingBySlug.get(seed.slug);
+    if (!current || current.author !== SEED_AUTHOR || current.coverImage?.startsWith('/uploads/')) {
+      continue;
+    }
 
-  return { created: missing.length };
+    const nextCoverImage = seed.coverImage || null;
+    const nextCoverImageAlt = seed.coverImageAlt ?? seed.title;
+    if (
+      current.coverImage === nextCoverImage &&
+      current.coverImageAlt === nextCoverImageAlt
+    ) {
+      continue;
+    }
+
+    await prisma.post.update({
+      where: { id: current.id },
+      data: {
+        coverImage: nextCoverImage,
+        coverImageAlt: nextCoverImageAlt,
+      },
+    });
+    refreshedImages++;
+  }
+
+  return { created: missing.length, refreshedImages };
+}
+
+function mergeVisualPayload(currentPayloadJson: string | null, seedPayloadJson?: string) {
+  if (!seedPayloadJson) return currentPayloadJson ?? '{}';
+
+  let currentPayload: Record<string, unknown> = {};
+  let seedPayload: Record<string, unknown> = {};
+
+  try {
+    currentPayload = currentPayloadJson ? JSON.parse(currentPayloadJson) : {};
+  } catch {
+    currentPayload = {};
+  }
+
+  try {
+    seedPayload = JSON.parse(seedPayloadJson);
+  } catch {
+    return currentPayloadJson ?? '{}';
+  }
+
+  const nextPayload = { ...currentPayload };
+  for (const field of ['beforeImage', 'afterImage', 'heroImage', 'visualCaption']) {
+    const currentValue = currentPayload[field];
+    const seedValue = seedPayload[field];
+    if (typeof seedValue !== 'string' || !seedValue.trim()) continue;
+    if (typeof currentValue === 'string' && currentValue.startsWith('/uploads/')) continue;
+    nextPayload[field] = seedValue;
+  }
+
+  return JSON.stringify(nextPayload);
 }

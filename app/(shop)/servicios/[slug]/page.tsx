@@ -190,8 +190,8 @@ export default async function PremiumServicePage({
               <ImageComparison
                 beforeSrc={visualProof.before}
                 afterSrc={visualProof.after}
-                beforeAlt={`Antes de ${page.title}`}
-                afterAlt={`Después orientativo de ${page.title}`}
+                beforeAlt={`Visual de diagnóstico para ${page.title}`}
+                afterAlt={`Visual de metodología de aplicación para ${page.title}`}
                 className="h-full w-full"
               />
             </div>

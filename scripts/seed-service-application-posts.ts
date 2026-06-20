@@ -30,9 +30,8 @@ export const serviceApplicationPosts = [
       'Cuándo contratar un servicio de aplicación de té de humus de lombriz y cuándo comprar garrafas para aplicar por cuenta propia. Guía para jardines y zonas verdes.',
     keywords:
       'servicio aplicación té de humus, aplicar humus de lombriz jardín, contratar aplicación humus líquido, servicios biocultor',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt:
-      'Jardín recuperado tras servicio profesional de aplicación de té de humus de lombriz',
+    coverImage: '/media/editorial/aprende-servicio-aplicacion-te-humus-cuando-contratar.webp',
+    coverImageAlt: 'Comparativa visual para decidir entre comprar té de humus o contratar servicio profesional de aplicación',
     content: `## Qué pregunta responde
 
 La decisión no siempre es comprar más producto. En jardines amplios, césped degradado, comunidades de vecinos o proyectos de paisajismo, la pregunta correcta es si el cuello de botella está en el producto, en la dosis, en la logística o en la lectura del suelo.
@@ -127,9 +126,8 @@ Depende del estado del jardín y del clima. En general, tiene más sentido plani
       'Servicio de regeneración de césped degradado con té de humus de lombriz: diagnóstico, aplicación profesional y criterios de seguimiento.',
     keywords:
       'regeneración césped humus de lombriz, servicio césped amarillo, aplicar té de humus césped, recuperar jardín biocultor',
-    coverImage: '/servicios-cesped-antes.webp',
-    coverImageAlt:
-      'Césped degradado antes de una intervención de regeneración con té de humus',
+    coverImage: '/media/editorial/aprende-regeneracion-cesped-servicio-aplicacion-humus.webp',
+    coverImageAlt: 'Diagnóstico de césped degradado antes de un servicio profesional de aplicación de humus de lombriz',
     content: `## Qué pregunta responde
 
 Cuando un césped amarillea, la tentación es añadir más fertilizante. En muchos jardines, sin embargo, el problema real está en compactación, estrés hídrico, acumulación de fieltro, falta de aire en la raíz o una rutina de riego mal ajustada.
@@ -216,9 +214,8 @@ Sí. Tras una intervención inicial, muchas praderas pasan a una rutina periódi
       'Guía para calcular litros, coste por metro cuadrado y logística de aplicación de té de humus de lombriz en servicios de jardinería y paisajismo.',
     keywords:
       'calcular litros té de humus m2, coste aplicación humus, té de humus paisajistas, servicio aplicación zonas verdes',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt:
-      'Zona verde profesional tratada con servicio de aplicación de humus de lombriz',
+    coverImage: '/media/editorial/aprende-calcular-litros-coste-m2-te-humus-paisajistas.webp',
+    coverImageAlt: 'Cálculo de litros y coste por metro cuadrado para paisajistas que aplican té de humus',
     content: `## Qué pregunta responde
 
 Para un paisajista o una empresa de mantenimiento, la duda no es solo si el té de humus funciona. La duda operativa es cuánto volumen mover, cómo aplicarlo y si compensa hacerlo con cuadrilla propia o contratar apoyo técnico.
@@ -310,9 +307,8 @@ Sí. Si ya tienes método y rutina, el ecommerce es la vía más eficiente.
       'Servicio de aplicación de humus de lombriz para comunidades de vecinos, chalets y jardines residenciales en Madrid, Toledo y Castilla-La Mancha.',
     keywords:
       'aplicación humus comunidades vecinos, servicio jardines Madrid Toledo, humus de lombriz chalets, regeneración jardín comunidad',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt:
-      'Jardín residencial tras aplicación profesional de humus de lombriz líquido',
+    coverImage: '/media/editorial/aprende-aplicacion-humus-comunidades-jardines-madrid-toledo.webp',
+    coverImageAlt: 'Aplicación profesional de humus en comunidades de vecinos y jardines residenciales de Madrid y Toledo',
     content: `## Qué pregunta responde
 
 Las comunidades de vecinos y los jardines residenciales tienen una fricción distinta a la de un huerto doméstico: la decisión no la toma siempre quien aplica. Hay presupuesto, presidente, administrador, jardinero, vecinos y expectativas visibles.
@@ -407,9 +403,8 @@ Depende del estado inicial. Lo honesto es evaluar evolución por zonas y no prom
       'Cómo integrar la aplicación profesional de humus líquido en mantenimiento de zonas verdes, parques empresariales, jardines corporativos y contratos recurrentes.',
     keywords:
       'mantenimiento zonas verdes humus líquido, servicio aplicación humus zonas verdes, parques empresariales humus, jardinería profesional biocultor',
-    coverImage: '/servicios-cesped-despues.webp',
-    coverImageAlt:
-      'Zona verde de mantenimiento profesional tras aplicación de humus líquido',
+    coverImage: '/media/editorial/aprende-servicio-aplicacion-humus-zonas-verdes-mantenimiento.webp',
+    coverImageAlt: 'Mantenimiento de zonas verdes corporativas con aplicación profesional de humus líquido de bajo residuo',
     content: `## Qué pregunta responde
 
 En mantenimiento de zonas verdes, el producto es solo una parte del coste. La otra parte es mano de obra, desplazamiento, mezcla, agua, maquinaria, control de calidad y repetición. Por eso el servicio de aplicación de humus líquido debe evaluarse como una decisión operativa, no solo agronómica.
@@ -512,9 +507,8 @@ Debe medirse por cobertura, continuidad, mejora de rutina y evolución del jard�
       'Servicio de aplicación de humus de lombriz en Madrid, Toledo y Castilla-La Mancha para jardines, césped, comunidades y paisajistas.',
     keywords:
       'servicio aplicación humus Madrid, humus de lombriz Toledo, aplicación té de humus Castilla-La Mancha, regeneración césped Madrid',
-    coverImage: '/servicios-cesped-antes.webp',
-    coverImageAlt:
-      'Jardín de clima mediterráneo antes de aplicación profesional de humus de lombriz',
+    coverImage: '/media/editorial/aprende-servicio-aplicacion-humus-madrid-toledo-castilla-la-mancha.webp',
+    coverImageAlt: 'Servicio de aplicación de humus en Madrid Toledo y Castilla-La Mancha con cobertura local',
     content: `## Qué pregunta responde
 
 Las búsquedas locales no preguntan solo qué es el humus de lombriz. Preguntan si alguien puede aplicarlo en una zona concreta, con un clima concreto y una logística razonable.
