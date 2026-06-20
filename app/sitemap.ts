@@ -3,6 +3,7 @@ export const revalidate = 3600
 import type { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/seo';
 import { caseStudies, downloadResources } from '@/lib/authority-assets';
+import { comparisonPages } from '@/lib/leadership-assets';
 import { premiumServicePages } from '@/lib/premium-service-pages';
 import {
   getSeoCommercialPages,
@@ -100,6 +101,17 @@ const authorityRoutes = [
     path: `/recursos/${item.slug}`,
     lastmod: '2026-06-19',
     priority: 0.72,
+  })),
+];
+
+const leadershipRoutes = [
+  { path: '/biblioteca', lastmod: '2026-06-20', priority: 0.82 },
+  { path: '/calculadoras', lastmod: '2026-06-20', priority: 0.8 },
+  { path: '/metodologia', lastmod: '2026-06-20', priority: 0.76 },
+  ...comparisonPages.map((item) => ({
+    path: `/comparativas/${item.slug}`,
+    lastmod: '2026-06-20',
+    priority: 0.76,
   })),
 ];
 
@@ -219,6 +231,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.84,
     })),
     ...authorityRoutes.map((route) => ({
+      url: absoluteUrl(route.path),
+      lastModified: new Date(route.lastmod),
+      changeFrequency: 'monthly' as const,
+      priority: route.priority,
+    })),
+    ...leadershipRoutes.map((route) => ({
       url: absoluteUrl(route.path),
       lastModified: new Date(route.lastmod),
       changeFrequency: 'monthly' as const,

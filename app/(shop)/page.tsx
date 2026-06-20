@@ -167,6 +167,9 @@ export default async function Page() {
             { name: 'Dominio transaccional', path: '/comprar-te-de-humus-de-lombriz' },
             { name: 'Servicios profesionales', path: '/servicios/regeneracion-cesped-y-jardines' },
             { name: 'Servicios para paisajistas', path: '/servicios/te-humus-paisajistas-jardineros' },
+            { name: 'Biblioteca de liderazgo', path: '/biblioteca' },
+            { name: 'Calculadoras', path: '/calculadoras' },
+            { name: 'Metodologia y trazabilidad', path: '/metodologia' },
             { name: 'Dominio informacional', path: '/aprende' },
             { name: 'Dominio GEO/IA', path: '/espana' },
           ],
@@ -520,6 +523,30 @@ export default async function Page() {
       ════════════════════════════════════════════ */}
       <section className="w-full py-20 md:py-28 bg-card border-t border-border/40">
         <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
+          <div className="mb-12 rounded-3xl border border-primary/20 bg-primary/5 p-6 md:p-8">
+            <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-8">
+                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">
+                  Biblioteca Biocultor
+                </p>
+                <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground">
+                  Comparativas, calculadoras y metodologia en un solo centro.
+                </h2>
+                <p className="mt-3 max-w-3xl text-muted-foreground">
+                  Si necesitas decidir entre comprar producto, contratar aplicacion o comparar alternativas, la biblioteca recoge los criterios sin mezclar marketing con promesas.
+                </p>
+              </div>
+              <div className="lg:col-span-4 lg:text-right">
+                <Link
+                  href="/biblioteca"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-brand-green-hover"
+                >
+                  Abrir biblioteca
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
           <div className="max-w-3xl mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-secondary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/20">
               <Star className="w-3.5 h-3.5" />

@@ -536,6 +536,26 @@ KPIs:
 - 30+ leads orgánicos/mes de servicios.
 - 500+ clics orgánicos/mes.
 
+### Ejecución Fase 5 - 2026-06-20
+
+Estado preparado localmente para iniciar la capa de liderazgo sectorial:
+
+| Acción | Estado | Evidencia |
+| --- | --- | --- |
+| Crear biblioteca sectorial | Preparado | `/biblioteca` agrupa comparativas, calculadoras, metodología y casos |
+| Crear comparativas contra alternativas | Preparado | `/comparativas/te-humus-vs-abono-quimico-cesped`, `/comparativas/te-humus-vs-mantillo-compost-jardin` y `/comparativas/servicio-biologico-vs-jardineria-tradicional` |
+| Crear calculadoras públicas | Preparado | `/calculadoras` centraliza estimación de litros, presupuesto de servicio y calendario de decisión |
+| Reforzar E-E-A-T operativo | Preparado | `/metodologia` explica diagnóstico, trazabilidad, límites y cómo convertir observaciones en prueba |
+| Reforzar enlazado y sitemap | Preparado | Navbar, footer, home y `sitemap.ts` enlazan biblioteca, comparativas, calculadoras y metodología |
+
+Pendiente para liderazgo completo:
+
+1. Ampliar biblioteca por cultivo, problema, zona y tipo de cliente.
+2. Añadir comparativas adicionales contra bioestimulantes genéricos, recebo, resiembra, hidrosiembra y mantenimiento tradicional por contrato.
+3. Convertir calculadoras en activos con captura de lead y persistencia CRM.
+4. Sustituir estimaciones por datos reales derivados de casos documentados cuando existan.
+5. Medir en GSC a 28/60/90 días y priorizar ampliaciones por consulta real.
+
 ## 9. Priorización editorial inmediata
 
 ### Publicar primero

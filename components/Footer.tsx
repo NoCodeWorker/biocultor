@@ -71,6 +71,8 @@ export default function Footer() {
                   { href: '/purin-de-ortiga', label: 'Ortiga por cultivo' },
                   { href: '/servicios', label: 'Servicios profesionales' },
                   { href: '/casos', label: 'Casos y metodología' },
+                  { href: '/biblioteca', label: 'Biblioteca Biocultor' },
+                  { href: '/calculadoras', label: 'Calculadoras' },
                   { href: '/aprende', label: 'Guías de cultivo' },
                   { href: '/espana', label: 'Biocultor en España' },
                 ].map(link => (
