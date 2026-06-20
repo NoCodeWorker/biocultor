@@ -1,14 +1,35 @@
 import prisma from "@/lib/db"
-import { TrendingUp, Euro, ShoppingBasket, Users, Component, BarChart3, ReceiptEuro } from "lucide-react"
+import { Euro, ShoppingBasket, Users, Component, BarChart3, ReceiptEuro, MousePointerClick } from "lucide-react"
 
 export const dynamic = 'force-dynamic'
 
 export default async function AnalyticsPage() {
+  const since30d = new Date();
+  since30d.setDate(since30d.getDate() - 30);
+
   // Consultas críticas a Base de Datos
-  const orders = await prisma.order.findMany({
-    where: { status: 'PAID' },
-    include: { items: { include: { variant: true } }, customer: true }
-  });
+  const [orders, webContacts, webDeals] = await Promise.all([
+    prisma.order.findMany({
+      where: { status: 'PAID' },
+      include: { items: { include: { variant: true } }, customer: true }
+    }),
+    prisma.crmContact.findMany({
+      where: {
+        createdAt: { gte: since30d },
+        source: { startsWith: 'Web' },
+      },
+      orderBy: { createdAt: 'desc' },
+      include: { deals: true },
+    }),
+    prisma.crmDeal.findMany({
+      where: {
+        createdAt: { gte: since30d },
+        contact: { source: { startsWith: 'Web' } },
+      },
+      include: { contact: true },
+      orderBy: { createdAt: 'desc' },
+    }),
+  ]);
 
   // Cálculo de KPIs
   const totalRevenue = orders.reduce((acc, order) => acc + order.totalAmount, 0);
@@ -16,6 +37,9 @@ export default async function AnalyticsPage() {
   const customersSet = new Set(orders.map(o => o.customerId));
   const totalCustomers = customersSet.size;
   const averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+  const serviceWebDeals = webDeals.filter((deal) => deal.type === 'SERVICIO');
+  const servicePipelineAmount = serviceWebDeals.reduce((sum, deal) => sum + deal.amount, 0);
+  const topLeadSources = getTopLeadSources(webContacts);
 
   // Minería de datos: Ventas por formato
   const variantSales: Record<string, { name: string, qty: number, revenue: number, percentage: number }> = {};
@@ -56,7 +80,7 @@ export default async function AnalyticsPage() {
           Inteligencia de Negocio
         </h1>
         <p className="text-lg text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-          Tus KPls financieros y rendimiento de producto en tiempo real, directamente desde el motor transaccional blindado.
+          KPIs financieros, rendimiento de producto y atribución de leads conectados con el motor transaccional y el CRM.
         </p>
       </div>
 
@@ -114,16 +138,88 @@ export default async function AnalyticsPage() {
         )}
       </div>
 
-      {/* Espacio para GA4 GSC */}
-      <div className="bg-muted/30 border border-border rounded-3xl p-8 flex items-center justify-between opacity-70 cursor-not-allowed">
-        <div>
-          <h3 className="font-bold text-xl text-foreground">Google Analytics 4 & Search Console</h3>
-          <p className="text-muted-foreground mt-1">Conexión reservada para entorno de producción en nube.</p>
+      {/* SEO/CRO Attribution */}
+      <div className="bg-card border border-border shadow-2xl shadow-black/5 rounded-3xl p-8">
+        <div className="flex flex-col gap-2 mb-6">
+          <h2 className="text-2xl font-heading font-bold text-foreground flex items-center gap-2">
+            <MousePointerClick className="w-6 h-6 text-primary" /> Atribución SEO/CRO de leads
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Últimos 30 días. Usa los formularios con URL/referrer para conectar contenido, calculadoras y servicios con CRM.
+          </p>
         </div>
-        <div className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg font-bold text-sm">
-          Próximamente
+
+        <div className="grid gap-4 md:grid-cols-3 mb-8">
+          <AttributionKpi label="Leads web" value={webContacts.length.toString()} />
+          <AttributionKpi label="Leads de servicio" value={serviceWebDeals.length.toString()} />
+          <AttributionKpi
+            label="Pipeline servicio"
+            value={`€${servicePipelineAmount.toLocaleString('es-ES', { maximumFractionDigits: 0 })}`}
+          />
         </div>
+
+        {topLeadSources.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border/70 bg-muted/20 p-8 text-center text-sm text-muted-foreground">
+            Aún no hay leads web atribuidos en los últimos 30 días.
+          </div>
+        ) : (
+          <div className="overflow-hidden rounded-2xl border border-border/60">
+            <div className="grid grid-cols-[1fr_90px_110px] bg-muted/30 px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              <span>URL de origen</span>
+              <span className="text-right">Leads</span>
+              <span className="text-right">Servicio</span>
+            </div>
+            {topLeadSources.map((source) => (
+              <div
+                key={source.path}
+                className="grid grid-cols-[1fr_90px_110px] items-center border-t border-border/40 px-4 py-3 text-sm"
+              >
+                <span className="truncate font-mono text-xs text-muted-foreground">{source.path}</span>
+                <span className="text-right font-bold text-foreground">{source.count}</span>
+                <span className="text-right font-bold text-primary">{source.serviceCount}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
+}
+
+function AttributionKpi({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-border/60 bg-background p-5">
+      <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{label}</p>
+      <p className="mt-2 text-3xl font-heading font-black text-foreground">{value}</p>
+    </div>
+  );
+}
+
+function getTopLeadSources(
+  contacts: Array<{
+    notes: string | null;
+    deals: Array<{ type: string }>;
+  }>
+) {
+  const buckets = new Map<string, { path: string; count: number; serviceCount: number }>();
+
+  for (const contact of contacts) {
+    const path = extractSourcePath(contact.notes) || 'sin-origen';
+    const current = buckets.get(path) ?? { path, count: 0, serviceCount: 0 };
+    current.count += 1;
+    if (contact.deals.some((deal) => deal.type === 'SERVICIO')) {
+      current.serviceCount += 1;
+    }
+    buckets.set(path, current);
+  }
+
+  return [...buckets.values()]
+    .sort((a, b) => b.count - a.count || b.serviceCount - a.serviceCount)
+    .slice(0, 8);
+}
+
+function extractSourcePath(notes: string | null) {
+  if (!notes) return null;
+  const match = notes.match(/URL origen:\s*(.+)/);
+  return match?.[1]?.trim() ?? null;
 }

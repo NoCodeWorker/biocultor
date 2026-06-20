@@ -1,46 +1,102 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Send, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { submitContactForm } from '@/app/(shop)/contacto/actions';
 import { useSearchParams } from 'next/navigation';
+
+function getServiceDefaults({
+  servicioParam,
+  m2Param,
+  precioParam,
+  tipoParam,
+  litrosParam,
+}: {
+  servicioParam: string | null;
+  m2Param: string | null;
+  precioParam: string | null;
+  tipoParam: string | null;
+  litrosParam: string | null;
+}) {
+  if (servicioParam === 'cesped') {
+    return {
+      motivo: 'Servicio de Regeneración de Césped',
+      mensaje:
+        m2Param && precioParam
+          ? `Hola, estoy interesado en el servicio de regeneración de césped y jardines con té de humus de lombriz para mi jardín de ${m2Param} m². El presupuesto estimado calculado en la web es de ${precioParam} €.`
+          : 'Hola, estoy interesado en el servicio de regeneración de césped y jardines con té de humus de lombriz para mi jardín de aprox. ______ m².',
+    };
+  }
+
+  if (servicioParam === 'paisajistas') {
+    const serviceLabel =
+      tipoParam === 'suministro'
+        ? `solo suministro de té de humus (${litrosParam} litros recomendados)`
+        : 'suministro y aplicación técnica de té de humus';
+
+    return {
+      motivo: 'Servicio Profesional (Jardineros/Paisajistas)',
+      mensaje:
+        m2Param && precioParam
+          ? `Hola, soy profesional (jardinero/paisajista) y estoy interesado en el servicio de ${serviceLabel} para una superficie de ${m2Param} m² en Madrid / Castilla-La Mancha. El presupuesto estimado en la web es de ${precioParam} €.`
+          : 'Hola, soy profesional (jardinero/paisajista) y estoy interesado en el servicio de suministro y aplicación de Té de Humus de Lombriz para mi proyecto.',
+    };
+  }
+
+  if (servicioParam) {
+    const readableService = servicioParam.replaceAll('-', ' ');
+    return {
+      motivo: 'Solicitud de diagnóstico o presupuesto',
+      mensaje: `Hola, estoy interesado en ${readableService}. Me gustaría que me indiquéis el siguiente paso.`,
+    };
+  }
+
+  return {
+    motivo: 'Dudas sobre aplicación y dosis',
+    mensaje: '',
+  };
+}
 
 export default function ContactForm() {
   const searchParams = useSearchParams();
   const servicioParam = searchParams.get('servicio');
   const m2Param = searchParams.get('m2');
   const precioParam = searchParams.get('precio');
+  const tipoParam = searchParams.get('tipo');
+  const litrosParam = searchParams.get('litros');
+  const serviceDefaults = getServiceDefaults({
+    servicioParam,
+    m2Param,
+    precioParam,
+    tipoParam,
+    litrosParam,
+  });
+  const formDefaultsKey = [
+    servicioParam,
+    m2Param,
+    precioParam,
+    tipoParam,
+    litrosParam,
+  ].join(':');
 
   const [isPending, setIsPending] = useState(false);
   const [status, setStatus] = useState<{ success?: boolean; error?: string } | null>(null);
-
-  const [motivo, setMotivo] = useState('Dudas sobre aplicación y dosis');
-  const [mensaje, setMensaje] = useState('');
-
-  useEffect(() => {
-    if (servicioParam === 'cesped') {
-      setMotivo('Servicio de Regeneración de Césped');
-      if (m2Param && precioParam) {
-        setMensaje(`Hola, estoy interesado en el servicio de regeneración de césped y jardines con té de humus de lombriz para mi jardín de ${m2Param} m². El presupuesto estimado calculado en la web es de ${precioParam} €.`);
-      } else {
-        setMensaje('Hola, estoy interesado en el servicio de regeneración de césped y jardines con té de humus de lombriz para mi jardín de aprox. ______ m².');
-      }
-    } else if (servicioParam === 'paisajistas') {
-      setMotivo('Servicio Profesional (Jardineros/Paisajistas)');
-      const tipoParam = searchParams.get('tipo');
-      const litrosParam = searchParams.get('litros');
-      const serviceLabel = tipoParam === 'suministro'
-        ? `solo suministro de té de humus (${litrosParam} litros recomendados)`
-        : `suministro y aplicación técnica de té de humus`;
-
-      if (m2Param && precioParam) {
-        setMensaje(`Hola, soy profesional (jardinero/paisajista) y estoy interesado en el servicio de ${serviceLabel} para una superficie de ${m2Param} m² en Madrid / Castilla-La Mancha. El presupuesto estimado en la web es de ${precioParam} €.`);
-      } else {
-        setMensaje('Hola, soy profesional (jardinero/paisajista) y estoy interesado en el servicio de suministro y aplicación de Té de Humus de Lombriz para mi proyecto.');
-      }
+  const [attribution] = useState(() => {
+    if (typeof window === 'undefined') {
+      return {
+        sourcePath: '/contacto',
+        sourceQuery: '',
+        sourceReferrer: '',
+      };
     }
-  }, [servicioParam, m2Param, precioParam, searchParams]);
+
+    return {
+      sourcePath: window.location.pathname,
+      sourceQuery: window.location.search,
+      sourceReferrer: document.referrer,
+    };
+  });
 
   async function action(formData: FormData) {
     setIsPending(true);
@@ -66,6 +122,11 @@ export default function ContactForm() {
 
   return (
     <form action={action} className="flex flex-col gap-6">
+      <input type="hidden" name="sourcePath" value={attribution.sourcePath} />
+      <input type="hidden" name="sourceQuery" value={attribution.sourceQuery} />
+      <input type="hidden" name="sourceReferrer" value={attribution.sourceReferrer} />
+      <input type="hidden" name="estimatedM2" value={m2Param ?? ''} />
+      <input type="hidden" name="estimatedPrice" value={precioParam ?? ''} />
       {status?.error && (
         <div className="p-4 bg-red-50 text-red-600 border border-red-200 rounded-xl text-sm font-medium">
           {status.error}
@@ -88,13 +149,14 @@ export default function ContactForm() {
           required
           name="motivo"
           id="motivo"
-          value={motivo}
-          onChange={(e) => setMotivo(e.target.value)}
+          key={`motivo-${formDefaultsKey}`}
+          defaultValue={serviceDefaults.motivo}
           className="w-full h-12 bg-background border border-border/50 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow text-muted-foreground"
         >
           <option>Dudas sobre aplicación y dosis</option>
           <option>Servicio de Regeneración de Césped</option>
           <option>Servicio Profesional (Jardineros/Paisajistas)</option>
+          <option>Solicitud de diagnóstico o presupuesto</option>
           <option>Estado de mi envío</option>
           <option>Distribución y venta al por mayor (&gt; 1000L)</option>
           <option>Otros motivos técnicos</option>
@@ -107,8 +169,8 @@ export default function ContactForm() {
           required
           name="mensaje"
           id="mensaje"
-          value={mensaje}
-          onChange={(e) => setMensaje(e.target.value)}
+          key={`mensaje-${formDefaultsKey}`}
+          defaultValue={serviceDefaults.mensaje}
           rows={5}
           className="w-full bg-background border border-border/50 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow resize-none"
           placeholder="Cuéntanos más sobre tus necesidades..."

@@ -556,6 +556,46 @@ Pendiente para liderazgo completo:
 4. Sustituir estimaciones por datos reales derivados de casos documentados cuando existan.
 5. Medir en GSC a 28/60/90 días y priorizar ampliaciones por consulta real.
 
+## Fase 6: medición, atribución y priorización continua
+
+Objetivo: cerrar el bucle entre búsqueda orgánica, contenido, conversión y oportunidad comercial. A partir de esta fase, el roadmap no debe crecer solo por intuición editorial, sino por evidencia: qué consulta trae tráfico, qué URL genera contacto y qué lead termina en oportunidad de servicio o venta.
+
+Acciones:
+
+1. Capturar atribución en formularios: URL, querystring, referrer, superficie estimada y precio estimado cuando proceda.
+2. Sincronizar automáticamente los formularios web con CRM como contacto, oportunidad y tarea de seguimiento.
+3. Distinguir leads de servicio frente a consultas de producto para priorizar chalets, comunidades, paisajistas y empresas con jardines.
+4. Añadir un bloque de atribución SEO/CRO en Analytics para ver leads web, leads de servicio, pipeline y URLs de origen.
+5. Revisar GSC a 28/60/90 días y cruzar consultas con oportunidades comerciales antes de abrir nuevos clusters.
+
+KPIs:
+
+- Leads web atribuidos por URL.
+- Leads de servicio atribuidos por URL.
+- Pipeline de servicio generado por tráfico web.
+- URLs con mayor ratio lead/clic.
+- Consultas GSC que justifican nuevas landings, comparativas o calculadoras.
+
+### Ejecución Fase 6 - 2026-06-20
+
+Estado preparado localmente:
+
+| Acción | Estado | Evidencia |
+| --- | --- | --- |
+| Capturar atribución en contacto | Preparado | `components/ContactForm.tsx` añade `sourcePath`, `sourceQuery`, `sourceReferrer`, `estimatedM2` y `estimatedPrice` |
+| Convertir formularios en señal CRM | Preparado | `app/(shop)/contacto/actions.ts` crea/actualiza contacto, oportunidad, tarea y acción administrativa |
+| Evitar bloqueo del formulario por CRM | Preparado | La sincronización CRM captura errores sin impedir el envío del email |
+| Añadir lectura SEO/CRO en Analytics | Preparado | `app/admin/analytics/page.tsx` muestra leads web, leads de servicio, pipeline y URLs de origen |
+| Documentar trazabilidad operativa | Preparado | `docs/tasks/active/2026-06-20_phase-6-measurement-attribution.md` |
+
+Pendiente para madurez completa:
+
+1. Integrar métricas GSC/GA4 reales en el panel cuando el MCP/API quede operativo para consulta recurrente.
+2. Normalizar taxonomía de fuentes: `Web Organic`, `Web Campaign`, `Web Direct`, referidos y campañas locales.
+3. Añadir deduplicación avanzada para evitar oportunidades repetidas en contactos recurrentes.
+4. Crear informes 28/60/90 días que crucen GSC, CRM y ventas por servicio.
+5. Convertir URLs con mejor señal en nuevas landings o ampliaciones siguiendo ADR-002.
+
 ## 9. Priorización editorial inmediata
 
 ### Publicar primero
