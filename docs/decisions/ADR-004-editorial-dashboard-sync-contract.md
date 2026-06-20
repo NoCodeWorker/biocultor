@@ -32,6 +32,29 @@ El dashboard principal, no Blog, es la superficie de descubrimiento transversal.
 
 Los scripts de seed curados deben exportar sus arrays de contenido y solo ejecutar `main()` cuando se lanzan como script, no cuando se importan desde el dashboard.
 
+### Fallos que este ADR debe impedir
+
+- Crear posts o landings visibles en la web, sitemap o navegación sin registro editable en `Post` o `SeoPage`.
+- Mezclar landings y servicios dentro del listado operativo de Blog, generando duplicidad conceptual y métricas confusas.
+- Contabilizar landings o servicios como "artículos" en `/admin/blog`.
+- Crear un nuevo inventario editorial fuera de `editorial-dashboard-sync.ts` sin registrarlo en el dashboard principal.
+- Importar scripts de seed desde el dashboard si esos scripts ejecutan efectos laterales al importarse.
+- Perder imágenes manuales subidas desde dashboard por sobrescritura automática de seeds.
+- Publicar imágenes por defecto en código sin que el dashboard pueda reemplazarlas y sin que la página pública lea el override.
+- Añadir rutas nuevas con payload visual sin validar `/admin`, `/admin/blog`, `/admin/seo` y `/admin/servicios`.
+
+### Checklist obligatorio para contenido nuevo
+
+Todo lote de contenido debe cerrar con estas comprobaciones antes de commit:
+
+- Si es artículo `/aprende`, existe registro `Post` con `coverImage` y `coverImageAlt`.
+- Si es landing o servicio, existe registro `SeoPage` con `image` y payload visual cuando aplique.
+- Si la imagen procede de `public/`, el sync puede refrescarla sin pisar `/uploads/...`.
+- El dashboard principal contabiliza el total editable, pero Blog contabiliza solo artículos.
+- La ruta pública usa el override persistido cuando existe.
+- El sitemap solo expone contenido publicado y coherente con el inventario editable.
+- El task activo documenta qué dashboards fueron verificados.
+
 ## Alternatives considered
 
 - Mantener sincronizaciones manuales por dashboard: descartado porque ya provocó omisiones repetidas.

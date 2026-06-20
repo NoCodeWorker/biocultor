@@ -50,11 +50,34 @@ Editorial images must preserve these brand cues:
 - no generic stock-photo look;
 - no exaggerated scientific claims beyond ADR-002 evidence limits.
 
+### 4.1 Copy and claim guardrails
+
+The visual layer is part of the editorial system, not decoration. Every generated asset must follow the same claim discipline as the page copy:
+
+- Use Quicksand-style typography for final text overlays and keep hierarchy close to the web UI.
+- Prefer short Spanish text blocks that can be read at thumbnail and hero size.
+- Use SEO/AIO terms naturally in title, alt text and file slug; do not stuff keywords.
+- Avoid absolute promises such as "garantiza", "elimina", "cura", "asegura resultados" or "recuperación total".
+- Before/after visuals are only allowed with real evidence. Otherwise label the asset as "diagnóstico", "metodología", "intervención" or "protocolo".
+- Generated text must be checked visually before commit; spelling mistakes in the image are release blockers.
+- The file name, `alt` text and page title must describe the same intent.
+
 ### 5. Database and Dashboard Preservation
 
 This policy does not supersede ADR-003. If a post already has a manually uploaded `/uploads/...` image, batch scripts must preserve it unless the user explicitly approves replacement.
 
 For generated roadmap assets stored in `public/`, future seed scripts may set them as default `coverImage`, but must still preserve dashboard uploads.
+
+### 6. End-to-end assignment rule
+
+An editorial image is not considered implemented until all of these are true:
+
+- The optimized `.webp` exists under a stable public path.
+- The post or landing has the image assigned in its canonical content source.
+- The image has a specific Spanish `alt` text aligned with SEO, GEO and AIO intent.
+- The dashboard sync exposes the page in the correct editor.
+- The public route renders the image and reads dashboard overrides when present.
+- Manual `/uploads/...` replacements remain authoritative.
 
 ## Alternatives Considered
 
