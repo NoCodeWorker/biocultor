@@ -1,10 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ShieldCheck, Cookie, Settings, Check, X } from 'lucide-react';
+import { ShieldCheck, Settings, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+
+const CONSENT_KEY = 'biocultor_gdpr_consent';
+const CONSENT_EVENT = 'biocultor:cookie-consent';
+
+function notifyConsentChange() {
+  window.dispatchEvent(new Event(CONSENT_EVENT));
+}
 
 export default function CookieConsent() {
   const [show, setShow] = useState(false);
@@ -18,7 +25,7 @@ export default function CookieConsent() {
   useEffect(() => {
     // Retrasar un poco la aparición para que no sea tan brusco al cargar
     const timer = setTimeout(() => {
-      const consent = localStorage.getItem('biocultor_gdpr_consent');
+      const consent = localStorage.getItem(CONSENT_KEY);
       if (!consent) {
         setShow(true);
       }
@@ -27,17 +34,20 @@ export default function CookieConsent() {
   }, []);
 
   const acceptAll = () => {
-    localStorage.setItem('biocultor_gdpr_consent', 'all');
+    localStorage.setItem(CONSENT_KEY, 'all');
+    notifyConsentChange();
     setShow(false);
   };
 
   const acceptSelected = () => {
-    localStorage.setItem('biocultor_gdpr_consent', JSON.stringify(preferences));
+    localStorage.setItem(CONSENT_KEY, JSON.stringify(preferences));
+    notifyConsentChange();
     setShow(false);
   };
 
   const declineAll = () => {
-    localStorage.setItem('biocultor_gdpr_consent', 'necessary-only');
+    localStorage.setItem(CONSENT_KEY, 'necessary-only');
+    notifyConsentChange();
     setShow(false);
   };
 

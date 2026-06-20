@@ -72,11 +72,11 @@
     "postcss": "^8.5.10"
   },
   "browserslist": [
-    "chrome >= 100",
-    "firefox >= 100",
-    "safari >= 15",
-    "edge >= 100",
-    "opera >= 90",
-    "ios_saf >= 15"
+    "chrome >= 111",
+    "firefox >= 113",
+    "safari >= 16.4",
+    "edge >= 111",
+    "opera >= 97",
+    "ios_saf >= 16.4"
   ]
 }

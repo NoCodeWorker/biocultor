@@ -53,14 +53,6 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning className={cn("antialiased scroll-smooth", dmSans.variable, quicksand.variable)}>
       <head>
         <link rel="dns-prefetch" href="https://js.stripe.com" />
-        {gaId && (
-          <>
-            <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-            <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
-            <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-            <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-          </>
-        )}
       </head>
       <body className="bg-background text-foreground min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary font-sans">
         {gaId && <GoogleAnalyticsLazy gaId={gaId} />}

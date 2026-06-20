@@ -6,14 +6,33 @@ interface GoogleAnalyticsLazyProps {
   gaId: string;
 }
 
+const CONSENT_KEY = 'biocultor_gdpr_consent';
+const CONSENT_EVENT = 'biocultor:cookie-consent';
+
+function hasAnalyticsConsent() {
+  try {
+    const consent = window.localStorage.getItem(CONSENT_KEY);
+
+    if (consent === 'all') return true;
+    if (consent === 'necessary-only') return false;
+    if (!consent) return false;
+
+    const parsed = JSON.parse(consent) as { analytics?: boolean };
+    return parsed.analytics === true;
+  } catch {
+    return false;
+  }
+}
+
 export default function GoogleAnalyticsLazy({ gaId }: GoogleAnalyticsLazyProps) {
   useEffect(() => {
     if (!gaId) return;
 
     let loaded = false;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
     const loadGA = () => {
-      if (loaded) return;
+      if (loaded || !hasAnalyticsConsent()) return;
       loaded = true;
 
       // Remove all event listeners immediately
@@ -21,6 +40,7 @@ export default function GoogleAnalyticsLazy({ gaId }: GoogleAnalyticsLazyProps) 
       window.removeEventListener('mousemove', loadGA);
       window.removeEventListener('touchstart', loadGA);
       window.removeEventListener('keydown', loadGA);
+      window.removeEventListener(CONSENT_EVENT, scheduleGA);
 
       // 1. Create Google Tag Manager external script
       const script = document.createElement('script');
@@ -42,21 +62,29 @@ export default function GoogleAnalyticsLazy({ gaId }: GoogleAnalyticsLazyProps) 
       document.head.appendChild(inlineScript);
     };
 
-    // Listen to major user interactions
-    window.addEventListener('scroll', loadGA, { passive: true });
-    window.addEventListener('mousemove', loadGA, { passive: true });
-    window.addEventListener('touchstart', loadGA, { passive: true });
-    window.addEventListener('keydown', loadGA, { passive: true });
+    function scheduleGA() {
+      if (loaded || !hasAnalyticsConsent()) return;
 
-    // Fallback: load GTM after 4 seconds if no interaction occurs (to avoid losing non-interactive users)
-    const timeoutId = setTimeout(loadGA, 4000);
+      // Listen to major user interactions after consent.
+      window.addEventListener('scroll', loadGA, { passive: true });
+      window.addEventListener('mousemove', loadGA, { passive: true });
+      window.addEventListener('touchstart', loadGA, { passive: true });
+      window.addEventListener('keydown', loadGA, { passive: true });
+
+      // Fallback after the critical render path; preserves non-interactive visits.
+      timeoutId = setTimeout(loadGA, 8000);
+    }
+
+    scheduleGA();
+    window.addEventListener(CONSENT_EVENT, scheduleGA);
 
     return () => {
-      clearTimeout(timeoutId);
+      if (timeoutId) clearTimeout(timeoutId);
       window.removeEventListener('scroll', loadGA);
       window.removeEventListener('mousemove', loadGA);
       window.removeEventListener('touchstart', loadGA);
       window.removeEventListener('keydown', loadGA);
+      window.removeEventListener(CONSENT_EVENT, scheduleGA);
     };
   }, [gaId]);
 
