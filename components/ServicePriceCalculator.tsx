@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { Calculator, Ruler, ArrowRight, Sparkles } from 'lucide-react';
+import { Calculator, Ruler, Sparkles, CheckCircle2, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { submitContactForm } from '@/app/(shop)/contacto/actions';
 
 interface ServicePriceCalculatorProps {
   /** Precio base del servicio leído de la BD (SeoPage.payloadJson). */
@@ -12,14 +12,20 @@ interface ServicePriceCalculatorProps {
   baseArea?: number;
   /** Incremento por m² adicional. */
   ratePerAdditionalM2?: number;
+  sourcePath?: string;
+  serviceSlug?: string;
 }
 
 export default function ServicePriceCalculator({
   basePrice = 195,
   baseArea = 500,
   ratePerAdditionalM2 = 0.2,
+  sourcePath = '/calculadoras',
+  serviceSlug = 'cesped',
 }: ServicePriceCalculatorProps) {
   const [area, setArea] = useState<number>(baseArea);
+  const [isPending, setIsPending] = useState(false);
+  const [status, setStatus] = useState<{ success?: boolean; error?: string } | null>(null);
 
   // Calcula el precio dinámicamente usando los valores que vienen de la BD
   const calculatePrice = (m2: number) => {
@@ -30,6 +36,14 @@ export default function ServicePriceCalculator({
   };
 
   const totalPrice = calculatePrice(area);
+
+  async function action(formData: FormData) {
+    setIsPending(true);
+    setStatus(null);
+    const result = await submitContactForm(formData);
+    setStatus(result);
+    setIsPending(false);
+  }
 
   return (
     <div className="bg-card border border-border/60 p-6 md:p-8 rounded-3xl w-full shadow-lg shadow-foreground/5 flex flex-col gap-6">
@@ -102,17 +116,59 @@ export default function ServicePriceCalculator({
         </p>
       </div>
 
-      {/* Botón CTA con pre-llenado */}
-      <Button asChild size="lg" className="rounded-full w-full bg-primary hover:bg-brand-green-hover text-white py-6 shadow-md shadow-primary/15 transition-all">
-        <Link href={`/contacto?servicio=cesped&m2=${area}&precio=${totalPrice}`}>
-          Solicitar este Presupuesto
-          <ArrowRight className="ml-2 w-4 h-4" />
-        </Link>
-      </Button>
+      <form action={action} className="rounded-2xl border border-primary/15 bg-primary/5 p-4 flex flex-col gap-3">
+        <input type="hidden" name="motivo" value="Servicio de Regeneración de Césped" />
+        <input
+          type="hidden"
+          name="mensaje"
+          value={`Hola, quiero validar el servicio de regeneración de césped y jardines para ${area} m2. La estimación web es de ${totalPrice.toFixed(2)} EUR.`}
+        />
+        <input type="hidden" name="sourcePath" value={sourcePath} />
+        <input type="hidden" name="sourceQuery" value={`?servicio=${serviceSlug}&m2=${area}&precio=${totalPrice.toFixed(2)}`} />
+        <input type="hidden" name="sourceReferrer" value="" />
+        <input type="hidden" name="estimatedM2" value={area.toString()} />
+        <input type="hidden" name="estimatedPrice" value={totalPrice.toFixed(2)} />
+        <input type="hidden" name="serviceSlug" value={serviceSlug} />
+        <input type="hidden" name="leadIntent" value="service" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input
+            required
+            name="name"
+            type="text"
+            placeholder="Nombre"
+            className="h-11 rounded-xl border border-border/60 bg-background px-3 text-sm font-semibold text-foreground outline-none focus:border-primary"
+          />
+          <input
+            required
+            name="phone"
+            type="tel"
+            placeholder="Teléfono"
+            className="h-11 rounded-xl border border-border/60 bg-background px-3 text-sm font-semibold text-foreground outline-none focus:border-primary"
+          />
+        </div>
+        <input
+          name="email"
+          type="email"
+          placeholder="Email opcional"
+          className="h-11 rounded-xl border border-border/60 bg-background px-3 text-sm font-semibold text-foreground outline-none focus:border-primary"
+        />
+        {status?.error && <p className="text-xs font-semibold text-red-600">{status.error}</p>}
+        {status?.success ? (
+          <div className="flex items-center gap-2 rounded-xl bg-background px-4 py-3 text-sm font-bold text-primary">
+            <CheckCircle2 className="w-4 h-4" />
+            Solicitud recibida. Revisaremos superficie y viabilidad.
+          </div>
+        ) : (
+          <Button disabled={isPending} size="lg" className="rounded-full w-full bg-primary hover:bg-brand-green-hover text-white py-6 shadow-md shadow-primary/15 transition-all">
+            {isPending ? 'Enviando...' : 'Solicitar diagnóstico'}
+            {isPending ? null : <Send className="ml-2 w-4 h-4" />}
+          </Button>
+        )}
 
       <p className="text-[10px] text-muted-foreground text-center">
         *El presupuesto final se confirmará tras el diagnóstico inicial en el terreno.
       </p>
+      </form>
     </div>
   );
 }

@@ -229,10 +229,23 @@ export default async function Page() {
               </Button>
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              {[
+                { label: 'Desde', value: `${payload.price} EUR orientativos` },
+                { label: 'Respuesta', value: 'Menos de 24 h hábiles' },
+                { label: 'Primer paso', value: 'Litros, logística y zona' },
+              ].map((item) => (
+                <div key={item.label} className="rounded-2xl border border-primary/15 bg-primary/5 p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-primary">{item.label}</p>
+                  <p className="mt-2 font-heading text-base font-bold leading-tight text-foreground">{item.value}</p>
+                </div>
+              ))}
+            </div>
+
             {/* Micro badges */}
             <div className="flex flex-wrap gap-4 items-center text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-primary" /> Certificación Ecológica CAAE
+                <ShieldCheck className="w-4 h-4 text-primary" /> Documentación técnica bajo solicitud
               </span>
               <span className="flex items-center gap-1.5">
                 <Leaf className="w-4 h-4 text-primary" /> Doble filtrado de 100 micras (sin atascos)
@@ -400,6 +413,8 @@ export default async function Page() {
               baseArea={parseFloat(payload.areaLimit || '500')}
               ratePerAdditionalM2={parseFloat(payload.additionalRate || '0.2')}
               productVariants={productVariants}
+              sourcePath="/servicios/te-humus-paisajistas-jardineros"
+              serviceSlug="te-humus-paisajistas-jardineros"
             />
           </div>
         </section>

@@ -231,8 +231,11 @@ export async function sendAdminOrderNotification(orderNumber: string, totalAmoun
   }
 }
 
-export async function sendContactFormEmail(name: string, email: string, reason: string, message: string) {
+export async function sendContactFormEmail(name: string, email: string, reason: string, message: string, phone?: string) {
   if (!process.env.RESEND_API_KEY) return;
+
+  const emailLabel = email || 'Sin email aportado';
+  const phoneLabel = phone || 'Sin teléfono aportado';
 
   const inner = `
     <div style="display:inline-block; padding:6px 12px; background-color:${C.accent}; border:1px solid ${C.border}; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:${C.green}; margin-bottom:20px;">
@@ -246,7 +249,7 @@ export async function sendContactFormEmail(name: string, email: string, reason: 
       <tr>
         <td style="padding:16px 0; border-bottom:1px solid ${C.border};">
           <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:${C.muted}; margin-bottom:4px;">De</div>
-          <div style="font-size:15px; color:${C.text};">${name} · <a href="mailto:${email}" style="color:${C.green}; text-decoration:none;">${email}</a></div>
+          <div style="font-size:15px; color:${C.text};">${name} · ${email ? `<a href="mailto:${email}" style="color:${C.green}; text-decoration:none;">${email}</a>` : emailLabel} · ${phoneLabel}</div>
         </td>
       </tr>
     </table>
@@ -256,7 +259,7 @@ export async function sendContactFormEmail(name: string, email: string, reason: 
     </div>
 
     <p style="margin:24px 0 0 0; font-size:13px; color:${C.soft}; line-height:1.6;">
-      Puedes responder directamente a este correo — irá a <strong style="color:${C.text};">${email}</strong>.
+      ${email ? `Puedes responder directamente a este correo. Irá a <strong style="color:${C.text};">${email}</strong>.` : `Este lead no incluye email. Contactar por teléfono: <strong style="color:${C.text};">${phoneLabel}</strong>.`}
     </p>
   `;
 
@@ -265,7 +268,7 @@ export async function sendContactFormEmail(name: string, email: string, reason: 
     await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_INBOX,
-      replyTo: email,
+      ...(email ? { replyTo: email } : {}),
       subject: `Consulta: ${reason} · ${name}`,
       html: emailShell(
         `Consulta de ${name}`,

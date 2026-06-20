@@ -198,16 +198,19 @@ function AttributionKpi({ label, value }: { label: string; value: string }) {
 function getTopLeadSources(
   contacts: Array<{
     notes: string | null;
+    sourcePath?: string | null;
+    sourceQuery?: string | null;
+    leadIntent?: string | null;
     deals: Array<{ type: string }>;
   }>
 ) {
   const buckets = new Map<string, { path: string; count: number; serviceCount: number }>();
 
   for (const contact of contacts) {
-    const path = extractSourcePath(contact.notes) || 'sin-origen';
+    const path = buildStructuredSourcePath(contact) || extractSourcePath(contact.notes) || 'sin-origen';
     const current = buckets.get(path) ?? { path, count: 0, serviceCount: 0 };
     current.count += 1;
-    if (contact.deals.some((deal) => deal.type === 'SERVICIO')) {
+    if (contact.leadIntent === 'service' || contact.deals.some((deal) => deal.type === 'SERVICIO')) {
       current.serviceCount += 1;
     }
     buckets.set(path, current);
@@ -216,6 +219,14 @@ function getTopLeadSources(
   return [...buckets.values()]
     .sort((a, b) => b.count - a.count || b.serviceCount - a.serviceCount)
     .slice(0, 8);
+}
+
+function buildStructuredSourcePath(contact: {
+  sourcePath?: string | null;
+  sourceQuery?: string | null;
+}) {
+  if (!contact.sourcePath) return null;
+  return `${contact.sourcePath}${contact.sourceQuery ?? ''}`;
 }
 
 function extractSourcePath(notes: string | null) {

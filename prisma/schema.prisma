@@ -247,6 +247,13 @@ model CrmContact {
   phone       String?
   company     String?
   source      String    @default("Directo") // "Web", "Llamada", "Email", "Recomendado"
+  sourcePath  String?
+  sourceQuery String?
+  sourceReferrer String?
+  serviceSlug String?
+  leadIntent  String?
+  estimatedM2 String?
+  estimatedPrice String?
   type        String    @default("B2C")     // "B2C", "B2B"
   stage       String    @default("LEAD")    // "LEAD", "CONTACTADO", "OPORTUNIDAD", "CLIENTE", "INACTIVO"
   notes       String?   
@@ -260,6 +267,8 @@ model CrmContact {
   updatedAt   DateTime  @updatedAt
 
   @@index([type, stage])
+  @@index([sourcePath])
+  @@index([leadIntent])
 }
 
 model CrmDeal {

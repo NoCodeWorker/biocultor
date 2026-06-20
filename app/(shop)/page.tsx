@@ -222,9 +222,9 @@ export default async function Page() {
 
           {/* Hero Heading — Sigue el patrón global font-heading (Quicksand) */}
           <h1 className="font-heading text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight max-w-5xl text-cream leading-[1.05] drop-shadow-lg">
-            La Esencia de la Tierra.
+            Té de humus de lombriz.
             <br />
-            <span className="text-brand-green-light">Té de Humus Premium.</span>
+            <span className="text-brand-green-light">Producto y aplicación profesional.</span>
           </h1>
 
           {/* Subtítulo semántico GEO/SEO — invisible en diseño, legible por bots */}
@@ -233,7 +233,7 @@ export default async function Page() {
           </p>
 
           <p className="text-base md:text-xl text-cream/80 max-w-2xl leading-relaxed font-light drop-shadow-sm">
-            Compra <strong>extracto de humus de lombriz</strong> para aplicar por tu cuenta o solicita un servicio profesional de diagnóstico, suministro y aplicación en jardín, césped o proyecto de paisajismo.
+            Compra <strong>extracto de humus de lombriz</strong> para aplicar por tu cuenta o solicita diagnóstico, suministro y aplicación en jardines premium, césped y proyectos de paisajismo.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
@@ -262,11 +262,18 @@ export default async function Page() {
 
           {/* Trust micro-badges */}
           <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-1">
-              {['✓ Envío en 24/48h', '✓ Pago seguro', '✓ Compra directa'].map((badge) => (
+            {['✓ Envío en 24/48h', '✓ Pago seguro', '✓ Compra directa'].map((badge) => (
               <span key={badge} className="text-cream/70 text-xs font-medium px-3 py-1.5 rounded-full bg-cream/8 backdrop-blur-sm border border-cream/10">
                 {badge}
               </span>
             ))}
+          </div>
+
+          <div className="max-w-3xl rounded-2xl border border-cream/15 bg-cream/10 px-5 py-4 text-left text-cream/85 backdrop-blur-md">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-green-light">Respuesta corta</p>
+            <p className="mt-2 text-sm md:text-base leading-relaxed">
+              Si tienes equipo y superficie pequeña, compra el producto. Si el jardín supera 300 m², está compactado o el resultado visual importa, calcula aplicación profesional.
+            </p>
           </div>
 
           {/* Proof Stats — datos reales de credibilidad */}

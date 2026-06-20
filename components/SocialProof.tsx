@@ -72,7 +72,7 @@ export default function SocialProof() {
               <span className="block text-primary mt-1">que ya usan Biocultor.</span>
             </h2>
             <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-              Testimonios verificados de olivicultores, citricultura, viticultores y profesionales 
+              Opiniones recopiladas de olivicultores, citricultura, viticultores y profesionales
               de jardinería de toda la Península.
             </p>
           </div>
@@ -86,7 +86,7 @@ export default function SocialProof() {
               ))}
             </div>
             <span className="text-xs text-muted-foreground font-medium text-center">
-              {testimonials.length} valoraciones verificadas
+              {testimonials.length} valoraciones recopiladas
             </span>
           </div>
         </div>

@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Star, Truck, ShieldCheck, Check, Droplet, Sprout, Leaf, Zap, ShoppingBag } from 'lucide-react';
+import { ArrowRight, Calculator, Star, Truck, ShieldCheck, Check, Droplet, Sprout, Leaf, Zap, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { cn } from '@/lib/utils';
 import UrgencyModule from '@/components/UrgencyModule';
@@ -375,6 +376,31 @@ export default function ProductFunnel({
                   <span className="text-[9px] md:text-[10px] text-muted-foreground">Pagos Cifrados</span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4 md:p-5 flex flex-col gap-4">
+            <div className="flex gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <Calculator className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-heading font-bold text-base text-foreground">¿Comprar o contratar aplicación?</h3>
+                <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                  Si tienes más de 300 m², césped irregular o un jardín de alto valor, calcula el servicio antes de decidir litros y dosis.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Button asChild className="rounded-full bg-primary text-white hover:bg-brand-green-hover">
+                <Link href="/calculadoras#presupuesto">
+                  Calcular servicio
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="rounded-full">
+                <Link href="/servicios">Ver aplicación profesional</Link>
+              </Button>
             </div>
           </div>
         </div>

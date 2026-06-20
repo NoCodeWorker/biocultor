@@ -72,6 +72,7 @@ export default function ContactForm() {
     tipoParam,
     litrosParam,
   });
+  const isServiceContext = Boolean(servicioParam);
   const formDefaultsKey = [
     servicioParam,
     m2Param,
@@ -127,6 +128,8 @@ export default function ContactForm() {
       <input type="hidden" name="sourceReferrer" value={attribution.sourceReferrer} />
       <input type="hidden" name="estimatedM2" value={m2Param ?? ''} />
       <input type="hidden" name="estimatedPrice" value={precioParam ?? ''} />
+      <input type="hidden" name="serviceSlug" value={servicioParam ?? ''} />
+      <input type="hidden" name="leadIntent" value={isServiceContext ? 'service' : 'product'} />
       {status?.error && (
         <div className="p-4 bg-red-50 text-red-600 border border-red-200 rounded-xl text-sm font-medium">
           {status.error}
@@ -138,9 +141,32 @@ export default function ContactForm() {
           <input required type="text" name="name" id="name" className="w-full h-12 bg-background border border-border/50 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow" placeholder="Juan López" />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="email" className="text-sm font-semibold text-foreground">Correo electrónico</label>
-          <input required type="email" name="email" id="email" className="w-full h-12 bg-background border border-border/50 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow" placeholder="juan@finca.com" />
+          <label htmlFor="phone" className="text-sm font-semibold text-foreground">
+            Teléfono{isServiceContext ? ' para diagnóstico' : ''}
+          </label>
+          <input
+            required={isServiceContext}
+            type="tel"
+            name="phone"
+            id="phone"
+            className="w-full h-12 bg-background border border-border/50 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
+            placeholder="+34 600 000 000"
+          />
         </div>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label htmlFor="email" className="text-sm font-semibold text-foreground">
+          Correo electrónico{isServiceContext ? ' opcional' : ''}
+        </label>
+        <input
+          required={!isServiceContext}
+          type="email"
+          name="email"
+          id="email"
+          className="w-full h-12 bg-background border border-border/50 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow"
+          placeholder="juan@finca.com"
+        />
       </div>
 
       <div className="flex flex-col gap-2">

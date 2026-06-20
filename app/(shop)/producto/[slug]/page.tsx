@@ -91,6 +91,10 @@ function buildProductReviewData() {
   };
 }
 
+function shouldEmitProductReviewSchema() {
+  return process.env.ENABLE_PRODUCT_REVIEW_SCHEMA === 'true';
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   let product = null;
@@ -183,7 +187,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   // Imágenes dinámicas desde la BD — se sincronizan automáticamente con el admin
   const productImages = buildProductImagesFromVariants(product.variants, product.name, appUrl);
-  const productReviewData = buildProductReviewData();
+  const productReviewData = shouldEmitProductReviewSchema() ? buildProductReviewData() : null;
 
   // Construye los nodos ImageObject con @id para el @id-linking del @graph
   // Usamos la URL de uploads directamente (ya es WebP) para máxima coherencia
@@ -229,8 +233,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         itemCondition: 'https://schema.org/NewCondition',
         countryOfOrigin: { '@type': 'Country', name: 'España' },
         areaServed: { '@type': 'Country', name: 'España' },
-        aggregateRating: productReviewData.aggregateRating,
-        review: productReviewData.review,
+        ...(productReviewData
+          ? {
+              aggregateRating: productReviewData.aggregateRating,
+              review: productReviewData.review,
+            }
+          : {}),
         // ── Ofertas por variante: clave para Google Shopping ──────────────
         // Google Shopping indexa cada Offer por separado si tiene sku único
         offers: product.variants.map(v => ({

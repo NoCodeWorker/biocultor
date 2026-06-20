@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { Calculator, Ruler, ArrowRight, Sparkles, Truck, ClipboardCheck } from 'lucide-react';
+import { Calculator, Ruler, Sparkles, Truck, ClipboardCheck, CheckCircle2, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { submitContactForm } from '@/app/(shop)/contacto/actions';
 
 interface Variant {
   sku: string;
@@ -16,16 +16,22 @@ interface ProfessionalServiceCalculatorProps {
   baseArea?: number;
   ratePerAdditionalM2?: number;
   productVariants?: Variant[];
+  sourcePath?: string;
+  serviceSlug?: string;
 }
 
 export default function ProfessionalServiceCalculator({
   basePrice = 195,
   baseArea = 500,
   ratePerAdditionalM2 = 0.2,
-  productVariants = []
+  productVariants = [],
+  sourcePath = '/calculadoras',
+  serviceSlug = 'paisajistas',
 }: ProfessionalServiceCalculatorProps) {
   const [area, setArea] = useState<number>(1000);
   const [serviceType, setServiceType] = useState<'suministro' | 'aplicacion'>('aplicacion');
+  const [isPending, setIsPending] = useState(false);
+  const [status, setStatus] = useState<{ success?: boolean; error?: string } | null>(null);
 
   // Lógica de Suministro: Calcula los litros necesarios y la combinación más barata de garrafas
   const getSupplyEstimation = (m2: number) => {
@@ -85,14 +91,21 @@ export default function ProfessionalServiceCalculator({
 
   const totalPrice = serviceType === 'suministro' ? supplyEst.price : appPrice;
 
-  // URL del CTA
   const queryParams = new URLSearchParams({
-    servicio: 'paisajistas',
+    servicio: serviceSlug,
     m2: area.toString(),
     tipo: serviceType,
     precio: totalPrice.toFixed(2),
     litros: supplyEst.liters.toString()
   });
+
+  async function action(formData: FormData) {
+    setIsPending(true);
+    setStatus(null);
+    const result = await submitContactForm(formData);
+    setStatus(result);
+    setIsPending(false);
+  }
 
   return (
     <div className="bg-card border border-border/60 p-6 md:p-8 rounded-3xl w-full shadow-lg shadow-foreground/5 flex flex-col gap-6">
@@ -237,17 +250,59 @@ export default function ProfessionalServiceCalculator({
         </p>
       </div>
 
-      {/* Botón CTA con redirección y pre-llenado */}
-      <Button asChild size="lg" className="rounded-full w-full bg-primary hover:bg-brand-green-hover text-white py-6 shadow-md shadow-primary/15 transition-all">
-        <Link href={`/contacto?${queryParams.toString()}`}>
-          Solicitar Presupuesto Profesional
-          <ArrowRight className="ml-2 w-4 h-4" />
-        </Link>
-      </Button>
+      <form action={action} className="rounded-2xl border border-primary/15 bg-primary/5 p-4 flex flex-col gap-3">
+        <input type="hidden" name="motivo" value="Servicio Profesional (Jardineros/Paisajistas)" />
+        <input
+          type="hidden"
+          name="mensaje"
+          value={`Hola, quiero validar ${serviceType === 'suministro' ? 'solo suministro' : 'suministro y aplicación técnica'} para ${area} m2. La calculadora recomienda ${supplyEst.liters} litros y estima ${totalPrice.toFixed(2)} EUR.`}
+        />
+        <input type="hidden" name="sourcePath" value={sourcePath} />
+        <input type="hidden" name="sourceQuery" value={`?${queryParams.toString()}`} />
+        <input type="hidden" name="sourceReferrer" value="" />
+        <input type="hidden" name="estimatedM2" value={area.toString()} />
+        <input type="hidden" name="estimatedPrice" value={totalPrice.toFixed(2)} />
+        <input type="hidden" name="serviceSlug" value={serviceSlug} />
+        <input type="hidden" name="leadIntent" value="service" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input
+            required
+            name="name"
+            type="text"
+            placeholder="Nombre"
+            className="h-11 rounded-xl border border-border/60 bg-background px-3 text-sm font-semibold text-foreground outline-none focus:border-primary"
+          />
+          <input
+            required
+            name="phone"
+            type="tel"
+            placeholder="Teléfono"
+            className="h-11 rounded-xl border border-border/60 bg-background px-3 text-sm font-semibold text-foreground outline-none focus:border-primary"
+          />
+        </div>
+        <input
+          name="email"
+          type="email"
+          placeholder="Email profesional opcional"
+          className="h-11 rounded-xl border border-border/60 bg-background px-3 text-sm font-semibold text-foreground outline-none focus:border-primary"
+        />
+        {status?.error && <p className="text-xs font-semibold text-red-600">{status.error}</p>}
+        {status?.success ? (
+          <div className="flex items-center gap-2 rounded-xl bg-background px-4 py-3 text-sm font-bold text-primary">
+            <CheckCircle2 className="w-4 h-4" />
+            Solicitud recibida. Revisaremos dosis, litros y logística.
+          </div>
+        ) : (
+          <Button disabled={isPending} size="lg" className="rounded-full w-full bg-primary hover:bg-brand-green-hover text-white py-6 shadow-md shadow-primary/15 transition-all">
+            {isPending ? 'Enviando...' : 'Solicitar validación profesional'}
+            {isPending ? null : <Send className="ml-2 w-4 h-4" />}
+          </Button>
+        )}
 
       <p className="text-[10px] text-muted-foreground text-center">
         *Presupuestos para Madrid y Castilla-La Mancha. Logística adaptada a la viabilidad de microorganismos vivos.
       </p>
+      </form>
     </div>
   );
 }

@@ -228,6 +228,19 @@ export default async function Page() {
               </Button>
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              {[
+                { label: 'Desde', value: `${payload.price} EUR orientativos` },
+                { label: 'Respuesta', value: 'Menos de 24 h hábiles' },
+                { label: 'Primer paso', value: 'Medir m2 y diagnosticar' },
+              ].map((item) => (
+                <div key={item.label} className="rounded-2xl border border-primary/15 bg-primary/5 p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-primary">{item.label}</p>
+                  <p className="mt-2 font-heading text-base font-bold leading-tight text-foreground">{item.value}</p>
+                </div>
+              ))}
+            </div>
+
             {/* Micro badges */}
             <div className="flex flex-wrap gap-4 items-center text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
@@ -401,6 +414,8 @@ export default async function Page() {
               basePrice={parseFloat(payload.price || '195')}
               baseArea={parseInt(payload.areaLimit || '500')}
               ratePerAdditionalM2={parseFloat(payload.additionalRate || '0.2')}
+              sourcePath="/servicios/regeneracion-cesped-y-jardines"
+              serviceSlug="regeneracion-cesped-y-jardines"
             />
           </div>
         </section>

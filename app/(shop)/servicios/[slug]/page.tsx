@@ -172,6 +172,19 @@ export default async function PremiumServicePage({
               </div>
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              {[
+                { label: 'Respuesta', value: 'Menos de 24 h hábiles' },
+                { label: 'Primer paso', value: 'Diagnóstico y superficie' },
+                { label: 'Decisión', value: 'Presupuesto o compra directa' },
+              ].map((item) => (
+                <div key={item.label} className="rounded-2xl border border-primary/15 bg-primary/5 p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-primary">{item.label}</p>
+                  <p className="mt-2 font-heading text-base font-bold leading-tight text-foreground">{item.value}</p>
+                </div>
+              ))}
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="rounded-full bg-primary hover:bg-brand-green-hover text-white">
                 <Link href={budgetHref}>
