@@ -10,7 +10,6 @@
  */
 
 import { PrismaClient } from '../generated/prisma/index.js';
-import { pathToFileURL } from 'node:url';
 
 const SEED_AUTHOR = 'Equipo Biocultor';
 
@@ -704,7 +703,7 @@ async function main() {
   }
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1]?.endsWith('seed-phase1-authority-posts.ts')) {
   main().catch((error) => {
     console.error('❌ Error fatal en seed-phase1-authority-posts:', error);
     process.exit(1);

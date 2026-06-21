@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/db';
-import { logAdminAction } from '@/lib/admin/audit';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,6 +12,10 @@ export const dynamic = 'force-dynamic';
  * requiere Basic Auth — no es un endpoint anónimo.
  */
 export async function GET() {
+  const [{ default: prisma }, { logAdminAction }] = await Promise.all([
+    import('@/lib/db'),
+    import('@/lib/admin/audit'),
+  ]);
   const now = new Date();
   const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);

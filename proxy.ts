@@ -5,8 +5,8 @@ import type { NextRequest } from 'next/server';
 // Credenciales en `.env`: USER_ADMIN, PASSWORD_ADMIN.
 //
 // Decisiones:
-// - Edge runtime: usamos `atob` (web standard) y comparación manual
-//   constant-time (ni timingSafeEqual de node:crypto está disponible aquí).
+// - Proxy de Next.js 16: corre en runtime Node y mantiene el mismo contrato que
+//   el middleware anterior para no cambiar el flujo operativo del panel.
 // - Si las env vars no están configuradas, devolvemos 503 explícito en lugar
 //   de aceptar cualquier credencial. Falla cerrado, no abierto.
 // - El realm "Biocultor Admin" hace que el navegador muestre un prompt nativo.
@@ -37,7 +37,7 @@ function unauthorized(message = 'Auth required') {
   });
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   // Lectura en runtime (no a nivel de módulo) para evitar que Next inline
   // los valores en build time como `undefined` cuando el build no los tiene.
   const ADMIN_USER = process.env.USER_ADMIN ?? '';

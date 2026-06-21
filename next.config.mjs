@@ -28,18 +28,6 @@ const nextConfig = {
         ],
       },
       {
-        source: '/_next/static/:path*',
-        headers: [
-          { key: 'Cache-Control', value: `public, max-age=${oneYear}, immutable` },
-        ],
-      },
-      {
-        source: '/_next/image(.*)',
-        headers: [
-          { key: 'Cache-Control', value: `public, max-age=${oneYear}, immutable` },
-        ],
-      },
-      {
         source: '/(.*)',
         headers: [
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
