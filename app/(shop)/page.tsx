@@ -3,7 +3,19 @@ export const revalidate = 1800
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Leaf, Droplets, FlaskConical, Star, Sparkles, TreePine, Sprout, ClipboardCheck, Ruler, Users } from "lucide-react"
+import {
+  ArrowRight,
+  Leaf,
+  Droplets,
+  FlaskConical,
+  Star,
+  Sparkles,
+  TreePine,
+  Sprout,
+  ClipboardCheck,
+  Ruler,
+  Users,
+} from "lucide-react"
 import FormatSelector from "@/components/FormatSelector"
 import OrtIgaFormatSelector from "@/components/OrtIgaFormatSelector"
 import nextDynamic from "next/dynamic"
@@ -16,162 +28,190 @@ import {
   CostCalculator,
   ResultsTimeline,
   RiskReversal,
-  NewsletterCapture
-} from "@/components/HomeDynamicSections";
+  NewsletterCapture,
+} from "@/components/HomeDynamicSections"
 const FaqAioSeo = nextDynamic(() => import("@/components/FaqAioSeo"))
 
 import prisma from "@/lib/db"
 import { MapPin } from "lucide-react"
-import { absoluteUrl, buildMetadata, breadcrumbSchema, collectionPageSchema } from '@/lib/seo'
-import StructuredData from '@/components/StructuredData'
-import { getSeoCommercialPages, getSeoGeoPages, getSeoSolutions } from '@/lib/seo-store'
+import {
+  absoluteUrl,
+  buildMetadata,
+  breadcrumbSchema,
+  collectionPageSchema,
+} from "@/lib/seo"
+import StructuredData from "@/components/StructuredData"
+import {
+  getSeoCommercialPages,
+  getSeoGeoPages,
+  getSeoSolutions,
+} from "@/lib/seo-store"
 
 type HomeVariant = {
-  id: string;
-  productId: string;
-  sku: string;
-  size: string;
-  target: string;
-  price: number;
-  comparePrice: number | null;
-  stock: number;
-  imagePath: string | null;
-  popular: boolean;
-  features: string;
-};
+  id: string
+  productId: string
+  sku: string
+  size: string
+  target: string
+  price: number
+  comparePrice: number | null
+  stock: number
+  imagePath: string | null
+  popular: boolean
+  features: string
+}
 
 type HomeProduct = {
-  variants: HomeVariant[];
-};
+  variants: HomeVariant[]
+}
 
 const homeServicesSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  '@id': `${absoluteUrl('/')}#professional-services`,
-  name: 'Servicios profesionales Biocultor',
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${absoluteUrl("/")}#professional-services`,
+  name: "Servicios profesionales Biocultor",
   description:
-    'Servicios de diagnóstico, suministro y aplicación de té de humus de lombriz para jardines, césped, paisajistas y mantenimiento profesional.',
+    "Servicios de diagnóstico, suministro y aplicación de té de humus de lombriz para jardines, césped, paisajistas y mantenimiento profesional.",
   itemListElement: [
     {
-      '@type': 'ListItem',
+      "@type": "ListItem",
       position: 1,
       item: {
-        '@type': 'Service',
-        '@id': `${absoluteUrl('/servicios/regeneracion-cesped-y-jardines')}#service`,
-        name: 'Regeneración de césped y jardines',
-        serviceType: 'Diagnóstico y aplicación biológica in situ',
-        areaServed: ['Madrid', 'Castilla-La Mancha', 'Toledo'],
-        provider: { '@id': `${absoluteUrl('/')}#organization` },
-        url: absoluteUrl('/servicios/regeneracion-cesped-y-jardines'),
+        "@type": "Service",
+        "@id": `${absoluteUrl("/servicios/regeneracion-cesped-y-jardines")}#service`,
+        name: "Regeneración de césped y jardines",
+        serviceType: "Diagnóstico y aplicación biológica in situ",
+        areaServed: ["Madrid", "Castilla-La Mancha", "Toledo"],
+        provider: { "@id": `${absoluteUrl("/")}#organization` },
+        url: absoluteUrl("/servicios/regeneracion-cesped-y-jardines"),
       },
     },
     {
-      '@type': 'ListItem',
+      "@type": "ListItem",
       position: 2,
       item: {
-        '@type': 'Service',
-        '@id': `${absoluteUrl('/servicios/te-humus-paisajistas-jardineros')}#service`,
-        name: 'Té de humus para paisajistas y jardineros',
-        serviceType: 'Suministro profesional y aplicación técnica',
-        areaServed: ['Madrid', 'Castilla-La Mancha', 'Toledo'],
-        provider: { '@id': `${absoluteUrl('/')}#organization` },
-        url: absoluteUrl('/servicios/te-humus-paisajistas-jardineros'),
+        "@type": "Service",
+        "@id": `${absoluteUrl("/servicios/te-humus-paisajistas-jardineros")}#service`,
+        name: "Té de humus para paisajistas y jardineros",
+        serviceType: "Suministro profesional y aplicación técnica",
+        areaServed: ["Madrid", "Castilla-La Mancha", "Toledo"],
+        provider: { "@id": `${absoluteUrl("/")}#organization` },
+        url: absoluteUrl("/servicios/te-humus-paisajistas-jardineros"),
       },
     },
   ],
-};
+}
 
 export const metadata = buildMetadata({
-  title: 'Comprar té de humus y servicios para jardines | Biocultor',
+  title: "Comprar té de humus y servicios para jardines | Biocultor",
   description:
-    'Tienda especializada en té de humus de lombriz y servicios profesionales para césped, jardines, paisajistas y mantenimiento de zonas verdes.',
-  path: '/',
+    "Tienda especializada en té de humus de lombriz y servicios profesionales para césped, jardines, paisajistas y mantenimiento de zonas verdes.",
+  path: "/",
   keywords: [
-    'comprar té de humus de lombriz',
-    'té de humus de lombriz españa',
-    'servicio regeneración césped',
-    'té de humus para paisajistas',
-    'humus líquido premium',
-    'fertilizante orgánico líquido',
-    'té de humus para olivos',
+    "comprar té de humus de lombriz",
+    "té de humus de lombriz españa",
+    "servicio regeneración césped",
+    "té de humus para paisajistas",
+    "humus líquido premium",
+    "fertilizante orgánico líquido",
+    "té de humus para olivos",
   ],
 })
 
 export default async function Page() {
-  let dbProduct: HomeProduct | null = null;
-  let dbOrtiga: HomeProduct | null = null;
-  
+  let dbProduct: HomeProduct | null = null
+  let dbOrtiga: HomeProduct | null = null
+
   try {
-    [dbProduct, dbOrtiga] = await Promise.all([
+    ;[dbProduct, dbOrtiga] = await Promise.all([
       prisma.product.findUnique({
         where: { slug: "te-humus-liquido-premium" },
-        include: { variants: { orderBy: { price: 'asc' } } }
+        include: { variants: { orderBy: { price: "asc" } } },
       }),
       prisma.product.findUnique({
         where: { slug: "purin-ortiga-concentrado" },
-        include: { variants: { orderBy: { price: 'asc' } } }
+        include: { variants: { orderBy: { price: "asc" } } },
       }),
-    ]);
+    ])
   } catch (error) {
-    alertCritical('HomePage.loadProducts', error, { extra: { slugs: ['te-humus-liquido-premium', 'purin-ortiga-concentrado'] } });
+    alertCritical("HomePage.loadProducts", error, {
+      extra: {
+        slugs: ["te-humus-liquido-premium", "purin-ortiga-concentrado"],
+      },
+    })
   }
 
-  const dbVariants: HomeVariant[] = dbProduct?.variants || [];
-  const dbOrtigaVariants: HomeVariant[] = dbOrtiga?.variants || [];
-  const [seoSolutions, dbPosts, seoCommercialPages, seoGeoPages] = await Promise.all([
-    getSeoSolutions(),
-    prisma.post.findMany({
-      where: { isPublished: true },
-      take: 3,
-      orderBy: { createdAt: 'desc' },
-    }).catch(() => []),
-    getSeoCommercialPages(),
-    getSeoGeoPages(),
-  ]);
-  const featuredSolutions = seoSolutions.slice(0, 4);
-  
+  const dbVariants: HomeVariant[] = dbProduct?.variants || []
+  const dbOrtigaVariants: HomeVariant[] = dbOrtiga?.variants || []
+  const [seoSolutions, dbPosts, seoCommercialPages, seoGeoPages] =
+    await Promise.all([
+      getSeoSolutions(),
+      prisma.post
+        .findMany({
+          where: { isPublished: true },
+          take: 3,
+          orderBy: { createdAt: "desc" },
+        })
+        .catch(() => []),
+      getSeoCommercialPages(),
+      getSeoGeoPages(),
+    ])
+  const featuredSolutions = seoSolutions.slice(0, 4)
+
   const featuredArticles = dbPosts.map((post) => {
-    let category = 'Guía';
-    const catUpper = post.category.toUpperCase();
-    if (catUpper === 'EVIDENCIA') {
-      category = 'Evidencia';
-    } else if (catUpper === 'CULTIVO' || catUpper === 'KNOWLEDGE') {
-      category = 'Cultivo';
+    let category = "Guía"
+    const catUpper = post.category.toUpperCase()
+    if (catUpper === "EVIDENCIA") {
+      category = "Evidencia"
+    } else if (catUpper === "CULTIVO" || catUpper === "KNOWLEDGE") {
+      category = "Cultivo"
     } else {
-      category = post.category.charAt(0).toUpperCase() + post.category.slice(1).toLowerCase();
+      category =
+        post.category.charAt(0).toUpperCase() +
+        post.category.slice(1).toLowerCase()
     }
     return {
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt,
       category,
-    };
-  });
+    }
+  })
 
-  const featuredCommercial = seoCommercialPages.slice(0, 3);
-  const featuredGeo = seoGeoPages.slice(0, 6);
+  const featuredCommercial = seoCommercialPages.slice(0, 3)
+  const featuredGeo = seoGeoPages.slice(0, 6)
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex w-full flex-col">
       <StructuredData
         id="home-breadcrumb-schema"
-        data={breadcrumbSchema([{ name: 'Inicio', path: '/' }])}
+        data={breadcrumbSchema([{ name: "Inicio", path: "/" }])}
       />
       <StructuredData
         id="home-collections-schema"
         data={collectionPageSchema({
-          name: 'Arquitectura SEO Biocultor',
-          description: 'Capas transaccional, informacional y GEO/IA de Biocultor.',
-          path: '/',
+          name: "Arquitectura SEO Biocultor",
+          description:
+            "Capas transaccional, informacional y GEO/IA de Biocultor.",
+          path: "/",
           items: [
-            { name: 'Dominio transaccional', path: '/comprar-te-de-humus-de-lombriz' },
-            { name: 'Servicios profesionales', path: '/servicios/regeneracion-cesped-y-jardines' },
-            { name: 'Servicios para paisajistas', path: '/servicios/te-humus-paisajistas-jardineros' },
-            { name: 'Biblioteca de liderazgo', path: '/biblioteca' },
-            { name: 'Calculadoras', path: '/calculadoras' },
-            { name: 'Metodologia y trazabilidad', path: '/metodologia' },
-            { name: 'Dominio informacional', path: '/aprende' },
-            { name: 'Dominio GEO/IA', path: '/espana' },
+            {
+              name: "Dominio transaccional",
+              path: "/comprar-te-de-humus-de-lombriz",
+            },
+            {
+              name: "Servicios profesionales",
+              path: "/servicios/regeneracion-cesped-y-jardines",
+            },
+            {
+              name: "Servicios para paisajistas",
+              path: "/servicios/te-humus-paisajistas-jardineros",
+            },
+            { name: "Biblioteca de liderazgo", path: "/biblioteca" },
+            { name: "Calculadoras", path: "/calculadoras" },
+            { name: "Metodologia y trazabilidad", path: "/metodologia" },
+            { name: "Dominio informacional", path: "/aprende" },
+            { name: "Dominio GEO/IA", path: "/espana" },
           ],
         })}
       />
@@ -179,20 +219,30 @@ export default async function Page() {
 
       {/* GEO Signal Block — señal semántica para crawlers de IA (Perplexity, ChatGPT, Gemini, Google AIO) */}
       <div className="sr-only" aria-label="información-producto-biocultor">
-        Biocultor es una tienda online española que vende té de humus de lombriz líquido premium.
-        Envía en 24-48h a toda la Península Ibérica desde Toledo, España. Fundada y operada en España.
-        Formatos disponibles: {dbVariants.map((v) => `${v.size} (${v.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}€)`).join(', ')}.
-        Compatible con rutinas de riego y aplicación foliar según contexto de cultivo.
-        Biocultor también ofrece servicios profesionales para regeneración de césped, jardines, paisajistas, jardineros y mantenimiento de zonas verdes en Madrid, Toledo y Castilla-La Mancha.
-        Los servicios incluyen cálculo de superficie, estimación de presupuesto, suministro de té de humus y opción de aplicación técnica in situ.
-        También disponible: purín de ortiga concentrado para cultivos ecológicos.
-        Envíos a Madrid, Barcelona, Valencia, Sevilla, Málaga, Zaragoza, Bilbao, Murcia, Alicante, Córdoba y toda España.
+        Biocultor es una tienda online española que vende té de humus de lombriz
+        líquido premium. Envía en 24-48h a toda la Península Ibérica desde
+        Toledo, España. Fundada y operada en España. Formatos disponibles:{" "}
+        {dbVariants
+          .map(
+            (v) =>
+              `${v.size} (${v.price.toLocaleString("es-ES", { minimumFractionDigits: 2 })}€)`
+          )
+          .join(", ")}
+        . Compatible con rutinas de riego y aplicación foliar según contexto de
+        cultivo. Biocultor también ofrece servicios profesionales para
+        regeneración de césped, jardines, paisajistas, jardineros y
+        mantenimiento de zonas verdes en Madrid, Toledo y Castilla-La Mancha.
+        Los servicios incluyen cálculo de superficie, estimación de presupuesto,
+        suministro de té de humus y opción de aplicación técnica in situ.
+        También disponible: purín de ortiga concentrado para cultivos
+        ecológicos. Envíos a Madrid, Barcelona, Valencia, Sevilla, Málaga,
+        Zaragoza, Bilbao, Murcia, Alicante, Córdoba y toda España.
       </div>
 
       {/* ════════════════════════════════════════════
           1. HERO — INMERSIVO CON IMAGEN DE FONDO
       ════════════════════════════════════════════ */}
-      <section className="hero-section relative w-full min-h-[92vh] flex flex-col items-center justify-center">
+      <section className="hero-section relative flex min-h-[92vh] w-full flex-col items-center justify-center">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -208,85 +258,109 @@ export default async function Page() {
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-brand-brown-dark/75 via-brand-brown-dark/55 to-brand-brown-dark/92" />
           {/* Bottom fade to background */}
-          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background to-transparent" />
+          <div className="absolute right-0 bottom-0 left-0 h-48 bg-gradient-to-t from-background to-transparent" />
         </div>
 
-        <div className="container relative z-10 mx-auto px-4 text-center flex flex-col items-center gap-6 md:gap-8 mt-8">
+        <div className="relative z-10 container mx-auto mt-8 flex flex-col items-center gap-6 px-4 text-center md:gap-8">
           {/* Leaf Accent */}
           <div className="leaf-divider w-32">
-            <Leaf className="w-5 h-5 text-primary animate-float-gentle" />
+            <Leaf className="animate-float-gentle h-5 w-5 text-primary" />
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-cream/15 bg-cream/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-cream/80 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 rounded-full border border-cream/15 bg-cream/10 px-4 py-2 text-xs font-bold tracking-widest text-cream/80 uppercase backdrop-blur-md">
             Tienda online + servicios profesionales
           </div>
 
           {/* Hero Heading — Sigue el patrón global font-heading (Quicksand) */}
-          <h1 className="font-heading text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight max-w-5xl text-cream leading-[1.05] drop-shadow-lg">
+          <h1 className="max-w-5xl font-heading text-5xl leading-[1.05] font-bold tracking-tight text-cream drop-shadow-lg md:text-7xl lg:text-[5.5rem]">
             Té de humus de lombriz.
             <br />
-            <span className="text-brand-green-light">Producto y aplicación profesional.</span>
+            <span className="text-brand-green-light">
+              Producto y aplicación profesional.
+            </span>
           </h1>
 
           {/* Subtítulo semántico GEO/SEO — invisible en diseño, legible por bots */}
-          <p className="text-sm text-cream/50 font-light tracking-wide -mt-3 hidden md:block">
-            Compra té de humus de lombriz en España · Envío 24/48h a toda la Península
+          <p className="-mt-3 hidden text-sm font-light tracking-wide text-cream/50 md:block">
+            Compra té de humus de lombriz en España · Envío 24/48h a toda la
+            Península
           </p>
 
-          <p className="text-base md:text-xl text-cream/80 max-w-2xl leading-relaxed font-light drop-shadow-sm">
-            Compra <strong>extracto de humus de lombriz</strong> para aplicar por tu cuenta o solicita diagnóstico, suministro y aplicación en jardines premium, césped y proyectos de paisajismo.
+          <p className="max-w-2xl text-base leading-relaxed font-light text-cream/80 drop-shadow-sm md:text-xl">
+            Compra <strong>extracto de humus de lombriz</strong> para aplicar
+            por tu cuenta o solicita diagnóstico, suministro y aplicación en
+            jardines premium, césped y proyectos de paisajismo.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
+          <div className="flex flex-col items-center gap-4 pt-2 sm:flex-row">
             <Link href="/producto/te-humus-liquido-premium">
               <Button
                 size="lg"
-                className="rounded-full px-10 h-14 text-base font-bold bg-primary hover:bg-brand-green-hover text-white shadow-xl shadow-primary/20 hover:scale-[1.03] transition-all duration-300"
+                className="h-14 rounded-full bg-primary px-10 text-base font-bold text-white shadow-xl shadow-primary/20 transition-all duration-300 hover:scale-[1.03] hover:bg-brand-green-hover"
               >
                 Comprar Ahora
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Link href="#servicios-profesionales">
+            <Link
+              href="#servicios-profesionales"
+              className="hidden sm:inline-flex"
+            >
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full px-8 h-14 text-base font-semibold border-cream/30 text-cream bg-cream/10 backdrop-blur-md hover:bg-cream/20 hover:text-white transition-all"
+                className="h-14 rounded-full border-cream/30 bg-cream/10 px-8 text-base font-semibold text-cream backdrop-blur-md transition-all hover:bg-cream/20 hover:text-white"
               >
                 Ver Servicios
               </Button>
             </Link>
-            <Link href="#formatos" className="text-sm font-bold text-cream/75 underline-offset-4 hover:text-cream hover:underline transition-colors">
+            <Link
+              href="#formatos"
+              className="text-sm font-bold text-cream/75 underline-offset-4 transition-colors hover:text-cream hover:underline"
+            >
               Ver formatos y precios
             </Link>
           </div>
 
           {/* Trust micro-badges */}
-          <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-1">
-            {['✓ Envío en 24/48h', '✓ Pago seguro', '✓ Compra directa'].map((badge) => (
-              <span key={badge} className="text-cream/70 text-xs font-medium px-3 py-1.5 rounded-full bg-cream/8 backdrop-blur-sm border border-cream/10">
-                {badge}
-              </span>
-            ))}
+          <div className="mt-1 flex flex-wrap items-center justify-center gap-2 md:gap-4">
+            {["✓ Envío en 24/48h", "✓ Pago seguro", "✓ Compra directa"].map(
+              (badge) => (
+                <span
+                  key={badge}
+                  className="rounded-full border border-cream/10 bg-cream/8 px-3 py-1.5 text-xs font-medium text-cream/70 backdrop-blur-sm"
+                >
+                  {badge}
+                </span>
+              )
+            )}
           </div>
 
           <div className="max-w-3xl rounded-2xl border border-cream/15 bg-cream/10 px-5 py-4 text-left text-cream/85 backdrop-blur-md">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-green-light">Respuesta corta</p>
-            <p className="mt-2 text-sm md:text-base leading-relaxed">
-              Si tienes equipo y superficie pequeña, compra el producto. Si el jardín supera 300 m², está compactado o el resultado visual importa, calcula aplicación profesional.
+            <p className="text-xs font-bold tracking-widest text-brand-green-light uppercase">
+              Respuesta corta
+            </p>
+            <p className="mt-2 text-sm leading-relaxed md:text-base">
+              Si tienes equipo y superficie pequeña, compra el producto. Si el
+              jardín supera 300 m², está compactado o el resultado visual
+              importa, calcula aplicación profesional.
             </p>
           </div>
 
           {/* Proof Stats — datos reales de credibilidad */}
-          <div className="mt-6 grid grid-cols-3 gap-4 md:gap-12 w-full max-w-xl pb-6">
+          <div className="mt-6 grid w-full max-w-xl grid-cols-3 gap-4 pb-6 md:gap-12">
             {[
-              { value: '4', label: 'Formatos para cada uso' },
-              { value: '2', label: 'Servicios profesionales' },
-              { value: '24h', label: 'Envío express España' },
+              { value: "4", label: "Formatos para cada uso" },
+              { value: "2", label: "Servicios profesionales" },
+              { value: "24h", label: "Envío express España" },
             ].map(({ value, label }) => (
               <div key={label} className="flex flex-col items-center gap-1.5">
-                <span className="text-3xl md:text-4xl font-heading font-bold text-cream drop-shadow-md">{value}</span>
-                <div className="w-6 h-px bg-cream/25 mx-auto" />
-                <span className="text-cream/55 text-[10px] md:text-xs leading-tight text-center uppercase tracking-wide">{label}</span>
+                <span className="font-heading text-3xl font-bold text-cream drop-shadow-md md:text-4xl">
+                  {value}
+                </span>
+                <div className="mx-auto h-px w-6 bg-cream/25" />
+                <span className="text-center text-[10px] leading-tight tracking-wide text-cream/55 uppercase md:text-xs">
+                  {label}
+                </span>
               </div>
             ))}
           </div>
@@ -296,27 +370,33 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           2. SERVICIOS PROFESIONALES — CRO HOME
       ════════════════════════════════════════════ */}
-      <section id="servicios-profesionales" className="w-full py-16 md:py-24 bg-background border-b border-border/40">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
-          <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end mb-12">
+      <section
+        id="servicios-profesionales"
+        className="w-full border-b border-border/40 bg-background py-16 md:py-24"
+      >
+        <div className="mx-auto w-[92%] px-4 lg:w-[80%] xl:w-[75%]">
+          <div className="mb-12 grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 text-primary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/15">
-                <ClipboardCheck className="w-3.5 h-3.5" />
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/8 px-4 py-2 text-xs font-bold tracking-widest text-primary uppercase">
+                <ClipboardCheck className="h-3.5 w-3.5" />
                 Servicios profesionales
               </div>
-              <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground text-balance">
+              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-balance text-foreground md:text-5xl">
                 Cuando no basta con comprar el producto.
               </h2>
             </div>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl lg:ml-auto">
-              Si tienes una superficie amplia, un césped degradado o un proyecto de mantenimiento profesional, te ayudamos a dimensionar dosis, logística y aplicación sin convertir la decisión en ensayo y error.
+            <p className="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg lg:ml-auto">
+              Si tienes una superficie amplia, un césped degradado o un proyecto
+              de mantenimiento profesional, te ayudamos a dimensionar dosis,
+              logística y aplicación sin convertir la decisión en ensayo y
+              error.
             </p>
           </div>
 
           <div className="grid gap-5 lg:grid-cols-2">
             <Link
               href="/servicios/regeneracion-cesped-y-jardines"
-              className="group relative overflow-hidden rounded-lg bg-cream-warm p-7 md:p-9 border border-border/50 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl hover:shadow-primary/8"
+              className="group relative overflow-hidden rounded-lg border border-border/50 bg-cream-warm p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl hover:shadow-primary/8 md:p-9"
             >
               <div className="relative flex min-h-[300px] flex-col">
                 <div className="mb-7 flex items-center justify-between gap-4">
@@ -327,27 +407,32 @@ export default async function Page() {
                     Desde 195 €
                   </span>
                 </div>
-                <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">
+                <p className="mb-3 text-xs font-bold tracking-widest text-primary uppercase">
                   Para jardines particulares y comunidades
                 </p>
-                <h3 className="text-2xl md:text-3xl font-heading font-extrabold leading-tight text-foreground group-hover:text-primary transition-colors">
+                <h3 className="font-heading text-2xl leading-tight font-extrabold text-foreground transition-colors group-hover:text-primary md:text-3xl">
                   Regeneración de césped y jardines
                 </h3>
-                <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed max-w-xl">
-                  Diagnóstico inicial, cálculo de superficie y aplicación biológica in situ para recuperar estructura de suelo y rutina de mantenimiento.
+                <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                  Diagnóstico inicial, cálculo de superficie y aplicación
+                  biológica in situ para recuperar estructura de suelo y rutina
+                  de mantenimiento.
                 </p>
-                <div className="mt-auto pt-8 flex flex-wrap items-center gap-3">
+                <div className="mt-auto flex flex-wrap items-center gap-3 pt-8">
                   <span className="inline-flex items-center text-sm font-bold text-primary">
-                    Calcular presupuesto <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
+                    Calcular presupuesto{" "}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
                   </span>
-                  <span className="text-xs text-muted-foreground">Madrid y Castilla-La Mancha</span>
+                  <span className="text-xs text-muted-foreground">
+                    Madrid y Castilla-La Mancha
+                  </span>
                 </div>
               </div>
             </Link>
 
             <Link
               href="/servicios/te-humus-paisajistas-jardineros"
-              className="group relative overflow-hidden rounded-lg bg-card p-7 md:p-9 border border-border/50 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl hover:shadow-primary/8"
+              className="group relative overflow-hidden rounded-lg border border-border/50 bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl hover:shadow-primary/8 md:p-9"
             >
               <div className="relative flex min-h-[300px] flex-col">
                 <div className="mb-7 flex items-center justify-between gap-4">
@@ -358,20 +443,24 @@ export default async function Page() {
                     Suministro o aplicación
                   </span>
                 </div>
-                <p className="text-xs font-bold uppercase tracking-widest text-gold mb-3">
+                <p className="mb-3 text-xs font-bold tracking-widest text-gold uppercase">
                   Para paisajistas y jardineros
                 </p>
-                <h3 className="text-2xl md:text-3xl font-heading font-extrabold leading-tight text-foreground group-hover:text-primary transition-colors">
+                <h3 className="font-heading text-2xl leading-tight font-extrabold text-foreground transition-colors group-hover:text-primary md:text-3xl">
                   Té de humus para proyectos profesionales
                 </h3>
-                <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed max-w-xl">
-                  Calcula litros, formatos y opción de aplicación para obras, zonas verdes y mantenimientos con superficie conocida.
+                <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                  Calcula litros, formatos y opción de aplicación para obras,
+                  zonas verdes y mantenimientos con superficie conocida.
                 </p>
-                <div className="mt-auto pt-8 flex flex-wrap items-center gap-3">
+                <div className="mt-auto flex flex-wrap items-center gap-3 pt-8">
                   <span className="inline-flex items-center text-sm font-bold text-primary">
-                    Ver calculadora profesional <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
+                    Ver calculadora profesional{" "}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
                   </span>
-                  <span className="text-xs text-muted-foreground">B2B y mantenimiento recurrente</span>
+                  <span className="text-xs text-muted-foreground">
+                    B2B y mantenimiento recurrente
+                  </span>
                 </div>
               </div>
             </Link>
@@ -382,55 +471,65 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           3. BENEFICIOS — ICONOS ORGÁNICOS PREMIUM
       ════════════════════════════════════════════ */}
-      <section id="beneficios" className="w-full py-20 md:py-28 bg-background relative">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
+      <section
+        id="beneficios"
+        className="relative w-full bg-background py-20 md:py-28"
+      >
+        <div className="mx-auto w-[92%] px-4 lg:w-[80%] xl:w-[75%]">
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="leaf-divider w-24 mx-auto mb-6">
-              <Sparkles className="w-4 h-4 text-primary" />
+          <div className="mx-auto mb-16 max-w-3xl text-center">
+            <div className="leaf-divider mx-auto mb-6 w-24">
+              <Sparkles className="h-4 w-4 text-primary" />
             </div>
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-foreground tracking-tight mb-5">
+            <h2 className="mb-5 font-heading text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
               Resultados reales para tu cultivo.
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Sin magia ni claims inflados. Biocultor aporta microorganismos vivos que 
-              desbloquean nutrientes y mejoran la estructura del suelo a medio plazo.
+            <p className="text-lg leading-relaxed text-muted-foreground">
+              Sin magia ni claims inflados. Biocultor aporta microorganismos
+              vivos que desbloquean nutrientes y mejoran la estructura del suelo
+              a medio plazo.
             </p>
           </div>
 
           {/* Benefits Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 stagger-children">
+          <div className="stagger-children grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
             {[
               {
                 icon: Leaf,
-                title: 'Nutrición Biológica Activa',
-                text: 'Reintroduce la biología natural que tu suelo ha perdido. Mayor disponibilidad de NPK y mejor retención de agua.',
-                accent: 'bg-primary/8 text-primary',
+                title: "Nutrición Biológica Activa",
+                text: "Reintroduce la biología natural que tu suelo ha perdido. Mayor disponibilidad de NPK y mejor retención de agua.",
+                accent: "bg-primary/8 text-primary",
               },
               {
                 icon: Droplets,
-                title: 'Compatible con Riego',
-                text: 'Diseñado sin partículas sólidas. Se aplica directamente por goteo o aspersión sin riesgo de atascar filtros.',
-                accent: 'bg-secondary/10 text-secondary',
+                title: "Compatible con Riego",
+                text: "Diseñado sin partículas sólidas. Se aplica directamente por goteo o aspersión sin riesgo de atascar filtros.",
+                accent: "bg-secondary/10 text-secondary",
               },
               {
                 icon: FlaskConical,
-                title: 'Dosis Orientada a Contexto',
-                text: 'Te explicamos exactamente cuánto usar según si tienes un huerto urbano, un viñedo o 40 hectáreas de olivar.',
-                accent: 'bg-primary/10 text-secondary',
+                title: "Dosis Orientada a Contexto",
+                text: "Te explicamos exactamente cuánto usar según si tienes un huerto urbano, un viñedo o 40 hectáreas de olivar.",
+                accent: "bg-primary/10 text-secondary",
               },
             ].map(({ icon: Icon, title, text, accent }) => (
               <div
                 key={title}
-                className="card-lift p-8 md:p-10 rounded-3xl bg-card border border-border/50 flex flex-col items-center text-center gap-5 relative overflow-hidden group"
+                className="card-lift group relative flex flex-col items-center gap-5 overflow-hidden rounded-3xl border border-border/50 bg-card p-8 text-center md:p-10"
               >
                 {/* Subtle gold corner accent */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/5 to-transparent rounded-bl-[3rem] pointer-events-none" />
-                <div className={`p-4 rounded-2xl ${accent} transition-transform group-hover:scale-110 duration-300`}>
-                  <Icon className="w-8 h-8" />
+                <div className="pointer-events-none absolute top-0 right-0 h-24 w-24 rounded-bl-[3rem] bg-gradient-to-bl from-primary/5 to-transparent" />
+                <div
+                  className={`rounded-2xl p-4 ${accent} transition-transform duration-300 group-hover:scale-110`}
+                >
+                  <Icon className="h-8 w-8" />
                 </div>
-                <h3 className="font-heading font-bold text-xl text-foreground">{title}</h3>
-                <p className="text-muted-foreground leading-relaxed text-sm">{text}</p>
+                <h3 className="font-heading text-xl font-bold text-foreground">
+                  {title}
+                </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {text}
+                </p>
               </div>
             ))}
           </div>
@@ -445,7 +544,10 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           4. FORMAT SELECTOR — SELECTOR DE FORMATOS
       ════════════════════════════════════════════ */}
-      <FormatSelector dbVariants={dbVariants} productSlug="te-humus-liquido-premium" />
+      <FormatSelector
+        dbVariants={dbVariants}
+        productSlug="te-humus-liquido-premium"
+      />
 
       {/* OrtIgaFormatSelector movido al final — ver sección upsell tras GEO */}
 
@@ -480,44 +582,50 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           5. SOLUCIONES POR CULTIVO
       ════════════════════════════════════════════ */}
-      <section className="w-full py-20 md:py-28 bg-cream-warm relative">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+      <section className="relative w-full bg-cream-warm py-20 md:py-28">
+        <div className="mx-auto w-[92%] px-4 lg:w-[80%] xl:w-[75%]">
+          <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/8 text-primary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/15">
-                <Sprout className="w-3.5 h-3.5" />
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/8 px-4 py-2 text-xs font-bold tracking-widest text-primary uppercase">
+                <Sprout className="h-3.5 w-3.5" />
                 Soluciones por cultivo
               </div>
-              <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
+              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
                 Encuentra la fórmula exacta para tu cultivo.
               </h2>
-              <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-                Olivar, cítricos, huerto urbano, vivero o jardinería profesional — cada cultivo 
-                tiene sus necesidades. Nosotros las cubrimos.
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                Olivar, cítricos, huerto urbano, vivero o jardinería profesional
+                — cada cultivo tiene sus necesidades. Nosotros las cubrimos.
               </p>
             </div>
-            <Link href="/te-de-humus-de-lombriz" className="text-sm font-bold text-primary hover:text-primary/80 transition-colors whitespace-nowrap flex items-center gap-1">
-              Ver todos los cultivos <ArrowRight className="w-4 h-4" />
+            <Link
+              href="/te-de-humus-de-lombriz"
+              className="flex items-center gap-1 text-sm font-bold whitespace-nowrap text-primary transition-colors hover:text-primary/80"
+            >
+              Ver todos los cultivos <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2 stagger-children">
+          <div className="stagger-children grid gap-5 md:grid-cols-2">
             {featuredSolutions.map((solution) => (
               <Link
                 key={solution.slug}
                 href={`/te-de-humus-de-lombriz/${solution.slug}`}
-                className="group card-lift rounded-2xl md:rounded-3xl border border-border/50 bg-card p-7 md:p-9 relative overflow-hidden"
+                className="group card-lift relative overflow-hidden rounded-2xl border border-border/50 bg-card p-7 md:rounded-3xl md:p-9"
               >
-                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary/60 via-primary to-transparent rounded-r opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">
+                <div className="absolute top-0 left-0 h-full w-1 rounded-r bg-gradient-to-b from-primary/60 via-primary to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <p className="mb-3 text-xs font-bold tracking-widest text-primary uppercase">
                   {solution.audience}
                 </p>
-                <h3 className="text-xl md:text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                <h3 className="font-heading text-xl leading-snug font-bold text-foreground transition-colors group-hover:text-primary md:text-2xl">
                   {solution.title}
                 </h3>
-                <p className="mt-3 text-muted-foreground leading-relaxed text-sm">{solution.intro}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {solution.intro}
+                </p>
                 <div className="mt-5 inline-flex items-center text-sm font-bold text-primary">
-                  Ver aplicación <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
+                  Ver aplicación{" "}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
                 </div>
               </Link>
             ))}
@@ -528,19 +636,21 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           6. COMPRA DIRECTA — PÁGINAS COMERCIALES 
       ════════════════════════════════════════════ */}
-      <section className="w-full py-20 md:py-28 bg-card border-t border-border/40">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
+      <section className="w-full border-t border-border/40 bg-card py-20 md:py-28">
+        <div className="mx-auto w-[92%] px-4 lg:w-[80%] xl:w-[75%]">
           <div className="mb-12 rounded-3xl border border-primary/20 bg-primary/5 p-6 md:p-8">
             <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
               <div className="lg:col-span-8">
-                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">
+                <p className="mb-3 text-xs font-bold tracking-widest text-primary uppercase">
                   Biblioteca Biocultor
                 </p>
                 <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground">
                   Comparativas, calculadoras y metodologia en un solo centro.
                 </h2>
                 <p className="mt-3 max-w-3xl text-muted-foreground">
-                  Si necesitas decidir entre comprar producto, contratar aplicacion o comparar alternativas, la biblioteca recoge los criterios sin mezclar marketing con promesas.
+                  Si necesitas decidir entre comprar producto, contratar
+                  aplicacion o comparar alternativas, la biblioteca recoge los
+                  criterios sin mezclar marketing con promesas.
                 </p>
               </div>
               <div className="lg:col-span-4 lg:text-right">
@@ -554,37 +664,40 @@ export default async function Page() {
               </div>
             </div>
           </div>
-          <div className="max-w-3xl mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-secondary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/20">
-              <Star className="w-3.5 h-3.5" />
+          <div className="mb-14 max-w-3xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-bold tracking-widest text-secondary uppercase">
+              <Star className="h-3.5 w-3.5" />
               Compra directa
             </div>
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
+            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
               La forma más clara de empezar a comprar.
             </h2>
-            <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-              Páginas diseñadas para que compres exactamente lo que tu cultivo necesita, 
-              sin perder tiempo buscando.
+            <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+              Páginas diseñadas para que compres exactamente lo que tu cultivo
+              necesita, sin perder tiempo buscando.
             </p>
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-3 stagger-children">
+          <div className="stagger-children grid gap-5 lg:grid-cols-3">
             {featuredCommercial.map((page) => (
               <Link
                 key={page.slug}
                 href={`/comprar-te-de-humus-de-lombriz/${page.slug}`}
-                className="group card-lift rounded-2xl md:rounded-3xl border border-border/50 bg-background p-7 md:p-9 relative overflow-hidden"
+                className="group card-lift relative overflow-hidden rounded-2xl border border-border/50 bg-background p-7 md:rounded-3xl md:p-9"
               >
-                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-primary/5 to-transparent rounded-bl-[2rem] pointer-events-none" />
-                <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">
+                <div className="pointer-events-none absolute top-0 right-0 h-20 w-20 rounded-bl-[2rem] bg-gradient-to-bl from-primary/5 to-transparent" />
+                <p className="mb-3 text-xs font-bold tracking-widest text-primary uppercase">
                   {page.keyword}
                 </p>
-                <h3 className="text-xl md:text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                <h3 className="font-heading text-xl leading-snug font-bold text-foreground transition-colors group-hover:text-primary md:text-2xl">
                   {page.title}
                 </h3>
-                <p className="mt-3 text-muted-foreground leading-relaxed text-sm">{page.intro}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {page.intro}
+                </p>
                 <div className="mt-5 inline-flex items-center text-sm font-bold text-primary">
-                  Explorar <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
+                  Explorar{" "}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
                 </div>
               </Link>
             ))}
@@ -595,43 +708,50 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           7. GUÍAS DE CULTIVO — AUTORIDAD TEMÁTICA
       ════════════════════════════════════════════ */}
-      <section className="w-full py-20 md:py-28 bg-background border-t border-border/40">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-14">
+      <section className="w-full border-t border-border/40 bg-background py-20 md:py-28">
+        <div className="mx-auto w-[92%] px-4 lg:w-[80%] xl:w-[75%]">
+          <div className="mb-14 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-5 border border-primary/20">
-                <TreePine className="w-3.5 h-3.5" />
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-bold tracking-widest text-primary uppercase">
+                <TreePine className="h-3.5 w-3.5" />
                 Guías de cultivo
               </div>
-              <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
+              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
                 Aprende a usarlo paso a paso.
               </h2>
-              <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-                Contenido editorial para resolver dudas de uso, formato y aplicación sin exagerar beneficios.
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                Contenido editorial para resolver dudas de uso, formato y
+                aplicación sin exagerar beneficios.
               </p>
             </div>
-            <Link href="/aprende" className="text-sm font-bold text-primary hover:text-primary/80 transition-colors whitespace-nowrap flex items-center gap-1">
-              Ver todas las guías <ArrowRight className="w-4 h-4" />
+            <Link
+              href="/aprende"
+              className="flex items-center gap-1 text-sm font-bold whitespace-nowrap text-primary transition-colors hover:text-primary/80"
+            >
+              Ver todas las guías <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-3 stagger-children">
+          <div className="stagger-children grid gap-5 lg:grid-cols-3">
             {featuredArticles.map((article) => (
               <Link
                 key={article.slug}
                 href={`/aprende/${article.slug}`}
-                className="group card-lift rounded-2xl md:rounded-3xl border border-border/50 bg-card p-7 md:p-9 relative overflow-hidden"
+                className="group card-lift relative overflow-hidden rounded-2xl border border-border/50 bg-card p-7 md:rounded-3xl md:p-9"
               >
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-gold to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">
+                <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-primary via-gold to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <p className="mb-3 text-xs font-bold tracking-widest text-muted-foreground uppercase">
                   {article.category}
                 </p>
-                <h3 className="text-xl md:text-2xl font-heading font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                <h3 className="font-heading text-xl leading-snug font-bold text-foreground transition-colors group-hover:text-primary md:text-2xl">
                   {article.title}
                 </h3>
-                <p className="mt-3 text-muted-foreground leading-relaxed text-sm">{article.excerpt}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {article.excerpt}
+                </p>
                 <div className="mt-5 inline-flex items-center text-sm font-bold text-primary">
-                  Leer guía <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
+                  Leer guía{" "}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1.5" />
                 </div>
               </Link>
             ))}
@@ -642,56 +762,63 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           8. BIOCULTOR EN ESPAÑA — COBERTURA GEO
       ════════════════════════════════════════════ */}
-      <section className="w-full py-20 md:py-28 bg-cream-warm border-t border-border/40">
-        <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto px-4">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+      <section className="w-full border-t border-border/40 bg-cream-warm py-20 md:py-28">
+        <div className="mx-auto w-[92%] px-4 lg:w-[80%] xl:w-[75%]">
+          <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-earth-brown/8 text-brand-brown text-xs font-bold uppercase tracking-widest mb-5 border border-earth-brown/15">
-                <MapPin className="w-3.5 h-3.5" />
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-earth-brown/15 bg-earth-brown/8 px-4 py-2 text-xs font-bold tracking-widest text-brand-brown uppercase">
+                <MapPin className="h-3.5 w-3.5" />
                 Biocultor en España
               </div>
-              <h2 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-foreground">
+              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
                 Entregamos vida a cada rincón de la Península.
               </h2>
-              <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-                Cobertura completa en toda España con logística express. Descubre recomendaciones 
-                específicas para los cultivos dominantes de tu región.
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                Cobertura completa en toda España con logística express.
+                Descubre recomendaciones específicas para los cultivos
+                dominantes de tu región.
               </p>
             </div>
-            <Link href="/espana" className="text-sm font-bold text-primary hover:text-primary/80 transition-colors whitespace-nowrap flex items-center gap-1">
-              Ver todas las regiones <ArrowRight className="w-4 h-4" />
+            <Link
+              href="/espana"
+              className="flex items-center gap-1 text-sm font-bold whitespace-nowrap text-primary transition-colors hover:text-primary/80"
+            >
+              Ver todas las regiones <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 stagger-children">
+          <div className="stagger-children grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {featuredGeo.map((geo) => {
               const emojiMap: Record<string, string> = {
-                'andalucia': '🫒',
-                'comunitat-valenciana': '🍊',
-                'cataluna': '🌿',
-                'madrid': '🏡',
-              };
-              const emoji = emojiMap[geo.slug] || '📍';
-              
+                andalucia: "🫒",
+                "comunitat-valenciana": "🍊",
+                cataluna: "🌿",
+                madrid: "🏡",
+              }
+              const emoji = emojiMap[geo.slug] || "📍"
+
               return (
                 <Link
                   key={geo.slug}
                   href={`/espana/${geo.slug}`}
-                  className="group card-lift rounded-2xl md:rounded-3xl border border-border/50 bg-card p-7 relative overflow-hidden"
+                  className="group card-lift relative overflow-hidden rounded-2xl border border-border/50 bg-card p-7 md:rounded-3xl"
                 >
-                  <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary/40 to-transparent opacity-50" />
-                  <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3 flex items-center gap-1.5">
+                  <div className="absolute top-0 left-0 h-0.5 w-full bg-gradient-to-r from-primary/40 to-transparent opacity-50" />
+                  <p className="mb-3 flex items-center gap-1.5 text-xs font-bold tracking-widest text-primary uppercase">
                     {emoji} {geo.region}
                   </p>
-                  <h3 className="text-lg font-heading font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                  <h3 className="font-heading text-lg leading-snug font-bold text-foreground transition-colors group-hover:text-primary">
                     {geo.title}
                   </h3>
-                  <p className="mt-3 text-muted-foreground leading-relaxed text-sm line-clamp-3">{geo.intro}</p>
+                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                    {geo.intro}
+                  </p>
                   <div className="mt-4 inline-flex items-center text-xs font-bold text-primary">
-                    Ver guía regional <ArrowRight className="ml-1.5 h-3 w-3 transition-transform group-hover:translate-x-1" />
+                    Ver guía regional{" "}
+                    <ArrowRight className="ml-1.5 h-3 w-3 transition-transform group-hover:translate-x-1" />
                   </div>
                 </Link>
-              );
+              )
             })}
           </div>
         </div>
@@ -716,7 +843,9 @@ export default async function Page() {
       {/* ════════════════════════════════════════════
           10. FAQ & AIO SEO  
       ════════════════════════════════════════════ */}
-      <FaqAioSeo variants={dbVariants.map((v) => ({ size: v.size, price: v.price }))} />
+      <FaqAioSeo
+        variants={dbVariants.map((v) => ({ size: v.size, price: v.price }))}
+      />
     </div>
   )
 }

@@ -54,3 +54,4 @@ prisma/dev.db
 
 # Scripts de diagnóstico y debug temporal
 /scratch/
+/output/
