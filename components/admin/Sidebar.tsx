@@ -1,172 +1,98 @@
-'use client';
+"use client"
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import {
-  Home,
-  Package,
-  Boxes,
-  ShoppingBag,
-  Users,
-  RefreshCw,
-  LineChart,
-  Search,
-  PenSquare,
-  Settings,
-  Mail,
-  Truck,
-  Calculator,
-  Leaf,
-  Briefcase,
-  type LucideIcon,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-
-type NavItem = {
-  href: string;
-  label: string;
-  icon: LucideIcon;
-  /** Si está deshabilitado se muestra con badge "Próx." */
-  comingSoon?: boolean;
-  /** Match exacto en lugar de startsWith. Para `/admin` que no debe activarse en subrutas. */
-  exact?: boolean;
-};
-
-type NavSection = {
-  label: string;
-  items: NavItem[];
-};
-
-const NAV: NavSection[] = [
-  {
-    label: 'Vista',
-    items: [{ href: '/admin', label: 'Inicio', icon: Home, exact: true }],
-  },
-  {
-    label: 'Catálogo',
-    items: [
-      { href: '/admin/products', label: 'Productos', icon: Package },
-      { href: '/admin/inventory', label: 'Inventario', icon: Boxes },
-    ],
-  },
-  {
-    label: 'Ventas',
-    items: [
-      { href: '/admin/orders', label: 'Pedidos', icon: ShoppingBag },
-      { href: '/admin/customers', label: 'Clientes', icon: Users },
-      { href: '/admin/crm', label: 'CRM Ventas & Servicios', icon: Briefcase },
-      { href: '/admin/refunds', label: 'Devoluciones', icon: RefreshCw },
-      { href: '/admin/operations', label: 'Operaciones', icon: Truck },
-    ],
-  },
-  {
-    label: 'Analítica',
-    items: [
-      { href: '/admin/analytics', label: 'Inteligencia', icon: LineChart },
-      { href: '/admin/calculadora', label: 'Calculadora', icon: Calculator },
-    ],
-  },
-  {
-    label: 'Contenido',
-    items: [
-      { href: '/admin/seo', label: 'Landings & SEO', icon: Search },
-      { href: '/admin/servicios', label: 'Servicios', icon: Leaf },
-      { href: '/admin/blog', label: 'Blog', icon: PenSquare },
-    ],
-  },
-  {
-    label: 'Marketing',
-    items: [{ href: '/admin/marketing', label: 'Email & cupones', icon: Mail }],
-  },
-  {
-    label: 'Sistema',
-    items: [{ href: '/admin/settings', label: 'Ajustes', icon: Settings }],
-  },
-];
+import Link from "next/link"
+import Image from "next/image"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { ADMIN_NAV, isAdminNavActive } from "./nav-config"
 
 export default function AdminSidebar() {
-  const pathname = usePathname();
-
-  const isActive = (item: NavItem) => {
-    if (item.exact) return pathname === item.href;
-    return pathname === item.href || pathname.startsWith(`${item.href}/`);
-  };
+  const pathname = usePathname()
 
   return (
-    <aside className="hidden md:flex w-60 lg:w-64 shrink-0 bg-card border-r border-border/60 flex-col h-full">
-      <div className="px-6 py-6 border-b border-border/60">
-        <Link href="/" className="block opacity-90 hover:opacity-100 transition-opacity">
+    <aside className="hidden h-full w-60 shrink-0 flex-col border-r border-border/60 bg-card md:flex lg:w-64">
+      <div className="border-b border-border/60 px-6 py-6">
+        <Link
+          href="/"
+          className="block opacity-90 transition-opacity hover:opacity-100"
+        >
           <Image
             src="/Logo.svg"
             alt="Biocultor OS"
             width={180}
             height={40}
-            className="w-auto h-7"
+            className="h-7 w-auto"
           />
         </Link>
-        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.18em] mt-2.5">
+        <p className="mt-2.5 text-[10px] font-bold tracking-[0.18em] text-muted-foreground uppercase">
           Modo administrador
         </p>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-5">
-        {NAV.map((section) => (
+        {ADMIN_NAV.map((section) => (
           <div key={section.label} className="mb-5 last:mb-0">
-            <p className="px-3 mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground/70">
+            <p className="mb-2 px-3 text-[10px] font-bold tracking-[0.18em] text-muted-foreground/70 uppercase">
               {section.label}
             </p>
             <ul className="flex flex-col gap-0.5">
               {section.items.map((item) => {
-                const active = isActive(item);
-                const Icon = item.icon;
+                const active = isAdminNavActive(pathname, item)
+                const Icon = item.icon
 
                 if (item.comingSoon) {
                   return (
                     <li key={item.href}>
                       <span
-                        className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-muted-foreground/60 cursor-not-allowed"
+                        className="flex cursor-not-allowed items-center gap-3 rounded-xl px-3 py-2 text-sm text-muted-foreground/60"
                         title="Próximamente"
                       >
-                        <Icon className="w-4 h-4 shrink-0" />
+                        <Icon className="h-4 w-4 shrink-0" />
                         <span className="flex-1">{item.label}</span>
-                        <span className="text-[9px] font-bold bg-muted text-muted-foreground/70 px-1.5 py-0.5 rounded">
+                        <span className="rounded bg-muted px-1.5 py-0.5 text-[9px] font-bold text-muted-foreground/70">
                           PRÓX
                         </span>
                       </span>
                     </li>
-                  );
+                  )
                 }
 
                 return (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      aria-current={active ? 'page' : undefined}
+                      aria-current={active ? "page" : undefined}
                       className={cn(
-                        'flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold transition-colors group',
+                        "group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
                         active
-                          ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/20'
-                          : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
+                          ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
+                          : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                       )}
                     >
-                      <Icon className={cn('w-4 h-4 shrink-0', active ? '' : 'opacity-80')} />
+                      <Icon
+                        className={cn(
+                          "h-4 w-4 shrink-0",
+                          active ? "" : "opacity-80"
+                        )}
+                      />
                       <span>{item.label}</span>
                     </Link>
                   </li>
-                );
+                )
               })}
             </ul>
           </div>
         ))}
       </nav>
 
-      <div className="px-4 py-4 border-t border-border/60">
-        <div className="flex items-center gap-2.5 bg-emerald-500/10 px-3 py-2 rounded-xl border border-emerald-500/20">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-xs font-bold text-emerald-700">Stripe en producción</span>
+      <div className="border-t border-border/60 px-4 py-4">
+        <div className="flex items-center gap-2.5 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+          <span className="text-xs font-bold text-emerald-700">
+            Stripe en producción
+          </span>
         </div>
       </div>
     </aside>
-  );
+  )
 }
