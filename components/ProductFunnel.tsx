@@ -366,7 +366,7 @@ export default function ProductFunnel({
                   key={v.id}
                   onClick={() => setSelected(v)}
                   className={cn(
-                    "group relative flex cursor-pointer flex-col rounded-xl border p-3 transition-all md:rounded-2xl md:p-4",
+                    "group relative flex cursor-pointer flex-col rounded-xl border p-2.5 transition-all md:rounded-2xl md:p-4",
                     selected.id === v.id
                       ? "border-primary/40 bg-primary/5 shadow-sm"
                       : "border-border/40 bg-transparent active:bg-muted/40 lg:hover:border-primary/25"
@@ -389,7 +389,7 @@ export default function ProductFunnel({
           </div>
 
           {/* Selector de cantidad */}
-          <div className="flex items-center justify-between rounded-2xl border border-border/40 bg-cream-warm p-4">
+          <div className="flex items-center justify-between rounded-2xl border border-border/40 bg-cream-warm p-3.5 md:p-4">
             <div>
               <p className="text-sm font-semibold text-foreground">Cantidad</p>
               <p className="text-xs text-muted-foreground">
@@ -418,8 +418,8 @@ export default function ProductFunnel({
           </div>
 
           {/* Bloque Maestro de Compra */}
-          <div className="relative mt-1 rounded-2xl border border-border/50 bg-cream-warm p-5 md:mt-2 md:rounded-3xl md:p-8">
-            <div className="mb-6 flex items-end justify-between md:mb-8">
+          <div className="relative mt-1 rounded-2xl border border-border/50 bg-cream-warm p-4 md:mt-2 md:rounded-3xl md:p-8">
+            <div className="mb-3 flex items-end justify-between md:mb-8">
               <div className="flex flex-col">
                 {perLiterDiscount > 0 && (
                   <div className="mb-1.5 flex items-center gap-2 md:mb-2 md:gap-3">
@@ -429,7 +429,7 @@ export default function ProductFunnel({
                   </div>
                 )}
                 <div className="flex items-baseline gap-1 md:gap-2">
-                  <span className="font-heading text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+                  <span className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-5xl">
                     €{(selected.price * quantity).toFixed(2)}
                   </span>
                   <span className="text-xs font-medium text-muted-foreground md:text-sm">
@@ -455,7 +455,7 @@ export default function ProductFunnel({
             </div>
 
             {/* Social Proof Ticker reposicionado bajo el precio */}
-            <div className="-mt-2 mb-6">
+            <div className="-mt-2 mb-6 hidden md:block">
               <SocialProofTicker />
             </div>
 
@@ -463,7 +463,7 @@ export default function ProductFunnel({
               <Button
                 size="lg"
                 disabled
-                className="h-14 w-full cursor-not-allowed rounded-xl border border-border bg-muted/80 text-base font-bold text-muted-foreground shadow-none md:rounded-2xl md:text-lg"
+                className="h-12 w-full cursor-not-allowed rounded-xl border border-border bg-muted/80 text-base font-bold text-muted-foreground shadow-none md:h-14 md:rounded-2xl md:text-lg"
               >
                 <ShoppingBag className="mr-2 h-5 w-5 opacity-50" />
                 Compras Suspendidas (Mantenimiento)
@@ -472,7 +472,7 @@ export default function ProductFunnel({
               <Button
                 size="lg"
                 disabled
-                className="h-14 w-full cursor-not-allowed rounded-xl border border-border bg-muted/80 text-base font-bold text-muted-foreground shadow-none md:rounded-2xl md:text-lg"
+                className="h-12 w-full cursor-not-allowed rounded-xl border border-border bg-muted/80 text-base font-bold text-muted-foreground shadow-none md:h-14 md:rounded-2xl md:text-lg"
               >
                 <ShoppingBag className="mr-2 h-5 w-5 opacity-50" />
                 Agotado Temporalmente
@@ -481,14 +481,14 @@ export default function ProductFunnel({
               <Button
                 size="lg"
                 onClick={handleAddToCart}
-                className="h-14 w-full cursor-pointer rounded-xl bg-primary text-base font-bold text-white shadow-lg shadow-primary/15 transition-all hover:scale-[1.01] hover:bg-brand-green-hover active:scale-[0.99] md:rounded-2xl md:text-lg"
+                className="h-12 w-full cursor-pointer rounded-xl bg-primary text-base font-bold text-white shadow-lg shadow-primary/15 transition-all hover:scale-[1.01] hover:bg-brand-green-hover active:scale-[0.99] md:h-14 md:rounded-2xl md:text-lg"
               >
                 <ShoppingBag className="mr-2 h-5 w-5" />
                 Añadir al Carrito
               </Button>
             )}
 
-            <div className="mt-5 grid grid-cols-2 gap-2 border-t border-border/40 pt-4 md:mt-6 md:gap-4 md:pt-5">
+            <div className="mt-4 grid grid-cols-2 gap-2 border-t border-border/40 pt-3 md:mt-6 md:gap-4 md:pt-5">
               <div className="flex items-center gap-2 md:gap-3">
                 <Truck className="h-4 w-4 text-muted-foreground md:h-5 md:w-5" />
                 <div className="flex flex-col">
