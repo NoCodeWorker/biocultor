@@ -18,6 +18,7 @@ Visual QA on a 390 x 844 mobile viewport showed that the product detail page pla
 
 - Reorder the product funnel on mobile so the conversion column renders before the media gallery while preserving the desktop two-column layout.
 - Keep the product gallery and audio player available, but move them below the mobile purchase decision path.
+- Move contextual proof cards and urgency messaging after format, quantity, price, add-to-cart, and checkout trust signals so they support the decision instead of delaying it.
 - Hide the services CTA in the home mobile hero, leaving the primary purchase CTA and formats/pricing link visible.
 
 ## Risks

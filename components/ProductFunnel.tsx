@@ -353,29 +353,6 @@ export default function ProductFunnel({
             </p>
           </div>
 
-          {/* Tarjetas de Psicología Visual — Contextuales por perfil de cultivo */}
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 md:gap-3">
-            {contextualCards.map(({ icon: Icon, label, sub }) => (
-              <div
-                key={label}
-                className="flex flex-row items-center gap-3 rounded-xl border border-border/60 bg-transparent p-3 text-left transition-colors hover:border-primary/25 sm:flex-col sm:items-start sm:gap-2 sm:text-left md:rounded-2xl md:p-4"
-              >
-                <Icon className="h-5 w-5 text-primary" />
-                <div>
-                  <span className="block text-[13px] font-semibold text-foreground/90 md:text-sm">
-                    {label}
-                  </span>
-                  <span className="hidden text-[11px] text-muted-foreground sm:block md:text-xs">
-                    {sub}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Módulo de Urgencia Psicológica */}
-          <UrgencyModule stock={0} />
-
           {/* Selector de Formatos */}
           <div className="mt-1 md:mt-2">
             <div className="mb-3 flex items-center justify-between md:mb-4">
@@ -536,6 +513,28 @@ export default function ProductFunnel({
               </div>
             </div>
           </div>
+
+          {/* Pruebas y urgencia: quedan después de la decisión de compra para no tapar el CTA móvil */}
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 md:gap-3">
+            {contextualCards.map(({ icon: Icon, label, sub }) => (
+              <div
+                key={label}
+                className="flex flex-row items-center gap-3 rounded-xl border border-border/60 bg-transparent p-3 text-left transition-colors hover:border-primary/25 sm:flex-col sm:items-start sm:gap-2 sm:text-left md:rounded-2xl md:p-4"
+              >
+                <Icon className="h-5 w-5 text-primary" />
+                <div>
+                  <span className="block text-[13px] font-semibold text-foreground/90 md:text-sm">
+                    {label}
+                  </span>
+                  <span className="hidden text-[11px] text-muted-foreground sm:block md:text-xs">
+                    {sub}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <UrgencyModule stock={0} />
 
           <div className="flex flex-col gap-4 rounded-2xl border border-primary/20 bg-primary/5 p-4 md:p-5">
             <div className="flex gap-3">
