@@ -281,7 +281,7 @@ export default function ProductFunnel({
       ========================================= */}
       <div className="relative flex flex-col items-start gap-6 lg:flex-row lg:gap-20">
         {/* 📸 COLUMNA IZQUIERDA: GALERÍA (STICKY SOLO EN DESKTOP) */}
-        <div className="relative order-2 flex w-full flex-col gap-3 md:gap-4 lg:sticky lg:top-28 lg:order-1 lg:w-[45%] lg:self-start">
+        <div className="relative order-2 flex w-full flex-col gap-3 md:gap-4 lg:sticky lg:top-36 lg:order-1 lg:w-[45%] lg:self-start">
           <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-border/40 bg-cream-warm p-6 shadow-sm transition-all hover:border-primary/20 md:rounded-3xl md:p-8">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-transparent" />
             <Image

@@ -8,6 +8,7 @@ import { useCartStore } from '@/store/cartStore';
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import ShippingAnnouncement from './ShippingAnnouncement';
 
 type NavLink =
   | { kind: 'link'; href: string; label: string }
@@ -138,6 +139,7 @@ export default function Navbar() {
             : "bg-transparent border-b border-transparent"
         )}
       >
+        <ShippingAnnouncement />
         <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80 shrink-0">

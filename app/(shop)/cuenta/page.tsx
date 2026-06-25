@@ -101,7 +101,7 @@ export default async function CuentaPage() {
           
           {/* Sidebar Navigation */}
           <aside className="lg:col-span-3 space-y-4">
-            <div className="bg-card border border-border/60 rounded-3xl p-3 shadow-sm sticky top-24">
+            <div className="bg-card border border-border/60 rounded-3xl p-3 shadow-sm sticky top-36">
               <nav className="flex flex-col gap-1">
                 {[
                   { label: 'Mi Actividad', icon: Package, active: true },

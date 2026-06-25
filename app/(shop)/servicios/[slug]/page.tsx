@@ -287,7 +287,7 @@ export default async function PremiumServicePage({
         <section className="py-10 md:py-14 border-t border-border/60">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
             <div className="lg:col-span-5">
-              <div className="sticky top-24">
+              <div className="sticky top-36">
                 <div className="inline-flex items-center gap-2 text-primary font-semibold text-sm">
                   <ClipboardCheck className="w-4 h-4" />
                   Metodología

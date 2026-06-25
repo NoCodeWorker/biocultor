@@ -1,6 +1,10 @@
 "use client"
 
-type EcommerceEventName = "add_to_cart" | "begin_checkout" | "checkout_error"
+type EcommerceEventName =
+  | "add_to_cart"
+  | "begin_checkout"
+  | "checkout_error"
+  | "select_promotion"
 
 type EcommerceEventPayload = {
   currency?: "EUR"
@@ -13,6 +17,8 @@ type EcommerceEventPayload = {
     quantity?: number
   }>
   error_message?: string
+  promotion_name?: string
+  creative_slot?: string
 }
 
 declare global {
