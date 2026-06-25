@@ -45,11 +45,13 @@ export async function generateMetadata({
     });
   }
 
+  const visualProof = getVisualOverrides(page, seoOverride);
+
   return buildMetadata({
     title: seoOverride?.metaTitle || page.metaTitle,
     description: seoOverride?.metaDescription || page.metaDescription,
     path: `/servicios/${page.slug}`,
-    image: seoOverride?.image || getVisualOverrides(page, seoOverride).after,
+    image: visualProof.after,
     keywords: [
       page.targetKeyword,
       page.segment,
@@ -429,15 +431,38 @@ function getVisualOverrides(
     payload = {};
   }
 
-  const before = typeof payload.beforeImage === 'string' && payload.beforeImage.trim()
-    ? payload.beforeImage
-    : page.visualProof.before;
-  const after = typeof payload.afterImage === 'string' && payload.afterImage.trim()
-    ? payload.afterImage
-    : seoOverride?.image || page.visualProof.after;
+  const payloadBefore = getImagePath(payload.beforeImage);
+  const payloadAfter = getImagePath(payload.afterImage);
+  const seoImage = getImagePath(seoOverride?.image);
+  const uploadedBefore = isUploadedImage(payloadBefore) ? payloadBefore : null;
+  const uploadedAfter = isUploadedImage(payloadAfter) ? payloadAfter : null;
+  const uploadedSeoImage = isUploadedImage(seoImage) ? seoImage : null;
+
+  let before = page.visualProof.before;
+  let after = page.visualProof.after;
+
+  if (uploadedBefore && uploadedAfter) {
+    before = uploadedBefore;
+    after = uploadedAfter;
+  } else {
+    const uploadedPrimary = uploadedAfter || uploadedSeoImage || uploadedBefore;
+    if (uploadedPrimary) {
+      before = uploadedPrimary;
+      after = uploadedPrimary;
+    }
+  }
+
   const caption = typeof payload.visualCaption === 'string' && payload.visualCaption.trim()
     ? payload.visualCaption
     : page.visualProof.caption;
 
   return { before, after, caption };
+}
+
+function getImagePath(value: unknown) {
+  return typeof value === 'string' && value.trim() ? value.trim() : null;
+}
+
+function isUploadedImage(value: string | null): value is string {
+  return Boolean(value?.startsWith('/uploads/'));
 }
