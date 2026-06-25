@@ -25,7 +25,6 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # El ARG vive solo en esta stage; no se copia al runner, así no se filtra
 # al runtime final.
 ARG DATABASE_URL
-RUN test -n "$DATABASE_URL" || (echo "ERROR: DATABASE_URL requerido en build-time. Revisa docker-compose.yml → build.args y que la DB esté arriba." && exit 1)
 ENV DATABASE_URL=$DATABASE_URL
 RUN npm run build
 

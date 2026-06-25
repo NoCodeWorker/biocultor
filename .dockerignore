@@ -19,3 +19,16 @@ docs
 README.md
 .vscode
 .idea
+
+# Artefactos operativos locales del VPS. No forman parte de la aplicación ni
+# deben entrar en el typecheck/build aunque existan sin versionar en el checkout.
+backups
+cleanup.sql
+diagnose_clorosis.cjs
+scripts/auto-restore-images.ts
+scripts/check-images.ts
+scripts/delete-duplicate.ts
+scripts/find-duplicates.ts
+scripts/inspect-duplicates.ts
+scripts/inspect-posts.ts
+scripts/publish-all.ts

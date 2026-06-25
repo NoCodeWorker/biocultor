@@ -54,6 +54,8 @@ El cliente Prisma se generaba en `generated/prisma`. Prisma incluye fallbacks de
 - El lint focalizado pasó.
 - El lint global pasa sin errores ni warnings después del saneamiento posterior documentado en `2026-06-25_eslint-global-gate.md`.
 - El build local sigue registrando los fallbacks esperados porque `db:5432` no está disponible fuera de la red de Docker; no impide completar el build.
+- El contexto Docker excluye scripts operativos no versionados del VPS para impedir que contaminen el typecheck.
+- La validación shell del build arg `DATABASE_URL` se retiró porque BuildKit podía expandir su valor en logs; el build sigue fallando naturalmente si la variable no está disponible.
 
 ## Rollback considerations
 
