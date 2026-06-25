@@ -59,6 +59,16 @@ const nextConfig = {
         destination: '/envios',
         permanent: true,
       },
+      {
+        source: '/comprar-te-de-humus-de-lombriz',
+        destination: '/producto/te-humus-liquido-premium',
+        permanent: true,
+      },
+      {
+        source: '/comprar-te-de-humus-de-lombriz/comprar-te-de-humus-de-lombriz',
+        destination: '/producto/te-humus-liquido-premium',
+        permanent: true,
+      },
     ];
   },
 }

@@ -65,7 +65,6 @@ export default function Footer() {
                 {[
                   { href: '/producto/te-humus-liquido-premium', label: 'Té de humus de lombriz' },
                   { href: '/producto/purin-ortiga-concentrado', label: 'Purín concentrado de ortiga' },
-                  { href: '/comprar-te-de-humus-de-lombriz', label: 'Comprar té de humus' },
                   { href: '/comprar-purin-de-ortiga', label: 'Comprar purín de ortiga' },
                   { href: '/te-de-humus-de-lombriz', label: 'Té por cultivo' },
                   { href: '/purin-de-ortiga', label: 'Ortiga por cultivo' },

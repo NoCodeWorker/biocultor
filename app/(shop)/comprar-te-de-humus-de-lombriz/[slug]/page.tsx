@@ -27,7 +27,7 @@ export async function generateMetadata({
     return buildMetadata({
       title: 'Página comercial no encontrada | Biocultor',
       description: 'La página comercial solicitada no está disponible.',
-      path: '/comprar-te-de-humus-de-lombriz',
+      path: '/producto/te-humus-liquido-premium',
     });
   }
 
@@ -68,7 +68,7 @@ export default async function CommercialPage({
         id="commercial-page-breadcrumb-schema"
         data={breadcrumbSchema([
           { name: 'Inicio', path: '/' },
-          { name: 'Comprar té de humus de lombriz', path: '/comprar-te-de-humus-de-lombriz' },
+          { name: 'Té de humus de lombriz', path: '/producto/te-humus-liquido-premium' },
           { name: page.title, path: `/comprar-te-de-humus-de-lombriz/${page.slug}` },
         ])}
       />
@@ -76,7 +76,7 @@ export default async function CommercialPage({
       <Breadcrumbs
         items={[
           { label: 'Inicio', href: '/' },
-          { label: 'Comprar té de humus de lombriz', href: '/comprar-te-de-humus-de-lombriz' },
+          { label: 'Producto', href: '/producto/te-humus-liquido-premium' },
           { label: page.title },
         ]}
       />

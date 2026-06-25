@@ -35,7 +35,7 @@ export async function generateMetadata({
     title: solution.metaTitle,
     description: solution.metaDescription,
     path: `/te-de-humus-de-lombriz/${solution.slug}`,
-    keywords: [solution.title, solution.audience, 'comprar té de humus de lombriz'],
+    keywords: [solution.title, solution.audience, 'uso de té de humus de lombriz'],
   });
 }
 

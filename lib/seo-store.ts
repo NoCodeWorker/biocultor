@@ -163,11 +163,17 @@ export async function getSeoSolutions() {
 
 export async function getSeoCommercialPages() {
   const overrides = await getSeoOverrides('COMMERCIAL');
-  const staticSlugs = new Set(seoCommercialPages.map((s) => s.slug));
-  const results = seoCommercialPages.map((entry) => mergeCommercial(entry, overrides.get(entry.slug)));
+  const canonicalProductSlugs = new Set(['comprar-te-de-humus-de-lombriz']);
+  const activeStaticPages = seoCommercialPages.filter(
+    (entry) => !canonicalProductSlugs.has(entry.slug)
+  );
+  const staticSlugs = new Set(activeStaticPages.map((entry) => entry.slug));
+  const results = activeStaticPages.map((entry) =>
+    mergeCommercial(entry, overrides.get(entry.slug))
+  );
 
   for (const [slug, override] of overrides) {
-    if (!staticSlugs.has(slug)) {
+    if (!staticSlugs.has(slug) && !canonicalProductSlugs.has(slug)) {
       results.push(
         mergeCommercial(
           {

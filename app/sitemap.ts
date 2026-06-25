@@ -155,9 +155,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // donde todos los lastmod son idénticos, interpretándolo como una señal falsa.
   const staticRoutesMeta: Array<{ path: string; lastmod: string; priority: number; changeFrequency: 'weekly' | 'monthly' }> = [
     { path: '/',                                              lastmod: '2026-06-09', priority: 1,    changeFrequency: 'weekly'  },
-    { path: '/producto/te-humus-liquido-premium',             lastmod: '2026-06-09', priority: 0.95, changeFrequency: 'weekly'  },
+    { path: '/producto/te-humus-liquido-premium',             lastmod: '2026-06-25', priority: 0.98, changeFrequency: 'weekly'  },
     { path: '/producto/purin-ortiga-concentrado',             lastmod: '2026-06-09', priority: 0.95, changeFrequency: 'weekly'  },
-    { path: '/comprar-te-de-humus-de-lombriz',                lastmod: '2026-06-01', priority: 0.85, changeFrequency: 'weekly'  },
     { path: '/comprar-purin-de-ortiga',                       lastmod: '2026-06-01', priority: 0.85, changeFrequency: 'weekly'  },
     { path: '/te-de-humus-de-lombriz',                        lastmod: '2026-06-01', priority: 0.82, changeFrequency: 'weekly'  },
     { path: '/purin-de-ortiga',                               lastmod: '2026-06-01', priority: 0.82, changeFrequency: 'weekly'  },

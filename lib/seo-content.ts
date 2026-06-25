@@ -260,38 +260,6 @@ export const seoSolutions: SeoSolution[] = [
 
 export const seoCommercialPages: SeoCommercialPage[] = [
   {
-    slug: 'comprar-te-de-humus-de-lombriz',
-    title: 'Comprar té de humus de lombriz online',
-    metaTitle: 'Comprar té de humus de lombriz online | Biocultor España',
-    metaDescription:
-      'Compra té de humus de lombriz online en España. Ecommerce especializada en formatos para huerto urbano, olivar, cítricos y jardinería profesional.',
-    intro:
-      'Reúne los formatos principales de Biocultor para compra directa en España. La página ayuda a elegir según volumen de uso, tipo de cultivo y frecuencia de reposición.',
-    keyword: 'comprar té de humus de lombriz',
-    reasons: [
-      'Selección de formato según escala de uso.',
-      'Compra directa desde la tienda con cobertura para España.',
-      'Recorrido claro entre ficha de producto, aplicaciones y compra.',
-    ],
-    bestFor: [
-      'Usuarios que buscan la máxima calidad en té de humus biológicamente activo.',
-      'Jardinería doméstica y huerto urbano que necesita un formato manejable.',
-      'Profesionales agrícolas que necesitan un sistema de reposición rápida.',
-    ],
-    faq: [
-      {
-        question: '¿Enviáis té de humus de lombriz a toda España?',
-        answer:
-          'Sí. La tienda opera con cobertura para Península y Baleares, con plazo habitual sujeto a destino, operador logístico y momento de preparación del pedido.',
-      },
-      {
-        question: '¿Cómo sé qué formato comprar?',
-        answer:
-          'Si tienes un pequeño huerto o jardín urbano, el formato de 1L o 5L es ideal. Para parcelas medianas y huertos familiares, te recomendamos 10L. Si eres un profesional con grandes extensiones de olivar o frutales, los formatos de 25L y el IBC de 1000L son los más rentables.',
-      },
-    ],
-  },
-  {
     slug: 'abono-organico-liquido',
     title: 'Abono orgánico líquido premium',
     metaTitle: 'Abono orgánico líquido premium | Té de humus de lombriz',

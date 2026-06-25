@@ -140,10 +140,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     ],
   };
   const keywords = keywordsMap[resolvedParams.slug] ?? [product.name];
+  const isTeaHumus = product.slug === 'te-humus-liquido-premium';
+  const metadataTitle = isTeaHumus
+    ? 'Comprar Té de Humus de Lombriz | Envío Gratis'
+    : `${product.name} | Comprar online en España`;
+  const metadataDescription = isTeaHumus
+    ? 'Compra té de humus de lombriz líquido Biocultor en formatos de 1, 5, 10 y 25 L. Envío gratis 24/48 h, precios con IVA y pago seguro.'
+    : product.description;
 
   return buildProductOgMetadata({
-    title: `${product.name} | Comprar online en España`,
-    description: product.description,
+    title: metadataTitle,
+    description: metadataDescription,
     path: `/producto/${product.slug}`,
     keywords,
     // Imagen principal: primera variante con foto (normalmente 1L o la más pequeña)

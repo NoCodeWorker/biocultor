@@ -191,6 +191,13 @@ export default async function AprendeArticlePage({
         <p className="mt-6 text-xl text-muted-foreground leading-relaxed">
           {dbPost.excerpt}
         </p>
+        <Link
+          href={cta.btnHref}
+          className="mt-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-5 py-3 text-sm font-bold text-primary transition-colors hover:bg-primary/10"
+        >
+          {cta.btnText}
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
 
       <div className="mt-14 max-w-3xl mx-auto">
@@ -259,6 +266,7 @@ export default async function AprendeArticlePage({
 
 function injectInternalLinks(markdown: string): string {
   let result = markdown;
+  const linkedTargets = new Set<string>();
   
   const rules = [
     { text: 'té de humus de lombriz', link: '/producto/te-humus-liquido-premium' },
@@ -270,11 +278,14 @@ function injectInternalLinks(markdown: string): string {
   ];
 
   for (const item of rules) {
+    if (linkedTargets.has(item.link)) continue;
+
     const escapedText = item.text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     const regex = new RegExp(`(?<!\\[)(?<!\\/)\\b${escapedText}\\b(?!\\s*\\])(?!\\s*\\()`, 'i');
     
     if (regex.test(result)) {
       result = result.replace(regex, `[${item.text}](${item.link})`);
+      linkedTargets.add(item.link);
     }
   }
   

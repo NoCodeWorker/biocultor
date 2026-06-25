@@ -7,15 +7,15 @@ import { breadcrumbSchema, buildMetadata, collectionPageSchema } from '@/lib/seo
 import { getSeoSolutions } from '@/lib/seo-store';
 
 export const metadata = buildMetadata({
-  title: 'Té de humus de lombriz por aplicación | Biocultor España',
+  title: 'Usos del té de humus de lombriz por cultivo | Biocultor',
   description:
-    'Landings transaccionales de té de humus de lombriz para España: olivos, cítricos, huerto urbano, viveros y jardinería profesional.',
+    'Guías de uso del té de humus de lombriz para olivos, cítricos, huerto urbano, viveros y jardinería profesional.',
   path: '/te-de-humus-de-lombriz',
   keywords: [
     'té de humus de lombriz para olivos',
     'té de humus de lombriz para cítricos',
     'té de humus de lombriz para huerto urbano',
-    'comprar té de humus de lombriz españa',
+    'cómo usar té de humus de lombriz',
   ],
 });
 
@@ -34,7 +34,7 @@ export default async function TeaHumusLandingPage() {
         id="solutions-collection-schema"
         data={collectionPageSchema({
           name: 'Aplicaciones por cultivo',
-          description: 'Landings transaccionales por cultivo y uso del té de humus de lombriz.',
+          description: 'Guías por cultivo y uso del té de humus de lombriz.',
           path: '/te-de-humus-de-lombriz',
           items: seoSolutions.map((solution) => ({
             name: solution.title,
@@ -47,14 +47,14 @@ export default async function TeaHumusLandingPage() {
 
       <div className="max-w-4xl">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary/80">
-          SEO programático
+          Guías por cultivo
         </p>
         <h1 className="mt-4 text-4xl md:text-6xl font-heading font-extrabold tracking-tight">
-          Té de humus de lombriz orientado a cada intención de compra.
+          Cómo usar té de humus de lombriz según el cultivo.
         </h1>
         <p className="mt-6 text-xl text-muted-foreground leading-relaxed">
-          En vez de concentrar todo en una única ficha, Biocultor abre landings por aplicación
-          para capturar búsquedas transaccionales y comparativas de toda España.
+          Estas guías separan las necesidades de olivos, cítricos, huerto y jardinería.
+          La ficha de producto concentra precios, formatos y compra.
         </p>
       </div>
 
@@ -83,25 +83,25 @@ export default async function TeaHumusLandingPage() {
 
       <section className="mt-16 rounded-[2rem] border border-primary/20 bg-primary/5 p-8 md:p-10">
         <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight">
-          Cómo funciona esta capa transaccional
+          Cómo usar esta biblioteca de aplicaciones
         </h2>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-border/40 bg-background p-5">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary/80">Cultivo</p>
             <p className="mt-3 text-muted-foreground leading-relaxed">
-              Cada landing agrupa necesidad, uso y lenguaje de compra propios de un sector concreto.
+              Cada guía agrupa necesidades y pautas propias de un cultivo concreto.
             </p>
           </div>
           <div className="rounded-2xl border border-border/40 bg-background p-5">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary/80">Formato</p>
             <p className="mt-3 text-muted-foreground leading-relaxed">
-              El usuario llega con intención clara y sale con un criterio mejor para elegir volumen.
+              El contexto de aplicación ayuda a elegir volumen sin duplicar la ficha comercial.
             </p>
           </div>
           <div className="rounded-2xl border border-border/40 bg-background p-5">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary/80">Conversión</p>
             <p className="mt-3 text-muted-foreground leading-relaxed">
-              Cada URL enlaza a compra, envío y soporte sin duplicar el contenido nuclear del producto.
+              La compra, el precio y el stock permanecen centralizados en la ficha canónica.
             </p>
           </div>
         </div>

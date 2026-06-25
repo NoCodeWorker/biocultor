@@ -196,8 +196,8 @@ export default async function Page() {
           path: "/",
           items: [
             {
-              name: "Dominio transaccional",
-              path: "/comprar-te-de-humus-de-lombriz",
+              name: "Comprar té de humus de lombriz",
+              path: "/producto/te-humus-liquido-premium",
             },
             {
               name: "Servicios profesionales",

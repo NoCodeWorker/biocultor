@@ -65,7 +65,7 @@ const staticFaqs: FaqItem[] = [
  */
 function buildPriceFaqAnswer(variants: ProductVariantLite[]): string {
   if (!variants || variants.length === 0) {
-    return 'Puedes consultar los precios actualizados directamente en nuestra página de producto en biocultor.com/producto/te-humus-liquido-premium (todos con IVA incluido). El envío es gratuito para pedidos superiores a 50€ a toda la Península. La entrega estimada es de 24 a 48 horas en días laborables.';
+    return 'Puedes consultar los precios actualizados directamente en nuestra página de producto en biocultor.com/producto/te-humus-liquido-premium (todos con IVA incluido). Todos los formatos incluyen envío gratuito. La entrega estimada es de 24 a 48 horas en días laborables.';
   }
 
   // Ordena por volumen (extrae el número del size como "1 Litro" → 1)
@@ -79,7 +79,7 @@ function buildPriceFaqAnswer(variants: ProductVariantLite[]): string {
     .map(v => `${v.size} — ${v.price.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€`)
     .join(' · ');
 
-  return `En Biocultor los precios son: ${priceList} (todos con IVA incluido). El envío es gratuito para pedidos superiores a 50€ a toda la Península. La entrega estimada es de 24 a 48 horas en días laborables.`;
+  return `En Biocultor los precios son: ${priceList} (todos con IVA incluido). Todos los formatos incluyen envío gratuito. La entrega estimada es de 24 a 48 horas en días laborables.`;
 }
 
 export default function FaqAioSeo({
