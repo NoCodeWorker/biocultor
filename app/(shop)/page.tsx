@@ -353,12 +353,15 @@ export default async function Page() {
               { value: "2", label: "Servicios profesionales" },
               { value: "24h", label: "Envío express España" },
             ].map(({ value, label }) => (
-              <div key={label} className="flex flex-col items-center gap-1.5">
+              <div
+                key={label}
+                className="flex min-h-24 flex-col items-center justify-center gap-1.5 rounded-xl border border-cream/15 bg-brand-brown-dark/75 px-2 py-3 shadow-sm backdrop-blur-sm md:min-h-0 md:rounded-none md:border-0 md:bg-transparent md:px-0 md:py-0 md:shadow-none md:backdrop-blur-none"
+              >
                 <span className="font-heading text-3xl font-bold text-cream drop-shadow-md md:text-4xl">
                   {value}
                 </span>
-                <div className="mx-auto h-px w-6 bg-cream/25" />
-                <span className="text-center text-[10px] leading-tight tracking-wide text-cream/55 uppercase md:text-xs">
+                <div className="mx-auto h-px w-6 bg-cream/45" />
+                <span className="text-center text-[10px] leading-tight font-semibold tracking-wide text-cream/90 uppercase md:text-xs md:text-cream/80">
                   {label}
                 </span>
               </div>
