@@ -52,6 +52,10 @@ Las fases anteriores ampliaron landings, servicios, artículos, casos, comparati
 - Revisar que el formulario conserva envío, motivo y mensaje precargado por servicios.
 - Revisar que Analytics no depende de datos externos para renderizar.
 
+## Closure status
+
+La atribución propia formulario-CRM-Analytics está implementada y desplegada. La integración directa de GSC/GA4, compras y llamadas externas permanece como una ampliación independiente que requiere fuentes y credenciales externas.
+
 ## Rollback considerations
 
 Rollback seguro eliminando la sincronización CRM de `submitContactForm`, los campos ocultos de atribución y el bloque de atribución en Analytics. No hay migraciones ni cambios de esquema.

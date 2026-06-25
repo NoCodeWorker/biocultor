@@ -52,6 +52,10 @@ El roadmap SEO/GEO/AIO pide pasar de publicar landings a construir prueba y auto
 - Confirmar que sitemap incluye `/casos` y `/recursos/*`.
 - Confirmar que `/servicios` enlaza el hub de casos.
 
+## Closure status
+
+La base pública está implementada y desplegada: hub de casos, fichas documentables y recursos indexables. La incorporación de fotografías, fechas y métricas reales continúa como enriquecimiento de contenido, no como bloqueo técnico de esta fase.
+
 ## Rollback considerations
 
 El rollback es simple: retirar rutas `/casos`, `/recursos`, enlaces públicos y entradas del sitemap. No hay migraciones ni cambios de base de datos.

@@ -51,6 +51,10 @@ El roadmap orgánico 2026-06-18 define la Fase 2 como dominio de servicios premi
 - Verificar que `/servicios` enlaza las 8 landings.
 - Verificar que `/sitemap.xml` incluye las 8 rutas.
 
+## Closure status
+
+Implementado, validado y desplegado. Las ocho landings premium forman parte del catálogo tipado y del sitemap público.
+
 ## Rollback considerations
 
 - Revertir el commit de Fase 2.

@@ -48,6 +48,10 @@ None.
 - Audit that 8 articles exist, are unique, include references, FAQ, product/service links, limitations and GEO/AIO signals
 - `/aprende` and sitemap include all 8 slugs
 
+## Closure status
+
+Implemented and deployed. Production startup verifies the Phase 1 seed and the public build exposes the article routes under `/aprende`.
+
 ## Rollback considerations
 
 Revert the commit introducing the seed, sitemap entries, `/aprende` section and Docker command. Existing DB posts would remain unless explicitly removed by an operator.

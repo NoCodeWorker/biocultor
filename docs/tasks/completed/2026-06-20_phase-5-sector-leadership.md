@@ -54,6 +54,10 @@ El roadmap define Fase 5 como el paso hacia ser el sitio más completo y confiab
 - `npm run build` con red si hay cambios de rutas.
 - Confirmar que sitemap incluye `/biblioteca`, `/calculadoras`, `/metodologia` y `/comparativas/*`.
 
+## Closure status
+
+La arquitectura inicial de liderazgo sectorial está implementada y desplegada. Biblioteca, comparativas, calculadoras y metodología forman parte del build y sitemap públicos. La ampliación futura se priorizará con datos de rendimiento.
+
 ## Rollback considerations
 
 El rollback es retirar rutas de biblioteca, comparativas, calculadoras, metodología, enlaces públicos y sitemap. No hay migraciones ni cambios de base de datos.

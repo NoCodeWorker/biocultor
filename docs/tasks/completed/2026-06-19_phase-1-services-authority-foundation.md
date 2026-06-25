@@ -49,6 +49,10 @@ GSC showed early visibility for product queries around "té de humus", but servi
 - Service pages render breadcrumbs through `/servicios`.
 - FAQ schema contains required commercial/local answers.
 
+## Closure status
+
+Implemented and deployed. `/servicios` responds successfully in production and remains linked from navigation, footer and sitemap.
+
 ## Rollback considerations
 
 Revert the commit that adds `/servicios` and related sitemap/navbar/schema changes. No database migration is involved.

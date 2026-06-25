@@ -51,6 +51,10 @@ El roadmap orgánico 2026-06-18 define una Fase 3 GEO premium para dominar búsq
 - Verificar que `/servicios` enlaza las landings GEO en sección propia.
 - Verificar que `/sitemap.xml` incluye las rutas GEO.
 
+## Closure status
+
+Implementado, validado y desplegado. Las ocho landings GEO se publican dentro del dominio de servicios y están incluidas en el sitemap.
+
 ## Rollback considerations
 
 - Revertir el commit de Fase 3.
