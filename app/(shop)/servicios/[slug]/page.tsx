@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
@@ -77,6 +78,7 @@ export default async function PremiumServicePage({
   const budgetHref = `/contacto?servicio=${page.slug}`;
   const productHref = '/producto/te-humus-liquido-premium';
   const visualProof = getVisualOverrides(page, seoOverride);
+  const hasComparisonVisuals = visualProof.before !== visualProof.after;
   const breadcrumbs = [
     { label: 'Inicio', href: '/' },
     { label: 'Servicios', href: '/servicios' },
@@ -200,13 +202,29 @@ export default async function PremiumServicePage({
 
           <div className="lg:col-span-6">
             <div className="h-[320px] md:h-[460px] rounded-3xl overflow-hidden border border-border/50 shadow-xl shadow-foreground/5">
-              <ImageComparison
-                beforeSrc={visualProof.before}
-                afterSrc={visualProof.after}
-                beforeAlt={`Visual de diagnóstico para ${page.title}`}
-                afterAlt={`Visual de metodología de aplicación para ${page.title}`}
-                className="h-full w-full"
-              />
+              {hasComparisonVisuals ? (
+                <ImageComparison
+                  beforeSrc={visualProof.before}
+                  afterSrc={visualProof.after}
+                  beforeAlt={`Estado inicial documentado para ${page.title}`}
+                  afterAlt={`Estado posterior documentado para ${page.title}`}
+                  className="h-full w-full"
+                />
+              ) : (
+                <div className="relative h-full w-full">
+                  <Image
+                    src={visualProof.after}
+                    alt={`Visual de diagnóstico y metodología para ${page.title}`}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                  <span className="absolute left-4 top-4 rounded-full border border-white/20 bg-primary/90 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-white shadow-md backdrop-blur-sm">
+                    Diagnóstico y metodología
+                  </span>
+                </div>
+              )}
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed mt-3">
               {visualProof.caption}

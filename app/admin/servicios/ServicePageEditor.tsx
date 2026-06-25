@@ -272,33 +272,33 @@ export default function ServicePageEditor({
             </div>
           </div>
 
-          {/* Section 2: Before/After Images */}
+          {/* Section 2: Service visuals */}
           <div className="rounded-3xl border border-border/50 bg-card p-6 md:p-8 flex flex-col gap-6">
-            <h3 className="font-heading font-bold text-lg text-foreground">2. Imágenes de Comparación (Antes / Después)</h3>
+            <h3 className="font-heading font-bold text-lg text-foreground">2. Visuales del servicio</h3>
             <p className="text-xs text-muted-foreground -mt-3">
-              Estas imágenes son las que se muestran en el slider interactivo en la cabecera de la página.
+              Si ambas rutas son iguales, la cabecera muestra una única imagen editorial. Usa dos imágenes distintas solo cuando exista una comparación documentada.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">Foto ANTES (Césped degradado)</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">Diagnóstico o estado inicial</span>
                 <ImageUploader
                   value={payload.beforeImage}
                   onChange={(url) => updatePayloadField('beforeImage', url || '/servicios-cesped-antes.webp')}
                   size="lg"
                   allowManual
-                  hint="Imagen de césped seco/amarillo para mostrar el problema."
+                  hint="Puede ser la misma imagen editorial principal si no existe evidencia comparativa."
                 />
               </div>
 
               <div className="space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">Foto DESPUÉS (Césped verde)</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">Visual principal o metodología</span>
                 <ImageUploader
                   value={payload.afterImage}
                   onChange={(url) => updatePayloadField('afterImage', url || '/servicios-cesped-despues.webp')}
                   size="lg"
                   allowManual
-                  hint="Imagen de césped denso y verde después de inocular."
+                  hint="Portada editorial del servicio. Solo representa un resultado si está documentado."
                 />
               </div>
             </div>
@@ -471,7 +471,7 @@ export default function ServicePageEditor({
                 ) : (
                   <span className="text-xs text-muted-foreground">Sin imagen</span>
                 )}
-                <span className="absolute bottom-2 left-2 text-[10px] font-bold bg-primary text-white px-2 py-0.5 rounded">Después</span>
+                <span className="absolute bottom-2 left-2 text-[10px] font-bold bg-primary text-white px-2 py-0.5 rounded">Visual principal</span>
               </div>
               <div className="p-4 flex flex-col gap-2">
                 <span className="text-[10px] font-bold uppercase text-primary">Servicio Presencial</span>

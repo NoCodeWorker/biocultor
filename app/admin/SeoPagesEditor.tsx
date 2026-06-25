@@ -428,22 +428,22 @@ export default function SeoPagesEditor({
                       <div className="space-y-2">
                         <h4 className="font-heading font-bold text-foreground">Editor visual de servicio</h4>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          Las nuevas landings de servicios leen estas imágenes desde <code className="text-xs bg-background px-1 py-0.5 rounded">payloadJson.beforeImage</code> y <code className="text-xs bg-background px-1 py-0.5 rounded">payloadJson.afterImage</code>. El campo Imagen superior se usa como portada/OG y fallback de imagen final.
+                          Las landings leen estas imágenes desde <code className="text-xs bg-background px-1 py-0.5 rounded">payloadJson.beforeImage</code> y <code className="text-xs bg-background px-1 py-0.5 rounded">payloadJson.afterImage</code>. Si ambas rutas son iguales se muestra una única imagen editorial; el comparador solo aparece con dos imágenes distintas y documentadas.
                         </p>
                       </div>
                       <div className="grid gap-6 md:grid-cols-2">
                         <ImageUploader
-                          label="Imagen antes"
+                          label="Diagnóstico o estado inicial"
                           value={(() => {
                             try { return JSON.parse(item.payloadJson).beforeImage || ''; } catch { return ''; }
                           })()}
                           onChange={(url) => updatePayloadField(item.id, 'beforeImage', url || '')}
                           size="lg"
                           allowManual
-                          hint="Imagen previa, zona degradada o estado inicial del jardín."
+                          hint="Puede coincidir con la imagen principal cuando no existe evidencia comparativa."
                         />
                         <ImageUploader
-                          label="Imagen después"
+                          label="Visual principal o metodología"
                           value={(() => {
                             try { return JSON.parse(item.payloadJson).afterImage || ''; } catch { return ''; }
                           })()}
@@ -453,7 +453,7 @@ export default function SeoPagesEditor({
                           }}
                           size="lg"
                           allowManual
-                          hint="Imagen principal de resultado/estado objetivo. También actualiza la portada SEO."
+                          hint="Portada editorial. Solo debe presentarse como resultado cuando exista evidencia documentada."
                         />
                       </div>
                       <label className="flex flex-col gap-2">

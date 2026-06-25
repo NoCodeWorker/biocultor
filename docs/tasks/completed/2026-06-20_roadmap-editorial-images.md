@@ -61,15 +61,29 @@ The current roadmap posts appear in the Blog dashboard, but many still use gener
 
 ## Validation checklist
 
-- Confirm all 14 slugs have a non-generic `coverImage`.
-- Confirm the 16 service landing slugs have non-generic `image` or visual payload assets.
-- Confirm all 14 images are `.webp`.
-- Confirm landing assets are `.webp`.
-- Confirm final text is readable and spelled correctly.
-- Confirm `/admin/blog` shows the images as editable.
-- Confirm `/admin/seo` and `/admin/servicios` show landing/service images as editable.
-- Run `npx tsc --noEmit`.
-- Run `npm run build` if code or route behavior changes.
+- [x] Confirm all 14 slugs have a non-generic `coverImage`.
+- [x] Confirm the 16 service landing slugs have non-generic `image` or visual payload assets.
+- [x] Confirm all 14 images are `.webp`.
+- [x] Confirm landing assets are `.webp`.
+- [x] Confirm final text is readable and spelled correctly.
+- [x] Confirm `/admin/blog` shows the images as editable.
+- [x] Confirm `/admin/seo` and `/admin/servicios` show landing/service images as editable.
+- [x] Run `npx tsc --noEmit`.
+- [x] Run `npm run build` if code or route behavior changes.
+
+## Closure status
+
+Completed on 2026-06-25.
+
+- The repository contains 30 unique tracked editorial assets: 14 post covers and 16 service landing visuals.
+- Every asset is an optimized `1600x900` WebP and every canonical reference resolves to an existing file.
+- The post seeds preserve manual `/uploads/...` covers.
+- Dashboard synchronization preserves manual image and visual-payload overrides.
+- Public service landings now render one editorial image when `beforeImage` and `afterImage` are equal. The interactive before/after comparison is only used when two distinct, documented images exist.
+- The Blog, SEO and Services editors expose the corresponding visual fields without describing methodological images as guaranteed outcomes.
+- Visual contact-sheet review found readable Spanish copy and no absolute agronomic promises.
+- Targeted ESLint, `npm run typecheck` and `npm run build` pass.
+- The build logs expected local fallbacks because the Docker hostname `db` is unavailable outside Compose; compilation and static generation complete successfully.
 
 ## Rollback considerations
 
