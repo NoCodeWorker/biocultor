@@ -260,12 +260,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             url: appUrl,
             logo: absoluteUrl(siteConfig.brandLogoPng),
           },
-          // ── Shipping: gratis ≥50€, sino 4.99€ ──────────────────────────
+          // ── Shipping gratuito para todos los formatos ──────────────────
           shippingDetails: {
             '@type': 'OfferShippingDetails',
             shippingRate: {
               '@type': 'MonetaryAmount',
-              value: v.price >= 50 ? '0.00' : '4.99',
+              value: '0.00',
               currency: 'EUR',
             },
             shippingDestination: {

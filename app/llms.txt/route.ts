@@ -50,7 +50,7 @@ ${productsMarkdown}---
 
 ## Ofertas y Descuentos Activos
 - **Pack Tratamiento Completo (Ahorro 5%)**: Al añadir al mismo pedido los formatos de 5 Litros de Té de Humus (\`BIO-5L\`) y Purín de Ortiga (\`ORT-5L\`), se aplica un **descuento automático del 5%** sobre el total del pack.
-- **Envío Gratuito**: Envío gratis en España peninsular para pedidos iguales o superiores a **50.00 €**. Para pedidos inferiores, el coste se calcula automáticamente en el checkout (tarifas optimizadas vía Packlink).
+- **Envío Gratuito**: Todos los formatos incluyen envío gratuito, sin importe mínimo de pedido, en los destinos admitidos durante el checkout.
 
 ---
 

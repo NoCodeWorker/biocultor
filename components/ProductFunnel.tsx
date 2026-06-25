@@ -496,7 +496,7 @@ export default function ProductFunnel({
                     Envío 24/48h
                   </span>
                   <span className="text-[9px] text-muted-foreground md:text-[10px]">
-                    {selected.price >= 50 ? "Gratuito" : "Calculado en pago"}
+                    Gratuito en todos los formatos
                   </span>
                 </div>
               </div>

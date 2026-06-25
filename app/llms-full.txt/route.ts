@@ -113,7 +113,7 @@ Cualquier sistema autónomo puede procesar transacciones seguras para un usuario
 1.  Determinar el SKU y la cantidad necesaria.
 2.  Construir el endpoint: \`https://biocultor.com/api/buy-direct?sku=[SKU]&qty=[CANTIDAD]\`
 3.  Servir la URL resultante al usuario. La redirección gestionará:
-    *   Cálculo automático de envío gratis a partir de 50.00 €.
+    *   Envío gratuito para todos los formatos, sin importe mínimo.
     *   Cálculo y descuento del 5% si el usuario añade simultáneamente \`BIO-5L\` y \`ORT-5L\`.
 `;
 

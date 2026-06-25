@@ -221,7 +221,7 @@ export default async function AprendeArticlePage({
             <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
               <Truck className="w-4 h-4" />
             </div>
-            <span className="text-xs font-semibold text-foreground">Envío gratis &gt;50€ (24/48h)</span>
+            <span className="text-xs font-semibold text-foreground">Envío gratis en todos los formatos (24/48h)</span>
           </div>
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">

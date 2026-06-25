@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Envíos, Entregas y Devoluciones | Biocultor',
-  description: 'Consulta los tiempos de entrega, costes de envío, política de devoluciones (derecho de desistimiento de 14 días) y cancelaciones de Biocultor.',
+  description: 'Envío gratuito en todos los formatos. Consulta tiempos de entrega, devoluciones y cancelaciones de Biocultor.',
 };
 
 export default function EnviosPage() {
@@ -64,16 +64,16 @@ export default function EnviosPage() {
             </h2>
             <div className="prose prose-zinc dark:prose-invert max-w-none text-muted-foreground leading-relaxed">
               <p>
-                Los costes de envío se calculan automáticamente en el carrito de compra basándose en el peso de los bidones seleccionados y la dirección de entrega.
+                Biocultor asume el coste de transporte de todos los pedidos, independientemente del formato o del importe del carrito.
               </p>
               <div className="mt-6 p-6 bg-background rounded-2xl border border-border/50">
-                <p className="font-bold text-foreground text-lg mb-2">Envío gratuito a partir de 50€</p>
+                <p className="font-bold text-foreground text-lg mb-2">Envío gratuito sin pedido mínimo</p>
                 <p className="text-sm">
-                  Cualquier pedido con un importe total en carrito igual o superior a **50,00€** (impuestos incluidos) se beneficiará de **envío gratuito** a Península.
+                  Todos los formatos disponibles incluyen **envío gratuito** en los destinos admitidos durante el checkout.
                 </p>
               </div>
               <p className="mt-4 text-sm">
-                Para pedidos inferiores a 50€, se aplicará la tarifa calculada en checkout según el destino.
+                Stripe mostrará una única opción de transporte a **0,00 €**, junto con el plazo estimado de entrega.
               </p>
             </div>
           </section>

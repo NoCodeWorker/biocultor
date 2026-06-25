@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="w-[92%] lg:w-[80%] xl:w-[75%] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { icon: ShieldCheck, title: 'Pago seguro', desc: 'Checkout protegido' },
-            { icon: Truck, title: 'Envío Gratis >50€', desc: 'Península 24/48h laborables' },
+            { icon: Truck, title: 'Envío Gratis', desc: 'Todos los formatos · 24/48h' },
             { icon: Leaf, title: 'Información de uso', desc: 'Formato y aplicación claros' },
             { icon: CreditCard, title: 'Múltiples Métodos', desc: 'Visa, Mastercard, Apple Pay' },
           ].map(({ icon: Icon, title, desc }) => (

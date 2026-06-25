@@ -51,7 +51,7 @@ const staticFaqs: FaqItem[] = [
   },
   {
     question: '¿Cuándo se envía y cuánto tarda en llegar?',
-    answer: 'Los pedidos realizados antes de las 13h en días laborables se procesan el mismo día. La entrega estimada es de 24 a 48 horas laborables para toda la Península Ibérica (España continental y Portugal). Las Islas Baleares, Canarias, Ceuta y Melilla tienen plazos y condiciones de envío diferenciadas. El envío es gratuito a partir de 50€ de pedido.'
+    answer: 'Los pedidos realizados antes de las 13h en días laborables se procesan el mismo día. La entrega estimada es de 24 a 48 horas laborables para toda la Península Ibérica (España continental y Portugal). Las Islas Baleares, Canarias, Ceuta y Melilla tienen plazos y condiciones de envío diferenciadas. Todos los formatos incluyen envío gratuito, sin importe mínimo.'
   },
   {
     question: '¿Qué hago si mi pedido llega con algún problema?',

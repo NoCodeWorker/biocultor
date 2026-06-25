@@ -20,8 +20,6 @@ type CrossSellVariant = {
 }
 
 type CrossSellData = {
-  ort1L?: CrossSellVariant
-  bio1L?: CrossSellVariant
   ort5L?: CrossSellVariant
   bio5L?: CrossSellVariant
 }
@@ -35,7 +33,6 @@ export default function Cart() {
 
   const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
-  const freeShipping = total >= 50
 
   const hasBIO5L = items.some((item) => item.sku === "BIO-5L")
   const hasORT5L = items.some((item) => item.sku === "ORT-5L")
@@ -49,43 +46,6 @@ export default function Cart() {
     }
     return acc + unitPrice * item.quantity
   }, 0)
-
-  const hasBIO = items.some((item) => item.sku?.startsWith("BIO"))
-  const hasORT = items.some((item) => item.sku?.startsWith("ORT"))
-  const hasBIO1L = items.some((item) => item.sku === "BIO-1L")
-  const hasORT1L = items.some((item) => item.sku === "ORT-1L")
-
-  let boosterVariant = null
-  if (hasBIO && !hasORT && !hasORT1L && crossSellData?.ort1L) {
-    boosterVariant = crossSellData.ort1L
-  } else if (hasORT && !hasBIO && !hasBIO1L && crossSellData?.bio1L) {
-    boosterVariant = crossSellData.bio1L
-  } else if (!hasBIO1L && crossSellData?.bio1L) {
-    boosterVariant = crossSellData.bio1L
-  } else if (!hasORT1L && crossSellData?.ort1L) {
-    boosterVariant = crossSellData.ort1L
-  }
-
-  const percentage = Math.min((total / 50) * 100, 100)
-  let milestoneText = ""
-  let milestoneSubtext = ""
-  if (total < 15) {
-    milestoneText = `Te faltan €${(50 - total).toFixed(2)} para envío gratis`
-    milestoneSubtext =
-      "Puedes completar el pedido ahora o añadir otro formato para ahorrar el envío."
-  } else if (total >= 15 && total < 35) {
-    milestoneText = `Te faltan €${(50 - total).toFixed(2)} para envío gratis`
-    milestoneSubtext =
-      "El envío gratis se activa automáticamente al llegar a 50 €."
-  } else if (total >= 35 && total < 50) {
-    milestoneText = `Estás a €${(50 - total).toFixed(2)} del envío gratis`
-    milestoneSubtext =
-      "Añadir un formato pequeño suele compensar frente al coste de transporte."
-  } else {
-    milestoneText = "Envío gratuito incluido"
-    milestoneSubtext =
-      "Tu pedido ya supera el mínimo para transporte sin coste."
-  }
 
   // Fetch cross-sell variants when Cart opens
   useEffect(() => {
@@ -218,51 +178,17 @@ export default function Cart() {
           </button>
         </div>
 
-        {/* Unified Free Shipping Progress & Milestone Booster */}
+        {/* Free shipping policy */}
         {items.length > 0 && (
           <div className="border-b border-border/40 bg-cream-warm px-6 py-4 shadow-inner">
-            <div className="mb-2 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Leaf
-                  className={cn(
-                    "h-4 w-4 text-primary transition-transform duration-500",
-                    freeShipping ? "scale-110 rotate-12" : "animate-pulse"
-                  )}
-                />
-                <span
-                  className={cn(
-                    "font-heading text-sm font-bold",
-                    freeShipping ? "text-primary" : "text-foreground"
-                  )}
-                >
-                  {milestoneText}
-                </span>
-              </div>
-              {!freeShipping && (
-                <span className="rounded-md bg-muted/60 px-2 py-0.5 text-xs font-bold text-muted-foreground">
-                  {percentage.toFixed(0)}%
-                </span>
-              )}
+            <div className="flex items-center gap-2">
+              <Leaf className="h-4 w-4 rotate-12 text-primary" />
+              <span className="font-heading text-sm font-bold text-primary">
+                Envío gratuito incluido
+              </span>
             </div>
-
-            {/* Elegant Custom Animated Progress Bar */}
-            <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-muted/70 shadow-inner">
-              <div
-                className={cn(
-                  "relative h-full overflow-hidden rounded-full transition-all duration-700 ease-out",
-                  freeShipping
-                    ? "bg-gradient-to-r from-primary to-brand-green-hover"
-                    : "bg-gradient-to-r from-brand-olive to-primary"
-                )}
-                style={{ width: `${percentage}%` }}
-              >
-                {/* Shiny gloss wave effect on progress bar */}
-                <div className="cart-shimmer-bg pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              </div>
-            </div>
-
             <p className="mt-2 text-xs font-medium text-muted-foreground">
-              {milestoneSubtext}
+              Sin pedido mínimo: todos los formatos se envían sin coste de transporte.
             </p>
           </div>
         )}
@@ -339,86 +265,6 @@ export default function Cart() {
                   </div>
                 </div>
               ))}
-
-              {/* Contextual AOV Booster (1L Quick-Add for Free Shipping) */}
-              {!freeShipping && 50 - total <= 10 && boosterVariant && (
-                <div className="mt-2 flex animate-in flex-col gap-3 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-cream-warm/50 to-brand-olive/5 p-4 shadow-sm transition-all duration-300 fade-in slide-in-from-bottom-2 hover:shadow-md">
-                  <div className="flex items-start gap-3">
-                    <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-xl border border-border/40 bg-background">
-                      <Image
-                        src={
-                          boosterVariant.imagePath ||
-                          boosterVariant.image ||
-                          (boosterVariant.sku?.startsWith("BIO")
-                            ? "/1 litro.jpg"
-                            : "/1 litro.jpg")
-                        }
-                        fill
-                        className="object-contain p-1"
-                        alt={boosterVariant.product.name}
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-primary uppercase">
-                          Recomendado
-                        </span>
-                        <span className="text-[10px] font-bold tracking-wider text-brand-olive-dark uppercase">
-                          Ahorra envío
-                        </span>
-                      </div>
-                      <h4 className="mt-1 truncate text-xs font-bold text-foreground">
-                        {boosterVariant.product.name} - 1L
-                      </h4>
-                      <p className="mt-0.5 text-[10px] leading-snug text-muted-foreground">
-                        Añade este formato de 1L para conseguir el{" "}
-                        <strong>Envío Gratis</strong>.
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-heading text-sm font-black text-foreground">
-                        €{boosterVariant.price.toFixed(2)}
-                      </span>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => {
-                      addItem({
-                        id: boosterVariant.id,
-                        name: boosterVariant.product.name,
-                        size: boosterVariant.size,
-                        price: boosterVariant.price,
-                        image:
-                          boosterVariant.imagePath ||
-                          boosterVariant.image ||
-                          (boosterVariant.sku?.startsWith("BIO")
-                            ? "/1 litro.jpg"
-                            : "/1 litro.jpg"),
-                        quantity: 1,
-                        sku: boosterVariant.sku,
-                      })
-                      trackEcommerceEvent("add_to_cart", {
-                        value: boosterVariant.price,
-                        items: [
-                          {
-                            item_id: boosterVariant.sku,
-                            item_name: boosterVariant.product.name,
-                            item_variant: boosterVariant.size,
-                            price: boosterVariant.price,
-                            quantity: 1,
-                          },
-                        ],
-                      })
-                    }}
-                    className="flex w-full items-center justify-center gap-1 rounded-xl bg-primary py-2 text-xs font-bold text-white shadow-sm transition-all duration-200 hover:scale-[1.01] hover:bg-brand-green-hover active:scale-[0.99]"
-                  >
-                    <span>
-                      Añadir y activar envío gratis (+€
-                      {boosterVariant.price.toFixed(2)})
-                    </span>
-                  </button>
-                </div>
-              )}
 
               {/* Módulo Cross-Sell Purín de Ortiga 5L */}
               {hasBIO5L && !hasORT5L && crossSellData?.ort5L && (

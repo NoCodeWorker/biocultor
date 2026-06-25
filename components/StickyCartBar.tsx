@@ -198,7 +198,7 @@ export default function StickyCartBar({
               </p>
               <div className="flex items-center justify-end gap-1.5 text-xs text-primary">
                 <Truck className="h-3 w-3" />
-                {selectedVariant.price >= 50 ? "Envío gratis" : "Envío 24/48h"}
+                Envío gratis 24/48h
               </div>
             </div>
             {isMaintenance ? (

@@ -31,8 +31,6 @@ export async function GET() {
         : `${appUrl}/Logo.svg`;
 
       const availability = variant.stock && variant.stock > 0 ? 'in stock' : 'out of stock';
-      const shippingCost = variant.price >= 50 ? '0.00' : '4.99';
-
       return `
     <item>
       <title><![CDATA[${product.name} — ${variant.size}]]></title>
@@ -52,7 +50,7 @@ export async function GET() {
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
-        <g:price>${shippingCost} EUR</g:price>
+        <g:price>0.00 EUR</g:price>
       </g:shipping>
       <g:return_policy_label>free-returns</g:return_policy_label>
       <g:custom_label_0>${variant.size}</g:custom_label_0>
