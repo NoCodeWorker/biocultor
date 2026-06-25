@@ -48,8 +48,6 @@ export default async function AdminRefundsPage({
   const partialRefunds = refundedOrders.filter(
     (o) => (o.refundedAmount ?? 0) > 0 && (o.refundedAmount ?? 0) < o.totalAmount
   ).length;
-  const totalRevenueLost = totalRefunded; // alias semántico
-
   // Tasa de refund sobre total de pedidos pagados
   const totalPaidOrders = await prisma.order.count({
     where: { status: { in: ['PAID', 'SHIPPED', 'DELIVERED', 'REFUNDED'] } },

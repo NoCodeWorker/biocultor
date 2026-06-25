@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { z } from 'zod';
 import prisma from '@/lib/db';

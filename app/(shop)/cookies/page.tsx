@@ -24,7 +24,7 @@ export default function CookiesPage() {
         
         <div className="flex flex-col gap-8 text-muted-foreground leading-relaxed">
           <p>
-            Esta web utiliza pequeños archivos de texto llamados "Cookies" para mejorar tu navegación y el funcionamiento básico de la tienda.
+            Esta web utiliza pequeños archivos de texto llamados “Cookies” para mejorar tu navegación y el funcionamiento básico de la tienda.
           </p>
 
           <section className="flex flex-col gap-3">

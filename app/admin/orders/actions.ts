@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { getPaymentIntentFromSession, refundPaymentIntent } from '@/lib/stripe-admin';
 import { createPacklinkShipment, getPacklinkLabelUrl } from '@/lib/packlink';
 import { logAdminAction } from '@/lib/admin/audit';
+import { getErrorMessage } from '@/lib/errors';
 
 export type ActionResult<T = unknown> =
   | { success: true; data?: T; error?: undefined }
@@ -95,8 +96,8 @@ export async function refundOrder(
   let paymentIntentId: string | null;
   try {
     paymentIntentId = await getPaymentIntentFromSession(order.stripeSession);
-  } catch (err: any) {
-    return { success: false, error: `Stripe: ${err?.message ?? 'error obteniendo payment intent'}` };
+  } catch (error: unknown) {
+    return { success: false, error: `Stripe: ${getErrorMessage(error, 'error obteniendo payment intent')}` };
   }
   if (!paymentIntentId) {
     return { success: false, error: 'No se pudo recuperar el payment intent de la sesión.' };
@@ -133,8 +134,8 @@ export async function refundOrder(
 
     revalidateOrder(orderNumber);
     return { success: true, data: { refundId: refund.id } };
-  } catch (err: any) {
-    return { success: false, error: `Stripe refund falló: ${err?.message ?? 'error desconocido'}` };
+  } catch (error: unknown) {
+    return { success: false, error: `Stripe refund falló: ${getErrorMessage(error)}` };
   }
 }
 

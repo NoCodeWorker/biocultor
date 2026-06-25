@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { Search, X, Download, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -14,16 +14,17 @@ const STATUSES = [
   { value: 'REFUNDED', label: 'Reembolsado' },
 ];
 
-export default function OrdersFilters({ totalResults }: { totalResults: number }) {
+export default function OrdersFilters({
+  totalResults,
+  initialQuery,
+}: {
+  totalResults: number;
+  initialQuery: string;
+}) {
   const router = useRouter();
   const params = useSearchParams();
   const [pending, startTransition] = useTransition();
-  const [q, setQ] = useState(params.get('q') ?? '');
-
-  // Mantener el input en sync si cambia desde fuera (botón limpiar, navegación)
-  useEffect(() => {
-    setQ(params.get('q') ?? '');
-  }, [params]);
+  const [q, setQ] = useState(initialQuery);
 
   const statuses = (params.get('status') ?? '').split(',').filter(Boolean);
   const from = params.get('from') ?? '';

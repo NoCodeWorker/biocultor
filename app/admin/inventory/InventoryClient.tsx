@@ -108,9 +108,6 @@ export default function InventoryClient({ variants }: { variants: VariantRow[] }
           {variants.map((v) => {
             const row = rows[v.id];
             if (!row) return null;
-            const isLow = row.stock <= LOW && row.stock > 0;
-            const isOut = row.stock === 0;
-
             return (
               <li
                 key={v.id}

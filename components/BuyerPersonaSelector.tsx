@@ -165,7 +165,7 @@ export default function BuyerPersonaSelector() {
                 {/* Pain point */}
                 <div className="flex items-start gap-3 bg-background/80 rounded-2xl p-4 border border-border/40">
                   <AlertCircle className="w-5 h-5 shrink-0 text-muted-foreground mt-0.5" />
-                  <p className="text-sm text-muted-foreground italic">"{persona.pain}"</p>
+                  <p className="text-sm text-muted-foreground italic">“{persona.pain}”</p>
                 </div>
               </div>
 

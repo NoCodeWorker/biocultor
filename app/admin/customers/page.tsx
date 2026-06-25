@@ -1,6 +1,6 @@
 import prisma from '@/lib/db';
 import Link from 'next/link';
-import { Users, ShoppingBag, Euro, TrendingUp, Search, ArrowRight, Mail, Phone, Tag } from 'lucide-react';
+import { Users, ShoppingBag, Euro, TrendingUp, Search, ArrowRight, Mail, Phone } from 'lucide-react';
 import { DiscountEditor } from './DiscountEditor';
 
 export const dynamic = 'force-dynamic';

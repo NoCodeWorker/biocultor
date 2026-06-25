@@ -35,6 +35,7 @@ export default async function AdminOperationsPage() {
   // Métricas rápidas
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
+  const nowMs = new Date().getTime();
   const shippedToday = await prisma.order.count({
     where: { status: 'SHIPPED', lastStatusAt: { gte: todayStart } },
   });
@@ -76,7 +77,6 @@ export default async function AdminOperationsPage() {
           label="Peso pendiente"
           value={`${totalWeightPending} kg`}
           icon={Package}
-          valueStr
         />
       </div>
 
@@ -106,7 +106,7 @@ export default async function AdminOperationsPage() {
                   return acc + l * it.quantity;
                 }, 0);
                 const age = Math.floor(
-                  (Date.now() - new Date(o.createdAt).getTime()) / (1000 * 60 * 60)
+                  (nowMs - new Date(o.createdAt).getTime()) / (1000 * 60 * 60)
                 );
 
                 return (
@@ -242,13 +242,11 @@ function OpKpi({
   value,
   icon: Icon,
   alert,
-  valueStr,
 }: {
   label: string;
   value: number | string;
   icon: typeof Truck;
   alert?: boolean;
-  valueStr?: boolean;
 }) {
   return (
     <div

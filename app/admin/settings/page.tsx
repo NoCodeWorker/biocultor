@@ -5,8 +5,6 @@ import {
   Globe,
   Shield,
   Zap,
-  RefreshCw,
-  CheckCircle2,
   ExternalLink,
 } from 'lucide-react';
 import RevalidateButton from './RevalidateButton';

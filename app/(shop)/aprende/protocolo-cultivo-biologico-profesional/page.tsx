@@ -1,10 +1,11 @@
-import { BookOpen, Leaf, Shield, TestTube, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { BookOpen, Leaf, Shield, ArrowRight, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { buildMetadata, breadcrumbSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
 import prisma from '@/lib/db';
+import { parseLandingPayload } from '@/lib/seo-payload';
 import type { Metadata } from 'next';
 
 // Forzamos revalidación en cada petición sin usar force-dynamic directamente si da problemas
@@ -29,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ProtocoloCultivoPage() {
   let landingData = null;
-  let payload: any = {};
+  let payload = parseLandingPayload(null);
 
   try {
     // Intentamos obtener los datos de la DB
@@ -38,8 +39,7 @@ export default async function ProtocoloCultivoPage() {
     });
 
     if (landingData?.payloadJson) {
-      const parsed = JSON.parse(landingData.payloadJson);
-      payload = parsed && typeof parsed === 'object' ? parsed : {};
+      payload = parseLandingPayload(landingData.payloadJson);
     }
   } catch (error) {
     // Si falla la DB, el bloque catch asegura que no haya un 500
@@ -254,7 +254,7 @@ export default async function ProtocoloCultivoPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
               <p className="text-xl text-cream/80 leading-relaxed mb-10">
-                Al pulverizar Purín de Ortiga, sus fitoquímicos actúan como "elicitores". Engañan al sistema de la planta para que produzca más resina como defensa natural.
+                Al pulverizar Purín de Ortiga, sus fitoquímicos actúan como “elicitores”. Engañan al sistema de la planta para que produzca más resina como defensa natural.
               </p>
               <div className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-md">
                 <h3 className="text-2xl font-bold text-primary-light mb-4">¿Qué es la ISR?</h3>

@@ -9,7 +9,6 @@ import {
   Clock, 
   CheckCircle2, 
   ShoppingBag, 
-  CreditCard, 
   User as UserIcon,
   LifeBuoy,
   ChevronRight,
@@ -256,7 +255,7 @@ export default async function CuentaPage() {
                         {/* Order Items Preview */}
                         <div className="p-6 bg-accent/10 md:p-8">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {order.items.map((item: any) => (
+                            {order.items.map((item) => (
                               <div key={item.id} className="flex items-center gap-4 p-3 rounded-2xl bg-white/60 border border-border/30">
                                 <div className="relative w-14 h-14 bg-cream-warm rounded-xl flex items-center justify-center overflow-hidden shrink-0 border border-border/40">
                                   <Image

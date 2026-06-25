@@ -3,6 +3,7 @@ import { randomBytes } from 'crypto';
 import Stripe from 'stripe';
 import prisma from '@/lib/db';
 import { createPacklinkShipment, variantWeightKg } from '@/lib/packlink';
+import { getErrorMessage } from '@/lib/errors';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,9 +27,10 @@ export async function POST(req: Request) {
       throw new Error("Missing STRIPE_WEBHOOK_SECRET");
     }
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
-  } catch (err: any) {
-    console.error(`Webhook Error: ${err.message}`);
-    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+  } catch (error: unknown) {
+    const message = getErrorMessage(error);
+    console.error(`Webhook Error: ${message}`);
+    return NextResponse.json({ error: `Webhook Error: ${message}` }, { status: 400 });
   }
 
   // Filtrar el evento de checkout completado y pagado
@@ -125,7 +127,7 @@ export async function POST(req: Request) {
                 trackingToken,
                 shippingPostalCode: addr?.postal_code ?? null,
                 items: {
-                  create: metaCartItems.map((item: any) => ({
+                  create: metaCartItems.map((item) => ({
                     variantId: item.id,
                     quantity: item.q,
                     priceAt: item.p
@@ -205,7 +207,7 @@ export async function POST(req: Request) {
         // -------------------------------------------------------------
         // Lookup de variants reales (un solo query reusado para peso + emails)
         // -------------------------------------------------------------
-        const variantIds: string[] = metaCartItems.map((i: any) => i.id);
+        const variantIds = metaCartItems.map((item) => item.id);
         const variantRows = variantIds.length
           ? await prisma.variant.findMany({
               where: { id: { in: variantIds } },
@@ -218,7 +220,7 @@ export async function POST(req: Request) {
         // -------------------------------------------------------------
         // Peso real desde DB (no heurística por substring de id ni precio).
         // Si por algún motivo no encontramos la variant, asumimos 5 kg conservador.
-        const totalWeight = metaCartItems.reduce((acc: number, item: any) => {
+        const totalWeight = metaCartItems.reduce((acc, item) => {
           const v = variantRows.find((x) => x.id === item.id);
           if (!v) return acc + 5 * item.q;
           return acc + variantWeightKg(v.size) * item.q;
@@ -264,7 +266,7 @@ export async function POST(req: Request) {
         // -------------------------------------------------------------
         // Enviar correos transaccionales con Resend (incluyendo tracking)
         // -------------------------------------------------------------
-        const emailItems = metaCartItems.map((item: any) => {
+        const emailItems = metaCartItems.map((item) => {
           const v = variantRows.find((x) => x.id === item.id);
           return {
             name: v?.product.name ?? 'Producto Biocultor',

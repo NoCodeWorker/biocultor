@@ -1,4 +1,4 @@
-import { CrmContact, CrmDeal, CrmTask, CrmEvent, Customer } from '@/generated/prisma';
+import type { CrmContact, CrmDeal, CrmTask, CrmEvent, Customer } from '@prisma/client';
 
 export interface CrmContactWithRelations extends CrmContact {
   deals: CrmDeal[];

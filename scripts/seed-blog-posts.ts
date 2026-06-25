@@ -9,7 +9,7 @@
  * También ejecutable a mano: npx tsx scripts/seed-blog-posts.ts
  */
 
-import { PrismaClient } from '../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { seoArticles, seoArticlesOrtiga } from '../lib/seo-content';
 import { articleToMarkdown, mapCategory } from '../lib/article-to-md';
 

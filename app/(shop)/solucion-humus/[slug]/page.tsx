@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
+import { parseLandingPayload } from "@/lib/seo-payload";
 import StructuredData from "@/components/StructuredData";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Markdown from "react-markdown";
@@ -19,12 +20,33 @@ import {
   Sparkles,
   Award,
   Clock,
-  Coins,
   ChevronDown
 } from "lucide-react";
 
 // Usar Regeneración Estática Incremental (ISR) para carga ultra-rápida (Core Web Vitals & SEO/AIO)
 export const revalidate = 3600;
+
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+function parseFaqList(value: string | null): FaqItem[] {
+  try {
+    const parsed: unknown = JSON.parse(value || '[]');
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter(
+      (item): item is FaqItem =>
+        typeof item === 'object' &&
+        item !== null &&
+        typeof (item as FaqItem).question === 'string' &&
+        typeof (item as FaqItem).answer === 'string'
+    );
+  } catch {
+    return [];
+  }
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -38,8 +60,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!page) return { title: 'Solución Agronómica | Biocultor' };
 
-  let payload: any = {};
-  try { payload = JSON.parse(page.payloadJson || '{}'); } catch (e) {}
+  const payload = parseLandingPayload(page.payloadJson);
 
   return buildMetadata({
     title: page.metaTitle || `${page.title} | Biocultor`,
@@ -63,8 +84,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
 
   if (!page) notFound();
 
-  let payload: any = {};
-  try { payload = JSON.parse(page.payloadJson || '{}'); } catch (e) {}
+  const payload = parseLandingPayload(page.payloadJson);
 
   // ───────────────────────────────────────────────────────────────────────────
   // A) CASO ESPECIAL: PROTOCOLO DE CULTIVO BIOLÓGICO PROFESIONAL (Restaurado)
@@ -77,10 +97,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
       section3: payload.section3Image || '/10 litros.jpg'
     };
 
-    let faqList: Array<{ question: string; answer: string }> = [];
-    try {
-      faqList = JSON.parse(page.faqJson || '[]');
-    } catch (e) {}
+    const faqList = parseFaqList(page.faqJson);
 
     return (
       <main className="flex flex-col w-full antialiased bg-background min-h-screen relative z-10">
@@ -472,8 +489,6 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
 
   // Parsear secciones basadas en H2 "## "
   const rawSections = markdownContent.split(/\n##\s+/);
-  const introParagraphs = rawSections[0].trim().split('\n').map((p: string) => p.trim()).filter(Boolean);
-  
   const parsedSections: { title: string; paragraphs: string[] }[] = [];
   for (let i = 1; i < rawSections.length; i++) {
     const lines = rawSections[i].split('\n');
@@ -481,6 +496,8 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
     const paragraphs = lines.slice(1).map((p: string) => p.trim()).filter(Boolean);
     parsedSections.push({ title, paragraphs });
   }
+
+  const faqList = parseFaqList(page.faqJson);
 
   return (
     <article className="w-full bg-background relative z-10 antialiased pb-20 flex flex-col min-h-screen">
@@ -817,11 +834,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
       </div>
 
     {/* ── Preguntas Frecuentes (FAQs) de la Landing GEO ── */}
-    {(() => {
-      try {
-        const faqList = JSON.parse(page.faqJson || '[]');
-        if (!Array.isArray(faqList) || faqList.length === 0) return null;
-        return (
+    {faqList.length > 0 && (
           <section className="w-[92%] lg:w-[80%] xl:w-[70%] mx-auto px-4 pb-16 max-w-4xl relative z-10">
             <div className="text-center mb-12">
               <span className="text-xs font-semibold uppercase tracking-[0.25em] text-primary/80 mb-2 block">Dudas Frecuentes</span>
@@ -834,7 +847,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
             </div>
 
             <div className="flex flex-col gap-4">
-              {faqList.map((faq: { question: string; answer: string }, index: number) => (
+              {faqList.map((faq, index) => (
                 <details 
                   key={index} 
                   className="group border border-border/50 rounded-2xl bg-background overflow-hidden transition-all duration-300 open:shadow-lg open:shadow-primary/5 open:border-primary/25"
@@ -852,9 +865,7 @@ export default async function GeoLandingPage({ params }: { params: Promise<{ slu
               ))}
             </div>
           </section>
-        );
-      } catch { return null; }
-    })()}
+    )}
 
       {/* ── CTA Final de Compra Directa ── */}
       <section className="w-[92%] lg:w-[80%] xl:w-[70%] mx-auto px-4 py-16 bg-cream-warm rounded-[2.5rem] border border-border text-center relative z-10 overflow-hidden texture-grain">

@@ -19,6 +19,7 @@ Se adopta un modelo híbrido:
 - `lib/seo-content.ts` sigue siendo la fuente curada base.
 - `SeoPage` permite overrides persistidos sin romper build ni rutas existentes.
 - `lib/seo-store.ts` resuelve la combinación entre contenido base y base de datos.
+- Prisma Client usa su output estándar en `node_modules/.prisma/client`; runtime, tipos y scripts lo consumen mediante `@prisma/client`.
 
 ## Próximo paso recomendado
 

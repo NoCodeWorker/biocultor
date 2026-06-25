@@ -2,6 +2,7 @@
 
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { getErrorMessage } from '@/lib/errors';
 
 export async function updateCustomerDiscount(customerId: string, discount: number) {
   try {
@@ -23,8 +24,8 @@ export async function updateCustomerDiscount(customerId: string, discount: numbe
 
     revalidatePath('/admin/customers');
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating customer discount:', error);
-    return { error: 'Error al actualizar el descuento' };
+    return { error: getErrorMessage(error, 'Error al actualizar el descuento') };
   }
 }

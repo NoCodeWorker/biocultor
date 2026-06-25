@@ -80,9 +80,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # En modo standalone, Next.js busca 'public' en la raíz del proyecto para servir estáticos
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
-# Prisma (schema + binarios + cliente generado) para poder ejecutar migrate deploy y consultas
+# Prisma (schema + binarios + cliente estándar) para poder ejecutar migrate deploy y consultas
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
-COPY --from=builder --chown=nextjs:nodejs /app/generated ./generated
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
 

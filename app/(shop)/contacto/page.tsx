@@ -1,8 +1,7 @@
-import { Phone, MapPin, MessageCircle } from 'lucide-react';
+import { MapPin, MessageCircle } from 'lucide-react';
 import { Suspense } from 'react';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
-import { Button } from '@/components/ui/button';
 import { breadcrumbSchema, buildMetadata } from '@/lib/seo';
 
 import ContactForm from '@/components/ContactForm';

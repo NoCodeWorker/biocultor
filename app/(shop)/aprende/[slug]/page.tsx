@@ -1,9 +1,10 @@
 export const revalidate = 3600;
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
-import { Sparkles, ArrowRight, ShieldCheck, Truck, Droplets, Leaf } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldCheck, Truck } from 'lucide-react';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import StructuredData from '@/components/StructuredData';
 import MarkdownContent from '@/components/MarkdownContent';
@@ -49,7 +50,7 @@ export async function generateMetadata({
     if (isLanding) {
       redirect(`/solucion-humus/${slug}`);
     }
-  } catch (err) {
+  } catch {
     // Silencioso
   }
 
@@ -98,7 +99,7 @@ export default async function AprendeArticlePage({
     if (isLanding) {
       redirect(`/solucion-humus/${slug}`);
     }
-  } catch (err) {
+  } catch {
     // Silencioso
   }
 
@@ -106,7 +107,10 @@ export default async function AprendeArticlePage({
   try {
     dbPost = await prisma.post.findUnique({ where: { slug } });
   } catch (err) {
-    alertWarning('ArticlePage.render', 'DB no disponible o error al leer post', { slug });
+    alertWarning('ArticlePage.render', 'DB no disponible o error al leer post', {
+      slug,
+      error: String(err),
+    });
   }
 
   // Si no existe el post en la base de datos o es un placeholder no editado, lanzamos 404
@@ -165,11 +169,13 @@ export default async function AprendeArticlePage({
 
       {coverImage && (
         <div className="mt-10">
-          <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
-            <img
+          <div className="relative w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+            <Image
               src={coverImage}
               alt={dbPost.coverImageAlt ?? dbPost.title}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 92vw, 75vw"
+              className="object-cover"
             />
           </div>
         </div>

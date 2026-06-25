@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
+import { getErrorMessage } from '@/lib/errors';
 
 // ─── Olivar / Estrés Hídrico Andalucía ────────────────────────────────────────
 const OLIVAR = {
@@ -177,7 +178,7 @@ export async function GET() {
       message: `${results.length} landings GEO actualizadas con metaTitle, metaDescription, faqJson y summaryJson.`,
       slugs: results.map((r) => r.slug),
     });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    return NextResponse.json({ success: false, error: getErrorMessage(error) }, { status: 500 });
   }
 }

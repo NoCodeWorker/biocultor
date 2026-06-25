@@ -5,7 +5,6 @@ import { createShipmentForOrder, fetchLabelUrl } from '../actions';
 import {
   Loader2,
   AlertCircle,
-  CheckCircle2,
   Truck,
   ExternalLink,
   Package,

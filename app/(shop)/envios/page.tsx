@@ -126,7 +126,7 @@ export default function EnviosPage() {
                 Puedes solicitar la cancelación y reembolso total de tu pedido siempre y cuando no haya sido preparado o entregado a la agencia de transportes.
               </p>
               <p className="mt-3">
-                Una vez que el paquete ha sido etiquetado en nuestro almacén y se encuentra "En Tránsito", no es posible cancelar el envío. En tal caso, deberás esperar a recibirlo y tramitarlo como una devolución de producto precintado (bajo las condiciones del desistimiento).
+                Una vez que el paquete ha sido etiquetado en nuestro almacén y se encuentra “En Tránsito”, no es posible cancelar el envío. En tal caso, deberás esperar a recibirlo y tramitarlo como una devolución de producto precintado (bajo las condiciones del desistimiento).
               </p>
             </div>
           </section>

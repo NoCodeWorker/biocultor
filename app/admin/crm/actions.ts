@@ -2,6 +2,7 @@
 
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import type { Prisma } from '@prisma/client';
 
 // -----------------------------------------------------------------------------
 // CONTACTS ACTIONS
@@ -142,7 +143,7 @@ export async function updateCrmDeal(
     status?: string;
   }
 ) {
-  const updateData: any = { ...data };
+  const updateData: Prisma.CrmDealUncheckedUpdateInput = { ...data };
   if (data.stage) {
     if (data.stage === 'GANADO') updateData.status = 'GANADO';
     else if (data.stage === 'PERDIDO') updateData.status = 'PERDIDO';

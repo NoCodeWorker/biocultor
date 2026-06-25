@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/prisma/index.js';
+import { PrismaClient } from '@prisma/client';
 import { seoArticles, seoArticlesOrtiga, type SeoArticle } from '../lib/seo-content.js';
 
 const prisma = new PrismaClient();

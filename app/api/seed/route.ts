@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db";
+import { getErrorMessage } from "@/lib/errors";
 
 export async function GET() {
   try {
@@ -73,7 +74,7 @@ export async function GET() {
       producto: productoBase 
     });
 
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    return NextResponse.json({ success: false, error: getErrorMessage(error) }, { status: 500 });
   }
 }

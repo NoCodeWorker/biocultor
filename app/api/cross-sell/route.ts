@@ -25,8 +25,7 @@ export async function GET() {
     ]);
     
     return NextResponse.json({ ort5L, bio5L, ort1L, bio1L });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Error fetching cross-sell variants' }, { status: 500 });
   }
 }
-

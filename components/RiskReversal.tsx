@@ -1,6 +1,7 @@
 'use client';
 
 import { ShieldCheck, RefreshCw, Phone, Award, Leaf } from 'lucide-react';
+import Link from 'next/link';
 
 const guarantees = [
   {
@@ -117,12 +118,12 @@ export default function RiskReversal() {
           <div className="w-px h-16 bg-white/10 hidden md:block" />
 
           <div className="text-center shrink-0 flex flex-col justify-center items-center">
-            <a 
+            <Link
               href="/producto/te-humus-liquido-premium" 
               className="inline-flex items-center justify-center bg-primary text-white hover:bg-brand-green-hover transition-colors font-bold rounded-xl px-6 py-4 shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] duration-200"
             >
               Comprar ahora
-            </a>
+            </Link>
           </div>
         </div>
       </div>

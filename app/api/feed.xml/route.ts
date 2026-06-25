@@ -1,15 +1,20 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { alertCritical } from '@/lib/alert';
+import type { Prisma } from '@prisma/client';
 
 // Feed de productos en formato Google Merchant Center (RSS 2.0 + Google Shopping)
 // URL pública: https://biocultor.com/api/feed.xml
 // Actualizar en Merchant Center → Fuentes de datos → URL de la fuente
 export const revalidate = 3600; // Regenerar cada hora
 
+type ProductWithVariants = Prisma.ProductGetPayload<{
+  include: { variants: true };
+}>;
+
 export async function GET() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://biocultor.com';
-  let products: any[] = [];
+  let products: ProductWithVariants[] = [];
 
   try {
     products = await prisma.product.findMany({
@@ -19,8 +24,8 @@ export async function GET() {
     alertCritical('FeedRoute.generateProducts', error);
   }
 
-  const items = products.flatMap((product: any) =>
-    product.variants.map((variant: any) => {
+  const items = products.flatMap((product) =>
+    product.variants.map((variant) => {
       const imageUrl = variant.imagePath
         ? `${appUrl}${variant.imagePath}`
         : `${appUrl}/Logo.svg`;

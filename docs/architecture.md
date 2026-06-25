@@ -22,6 +22,7 @@ Biocultor opera sobre Next.js App Router con renderizado server-first. La capa S
 - `app/api/seed-seo/route.ts` y `scripts/seed-seo.mts`: sincronización inicial del inventario SEO persistente.
 - `app/sitemap.ts` y `app/robots.ts`: publicación técnica para rastreo.
 - `docs/editorial.md`: guía operativa para convertir estudios y papers en artículos editoriales conectados con intención de compra.
+- `lib/db.ts`: singleton de Prisma sobre el cliente estándar generado en `node_modules/.prisma/client`, evitando outputs internos que amplíen el trace standalone.
 
 ## Decisión estructural
 

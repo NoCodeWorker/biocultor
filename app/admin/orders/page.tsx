@@ -62,7 +62,11 @@ export default async function OrdersPage({
         </p>
       </div>
 
-      <OrdersFilters totalResults={totalResults} />
+      <OrdersFilters
+        key={params.q ?? ''}
+        totalResults={totalResults}
+        initialQuery={params.q ?? ''}
+      />
       <OrdersTable orders={rows} />
       <OrdersPagination page={page} perPage={perPage} totalResults={totalResults} />
     </div>

@@ -277,10 +277,6 @@ export default function VariantsEditor({
       {showNewForm ? (
         <NewVariantInline
           productId={productId}
-          onCreated={(v) => {
-            setVariants((prev) => [...prev, v].sort((a, b) => a.price - b.price));
-            setShowNewForm(false);
-          }}
           onCancel={() => setShowNewForm(false)}
         />
       ) : (
@@ -324,11 +320,9 @@ function Cell({
 
 function NewVariantInline({
   productId,
-  onCreated,
   onCancel,
 }: {
   productId: string;
-  onCreated: (v: VariantData) => void;
   onCancel: () => void;
 }) {
   const [error, setError] = useState<string | null>(null);

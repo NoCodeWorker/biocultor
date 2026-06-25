@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calculator, Euro, Package, Truck, Percent, ShoppingCart, Store, TrendingUp, Info, RefreshCw, AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Calculator, Euro, Package, Truck, Percent, ShoppingCart, Store, Info, RefreshCw, AlertTriangle } from 'lucide-react';
 
 // Tipos base
 type FormatType = '1L' | '5L' | '10L' | '25L' | '1000L';
@@ -22,6 +21,26 @@ interface FormatData {
   dimensions: { width: number, height: number, length: number };
   defaultCosts: Costs;
   defaultPvp: number;
+}
+
+type PacklinkService = {
+  price: {
+    total_price: string | number;
+  };
+};
+
+function isPacklinkService(value: unknown): value is PacklinkService {
+  if (typeof value !== 'object' || value === null) return false;
+  const price = (value as { price?: unknown }).price;
+  if (typeof price !== 'object' || price === null) return false;
+  const totalPrice = (price as { total_price?: unknown }).total_price;
+  return typeof totalPrice === 'string' || typeof totalPrice === 'number';
+}
+
+function getApiError(value: unknown): string | null {
+  if (typeof value !== 'object' || value === null) return null;
+  const error = (value as { error?: unknown }).error;
+  return typeof error === 'string' ? error : null;
 }
 
 // Datos por defecto basados en los formatos de Biocultor
@@ -125,26 +144,29 @@ export default function CalculadoraCostesPage() {
           }),
         });
         
-        const data = await res.json();
+        const data: unknown = await res.json();
         
         if (!isMounted) return;
 
         if (!res.ok) {
-          setPacklinkError(data.error || 'Error desconocido');
+          setPacklinkError(getApiError(data) || 'Error desconocido');
           setPacklinkRealCost(null);
           return;
         }
 
         // Seleccionar la tarifa más barata
-        if (Array.isArray(data) && data.length > 0) {
+        const services = Array.isArray(data) ? data.filter(isPacklinkService) : [];
+        if (services.length > 0) {
           // data[].price.total_price es el precio base sin IVA de Packlink PRO
-          const minPrice = Math.min(...data.map((service: any) => parseFloat(service.price.total_price)));
+          const minPrice = Math.min(
+            ...services.map((service) => Number(service.price.total_price))
+          );
           setPacklinkRealCost(minPrice);
         } else {
           setPacklinkError('No se encontraron transportistas');
           setPacklinkRealCost(null);
         }
-      } catch (err) {
+      } catch {
         if (isMounted) {
           setPacklinkError('Error de red al consultar API');
           setPacklinkRealCost(null);

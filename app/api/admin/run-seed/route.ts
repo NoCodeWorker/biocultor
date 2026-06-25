@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { seoArticles, seoArticlesOrtiga, type SeoArticle } from '@/lib/seo-content';
+import { getErrorMessage } from '@/lib/errors';
 
 // Protección básica: solo se puede llamar con la clave de admin
 const SEED_KEY = process.env.ADMIN_SECRET ?? 'biocultor-seed-2025';
@@ -83,9 +84,9 @@ export async function GET(req: Request) {
         results.created++;
         results.log.push(`✅ created: ${article.slug}`);
       }
-    } catch (err: any) {
+    } catch (error: unknown) {
       results.errors++;
-      results.log.push(`❌ error ${article.slug}: ${err.message}`);
+      results.log.push(`❌ error ${article.slug}: ${getErrorMessage(error)}`);
     }
   }
 

@@ -15,14 +15,12 @@ import {
 import Panel from '../Panel';
 import { cn } from '@/lib/utils';
 import {
-  CrmContactWithRelations,
   CrmDealWithRelations,
   CrmTaskWithRelations,
   CrmEventWithRelations,
 } from '@/types/crm';
 
 interface DashboardTabProps {
-  contacts: CrmContactWithRelations[];
   deals: CrmDealWithRelations[];
   tasks: CrmTaskWithRelations[];
   events: CrmEventWithRelations[];
@@ -30,7 +28,6 @@ interface DashboardTabProps {
 }
 
 export default function DashboardTab({
-  contacts: _contacts,
   deals,
   tasks,
   events,

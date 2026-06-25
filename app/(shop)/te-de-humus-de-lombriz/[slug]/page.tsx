@@ -1,6 +1,7 @@
 export const revalidate = 3600
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
@@ -89,11 +90,13 @@ export default async function SeoSolutionPage({
 
       {solution.image && (
         <div className="mt-10">
-          <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
-            <img
+          <div className="relative w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+            <Image
               src={solution.image}
               alt={solution.title}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 92vw, 75vw"
+              className="object-cover"
             />
           </div>
         </div>

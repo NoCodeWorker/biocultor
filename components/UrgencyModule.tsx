@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Flame, Package, Calendar, AlertTriangle, Leaf, Sun, Wind, Snowflake } from 'lucide-react';
+import { Flame, Package, Leaf, Sun, Wind, Snowflake } from 'lucide-react';
 
 // Current month determines the active growing season
 function getSeasonContext() {

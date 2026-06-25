@@ -9,7 +9,7 @@
  * - Pensado para ejecutarse en deploy tras backup/diagnóstico de BD.
  */
 
-import { PrismaClient } from '../generated/prisma/index.js';
+import { PrismaClient } from '@prisma/client';
 
 const SEED_AUTHOR = 'Equipo Biocultor';
 

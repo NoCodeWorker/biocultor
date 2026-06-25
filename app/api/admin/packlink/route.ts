@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getErrorMessage } from '@/lib/errors';
 
 export async function POST(req: NextRequest) {
   try {
@@ -53,7 +54,10 @@ export async function POST(req: NextRequest) {
     // Devolver todas las tarifas disponibles para que el frontend pueda elegir la más barata (ej. Correos Express)
     return NextResponse.json(data);
     
-  } catch (error: any) {
-    return NextResponse.json({ error: 'Error interno del servidor', details: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    return NextResponse.json(
+      { error: 'Error interno del servidor', details: getErrorMessage(error) },
+      { status: 500 }
+    );
   }
 }

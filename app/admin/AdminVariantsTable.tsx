@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { updateVariantPrice } from './actions';
-import { Save, Loader2, Tag, Percent } from 'lucide-react';
+import { Save, Loader2, Percent } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import type { Variant } from '@prisma/client';
 
-export default function AdminVariantsTable({ variants }: { variants: any[] }) {
+export default function AdminVariantsTable({ variants }: { variants: Variant[] }) {
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [localVariants, setLocalVariants] = useState(variants);
 
@@ -13,7 +14,7 @@ export default function AdminVariantsTable({ variants }: { variants: any[] }) {
     setLocalVariants(prev => prev.map(v => v.id === id ? { ...v, [field]: value === '' ? null : parseFloat(value) } : v));
   }
 
-  const handleSave = async (variant: any) => {
+  const handleSave = async (variant: Variant) => {
     setLoadingId(variant.id);
     await updateVariantPrice(variant.id, variant.price, variant.comparePrice);
     setLoadingId(null);
@@ -33,10 +34,11 @@ export default function AdminVariantsTable({ variants }: { variants: any[] }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-border/50">
-            {localVariants.map((variant, index) => {
-              const hasDiscount = variant.comparePrice && variant.comparePrice > variant.price;
+            {localVariants.map((variant) => {
+              const comparePrice = variant.comparePrice;
+              const hasDiscount = comparePrice !== null && comparePrice > variant.price;
               const discountPercent = hasDiscount 
-                ? Math.round(((variant.comparePrice - variant.price) / variant.comparePrice) * 100)
+                ? Math.round(((comparePrice - variant.price) / comparePrice) * 100)
                 : 0;
 
               return (

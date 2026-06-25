@@ -75,7 +75,7 @@ const formats = [
   },
 ]
 
-import type { Variant } from "@/generated/prisma"
+import type { Variant } from "@prisma/client"
 
 interface MergedFormat {
   id: string

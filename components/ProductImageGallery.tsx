@@ -90,18 +90,15 @@ export default function ProductImageGallery({
            *   - IE11, Safari 13- que no soportan WebP
            *   - Bots legacy de comparadores de precios y marketplaces
            *   - fetchpriority="high" → señal al navegador de recurso LCP crítico
-           */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          */}
+          {/* Deliberado: <picture> conserva un JPG rastreable como fallback para bots y clientes sin WebP. */}
           <img
             src={activeImage.jpgFallbackSrc}
             alt={activeImage.alt}
             width={activeImage.width ?? 1200}
             height={activeImage.height ?? 1200}
             loading="eager"
-            // fetchpriority es un atributo de performance nativo del navegador
-            // no es una prop de React estándar → lo pasamos como string
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            {...({ fetchpriority: 'high' } as any)}
+            fetchPriority="high"
             decoding="sync"
             className="object-contain w-full h-full max-h-[480px] transition-transform duration-700 ease-out md:hover:scale-105"
             itemProp="image" // Microdata schema.org como señal adicional
@@ -147,7 +144,7 @@ export default function ProductImageGallery({
                   width={img.width ?? 400}
                   height={img.height ?? 400}
                 />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {/* Deliberado: el thumbnail replica el fallback JPG semántico del hero. */}
                 <img
                   src={img.jpgFallbackSrc}
                   alt={img.alt}

@@ -1,6 +1,7 @@
 export const revalidate = 3600
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Breadcrumbs from '@/components/Breadcrumbs';
@@ -82,11 +83,13 @@ export default async function GeoPage({
 
       {page.image && (
         <div className="mt-10">
-          <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
-            <img
+          <div className="relative w-full aspect-video rounded-[2rem] overflow-hidden border border-border/40">
+            <Image
               src={page.image}
               alt={page.title}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 92vw, 75vw"
+              className="object-cover"
             />
           </div>
         </div>
@@ -108,7 +111,7 @@ export default async function GeoPage({
         </h2>
         <ul className="mt-6 space-y-4 text-lg text-muted-foreground leading-relaxed italic">
           {page.quickAnswers.map((answer) => (
-            <li key={answer}>"{answer}"</li>
+            <li key={answer}>“{answer}”</li>
           ))}
         </ul>
       </section>

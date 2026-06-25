@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { Save, Loader2, Eye, EyeOff, Trash2, AlertCircle, CheckCircle2, ExternalLink, ImageIcon } from 'lucide-react';
 import { updatePost, deletePost, togglePublished } from './actions';
+import { getErrorMessage } from '@/lib/errors';
+import Image from 'next/image';
 
 const CATEGORIES = [
   { value: 'KNOWLEDGE', label: 'Guía' },
@@ -28,7 +29,6 @@ type Post = {
 };
 
 export default function PostEditor({ post }: { post: Post }) {
-  const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -57,8 +57,8 @@ export default function PostEditor({ post }: { post: Post }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? 'Error al subir');
       setCoverImage(data.url);
-    } catch (err: any) {
-      setUploadError(err.message);
+    } catch (error: unknown) {
+      setUploadError(getErrorMessage(error, 'Error al subir'));
     } finally {
       setUploading(false);
     }
@@ -250,10 +250,13 @@ export default function PostEditor({ post }: { post: Post }) {
                 }}
               />
               {coverImage ? (
-                <img
+                <Image
                   src={coverImage}
                   alt="Vista previa"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  unoptimized
+                  className="object-cover"
                   onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                 />
               ) : (

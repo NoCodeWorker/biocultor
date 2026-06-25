@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
 import PremiumAudioPlayer from '@/components/PremiumAudioPlayer';
+import type { LucideIcon } from 'lucide-react';
 
 // Metadatos de UI únicamente — sin precios. Los precios SIEMPRE vienen de dbVariants (base de datos).
 const formats = [
@@ -49,7 +50,7 @@ const formats = [
   }
 ];
 
-import type { Variant } from '@/generated/prisma';
+import type { Variant } from '@prisma/client';
 
 const PRODUCT_SLUG = 'purin-ortiga-concentrado';
 
@@ -65,7 +66,7 @@ interface MergedFormat {
   sku?: string;
   stock: number;
   hasDbData: boolean;
-  icon: React.ComponentType<any>;
+  icon: LucideIcon;
 }
 
 export default function OrtIgaFormatSelector({ dbVariants = [] }: { dbVariants?: Variant[] }) {

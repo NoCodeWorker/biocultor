@@ -1,4 +1,4 @@
-import type { Prisma } from '@/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 // Helpers compartidos entre la página server (que aplica el `where` a Prisma)
 // y los componentes cliente de filtros/paginación (que solo usan

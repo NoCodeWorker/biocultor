@@ -2,8 +2,20 @@
 import { useActionState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { requestLoginCode, verifyLoginCode, ActionState } from './actions';
-import { Loader2, Mail, KeyRound, ArrowRight, AlertCircle, ShieldCheck, Leaf } from 'lucide-react';
+import { Loader2, Mail, KeyRound, ArrowRight, AlertCircle, ShieldCheck } from 'lucide-react';
 import Image from 'next/image';
+
+function LoginLogo() {
+  return (
+    <div className="flex flex-col items-center mb-8">
+      <div className="w-16 h-16 bg-brand-brown-dark rounded-2xl flex items-center justify-center mb-4 shadow-xl shadow-brand-brown-dark/20 relative">
+        <Image src="/favicon.svg" alt="Biocultor" width={32} height={32} className="brightness-0 invert opacity-90" />
+      </div>
+      <h2 className="text-2xl font-heading font-black text-foreground tracking-tight">Acceso Cliente</h2>
+      <div className="h-1 w-8 bg-primary rounded-full mt-2" />
+    </div>
+  );
+}
 
 export default function LoginForm() {
   const router = useRouter();
@@ -26,20 +38,10 @@ export default function LoginForm() {
     }
   }, [verifyState, router]);
 
-  const Logo = () => (
-    <div className="flex flex-col items-center mb-8">
-      <div className="w-16 h-16 bg-brand-brown-dark rounded-2xl flex items-center justify-center mb-4 shadow-xl shadow-brand-brown-dark/20 relative">
-        <Image src="/favicon.svg" alt="Biocultor" width={32} height={32} className="brightness-0 invert opacity-90" />
-      </div>
-      <h2 className="text-2xl font-heading font-black text-foreground tracking-tight">Acceso Cliente</h2>
-      <div className="h-1 w-8 bg-primary rounded-full mt-2" />
-    </div>
-  );
-
   if (currentStep === 'EMAIL') {
     return (
       <form action={requestAction} className="flex flex-col gap-6">
-        <Logo />
+        <LoginLogo />
         
         <div className="text-center px-4">
           <p className="text-sm text-muted-foreground leading-relaxed">
@@ -95,7 +97,7 @@ export default function LoginForm() {
   if (currentStep === 'CODE') {
     return (
       <form action={verifyAction} className="flex flex-col gap-6">
-        <Logo />
+        <LoginLogo />
 
         <div className="text-center px-4">
           <p className="text-sm text-muted-foreground">

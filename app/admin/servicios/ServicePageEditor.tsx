@@ -5,6 +5,7 @@ import { Save, Loader2, Plus, Trash2, ArrowUpRight, Check } from 'lucide-react';
 import { updateSeoPage } from '../actions';
 import ImageUploader from '@/components/admin/ImageUploader';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 type SeoPageRecord = {
   id: string;
@@ -459,10 +460,13 @@ export default function ServicePageEditor({
             <div className="border border-border/60 rounded-2xl overflow-hidden bg-background">
               <div className="aspect-video relative bg-muted flex items-center justify-center overflow-hidden">
                 {payload.afterImage ? (
-                  <img
+                  <Image
                     src={payload.afterImage}
                     alt="After preview"
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    unoptimized
+                    className="object-cover"
                   />
                 ) : (
                   <span className="text-xs text-muted-foreground">Sin imagen</span>

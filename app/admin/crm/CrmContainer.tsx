@@ -114,7 +114,6 @@ export default function CrmContainer({
       <div className="min-h-[500px]">
         {activeTab === 'dashboard' && (
           <DashboardTab
-            contacts={initialContacts}
             deals={initialDeals}
             tasks={initialTasks}
             events={initialEvents}
