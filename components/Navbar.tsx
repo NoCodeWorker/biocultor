@@ -109,6 +109,23 @@ export default function Navbar() {
     return () => clearTimeout(timer);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMobileOpen(false);
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [mobileOpen]);
+
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
 
   const isActive = (href: string) => {
@@ -306,13 +323,19 @@ export default function Navbar() {
 
       {/* Mobile Navigation Overlay */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menú de navegación"
         className={cn(
-          "fixed inset-0 z-40 lg:hidden transition-all duration-300",
+          "fixed right-0 bottom-0 left-0 top-[110px] z-40 lg:hidden md:top-[129px] transition-all duration-300",
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
       >
         <div className="absolute inset-0 bg-background/92 backdrop-blur-xl" onClick={() => setMobileOpen(false)} />
-        <nav className="relative z-10 flex flex-col items-center justify-center h-full gap-1 p-8 overflow-y-auto" aria-label="Menú móvil">
+        <nav
+          className="relative z-10 flex h-full flex-col items-center justify-start gap-1 overflow-y-auto overscroll-contain px-8 pt-5 pb-[calc(2rem+env(safe-area-inset-bottom))]"
+          aria-label="Menú móvil"
+        >
           {navLinks.map((link) => {
             if (link.kind === 'link') {
               const active = isActive(link.href);
