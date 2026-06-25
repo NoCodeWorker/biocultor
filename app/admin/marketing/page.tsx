@@ -1,11 +1,24 @@
 import { Tag } from 'lucide-react';
 import { listCoupons } from './actions';
 import MarketingClient from './MarketingClient';
+import prisma from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminMarketingPage() {
-  const coupons = await listCoupons();
+  const [coupons, newsletterCounts] = await Promise.all([
+    listCoupons(),
+    prisma.newsletterSubscriber.groupBy({
+      by: ['status'],
+      _count: { _all: true },
+    }),
+  ]);
+  const newsletter = {
+    active: newsletterCounts.find((item) => item.status === 'ACTIVE')?._count._all ?? 0,
+    pending: newsletterCounts.find((item) => item.status === 'PENDING')?._count._all ?? 0,
+    unsubscribed:
+      newsletterCounts.find((item) => item.status === 'UNSUBSCRIBED')?._count._all ?? 0,
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -17,8 +30,8 @@ export default async function AdminMarketingPage() {
           Email & Cupones
         </h1>
         <p className="text-sm text-muted-foreground mt-1.5 max-w-xl">
-          Gestión de cupones de descuento directamente en Stripe. Crea, revisa y elimina
-          codes sin salir del panel.
+          Gestión de cupones en Stripe y seguimiento de suscriptores confirmados,
+          pendientes y dados de baja.
         </p>
       </div>
 
@@ -42,7 +55,7 @@ export default async function AdminMarketingPage() {
         </div>
       </div>
 
-      <MarketingClient coupons={coupons} />
+      <MarketingClient coupons={coupons} newsletter={newsletter} />
     </div>
   );
 }

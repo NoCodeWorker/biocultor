@@ -4,9 +4,16 @@ import { useState, useTransition } from 'react';
 import { Mail, Tag, Plus, Check, X, Trash2, Loader2, Percent, Euro } from 'lucide-react';
 import { createCoupon, deleteCoupon, type CouponRow } from './actions';
 
-type Props = { coupons: CouponRow[] };
+type Props = {
+  coupons: CouponRow[];
+  newsletter: {
+    active: number;
+    pending: number;
+    unsubscribed: number;
+  };
+};
 
-export default function MarketingClient({ coupons: initial }: Props) {
+export default function MarketingClient({ coupons: initial, newsletter }: Props) {
   const [coupons, setCoupons] = useState(initial);
   const [showForm, setShowForm] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -236,16 +243,30 @@ export default function MarketingClient({ coupons: initial }: Props) {
         </div>
       )}
 
-      {/* Email placeholder */}
-      <div className="bg-muted/30 border border-border/40 rounded-2xl p-6 flex items-center justify-between opacity-70">
+      <div className="rounded-2xl border border-border/60 bg-card p-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Mail className="w-4 h-4 text-muted-foreground" />
-            <h3 className="font-bold text-sm text-foreground">Campañas de email</h3>
+            <Mail className="w-4 h-4 text-primary" />
+            <h3 className="font-bold text-sm text-foreground">Newsletter</h3>
           </div>
-          <p className="text-xs text-muted-foreground">Envío de newsletters y campañas vía Resend. Próximamente.</p>
+          <p className="text-xs text-muted-foreground">
+            Captación con doble opt-in y baja segura mediante Resend.
+          </p>
         </div>
-        <span className="text-[10px] font-bold bg-muted text-muted-foreground/70 px-2 py-1 rounded">PRÓX</span>
+        <div className="mt-5 grid grid-cols-3 gap-3">
+          {[
+            { label: 'Activos', value: newsletter.active, className: 'text-emerald-700' },
+            { label: 'Pendientes', value: newsletter.pending, className: 'text-amber-700' },
+            { label: 'Bajas', value: newsletter.unsubscribed, className: 'text-muted-foreground' },
+          ].map((item) => (
+            <div key={item.label} className="rounded-xl border border-border/50 bg-muted/20 p-4">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                {item.label}
+              </p>
+              <p className={`mt-1 text-2xl font-black ${item.className}`}>{item.value}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

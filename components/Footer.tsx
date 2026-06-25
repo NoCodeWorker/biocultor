@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ShieldCheck, Truck, Leaf, CreditCard, Mail, Phone, MapPin } from 'lucide-react';
+import NewsletterForm from '@/components/NewsletterForm';
+import { siteConfig } from '@/lib/site-config';
 
 export default function Footer() {
   return (
@@ -24,6 +26,27 @@ export default function Footer() {
           ))}
         </div>
       </div>
+
+      <section
+        id="newsletter"
+        className="scroll-mt-32 border-y border-brand-olive-dark/15 bg-brand-green-light py-12 md:scroll-mt-36 md:py-16"
+      >
+        <div className="mx-auto grid w-[92%] max-w-6xl gap-8 px-4 md:grid-cols-[0.9fr_1.1fr] md:items-center lg:w-[80%]">
+          <div>
+            <p className="text-xs font-bold tracking-[0.18em] text-brand-olive uppercase">
+              Cuaderno Biocultor
+            </p>
+            <h2 className="mt-3 max-w-lg font-heading text-3xl leading-tight font-bold text-foreground md:text-4xl">
+              Menos ruido. Más criterio para suelo y cultivo.
+            </h2>
+            <p className="mt-4 max-w-xl leading-relaxed text-muted-foreground">
+              Guías de aplicación, decisiones de formato y aprendizajes de manejo
+              biológico. Solo cuando haya algo útil que contar.
+            </p>
+          </div>
+          <NewsletterForm />
+        </div>
+      </section>
 
       {/* ──── Main Footer — brand-brown-dark bg ──── */}
       <div className="w-full bg-brand-brown-dark text-cream/85 pt-16 pb-8">
@@ -49,8 +72,8 @@ export default function Footer() {
                 <a href="mailto:soporte@biocultor.com" className="flex items-center gap-2 hover:text-cream/80 transition-colors">
                   <Mail className="w-4 h-4" /> soporte@biocultor.com
                 </a>
-                <a href="tel:+34900123456" className="flex items-center gap-2 hover:text-cream/80 transition-colors">
-                  <Phone className="w-4 h-4" /> +34 900 123 456
+                <a href="tel:+34601144399" className="flex items-center gap-2 hover:text-cream/80 transition-colors">
+                  <Phone className="w-4 h-4" /> {siteConfig.supportPhone}
                 </a>
                 <span className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" /> Santa Cruz de la Zarza, Toledo, España

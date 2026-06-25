@@ -123,6 +123,28 @@ model RateLimitBucket {
   @@index([windowStart])
 }
 
+model NewsletterSubscriber {
+  id                    String    @id @default(cuid())
+  email                 String    @unique
+  status                String    @default("PENDING")
+  sourcePath            String?
+  sourceQuery           String?
+  sourceReferrer        String?
+  consentText           String
+  consentAt             DateTime
+  confirmationTokenHash String?   @unique
+  confirmationExpiresAt DateTime?
+  unsubscribeTokenHash  String?   @unique
+  confirmationSentAt    DateTime?
+  confirmedAt           DateTime?
+  unsubscribedAt        DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([status, createdAt])
+  @@index([confirmedAt])
+}
+
 // Contador atómico para emitir números de pedido correlativos sin colisiones.
 // Reemplaza el `BIO-${Math.random*900000}` original, que tenía probabilidad
 // no despreciable de colisión a partir de unos pocos miles de pedidos.

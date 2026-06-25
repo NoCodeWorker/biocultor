@@ -9,7 +9,7 @@ export const siteConfig = {
   currency: 'EUR',
   defaultUrl: 'https://biocultor.com',
   supportEmail: 'soporte@biocultor.com',
-  supportPhone: '+34 900 123 456',
+  supportPhone: '+34 601 144 399',
   city: 'Santa Cruz de la Zarza',
   region: 'Toledo',
   brandLogoPng: '/brand-biocultor-logo-1200.png',

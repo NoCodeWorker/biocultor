@@ -5,6 +5,8 @@ type EcommerceEventName =
   | "begin_checkout"
   | "checkout_error"
   | "select_promotion"
+  | "newsletter_signup"
+  | "newsletter_confirmed"
 
 type EcommerceEventPayload = {
   currency?: "EUR"
@@ -19,6 +21,7 @@ type EcommerceEventPayload = {
   error_message?: string
   promotion_name?: string
   creative_slot?: string
+  form_name?: string
 }
 
 declare global {

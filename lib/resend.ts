@@ -18,7 +18,12 @@ const C = {
   accent: '#F9F5EA',
 };
 
-function emailShell(title: string, preheader: string, inner: string) {
+function emailShell(
+  title: string,
+  preheader: string,
+  inner: string,
+  footerNote = 'Has recibido este correo porque hay actividad asociada a tu cuenta de Biocultor.'
+) {
   return `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -61,7 +66,7 @@ function emailShell(title: string, preheader: string, inner: string) {
                 <a href="${siteConfig.socials[2]}" style="color:${C.muted}; text-decoration:none; margin:0 6px;">Facebook</a>
               </p>
               <p style="margin:0; font-size:11px; color:#B3A696; line-height:1.5;">
-                Has recibido este correo porque hay actividad asociada a tu cuenta de Biocultor.
+                ${footerNote}
               </p>
             </td>
           </tr>
@@ -324,4 +329,87 @@ export async function sendLoginCodeEmail(email: string, code: string) {
     console.error("Error enviando email de OTP:", error);
     throw new Error('Error al enviar el código');
   }
+}
+
+export async function sendNewsletterConfirmationEmail(email: string, token: string) {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY no configurada');
+  }
+
+  const confirmationUrl = `${siteConfig.defaultUrl}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
+  const inner = `
+    <div style="display:inline-block; padding:6px 12px; background-color:${C.accent}; border:1px solid ${C.border}; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:${C.green}; margin-bottom:20px;">
+      Confirma tu suscripción
+    </div>
+    <h1 style="margin:0 0 18px 0; font-family:Georgia,serif; font-size:28px; font-weight:600; color:${C.text}; line-height:1.3;">
+      Cultiva con más criterio
+    </h1>
+    <p style="margin:0 0 26px 0; font-size:15px; color:${C.soft}; line-height:1.7;">
+      Confirma tu email para recibir guías prácticas sobre aplicación, suelo vivo y decisiones de formato. Sin ruido ni descuentos artificiales.
+    </p>
+    <a href="${confirmationUrl}" style="display:inline-block; background-color:${C.green}; color:#FFFFFF; padding:14px 30px; text-decoration:none; border-radius:8px; font-weight:700; font-size:14px;">
+      Confirmar suscripción →
+    </a>
+    <p style="margin:26px 0 0 0; font-size:12px; color:${C.muted}; line-height:1.6;">
+      Si no has solicitado esta suscripción, ignora este mensaje. No recibirás comunicaciones.
+    </p>
+  `;
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const { error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: email,
+    replyTo: ADMIN_INBOX,
+    subject: 'Confirma tu suscripción a Biocultor',
+    html: emailShell(
+      'Confirma tu suscripción',
+      'Un paso más para recibir contenidos prácticos de Biocultor.',
+      inner,
+      'Has recibido este correo porque se solicitó una suscripción a la newsletter de Biocultor.'
+    ),
+  });
+
+  if (error) throw new Error(error.message);
+}
+
+export async function sendNewsletterWelcomeEmail(email: string, token: string) {
+  if (!process.env.RESEND_API_KEY) return;
+
+  const unsubscribeUrl = `${siteConfig.defaultUrl}/newsletter/baja?token=${encodeURIComponent(token)}`;
+  const inner = `
+    <div style="display:inline-block; padding:6px 12px; background-color:${C.accent}; border:1px solid ${C.border}; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:${C.green}; margin-bottom:20px;">
+      Suscripción confirmada
+    </div>
+    <h1 style="margin:0 0 18px 0; font-family:Georgia,serif; font-size:28px; font-weight:600; color:${C.text}; line-height:1.3;">
+      Bienvenido a Biocultor
+    </h1>
+    <p style="margin:0 0 24px 0; font-size:15px; color:${C.soft}; line-height:1.7;">
+      A partir de ahora recibirás contenidos aplicables sobre suelo, riego, formatos y manejo biológico. Publicaremos solo cuando haya algo útil que contar.
+    </p>
+    <a href="${siteConfig.defaultUrl}/aprende" style="display:inline-block; background-color:${C.green}; color:#FFFFFF; padding:14px 30px; text-decoration:none; border-radius:8px; font-weight:700; font-size:14px;">
+      Explorar guías prácticas →
+    </a>
+    <p style="margin:28px 0 0 0; font-size:12px; color:${C.muted}; line-height:1.6;">
+      Puedes <a href="${unsubscribeUrl}" style="color:${C.green};">darte de baja aquí</a> en cualquier momento.
+    </p>
+  `;
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const { error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: email,
+    replyTo: ADMIN_INBOX,
+    subject: 'Bienvenido a la comunidad Biocultor',
+    html: emailShell(
+      'Bienvenido a Biocultor',
+      'Tu suscripción está confirmada.',
+      inner,
+      'Recibes este correo porque confirmaste tu suscripción a la newsletter de Biocultor.'
+    ),
+    headers: {
+      'List-Unsubscribe': `<${unsubscribeUrl}>`,
+    },
+  });
+
+  if (error) throw new Error(error.message);
 }

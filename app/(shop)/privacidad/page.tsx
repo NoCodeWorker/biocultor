@@ -44,6 +44,7 @@ export default function PrivacidadPage() {
             <ul className="list-disc pl-6 space-y-1.5 text-sm">
               <li><strong>Datos de Compra:</strong> Nombre, apellidos, dirección postal de entrega, número de teléfono y correo electrónico.</li>
               <li><strong>Datos de Sesión:</strong> Correo electrónico para el envío de códigos de acceso seguros de un solo uso (OTP).</li>
+              <li><strong>Newsletter:</strong> Correo electrónico, fecha de consentimiento y procedencia de la suscripción cuando solicitas recibir contenidos de Biocultor.</li>
               <li><strong>Soporte Agronómico:</strong> Dudas o datos que facilites de forma voluntaria a nuestro chatbot asistente para resolver tus dudas de cultivo.</li>
             </ul>
           </section>
@@ -56,6 +57,7 @@ export default function PrivacidadPage() {
             <ul className="list-disc pl-6 space-y-1.5 text-sm">
               <li><strong>Gestión logística:</strong> Tramitar tus compras y realizar la entrega física de tus abonos mediante nuestro socio integrador de transportes (Packlink).</li>
               <li><strong>Comunicación:</strong> Mantenerte informado sobre el estado de tu pedido o enviarte notificaciones transaccionales necesarias.</li>
+              <li><strong>Comunicaciones comerciales consentidas:</strong> Enviar contenidos prácticos y novedades solo después de confirmar la suscripción mediante doble opt-in. Puedes darte de baja desde cualquier newsletter.</li>
               <li><strong>Mejora del sitio:</strong> Analizar de manera agregada y anónima el comportamiento de navegación para mejorar la experiencia de uso de la tienda.</li>
             </ul>
           </section>
@@ -68,6 +70,7 @@ export default function PrivacidadPage() {
             <ul className="list-disc pl-6 space-y-1.5 text-sm">
               <li><strong>Stripe:</strong> Pasarela segura para procesar el cobro cifrado con tarjeta.</li>
               <li><strong>Packlink / Agencias de Transporte (SEUR, Correos, etc.):</strong> Para tramitar el etiquetado y transporte a tu dirección.</li>
+              <li><strong>Resend:</strong> Proveedor encargado del envío técnico de correos transaccionales y newsletters confirmadas.</li>
             </ul>
           </section>
 
@@ -81,7 +84,7 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <p className="text-sm font-semibold mt-12 opacity-50">Documentación actualizada en Abril de 2026.</p>
+          <p className="text-sm font-semibold mt-12 opacity-50">Documentación actualizada en junio de 2026.</p>
         </div>
       </div>
     </div>
