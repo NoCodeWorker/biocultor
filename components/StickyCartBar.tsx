@@ -5,6 +5,7 @@ import { ShoppingBag, Star, Truck } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useCartStore } from "@/store/cartStore"
 import { trackEcommerceEvent } from "@/lib/ecommerce-events"
+import { useProductVariantSelection } from "@/components/ProductVariantSelectionContext"
 
 type StickyCartVariant = {
   id: string
@@ -26,9 +27,9 @@ export default function StickyCartBar({
   productName,
 }: StickyCartBarProps) {
   const [visible, setVisible] = useState(false)
-  const [selectedVariant, setSelectedVariant] = useState(
-    variants.find((v) => v.popular) || variants[0]
-  )
+  const { selectedVariantId, selectVariant } = useProductVariantSelection()
+  const selectedVariant =
+    variants.find((variant) => variant.id === selectedVariantId) ?? variants[0]
   const { addItem } = useCartStore()
   const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true"
   const isOutOfStock =
@@ -109,7 +110,7 @@ export default function StickyCartBar({
               return (
                 <button
                   key={v.id}
-                  onClick={() => setSelectedVariant(v)}
+                  onClick={() => selectVariant(v.id)}
                   className={cn(
                     "shrink-0 rounded-md border px-2.5 py-1.5 text-[11px] font-bold whitespace-nowrap transition-all",
                     selectedVariant.id === v.id
@@ -177,7 +178,7 @@ export default function StickyCartBar({
             {variants.map((v) => (
               <button
                 key={v.id}
-                onClick={() => setSelectedVariant(v)}
+                onClick={() => selectVariant(v.id)}
                 className={cn(
                   "rounded-lg border px-3 py-1.5 text-sm font-semibold transition-all",
                   selectedVariant.id === v.id

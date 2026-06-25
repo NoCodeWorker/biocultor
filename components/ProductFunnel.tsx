@@ -25,6 +25,7 @@ import PremiumAudioPlayer from "@/components/PremiumAudioPlayer"
 import SocialProofTicker from "@/components/SocialProofTicker"
 import { useUserProfileStore, type CropProfile } from "@/store/userProfileStore"
 import { trackEcommerceEvent } from "@/lib/ecommerce-events"
+import { useProductVariantSelection } from "@/components/ProductVariantSelectionContext"
 
 // ─── Copy contextual por perfil de cultivo ─────────────────────────────────
 type VisualCard = { icon: React.ElementType; label: string; sub: string }
@@ -202,8 +203,10 @@ export default function ProductFunnel({
 }) {
   const { addItem } = useCartStore()
   const { cropProfile } = useUserProfileStore()
-  const defaultVariant = dbVariants.find((v) => v.popular) || dbVariants[0]
-  const [selected, setSelected] = useState(defaultVariant)
+  const { selectedVariantId, selectVariant } = useProductVariantSelection()
+  const selected =
+    dbVariants.find((variant) => variant.id === selectedVariantId) ??
+    dbVariants[0]
   const [activeTab, setActiveTab] = useState<"modo" | "envio" | "ciencia">(
     "modo"
   )
@@ -297,7 +300,7 @@ export default function ProductFunnel({
             {dbVariants.map((v) => (
               <div
                 key={v.id}
-                onClick={() => setSelected(v)}
+                onClick={() => selectVariant(v.id)}
                 className={cn(
                   "relative flex aspect-square cursor-pointer items-center justify-center overflow-hidden rounded-xl border bg-cream-warm p-1.5 transition-all duration-300 md:rounded-2xl md:p-2",
                   selected.id === v.id
@@ -364,7 +367,7 @@ export default function ProductFunnel({
               {dbVariants.map((v) => (
                 <div
                   key={v.id}
-                  onClick={() => setSelected(v)}
+                  onClick={() => selectVariant(v.id)}
                   className={cn(
                     "group relative flex cursor-pointer flex-col rounded-xl border p-2.5 transition-all md:rounded-2xl md:p-4",
                     selected.id === v.id

@@ -15,6 +15,7 @@ export async function generateStaticParams() {
   }
 }
 import ProductFunnel from "@/components/ProductFunnel"
+import { ProductVariantSelectionProvider } from "@/components/ProductVariantSelectionContext"
 
 import ScienceProof from "@/components/ScienceProof"
 import SocialProof from "@/components/SocialProof"
@@ -345,6 +346,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   }));
 
   return (
+    <ProductVariantSelectionProvider variants={dbVariants}>
     <article className="w-full relative z-10 antialiased">
       <StructuredData id="product-schema" data={jsonLd} />
       <StructuredData
@@ -446,5 +448,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
     </article>
+    </ProductVariantSelectionProvider>
   )
 }
