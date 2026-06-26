@@ -13,6 +13,7 @@ test.use({
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.removeItem("biocultor-cart-v1")
+    localStorage.setItem("biocultor_gdpr_consent", "necessary-only")
     window.__biocultorE2EEvents = []
     for (const name of [
       "view_item",
@@ -64,7 +65,7 @@ test("mobile add-to-cart and checkout payload use the selected variant", async (
       status: 200,
       contentType: "application/json",
       body: JSON.stringify({
-        url: `${baseURL}/success?session_id=e2e-mobile-purchase-sync`,
+        url: null,
       }),
     })
   })
