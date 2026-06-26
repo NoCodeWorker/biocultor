@@ -1,6 +1,8 @@
 "use client"
 
 type EcommerceEventName =
+  | "view_item"
+  | "select_item"
   | "add_to_cart"
   | "begin_checkout"
   | "checkout_error"
@@ -22,6 +24,8 @@ type EcommerceEventPayload = {
   promotion_name?: string
   creative_slot?: string
   form_name?: string
+  item_list_name?: string
+  interaction_source?: string
 }
 
 declare global {

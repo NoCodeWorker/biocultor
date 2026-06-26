@@ -105,6 +105,13 @@ export default function Cart() {
         trackEcommerceEvent("checkout_error", {
           value: total,
           error_message: message,
+          items: items.map((item) => ({
+            item_id: item.sku ?? item.id,
+            item_name: item.name,
+            item_variant: item.size,
+            price: item.price,
+            quantity: item.quantity,
+          })),
         })
       }
     } catch (e) {
@@ -115,6 +122,13 @@ export default function Cart() {
       trackEcommerceEvent("checkout_error", {
         value: total,
         error_message: message,
+        items: items.map((item) => ({
+          item_id: item.sku ?? item.id,
+          item_name: item.name,
+          item_variant: item.size,
+          price: item.price,
+          quantity: item.quantity,
+        })),
       })
     } finally {
       setIsCheckoutLoading(false)
@@ -188,7 +202,8 @@ export default function Cart() {
               </span>
             </div>
             <p className="mt-2 text-xs font-medium text-muted-foreground">
-              Sin pedido mínimo: todos los formatos se envían sin coste de transporte.
+              Sin pedido mínimo: todos los formatos se envían sin coste de
+              transporte.
             </p>
           </div>
         )}
@@ -215,6 +230,7 @@ export default function Cart() {
               {items.map((item) => (
                 <div
                   key={item.id}
+                  data-testid="cart-line-item"
                   className="group relative flex gap-4 rounded-2xl border border-border/50 bg-card p-4 shadow-sm"
                 >
                   <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-cream-warm">
@@ -230,7 +246,10 @@ export default function Cart() {
                       <h3 className="text-sm leading-tight font-bold text-foreground">
                         {item.name}
                       </h3>
-                      <p className="mt-1 text-[10px] font-bold tracking-wider text-primary uppercase">
+                      <p
+                        className="mt-1 text-[10px] font-bold tracking-wider text-primary uppercase"
+                        data-testid="cart-line-item-size"
+                      >
                         {item.size}
                       </p>
                     </div>
@@ -415,6 +434,7 @@ export default function Cart() {
                 <button
                   onClick={handleCheckout}
                   disabled={isCheckoutLoading}
+                  data-testid="cart-checkout"
                   className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-primary py-4 text-base font-bold text-white shadow-lg shadow-primary/10 transition-all hover:scale-[1.01] hover:bg-brand-green-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isCheckoutLoading ? (

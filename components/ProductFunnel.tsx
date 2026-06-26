@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -217,6 +217,44 @@ export default function ProductFunnel({
   // Tarjetas de psicología visual adaptadas al perfil detectado
   const contextualCards = getContextualCards(cropProfile)
 
+  useEffect(() => {
+    if (!selected) return
+
+    trackEcommerceEvent("view_item", {
+      value: selected.price,
+      items: [
+        {
+          item_id: selected.sku ?? selected.id,
+          item_name: product.name,
+          item_variant: selected.size,
+          price: selected.price,
+          quantity: 1,
+        },
+      ],
+    })
+  }, [product.name, selected])
+
+  const handleSelectVariant = (
+    variant: ProductFunnelVariant,
+    interactionSource: string
+  ) => {
+    selectVariant(variant.id)
+    trackEcommerceEvent("select_item", {
+      value: variant.price,
+      item_list_name: "product_format_selector",
+      interaction_source: interactionSource,
+      items: [
+        {
+          item_id: variant.sku ?? variant.id,
+          item_name: product.name,
+          item_variant: variant.size,
+          price: variant.price,
+          quantity: 1,
+        },
+      ],
+    })
+  }
+
   const handleAddToCart = () => {
     addItem({
       id: selected.id,
@@ -300,7 +338,8 @@ export default function ProductFunnel({
             {dbVariants.map((v) => (
               <div
                 key={v.id}
-                onClick={() => selectVariant(v.id)}
+                onClick={() => handleSelectVariant(v, "product_gallery")}
+                data-testid={`product-gallery-variant-${v.size.replace(/\s+/g, "-").toLowerCase()}`}
                 className={cn(
                   "relative flex aspect-square cursor-pointer items-center justify-center overflow-hidden rounded-xl border bg-cream-warm p-1.5 transition-all duration-300 md:rounded-2xl md:p-2",
                   selected.id === v.id
@@ -367,7 +406,8 @@ export default function ProductFunnel({
               {dbVariants.map((v) => (
                 <div
                   key={v.id}
-                  onClick={() => selectVariant(v.id)}
+                  onClick={() => handleSelectVariant(v, "product_format_grid")}
+                  data-testid={`product-format-${v.size.replace(/\s+/g, "-").toLowerCase()}`}
                   className={cn(
                     "group relative flex cursor-pointer flex-col rounded-xl border p-2.5 transition-all md:rounded-2xl md:p-4",
                     selected.id === v.id
@@ -433,7 +473,8 @@ export default function ProductFunnel({
                 )}
                 <div className="flex items-baseline gap-1 md:gap-2">
                   <span className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-5xl">
-                    €{(selected.price * quantity).toFixed(2)}
+                    <span className="sr-only">Total seleccionado </span>€
+                    {(selected.price * quantity).toFixed(2)}
                   </span>
                   <span className="text-xs font-medium text-muted-foreground md:text-sm">
                     IVA incl.
@@ -484,6 +525,7 @@ export default function ProductFunnel({
               <Button
                 size="lg"
                 onClick={handleAddToCart}
+                data-testid="product-add-to-cart"
                 className="h-12 w-full cursor-pointer rounded-xl bg-primary text-base font-bold text-white shadow-lg shadow-primary/15 transition-all hover:scale-[1.01] hover:bg-brand-green-hover active:scale-[0.99] md:h-14 md:rounded-2xl md:text-lg"
               >
                 <ShoppingBag className="mr-2 h-5 w-5" />

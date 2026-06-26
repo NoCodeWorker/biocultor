@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:e2e:mobile-purchase": "playwright test tests/e2e/mobile-purchase-sync.spec.mjs",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "seed:seo": "node --experimental-strip-types scripts/seed-seo.mts",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.61.1",
     "@prisma/client": "^5.22.0",
     "@tailwindcss/postcss": "^4.2.1",
     "@types/leaflet": "^1.9.21",

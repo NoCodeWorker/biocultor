@@ -9,6 +9,7 @@ import { useProductVariantSelection } from "@/components/ProductVariantSelection
 
 type StickyCartVariant = {
   id: string
+  sku?: string | null
   size: string
   price: number
   stock?: number | null
@@ -34,6 +35,27 @@ export default function StickyCartBar({
   const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true"
   const isOutOfStock =
     !selectedVariant || !selectedVariant.stock || selectedVariant.stock <= 0
+
+  const handleSelectVariant = (
+    variant: StickyCartVariant,
+    interactionSource: string
+  ) => {
+    selectVariant(variant.id)
+    trackEcommerceEvent("select_item", {
+      value: variant.price,
+      item_list_name: "sticky_cart_format_selector",
+      interaction_source: interactionSource,
+      items: [
+        {
+          item_id: variant.sku ?? variant.id,
+          item_name: productName,
+          item_variant: variant.size,
+          price: variant.price,
+          quantity: 1,
+        },
+      ],
+    })
+  }
 
   useEffect(() => {
     let ticking = false
@@ -66,12 +88,13 @@ export default function StickyCartBar({
       size: selectedVariant.size,
       price: selectedVariant.price,
       image: selectedVariant.imagePath || selectedVariant.image || "",
+      sku: selectedVariant.sku || undefined,
     })
     trackEcommerceEvent("add_to_cart", {
       value: selectedVariant.price,
       items: [
         {
-          item_id: selectedVariant.id,
+          item_id: selectedVariant.sku ?? selectedVariant.id,
           item_name: productName,
           item_variant: selectedVariant.size,
           price: selectedVariant.price,
@@ -98,8 +121,12 @@ export default function StickyCartBar({
             <span className="mb-0.5 text-[9px] leading-none font-medium tracking-wider text-muted-foreground uppercase">
               Total
             </span>
-            <p className="text-base leading-none font-extrabold tracking-tight text-foreground">
-              €{selectedVariant.price.toFixed(2)}
+            <p
+              className="text-base leading-none font-extrabold tracking-tight text-foreground"
+              data-testid="sticky-total"
+            >
+              <span className="sr-only">Total sticky </span>€
+              {selectedVariant.price.toFixed(2)}
             </p>
           </div>
 
@@ -110,7 +137,8 @@ export default function StickyCartBar({
               return (
                 <button
                   key={v.id}
-                  onClick={() => selectVariant(v.id)}
+                  onClick={() => handleSelectVariant(v, "sticky_mobile")}
+                  data-testid={`sticky-variant-${v.size.replace(/\s+/g, "-").toLowerCase()}`}
                   className={cn(
                     "shrink-0 rounded-md border px-2.5 py-1.5 text-[11px] font-bold whitespace-nowrap transition-all",
                     selectedVariant.id === v.id
@@ -144,6 +172,7 @@ export default function StickyCartBar({
           ) : (
             <button
               onClick={handleAddToCart}
+              data-testid="sticky-add-to-cart"
               className="flex shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 font-bold text-white shadow-md shadow-primary/10 transition-transform active:scale-95"
             >
               <ShoppingBag className="h-4 w-4" />
@@ -178,7 +207,8 @@ export default function StickyCartBar({
             {variants.map((v) => (
               <button
                 key={v.id}
-                onClick={() => selectVariant(v.id)}
+                onClick={() => handleSelectVariant(v, "sticky_desktop")}
+                data-testid={`sticky-desktop-variant-${v.size.replace(/\s+/g, "-").toLowerCase()}`}
                 className={cn(
                   "rounded-lg border px-3 py-1.5 text-sm font-semibold transition-all",
                   selectedVariant.id === v.id
@@ -194,7 +224,10 @@ export default function StickyCartBar({
           {/* Price & CTA */}
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-2xl font-extrabold text-foreground">
+              <p
+                className="text-2xl font-extrabold text-foreground"
+                data-testid="sticky-desktop-total"
+              >
                 €{selectedVariant.price.toFixed(2)}
               </p>
               <div className="flex items-center justify-end gap-1.5 text-xs text-primary">
@@ -221,6 +254,7 @@ export default function StickyCartBar({
             ) : (
               <button
                 onClick={handleAddToCart}
+                data-testid="sticky-desktop-add-to-cart"
                 className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-8 py-3 font-bold whitespace-nowrap text-white shadow-lg shadow-primary/15 transition-all hover:scale-[1.02] hover:bg-brand-green-hover active:scale-95"
               >
                 <ShoppingBag className="h-5 w-5" />

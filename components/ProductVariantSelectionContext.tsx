@@ -3,6 +3,7 @@
 import {
   createContext,
   useContext,
+  useMemo,
   useState,
   type ReactNode,
 } from "react"
@@ -27,15 +28,23 @@ export function ProductVariantSelectionProvider({
   variants: SelectableVariant[]
   children: ReactNode
 }) {
-  const defaultVariant = variants.find((variant) => variant.popular) ?? variants[0]
+  const defaultVariant = useMemo(
+    () => variants.find((variant) => variant.popular) ?? variants[0],
+    [variants]
+  )
   const [selectedVariantId, setSelectedVariantId] = useState(
     defaultVariant?.id ?? ""
   )
+  const effectiveSelectedVariantId = variants.some(
+    (variant) => variant.id === selectedVariantId
+  )
+    ? selectedVariantId
+    : (defaultVariant?.id ?? "")
 
   return (
     <ProductVariantSelectionContext.Provider
       value={{
-        selectedVariantId,
+        selectedVariantId: effectiveSelectedVariantId,
         selectVariant: setSelectedVariantId,
       }}
     >
