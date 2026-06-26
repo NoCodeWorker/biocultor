@@ -1,32 +1,11 @@
 "use client"
 
-type EcommerceEventName =
-  | "view_item"
-  | "select_item"
-  | "add_to_cart"
-  | "begin_checkout"
-  | "checkout_error"
-  | "select_promotion"
-  | "newsletter_signup"
-  | "newsletter_confirmed"
+import type {
+  EcommerceEventName,
+  EcommerceTrackingPayload,
+} from "@/lib/ecommerce-tracking-contract"
 
-type EcommerceEventPayload = {
-  currency?: "EUR"
-  value?: number
-  items?: Array<{
-    item_id?: string
-    item_name?: string
-    item_variant?: string
-    price?: number
-    quantity?: number
-  }>
-  error_message?: string
-  promotion_name?: string
-  creative_slot?: string
-  form_name?: string
-  item_list_name?: string
-  interaction_source?: string
-}
+type EcommerceEventPayload = EcommerceTrackingPayload
 
 declare global {
   interface Window {
@@ -36,6 +15,99 @@ declare global {
       payload?: EcommerceEventPayload
     ) => void
   }
+}
+
+const SESSION_KEY = "biocultor_ecommerce_session_id"
+const CONSENT_KEY = "biocultor_gdpr_consent"
+
+function getAnonymousSessionId() {
+  try {
+    const existing = localStorage.getItem(SESSION_KEY)
+    if (existing) return existing
+
+    const id =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `session_${Date.now()}_${Math.random().toString(36).slice(2)}`
+
+    localStorage.setItem(SESSION_KEY, id)
+    return id
+  } catch {
+    return `session_${Date.now()}_${Math.random().toString(36).slice(2)}`
+  }
+}
+
+function hasAnalyticsConsent() {
+  try {
+    const consent = localStorage.getItem(CONSENT_KEY)
+    if (consent === "all") return true
+    if (!consent || consent === "necessary-only") return false
+
+    const parsed = JSON.parse(consent) as { analytics?: unknown }
+    return parsed.analytics === true
+  } catch {
+    return false
+  }
+}
+
+function getDeviceType(): "mobile" | "tablet" | "desktop" | "unknown" {
+  if (typeof window === "undefined") return "unknown"
+  const width = window.innerWidth
+  if (width < 768) return "mobile"
+  if (width < 1024) return "tablet"
+  return "desktop"
+}
+
+function getProductSlugFromPath(pathname: string) {
+  const match = pathname.match(/^\/producto\/([^/?#]+)/)
+  return match?.[1]
+}
+
+function sendInternalEcommerceEvent(
+  eventName: EcommerceEventName,
+  payload: EcommerceEventPayload
+) {
+  if (!hasAnalyticsConsent()) return
+
+  const sourcePath = `${window.location.pathname}${window.location.search}`
+  const body = JSON.stringify({
+    eventName,
+    sessionId: getAnonymousSessionId(),
+    productSlug:
+      payload.product_slug ?? getProductSlugFromPath(window.location.pathname),
+    value: payload.value,
+    currency: payload.currency ?? "EUR",
+    items: payload.items,
+    device: payload.device ?? getDeviceType(),
+    sourcePath: payload.source_path ?? sourcePath,
+    referrer: payload.referrer ?? document.referrer,
+    interactionSource: payload.interaction_source,
+    itemListName: payload.item_list_name,
+    promotionName: payload.promotion_name,
+    creativeSlot: payload.creative_slot,
+    formName: payload.form_name,
+    errorMessage: payload.error_message,
+    orderNumber: payload.order_number,
+    stripeSession: payload.stripe_session,
+    dedupeKey: payload.dedupe_key,
+  })
+
+  if (navigator.sendBeacon) {
+    const sent = navigator.sendBeacon(
+      "/api/events/ecommerce",
+      new Blob([body], { type: "application/json" })
+    )
+    if (sent) return
+  }
+
+  fetch("/api/events/ecommerce", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body,
+    keepalive: true,
+  }).catch(() => {
+    // Tracking must never break purchase UX.
+  })
 }
 
 export function trackEcommerceEvent(
@@ -56,4 +128,5 @@ export function trackEcommerceEvent(
   )
 
   window.gtag?.("event", eventName, detail)
+  sendInternalEcommerceEvent(eventName, detail)
 }

@@ -99,3 +99,83 @@ test("mobile add-to-cart and checkout payload use the selected variant", async (
   expect(beginCheckout?.detail?.items?.[0]?.item_variant).toBe("1 Litro")
   expect(checkoutPayload.items[0].id).toEqual(expect.any(String))
 })
+
+test("internal ecommerce ingestion runs only with analytics consent", async ({
+  page,
+}) => {
+  const ingestedEvents = []
+
+  await page.route("**/api/events/ecommerce", async (route) => {
+    ingestedEvents.push(route.request().postDataJSON())
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    })
+  })
+
+  await page.goto(`${baseURL}${productPath}`, { waitUntil: "networkidle" })
+  await page.evaluate(() => {
+    localStorage.setItem("biocultor_gdpr_consent", "all")
+    window.scrollTo(0, 0)
+  })
+
+  await page.getByTestId("product-format-10-litros").click()
+  await page.evaluate(() => window.scrollTo(0, 900))
+  await page.getByTestId("sticky-add-to-cart").click()
+
+  await expect
+    .poll(() => ingestedEvents.length, {
+      message: "internal ecommerce events captured with analytics consent",
+    })
+    .toBeGreaterThan(0)
+
+  expect(
+    ingestedEvents.some(
+      (event) =>
+        event.eventName === "select_item" &&
+        event.items?.[0]?.item_variant === "10 Litros" &&
+        event.device === "mobile"
+    )
+  ).toBe(true)
+
+  expect(
+    ingestedEvents.some(
+      (event) =>
+        event.eventName === "add_to_cart" &&
+        event.items?.[0]?.item_variant === "10 Litros" &&
+        event.sourcePath?.startsWith("/producto/")
+    )
+  ).toBe(true)
+})
+
+test("internal ecommerce ingestion is suppressed without analytics consent", async ({
+  page,
+}) => {
+  const ingestedEvents = []
+
+  await page.route("**/api/events/ecommerce", async (route) => {
+    ingestedEvents.push(route.request().postDataJSON())
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    })
+  })
+
+  await page.goto(`${baseURL}${productPath}`, { waitUntil: "networkidle" })
+  await page.evaluate(() => {
+    localStorage.setItem("biocultor_gdpr_consent", "necessary-only")
+    window.scrollTo(0, 0)
+  })
+
+  await page.getByTestId("product-format-10-litros").click()
+  await page.evaluate(() => window.scrollTo(0, 900))
+  await page.getByTestId("sticky-add-to-cart").click()
+  await page.waitForTimeout(750)
+
+  expect(ingestedEvents).toHaveLength(0)
+
+  const browserEvents = await page.evaluate(() => window.__biocultorE2EEvents)
+  expect(browserEvents.some((event) => event.name === "add_to_cart")).toBe(true)
+})

@@ -23,6 +23,10 @@ Biocultor opera sobre Next.js App Router con renderizado server-first. La capa S
 - `app/sitemap.ts` y `app/robots.ts`: publicación técnica para rastreo.
 - `docs/editorial.md`: guía operativa para convertir estudios y papers en artículos editoriales conectados con intención de compra.
 - `lib/db.ts`: singleton de Prisma sobre el cliente estándar generado en `node_modules/.prisma/client`, evitando outputs internos que amplíen el trace standalone.
+- `lib/ecommerce-events.ts`: bridge cliente para eventos CRO, compatible con GA4 y persistencia interna no bloqueante.
+- `app/api/events/ecommerce/route.ts`: ingestión validada y rate-limited de eventos ecommerce.
+- `EcommerceEvent`: tabla operativa para analizar embudo, fricción por formato y errores de checkout.
+- `app/admin/analytics/page.tsx`: panel de embudo CRO junto a métricas financieras y atribución SEO/CRM.
 
 ## Decisión estructural
 
@@ -37,6 +41,26 @@ El SEO no se implementa como textos aislados en componentes, sino como una capa 
 6. Persistencia opcional mediante `SeoPage` para overrides.
 
 Esto evita duplicidad, facilita escalado y mantiene separación de concerns entre contenido, metadata y UI.
+
+## Medición CRO operativa
+
+El embudo ecommerce se mide como sistema separado del checkout:
+
+1. El frontend emite `CustomEvent` para E2E y `gtag` para GA4.
+2. Si existe consentimiento analítico, el bridge envía el evento al backend con `sendBeacon` o `fetch keepalive`.
+3. `POST /api/events/ecommerce` valida, rate-limita y persiste el evento.
+4. El webhook de Stripe emite `purchase` server-side con `dedupeKey`, sin depender del navegador.
+5. `/admin/analytics` agrega eventos recientes para mostrar tasas de paso, fricción por formato y alertas operativas.
+
+El tracking interno nunca debe bloquear:
+
+- selección de formato
+- add-to-cart
+- apertura de carrito
+- navegación a Stripe
+- creación de pedido desde webhook
+
+Si analytics falla, la compra sigue siendo prioritaria.
 
 ## Navegación contextual
 

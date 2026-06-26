@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:unit": "vitest run",
     "test:e2e:mobile-purchase": "playwright test tests/e2e/mobile-purchase-sync.spec.mjs",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",

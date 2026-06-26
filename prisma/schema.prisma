@@ -12,35 +12,35 @@ datasource db {
 // -----------------------------------------------------------------------------
 
 model Product {
-  id          String    @id @default(cuid())
-  name        String    // ej: "Té de Humus de Lombriz Biocultor"
-  slug        String    @unique
-  description String    
-  benefits    String    // Arrays no soportados en SQLite. String con JSON o comas.
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id          String   @id @default(cuid())
+  name        String // ej: "Té de Humus de Lombriz Biocultor"
+  slug        String   @unique
+  description String
+  benefits    String // Arrays no soportados en SQLite. String con JSON o comas.
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  variants    Variant[]
+  variants Variant[]
 }
 
 model Variant {
-  id          String   @id @default(cuid())
-  productId   String
-  sku         String   @unique 
-  size        String   // "1 Litro", "5 Litros", "10 Litros", "25 Litros"
-  target      String   // "Jardinero Urbano", etc.
-  price       Float    
-  comparePrice Float?  // Precio de referencia: coste equivalente si el cliente
-                       // comprara los mismos litros en envases de 1 L. NO es
-                       // un "precio anterior". La UI lo presenta como tarifa
-                       // unitaria (€/L) para cumplir Directiva Omnibus 2019/2161.
-  stock       Int      @default(0)
-  imagePath   String?  // Ej: /1 litro.jpg
-  popular     Boolean  @default(false)
-  features    String   // Features separadas por coma
-  
-  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  orderItems  OrderItem[]
+  id           String  @id @default(cuid())
+  productId    String
+  sku          String  @unique
+  size         String // "1 Litro", "5 Litros", "10 Litros", "25 Litros"
+  target       String // "Jardinero Urbano", etc.
+  price        Float
+  comparePrice Float? // Precio de referencia: coste equivalente si el cliente
+  // comprara los mismos litros en envases de 1 L. NO es
+  // un "precio anterior". La UI lo presenta como tarifa
+  // unitaria (€/L) para cumplir Directiva Omnibus 2019/2161.
+  stock        Int     @default(0)
+  imagePath    String? // Ej: /1 litro.jpg
+  popular      Boolean @default(false)
+  features     String // Features separadas por coma
+
+  product    Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[]
 }
 
 // -----------------------------------------------------------------------------
@@ -48,14 +48,14 @@ model Variant {
 // -----------------------------------------------------------------------------
 
 model Customer {
-  id                 String   @id @default(cuid())
-  email              String   @unique
-  name               String
-  phone              String?
-  discount           Float    @default(0) // % de descuento fijo aplicable a este cliente
-  orders             Order[]
-  sessions           Session[]
-  createdAt          DateTime @default(now())
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  phone     String?
+  discount  Float     @default(0) // % de descuento fijo aplicable a este cliente
+  orders    Order[]
+  sessions  Session[]
+  createdAt DateTime  @default(now())
 }
 
 // OTPs separados de Customer para no crear filas Customer al pedir un código
@@ -78,7 +78,7 @@ model Session {
   expiresAt  DateTime
   createdAt  DateTime @default(now())
 
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
 
   @@index([customerId])
   @@index([expiresAt])
@@ -90,7 +90,7 @@ model Session {
 // posterior si algo se descontrola.
 model AdminAction {
   id        String   @id @default(cuid())
-  action    String   // ej: 'updateVariantPrice', 'refundOrder', 'updateOrderStatus'
+  action    String // ej: 'updateVariantPrice', 'refundOrder', 'updateOrderStatus'
   payload   String   @default("{}") // JSON con campos relevantes (ids, valores)
   createdAt DateTime @default(now())
 
@@ -104,9 +104,42 @@ model AdminAction {
 // Ahora solo enviamos el `id` de esta tabla a Stripe; el webhook lo recupera.
 model PendingCart {
   id        String   @id @default(cuid())
-  itemsJson String   // JSON: [{id, q, p}] con precios ya validados contra DB
+  itemsJson String // JSON: [{id, q, p}] con precios ya validados contra DB
   createdAt DateTime @default(now())
 
+  @@index([createdAt])
+}
+
+model EcommerceEvent {
+  id                String   @id @default(cuid())
+  eventName         String
+  sessionId         String
+  productSlug       String?
+  variantSku        String?
+  variantSize       String?
+  itemName          String?
+  quantity          Int?
+  value             Float?
+  currency          String   @default("EUR")
+  device            String?
+  sourcePath        String?
+  referrer          String?
+  interactionSource String?
+  itemListName      String?
+  promotionName     String?
+  creativeSlot      String?
+  formName          String?
+  errorMessage      String?
+  orderNumber       String?
+  stripeSession     String?
+  dedupeKey         String?  @unique
+  metadataJson      String   @default("{}")
+  createdAt         DateTime @default(now())
+
+  @@index([eventName, createdAt])
+  @@index([sessionId, createdAt])
+  @@index([productSlug, createdAt])
+  @@index([variantSku, createdAt])
   @@index([createdAt])
 }
 
@@ -159,34 +192,34 @@ model Counter {
 }
 
 model Order {
-  id            String      @id @default(cuid())
-  orderNumber   String      @unique // ej: BIO-0001
-  customerId    String
-  status        String      @default("PENDING") // PENDING, PAID, SHIPPED
-  totalAmount   Float
-  stripeSession String?     @unique
+  id              String  @id @default(cuid())
+  orderNumber     String  @unique // ej: BIO-0001
+  customerId      String
+  status          String  @default("PENDING") // PENDING, PAID, SHIPPED
+  totalAmount     Float
+  stripeSession   String? @unique
   shippingAddress String
 
   // Packlink PRO tracking
-  packlinkReference String?   @unique        // reference devuelta por Packlink
-  trackUrl          String?                  // URL pública de tracking del carrier
-  carrier           String?                  // nombre del carrier (SEUR, Correos Express, etc.)
-  serviceName       String?                  // nombre del servicio contratado
-  lastStatus        String?                  // último estado conocido (cache)
-  lastStatusAt      DateTime?                // cuándo se actualizó el estado
-  trackingToken     String?   @unique        // token público de acceso 1-click al /seguimiento
-  shippingPostalCode String?                 // para el mapa
+  packlinkReference  String?   @unique // reference devuelta por Packlink
+  trackUrl           String? // URL pública de tracking del carrier
+  carrier            String? // nombre del carrier (SEUR, Correos Express, etc.)
+  serviceName        String? // nombre del servicio contratado
+  lastStatus         String? // último estado conocido (cache)
+  lastStatusAt       DateTime? // cuándo se actualizó el estado
+  trackingToken      String?   @unique // token público de acceso 1-click al /seguimiento
+  shippingPostalCode String? // para el mapa
 
   // Devoluciones Stripe
-  refundId          String?                  // id del refund en Stripe (re_...)
-  refundedAmount    Float?                   // importe efectivamente reembolsado
-  refundedAt        DateTime?                // cuándo se procesó
+  refundId       String? // id del refund en Stripe (re_...)
+  refundedAmount Float? // importe efectivamente reembolsado
+  refundedAt     DateTime? // cuándo se procesó
 
-  customer      Customer    @relation(fields: [customerId], references: [id])
-  items         OrderItem[]
+  customer Customer    @relation(fields: [customerId], references: [id])
+  items    OrderItem[]
 
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([customerId])
   @@index([status, createdAt])
@@ -194,14 +227,14 @@ model Order {
 }
 
 model OrderItem {
-  id        String  @id @default(cuid())
+  id        String @id @default(cuid())
   orderId   String
   variantId String
   quantity  Int
-  priceAt   Float   // Precio en el momento de compra
-  
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  variant   Variant @relation(fields: [variantId], references: [id])
+  priceAt   Float // Precio en el momento de compra
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant Variant @relation(fields: [variantId], references: [id])
 }
 
 // -----------------------------------------------------------------------------
@@ -209,26 +242,26 @@ model OrderItem {
 // -----------------------------------------------------------------------------
 
 model Post {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
-  slug        String   @unique
-  excerpt     String   
-  content     String   // Markdown o HTML
-  category    String   @default("KNOWLEDGE")
-  isPublished Boolean  @default(false)
-  author      String   @default("Equipo Biocultor")
-  
+  slug        String  @unique
+  excerpt     String
+  content     String // Markdown o HTML
+  category    String  @default("KNOWLEDGE")
+  isPublished Boolean @default(false)
+  author      String  @default("Equipo Biocultor")
+
   // Imagen de cabecera
-  coverImage     String?  // URL relativa (/uploads/...) o path de /public
-  coverImageAlt  String?
+  coverImage    String? // URL relativa (/uploads/...) o path de /public
+  coverImageAlt String?
 
   // AIO y SEO Metadata
-  metaTitle   String?
-  metaDesc    String?
-  keywords    String   
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  metaTitle String?
+  metaDesc  String?
+  keywords  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model SeoPage {
@@ -262,30 +295,30 @@ model SeoPage {
 // -----------------------------------------------------------------------------
 
 model CrmContact {
-  id          String    @id @default(cuid())
-  name        String
-  email       String?
-  phone       String?
-  company     String?
-  source      String    @default("Directo") // "Web", "Llamada", "Email", "Recomendado"
-  sourcePath  String?
-  sourceQuery String?
+  id             String  @id @default(cuid())
+  name           String
+  email          String?
+  phone          String?
+  company        String?
+  source         String  @default("Directo") // "Web", "Llamada", "Email", "Recomendado"
+  sourcePath     String?
+  sourceQuery    String?
   sourceReferrer String?
-  serviceSlug String?
-  leadIntent  String?
-  estimatedM2 String?
+  serviceSlug    String?
+  leadIntent     String?
+  estimatedM2    String?
   estimatedPrice String?
-  type        String    @default("B2C")     // "B2C", "B2B"
-  stage       String    @default("LEAD")    // "LEAD", "CONTACTADO", "OPORTUNIDAD", "CLIENTE", "INACTIVO"
-  notes       String?   
-  customerId  String?   @unique
+  type           String  @default("B2C") // "B2C", "B2B"
+  stage          String  @default("LEAD") // "LEAD", "CONTACTADO", "OPORTUNIDAD", "CLIENTE", "INACTIVO"
+  notes          String?
+  customerId     String? @unique
 
-  deals       CrmDeal[]
-  tasks       CrmTask[]
-  events      CrmEvent[]
+  deals  CrmDeal[]
+  tasks  CrmTask[]
+  events CrmEvent[]
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([type, stage])
   @@index([sourcePath])
@@ -293,38 +326,38 @@ model CrmContact {
 }
 
 model CrmDeal {
-  id          String   @id @default(cuid())
-  title       String
-  amount      Float    @default(0.0)
-  status      String   @default("ABIERTO") // "ABIERTO", "GANADO", "PERDIDO"
-  type        String   @default("PRODUCTO") // "PRODUCTO", "SERVICIO"
-  stage       String   @default("NUEVO")    // "NUEVO", "PROPUESTA", "NEGOCIACION", "GANADO", "PERDIDO"
-  contactId   String
-  orderId     String?  // Relación con pedido online si aplica
+  id        String  @id @default(cuid())
+  title     String
+  amount    Float   @default(0.0)
+  status    String  @default("ABIERTO") // "ABIERTO", "GANADO", "PERDIDO"
+  type      String  @default("PRODUCTO") // "PRODUCTO", "SERVICIO"
+  stage     String  @default("NUEVO") // "NUEVO", "PROPUESTA", "NEGOCIACION", "GANADO", "PERDIDO"
+  contactId String
+  orderId   String? // Relación con pedido online si aplica
 
-  contact     CrmContact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contact CrmContact @relation(fields: [contactId], references: [id], onDelete: Cascade)
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([contactId])
   @@index([type, stage])
 }
 
 model CrmTask {
-  id          String   @id @default(cuid())
-  title       String
-  notes       String?
-  status      String   @default("PENDIENTE") // "PENDIENTE", "EN_PROCESO", "COMPLETADA"
-  priority    String   @default("MEDIA")     // "BAJA", "MEDIA", "ALTA"
-  dueDate     DateTime?
-  contactId   String?
-  dealId      String?
+  id        String    @id @default(cuid())
+  title     String
+  notes     String?
+  status    String    @default("PENDIENTE") // "PENDIENTE", "EN_PROCESO", "COMPLETADA"
+  priority  String    @default("MEDIA") // "BAJA", "MEDIA", "ALTA"
+  dueDate   DateTime?
+  contactId String?
+  dealId    String?
 
-  contact     CrmContact? @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contact CrmContact? @relation(fields: [contactId], references: [id], onDelete: Cascade)
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([contactId])
   @@index([status, priority])
@@ -334,18 +367,17 @@ model CrmEvent {
   id          String   @id @default(cuid())
   title       String
   description String?
-  address     String?  // Dirección física del evento/servicio para Google Maps
+  address     String? // Dirección física del evento/servicio para Google Maps
   startAt     DateTime
   endAt       DateTime
   type        String   @default("REUNION") // "REUNION", "APLICACION_SERVICIO", "LLAMADA", "OTRO"
   contactId   String?
 
-  contact     CrmContact? @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contact CrmContact? @relation(fields: [contactId], references: [id], onDelete: Cascade)
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([contactId])
   @@index([startAt, endAt])
 }
-
