@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { buildMetadata, organizationSchema, websiteSchema } from '@/lib/seo';
 import StructuredData from '@/components/StructuredData';
 import CookieConsentLazy from '@/components/CookieConsentLazy';
+import WhatsAppWidgetLazy from '@/components/WhatsAppWidgetLazy';
 
 // Quicksand para Headings (geometría redondeada similar a Aristotelica, pero con soporte completo de números)
 const quicksand = Quicksand({
@@ -59,6 +60,7 @@ export default function RootLayout({
         <StructuredData id="website-schema" data={websiteSchema()} />
         {children}
         <CookieConsentLazy />
+        <WhatsAppWidgetLazy />
       </body>
     </html>
   )
